@@ -54,6 +54,21 @@ namespace Aether {
         this->scale_ = s;
     }
 
+    void Element::setXY(int x, int y) {
+        this->x_ = x;
+        this->y_ = y;
+    }
+
+    void Element::setWH(int w, int h) {
+        this->w_ = w;
+        this->h_ = h;
+    }
+
+    void Element::setXYWH(int x, int y, int w, int h) {
+        this->setXY(x, y);
+        this->setWH(w, h);
+    }
+
     void Element::addElement(Element * e) {
         this->children.push_back(e);
     }

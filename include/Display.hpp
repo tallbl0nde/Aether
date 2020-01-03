@@ -2,6 +2,7 @@
 #define AETHER_DISPLAY_HPP
 
 #include "Screen.hpp"
+#include "SDLHelper.hpp"
 
 namespace Aether {
     // The Display represents the "root" element. It stores and handles different screens
@@ -10,6 +11,9 @@ namespace Aether {
         private:
             // Set to false to indicate termination of app
             bool loop_;
+
+            // Colour to clear screen with
+            SDL_Color bg;
 
             // Overlay stuff
             // HERE
@@ -29,6 +33,9 @@ namespace Aether {
             // Initializes SDL
             Display();
 
+            // Set colour to clear screen with
+            void setBackgroundColour(uint8_t, uint8_t, uint8_t);
+
             // Add a screen to the display
             void addScreen(Screen *);
 
@@ -37,7 +44,7 @@ namespace Aether {
 
             // Executes the main loop (events + rendering)
             // Returns false when the app should be terminated
-            bool loop(uint32_t);
+            bool loop();
 
             ~Display();
     };

@@ -27,6 +27,9 @@ namespace SDLHelper {
     // Wrapper for QueryTexture
     void getDimensions(SDL_Texture *, int *, int *);
 
+    // Set clear screen colour
+    void setColour(SDL_Color);
+
     // === DRAWING FUNCTIONS ===
     // -> Draw directly to the screen/renderer
 

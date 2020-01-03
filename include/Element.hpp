@@ -52,6 +52,11 @@ namespace Aether {
             void setH(int);
             double scale();
             void setScale(double);
+            // Combines functions into one
+            void setXY(int, int);
+            void setWH(int, int);
+            void setXYWH(int, int, int, int);
+
 
             // Add an element as a child
             void addElement(Element *);

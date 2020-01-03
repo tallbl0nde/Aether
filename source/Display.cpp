@@ -1,6 +1,19 @@
 #include "Display.hpp"
 #include "SDLHelper.hpp"
 
+// Struct representing a "clock", which stores time between ticks
+struct Clock {
+    uint32_t last_tick = 0;
+    uint32_t delta = 0;
+
+    void tick() {
+        uint32_t tick = SDL_GetTicks();
+        delta = tick - last_tick;
+        last_tick = tick;
+    }
+};
+static struct Clock dtClock;
+
 namespace Aether {
     Display::Display() : Element(nullptr, 0, 0, 1280, 720) {
         this->screen = 0;
@@ -9,18 +22,28 @@ namespace Aether {
         this->loop_ = SDLHelper::initSDL();
     }
 
+    void Display::setBackgroundColour(uint8_t r, uint8_t g, uint8_t b) {
+        this->bg.r = r;
+        this->bg.g = g;
+        this->bg.b = b;
+        this->bg.a = 255;
+    }
+
     void Display::addScreen(Screen * s) {
         this->screens.push_back(s);
     }
 
-    bool Display::loop(uint32_t dt) {
+    bool Display::loop() {
         // Poll all events + pass
 
         // Update children
-        this->screens[this->screen]->update(dt);
+        dtClock.tick();
+        this->screens[this->screen]->update(dtClock.delta);
 
         // Clear screen/draw background
+        SDLHelper::setColour(this->bg);
         SDLHelper::clearScreen();
+        SDLHelper::setColour(SDL_Color{255, 255, 255, 255});
 
         // Render current screen
         this->screens[this->screen]->render();

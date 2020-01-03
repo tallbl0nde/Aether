@@ -1,13 +1,13 @@
 #include "Rectangle.hpp"
 
 namespace Aether {
-    Rectangle::Rectangle(Element * e, int w, int h, unsigned int r) : Texture(e, nullptr) {
+    Rectangle::Rectangle(Element * e, int w, int h, unsigned int r) : Texture(e) {
         Texture::setW(w);
         Texture::setH(h);
         this->setCornerRadius(r);
     }
 
-    void Rectangle::renderTexture() {
+    void Rectangle::redrawTexture() {
         if (this->cornerRadius_ > 0) {
             this->setTexture(SDLHelper::renderRoundedRect(this->w(), this->h(), this->cornerRadius_));
         } else {
@@ -21,17 +21,13 @@ namespace Aether {
 
     void Rectangle::setCornerRadius(unsigned int r) {
         this->cornerRadius_ = r;
-        this->renderTexture();
+        this->redrawTexture();
     }
 
-    void Rectangle::setW(int w) {
+    void Rectangle::setRectSize(int w, int h) {
         Texture::setW(w);
-        this->renderTexture();
-    }
-
-    void Rectangle::setH(int h) {
         Texture::setH(h);
-        this->renderTexture();
+        this->redrawTexture();
     }
 
     Rectangle::~Rectangle() {

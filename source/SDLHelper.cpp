@@ -56,6 +56,10 @@ namespace SDLHelper {
         SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "2");
 
         // Load fonts
+        Result rc = plInitialize();
+        if (!R_SUCCEEDED(rc)) {
+            return false;
+        }
         plGetSharedFontByType(&std_font_data, PlSharedFontType_Standard);
         plGetSharedFontByType(&ext_font_data, PlSharedFontType_NintendoExt);
 
@@ -64,6 +68,7 @@ namespace SDLHelper {
 
     void exitSDL() {
         // Delete created fonts
+        plExit();
         for (auto it = std_font.begin(); it != std_font.end(); it++) {
             TTF_CloseFont(it->second);
         }
@@ -114,7 +119,7 @@ namespace SDLHelper {
             h = height;
         }
 
-        // // Scale if necessary + render
+        // Scale if necessary + render
         SDL_Rect r = {x, y, w, h};
         if (tx != -1 && tw != -1) {
             SDL_Rect s = {tx, 0, tw, height};
@@ -212,7 +217,7 @@ namespace SDLHelper {
         SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
 
         // Draw rectangle
-        roundedBoxRGBA(renderer, 0, 0, w - 2, h, r, 255, 255, 255, 255);
+        roundedBoxRGBA(renderer, 0, 0, w - 2, h - 2, r, 255, 255, 255, 255);
 
         // Reset renderer
         SDL_SetRenderTarget(renderer, nullptr);

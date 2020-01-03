@@ -2,8 +2,7 @@
 
 namespace Aether {
     Texture::Texture(Element * e, SDL_Texture * t) : Element(e) {
-        this->texture = nullptr;
-        this->setTexture(t);
+        this->texture = t;
         this->colour = SDL_Color{255, 255, 255, 255};
     }
 

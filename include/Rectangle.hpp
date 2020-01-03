@@ -10,7 +10,7 @@ namespace Aether {
             unsigned int cornerRadius_;
 
             // Called to regenerate texture
-            void renderTexture();
+            void redrawTexture();
 
         public:
             // Constructor takes parent element and optional corner radius (defaults to 0)
@@ -20,9 +20,8 @@ namespace Aether {
             unsigned int cornerRadius();
             void setCornerRadius(unsigned int);
 
-            // Override setW and setH to re-render texture
-            void setW(int);
-            void setH(int);
+            // Adjust rectangle size and render new texture
+            void setRectSize(int, int);
 
             ~Rectangle();
     };

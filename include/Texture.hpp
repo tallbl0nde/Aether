@@ -10,23 +10,28 @@ namespace Aether {
     // colour it's tinted with.
     class Texture : public Element {
         private:
-            // The actual texture
-            SDL_Texture * texture;
-
             // Dimensions of the texture
             int texW_;
             int texH_;
 
+            // Delete the stored texture (only called internally)
+            void destroyTexture();
+
+        protected:
             // Colour to tint the texture with when drawn
             // Defaults to white
             SDL_Color colour;
 
-            // Delete the stored texture (only called internally)
-            void destroyTexture();
+            // Overriden by derived classes to redraw texture when
+            // variables are changed
+            virtual void redrawTexture() = 0;
+
+            // The actual texture
+            SDL_Texture * texture;
 
         public:
             // Constructor takes the texture + sets dimensions to those of the texture
-            Texture(Element *, SDL_Texture *);
+            Texture(Element *, SDL_Texture * = nullptr);
 
             // Getters for dimensions
             int texW();
