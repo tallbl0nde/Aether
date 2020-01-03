@@ -8,8 +8,6 @@
 namespace Aether {
     // Element is the base class inherited from to form all other
     // types of elements. Thus, it contains positioning, rendering, callback, etc variables
-    // Each element has a unique ID which can be used to delete/fetch it from another
-    // element.
     class Element {
         private:
             // Positioning and size variables

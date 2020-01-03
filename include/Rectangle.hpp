@@ -4,6 +4,9 @@
 #include "Texture.hpp"
 
 namespace Aether {
+    // A rectangle is a texture containing either a normal or rounded
+    // rectangle. The object stores all relevant information so that
+    // it can be regenerated whenever the dimensions/radius changes.
     class Rectangle : public Texture {
         private:
             // Radius of each corner (draws rounded rectangle when > 0)

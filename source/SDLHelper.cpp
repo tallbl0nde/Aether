@@ -134,56 +134,27 @@ namespace SDLHelper {
     }
 
     // === RENDERING FUNCTIONS ===
-    SDL_Texture * renderCircle(int r) {
-        SDL_Texture * tex = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA32, SDL_TEXTUREACCESS_TARGET, r*2 + 3, r*2 + 3);
+    SDL_Texture * renderEllipse(unsigned int w, unsigned int h) {
+        SDL_Texture * tex = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA32, SDL_TEXTUREACCESS_TARGET, w + 4, h + 4);
 
         // Change rendering target to texture
         SDL_SetRenderTarget(renderer, tex);
         SDL_SetTextureBlendMode(tex, SDL_BLENDMODE_BLEND);
 
-        // Draw white circle
-        filledCircleRGBA(renderer, r, r, r, 255, 255, 255, 254);
+        // Draw white ellipse
+        filledEllipseRGBA(renderer, w/2 - 1, h/2 - 1, w/2 - 1, h/2 - 1, 255, 255, 255, 255);
+        aaellipseRGBA(renderer, w/2 - 1, h/2 - 1, w/2 - 1, h/2 - 1, 255, 255, 255, 255);
 
         // Reset renderer
         SDL_SetRenderTarget(renderer, nullptr);
 
         return tex;
     }
-
 
     SDL_Texture * renderImage(u8 * ptr, size_t size) {
         SDL_Surface * tmp = IMG_Load_RW(SDL_RWFromMem(ptr, size), 1);
         SDL_Texture * tex = SDL_CreateTextureFromSurface(renderer, tmp);
         SDL_FreeSurface(tmp);
-        return tex;
-    }
-
-    SDL_Texture * renderMergeTextures(SDL_Texture * left, SDL_Texture * right, int gap) {
-        // Determine width and height of both
-        int leftW, leftH = 0;
-        int rightW, rightH = 0;
-        uint32_t format;
-        SDL_QueryTexture(left, &format, nullptr, &leftW, &leftH);
-        SDL_QueryTexture(right, nullptr, nullptr, &rightW, &rightH);
-        int width = leftW + rightW + gap;
-        int height = std::max(leftH, rightH);
-
-        // "Merge" both into one texture
-        SDL_Texture * tex = SDL_CreateTexture(renderer, format, SDL_TEXTUREACCESS_TARGET, width, height);
-        SDL_SetRenderTarget(renderer, tex);
-        SDL_SetTextureBlendMode(tex, SDL_BLENDMODE_BLEND);
-        SDL_SetRenderDrawColor(renderer, 255, 255, 255, 0);
-        SDL_RenderClear(renderer);
-
-        SDL_Rect r1 = {0, 0, leftW, leftH};
-        SDL_RenderCopy(renderer, left, nullptr, &r1);
-
-        SDL_Rect r2 = {leftW + gap, (height - rightH)/2, rightW, rightH};
-        SDL_RenderCopy(renderer, right, nullptr, &r2);
-
-        // Reset renderer
-        SDL_SetRenderTarget(renderer, nullptr);
-
         return tex;
     }
 

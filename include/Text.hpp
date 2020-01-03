@@ -5,7 +5,7 @@
 
 namespace Aether {
     // Text extends BaseText by implementing scrolling when the text
-    // oveeflows and implementing redrawTexture()
+    // overflows. Thus it's for single-line text.
     class Text : public BaseText {
         private:
             // Scroll if the texture width is greater than the specified width

@@ -44,11 +44,8 @@ namespace SDLHelper {
     // -> Draw to a texture and return it
     // -> The caller must destroy the texture
 
-    // Draw a circle with specified radius
-    SDL_Texture * renderCircle(int);
-
-    // Merges two textures to one side by side (with optional spacing)
-    SDL_Texture * renderMergeTextures(SDL_Texture *, SDL_Texture *, int = 0);
+    // Draw an ellipse with given diameters
+    SDL_Texture * renderEllipse(unsigned int, unsigned int);
 
     // Reads an image from a pointer to it and returns a texture containing it
     SDL_Texture * renderImage(u8 *, size_t);

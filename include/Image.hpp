@@ -1,7 +1,8 @@
 #include "Texture.hpp"
 
 namespace Aether {
-
+    // An image is literally a texture that is created from an image.
+    // Not much more to it than that!
     class Image : public Texture {
         private:
             // Does nothing

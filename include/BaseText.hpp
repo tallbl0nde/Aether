@@ -30,7 +30,6 @@ namespace Aether {
             unsigned int fontSize();
             virtual void setFontSize(unsigned int);
 
-            // Destructor destroys texture
             ~BaseText();
     };
 };
