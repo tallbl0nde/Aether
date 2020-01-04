@@ -1,7 +1,7 @@
 #ifndef AETHER_RECTANGLE_HPP
 #define AETHER_RECTANGLE_HPP
 
-#include "Texture.hpp"
+#include "base/Texture.hpp"
 
 namespace Aether {
     // A rectangle is a texture containing either a normal or rounded

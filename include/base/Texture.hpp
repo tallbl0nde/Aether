@@ -3,6 +3,7 @@
 
 #include "Element.hpp"
 #include "SDLHelper.hpp"
+#include "Types.hpp"
 
 namespace Aether {
     // A Texture is an element consisting of an SDL_Texture.
@@ -20,7 +21,7 @@ namespace Aether {
         protected:
             // Colour to tint the texture with when drawn
             // Defaults to white
-            SDL_Color colour;
+            Colour colour;
 
             // Overriden by derived classes to redraw texture when
             // variables are changed
@@ -37,10 +38,14 @@ namespace Aether {
             int texW();
             int texH();
 
-            // Output the colour set into given variables
-            void getColour(uint8_t *, uint8_t *, uint8_t *, uint8_t *);
-            // Set the colour to given values
+            // Return the set colour
+            Colour getColour();
+            Color getColor();
+            // Set the colour
+            void setColour(Colour);
             void setColour(uint8_t, uint8_t, uint8_t, uint8_t);
+            void setColor(Color);
+            void setColor(uint8_t, uint8_t, uint8_t, uint8_t);
 
             // Set the texture and recalculate dimensions (also destroys previous one)
             void setTexture(SDL_Texture *);

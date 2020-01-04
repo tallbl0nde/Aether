@@ -76,7 +76,7 @@ namespace Aether {
         if (this->hidden()) {
             return;
         }
-        SDLHelper::drawTexture(this->texture, this->colour, this->x(), this->y(), this->w(), this->h(), this->scrollPos, this->w());
+        SDLHelper::drawTexture(this->texture, this->colour, this->x(), this->y(), this->w(), this->h(), this->scrollPos, 0, this->w(), this->h());
         Element::render();
     }
 

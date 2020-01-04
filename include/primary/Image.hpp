@@ -1,4 +1,7 @@
-#include "Texture.hpp"
+#ifndef AETHER_IMAGE_HPP
+#define AETHER_IMAGE_HPP
+
+#include "base/Texture.hpp"
 
 namespace Aether {
     // An image is literally a texture that is created from an image.
@@ -17,3 +20,5 @@ namespace Aether {
             ~Image();
     };
 };
+
+#endif

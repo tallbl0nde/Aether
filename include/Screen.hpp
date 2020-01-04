@@ -1,7 +1,7 @@
 #ifndef AETHER_SCREEN_HPP
 #define AETHER_SCREEN_HPP
 
-#include "Element.hpp"
+#include "base/Element.hpp"
 
 namespace Aether {
     // A screen represents a literal screen/layout. It stores all elements

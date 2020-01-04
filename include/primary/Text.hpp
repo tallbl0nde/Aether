@@ -1,7 +1,7 @@
 #ifndef AETHER_TEXT_HPP
 #define AETHER_TEXT_HPP
 
-#include "BaseText.hpp"
+#include "base/BaseText.hpp"
 
 namespace Aether {
     // Text extends BaseText by implementing scrolling when the text

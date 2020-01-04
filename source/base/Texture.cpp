@@ -3,7 +3,7 @@
 namespace Aether {
     Texture::Texture(Element * e, SDL_Texture * t) : Element(e) {
         this->texture = t;
-        this->colour = SDL_Color{255, 255, 255, 255};
+        this->colour = Colour{255, 255, 255, 255};
     }
 
     int Texture::texW() {
@@ -14,18 +14,28 @@ namespace Aether {
         return this->texH_;
     }
 
-    void Texture::getColour(uint8_t * r, uint8_t * g, uint8_t * b, uint8_t * a) {
-        *r = this->colour.r;
-        *g = this->colour.g;
-        *b = this->colour.b;
-        *a = this->colour.a;
+    Colour Texture::getColour() {
+        return this->colour;
+    }
+
+    Color Texture::getColor() {
+        this->getColour();
+    }
+
+    void Texture::setColour(Colour c) {
+        this->colour = c;
     }
 
     void Texture::setColour(uint8_t r, uint8_t g, uint8_t b, uint8_t a) {
-        this->colour.r = r;
-        this->colour.g = g;
-        this->colour.b = b;
-        this->colour.a = a;
+        this->setColour(Colour{r, g, b, a});
+    }
+
+    void Texture::setColor(Color c) {
+        this->setColour(c);
+    }
+
+    void Texture::setColor(uint8_t r, uint8_t g, uint8_t b, uint8_t a) {
+        this->setColor(Color{r, g, b, a});
     }
 
     void Texture::setTexture(SDL_Texture * t) {

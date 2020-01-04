@@ -1,7 +1,7 @@
 #ifndef AETHER_ELLIPSE_HPP
 #define AETHER_ELLIPSE_HPP
 
-#include "Texture.hpp"
+#include "base/Texture.hpp"
 
 namespace Aether {
     // An ellipse is a texture containing an ellipse. It can be used as

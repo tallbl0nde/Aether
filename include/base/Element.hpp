@@ -57,11 +57,11 @@ namespace Aether {
 
 
             // Add an element as a child
-            void addElement(Element *);
+            virtual void addElement(Element *);
             // Delete the given child, returns false if not a child
-            bool removeElement(Element *);
+            virtual bool removeElement(Element *);
             // Delete all children elements
-            void removeAllElements();
+            virtual void removeAllElements();
 
             // Returns hidden
             bool hidden();

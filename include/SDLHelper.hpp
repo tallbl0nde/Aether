@@ -38,7 +38,7 @@ namespace SDLHelper {
 
     // Draw provided texture at specified coordinates tinted with given colour
     // width and height are optional
-    void drawTexture(SDL_Texture *, SDL_Color, int, int, int = -1, int = -1, int = -1, int = -1);
+    void drawTexture(SDL_Texture *, SDL_Color, int, int, int = -1, int = -1, int = -1, int = -1, int = -1, int = -1);
 
     // === RENDERING FUNCTIONS ===
     // -> Draw to a texture and return it
@@ -62,6 +62,17 @@ namespace SDLHelper {
 
     // Same as renderText but wraps text at given width
     SDL_Texture * renderTextWrapped(const char *, int, uint32_t, bool = false);
+
+    // === MISCELLANEOUS ===
+
+    // Create texture with given dimensions
+    SDL_Texture * createTexture(int, int);
+
+    // Reset renderer to screen
+    void renderToScreen();
+
+    // Set renderer to given texture
+    void renderToTexture(SDL_Texture *);
 };
 
 #endif
