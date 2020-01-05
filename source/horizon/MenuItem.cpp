@@ -16,10 +16,8 @@ namespace Aether {
 
         // Position children
         this->setXYWH(this->x(), this->y(), DEFAULT_WIDTH, DEFAULT_HEIGHT);
-        if (this->text->w() > this->w() - this->text->x()) {
-            this->text->setW(this->w() - this->text->x());
-        }
 
+        this->setActive(false);
         this->setCallback(f);
         this->setSelectable(true);
     }
@@ -36,6 +34,13 @@ namespace Aether {
         this->text->setY(this->y() + this->h()/2 - this->text->texH()/2);
     }
 
+    void MenuItem::setW(int w) {
+        Element::setW(w);
+        if (this->text->w() > this->w() - this->text->x()) {
+            this->text->setW(this->w() - this->text->x());
+        }
+    }
+
     void MenuItem::setXY(int x, int y) {
         this->setX(x);
         this->setY(y);
@@ -46,6 +51,38 @@ namespace Aether {
         this->setW(w);
         this->setH(h);
     }
+
+    void MenuItem::setActive(bool b) {
+        if (b) {
+            this->rect->setHidden(false);
+            this->text->setColour(this->activeColour);
+        } else {
+            this->rect->setHidden(true);
+            this->text->setColour(this->inactiveColour);
+        }
+
+        this->active = b;
+    }
+
+    void MenuItem::setActiveColour(Colour c) {
+        this->activeColour = c;
+        this->rect->setColour(c);
+        this->setActive(this->active);
+    }
+
+    void MenuItem::setActiveColor(Color c) {
+        this->setActiveColour(c);
+    }
+
+    void MenuItem::setInactiveColour(Colour c) {
+        this->inactiveColour = c;
+        this->setActive(this->active);
+    }
+
+    void MenuItem::setInactiveColor(Color c) {
+        this->setInactiveColour(c);
+    }
+
 
     MenuItem::~MenuItem() {
         // Note children aren't deleted as they are deleted

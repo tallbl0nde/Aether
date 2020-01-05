@@ -15,8 +15,6 @@ namespace Aether {
             int y_;
             int w_;
             int h_;
-            // Scale this element (and it's children) by this amount
-            double scale_;
 
             // Parent element (obtained by passing to constructor)
             // Only nullptr if root element (ie. display)
@@ -48,8 +46,6 @@ namespace Aether {
             void setY(int);
             void setW(int);
             void setH(int);
-            double scale();
-            void setScale(double);
             // Combines functions into one
             void setXY(int, int);
             void setWH(int, int);

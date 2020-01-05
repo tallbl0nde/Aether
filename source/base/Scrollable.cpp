@@ -4,6 +4,10 @@
 
 // Default dampening amount
 #define DEFAULT_DAMPENING 20
+// Delay (in ms) to pause after button held
+#define HOLD_DELAY 500
+// Delay (in ms) for moving between items
+#define MOVE_DELAY 150
 
 namespace Aether {
     Scrollable::Scrollable(Element * e) : Element(e) {
@@ -12,6 +16,7 @@ namespace Aether {
         this->scrollVelocity = 0;
         this->scrollPos = 0;
         this->maxScrollPos = 0;
+        this->showScrollBar_ = true;
     }
 
     void Scrollable::updateMaxScrollPos() {
@@ -41,6 +46,14 @@ namespace Aether {
 
     void Scrollable::setDampening(float d) {
         this->scrollDampening = d;
+    }
+
+    bool Scrollable::showScrollBar() {
+        return this->showScrollBar_;
+    }
+
+    void Scrollable::setShowScrollBar(bool b) {
+        this->showScrollBar_ = b;
     }
 
     void Scrollable::addElement(Element * e) {

@@ -7,7 +7,6 @@ namespace Aether {
         this->y_ = y;
         this->w_ = w;
         this->h_ = h;
-        this->scale_ = 1.00d;
         this->parent = p;
         this->hidden_ = false;
         this->callback_ = nullptr;
@@ -44,14 +43,6 @@ namespace Aether {
 
     void Element::setH(int h) {
         this->h_ = h;
-    }
-
-    double Element::scale() {
-        return this->scale_;
-    }
-
-    void Element::setScale(double s) {
-        this->scale_ = s;
     }
 
     void Element::setXY(int x, int y) {

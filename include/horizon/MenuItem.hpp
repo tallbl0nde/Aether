@@ -20,6 +20,13 @@ namespace Aether {
             Rectangle * rect;
             Text * text;
 
+            // Is this item the active one?
+            bool active;
+
+            // Colours for sub elements
+            Colour activeColour;
+            Colour inactiveColour;
+
         public:
             // Constructor takes parent element, string and callback function
             MenuItem(Element *, std::string, std::function<void()>);
@@ -27,8 +34,18 @@ namespace Aether {
             // Adjusting XY has unique behaviour (reposition all elements)
             void setX(int);
             void setY(int);
+            void setW(int);
             void setXY(int, int);
             void setXYWH(int, int, int, int);
+
+            // Setter for isActive
+            void setActive(bool);
+
+            // Setter for colours
+            void setActiveColour(Colour);
+            void setActiveColor(Color);
+            void setInactiveColour(Colour);
+            void setInactiveColor(Color);
 
             // Destructor deletes all children
             ~MenuItem();

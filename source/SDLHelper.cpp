@@ -250,5 +250,7 @@ namespace SDLHelper {
     void renderToTexture(SDL_Texture * t) {
         SDL_SetRenderTarget(renderer, t);
         SDL_SetTextureBlendMode(t, SDL_BLENDMODE_BLEND);
+        SDL_SetRenderDrawColor(renderer, 255, 255, 255, 0);
+        SDL_RenderClear(renderer);
     }
 };

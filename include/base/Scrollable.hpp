@@ -20,6 +20,8 @@ namespace Aether {
             unsigned int scrollPos;
             // Maximum Y offset in pixels
             unsigned int maxScrollPos;
+            // Show the scrollbar?
+            bool showScrollBar_;
 
             // Check all children and determine maximum height
             void updateMaxScrollPos();
@@ -31,6 +33,10 @@ namespace Aether {
             // Getter + Setter for dampening
             float dampening();
             void setDampening(float);
+
+            // Getter + Setter for showing scroll bar
+            bool showScrollBar();
+            void setShowScrollBar(bool);
 
             // (Re-)calculate maximum scroll position whenever an element is added/removed
             void addElement(Element *);

@@ -24,6 +24,7 @@ namespace Aether {
 
             // These functions are private members of a display
             // as they are called by loop()
+            using Element::addElement;
             using Element::handleEvent;
             using Element::update;
             using Element::render;
