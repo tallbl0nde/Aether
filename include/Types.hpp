@@ -2,6 +2,39 @@
 #define AETHER_TYPES_HPP
 
 namespace Aether {
+    // Enums for keys
+    // Avoids confusion with SDL/libnx names
+    enum Key {
+        A,
+        B,
+        X,
+        Y,
+        LSTICK,
+        RSTICK,
+        L,
+        R,
+        ZL,
+        ZR,
+        PLUS,
+        MINUS,
+        DPAD_LEFT,
+        DPAD_UP,
+        DPAD_RIGHT,
+        DPAD_DOWN,
+        LSTICK_LEFT,
+        LSTICK_UP,
+        LSTICK_RIGHT,
+        LSTICK_DOWN,
+        RSTICK_LEFT,
+        RSTICK_UP,
+        RSTICK_RIGHT,
+        RSTICK_DOWN,
+        SL_LEFT,
+        SR_LEFT,
+        SL_RIGHT,
+        SR_RIGHT
+    };
+
     // SDL_Color but it's not
     typedef SDL_Color Colour, Color;
 

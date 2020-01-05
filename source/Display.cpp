@@ -16,8 +16,6 @@ static struct Clock dtClock;
 
 namespace Aether {
     Display::Display() : Element(nullptr, 0, 0, 1280, 720) {
-        this->screen = 0;
-
         // Initialize SDL (loop set to false if an error)
         this->loop_ = SDLHelper::initSDL();
     }
@@ -31,9 +29,25 @@ namespace Aether {
 
     void Display::addScreen(Screen * s) {
         this->screens.push_back(s);
+        this->screen = this->screens.size()-1;
+    }
+
+    bool Display::setScreen(Screen * s) {
+        std::vector<Screen *>::iterator it = std::find(this->screens.begin(), this->screens.end(), s);
+        if (it != this->screens.end()) {
+            this->screen = std::distance(this->screens.begin(), it);
+            return true;
+        }
+
+        return false;
     }
 
     bool Display::loop() {
+        // Quit loop if no screens are added
+        if (this->screens.size() == 0) {
+            return false;
+        }
+
         // Poll all events + pass
 
         // Update children

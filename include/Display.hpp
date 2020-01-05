@@ -41,7 +41,7 @@ namespace Aether {
             void addScreen(Screen *);
 
             // Set screen to given pointer
-            // bool setScreen(Screen *)
+            bool setScreen(Screen *);
 
             // Executes the main loop (events + rendering)
             // Returns false when the app should be terminated
