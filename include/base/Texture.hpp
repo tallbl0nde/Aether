@@ -2,7 +2,6 @@
 #define AETHER_TEXTURE_HPP
 
 #include "Element.hpp"
-#include "SDLHelper.hpp"
 #include "Types.hpp"
 
 namespace Aether {

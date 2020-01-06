@@ -1,5 +1,4 @@
 #include "Scrollable.hpp"
-#include "SDLHelper.hpp"
 #include "Types.hpp"
 
 // Default dampening amount

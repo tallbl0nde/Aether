@@ -1,6 +1,8 @@
 #ifndef AETHER_TYPES_HPP
 #define AETHER_TYPES_HPP
 
+#include "SDLHelper.hpp"
+
 namespace Aether {
     // Enums for keys
     // Avoids confusion with SDL/libnx names

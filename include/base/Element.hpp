@@ -16,17 +16,21 @@ namespace Aether {
             int w_;
             int h_;
 
-            // Parent element (obtained by passing to constructor)
+            // Parent element
             // Only nullptr if root element (ie. display)
             Element * parent;
 
-            // Skip rendering this element
+            // Skip rendering this element + it's children
             bool hidden_;
 
             // Function to call when element is tapped/selected
             std::function<void()> callback_;
+            // Is this element highlighted
+            bool highlighted_;
             // Can this element be selected?
             bool selectable_;
+            // Is this element selected? (ie. button held/touch held)
+            bool selected_;
 
         protected:
             // Vector of child elements (used to call their methods)
@@ -69,13 +73,16 @@ namespace Aether {
             // Set whether element is selectable
             void setSelectable(bool);
 
+            bool highlighted();
+            void setHighlighted(bool);
+
             // Returns callback function (nullptr if no callback assigned)
             std::function<void()> callback();
             // Set callback function (also marks element as selectable)
             void setCallback(std::function<void()>);
 
             // Handle the given event
-            virtual void handleEvent(InputEvent *);
+            virtual bool handleEvent(InputEvent *);
             // Update is passed time since last frame (for animations)
             virtual void update(uint32_t);
             // Render child elements
@@ -83,6 +90,14 @@ namespace Aether {
 
             // Destructor calls destructor of children
             virtual ~Element();
+
+            // Friend functions used to search through parents + children
+            // Returns the element to "move" to given selected element and a condition. If there are multiple, it calls the provided
+            // function to determine which one to select (returns element which evaluates given function closest to 0)
+            friend Element * findElementToMoveTo(Element *, std::function<bool(Element *, Element *)>);
+             // Recursively searches all children of given element and returns a vector containing all pointers.
+            friend std::vector<Element *> getAllChildren(Element *, bool);
+
     };
 };
 

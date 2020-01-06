@@ -1,5 +1,5 @@
 #include "Display.hpp"
-#include "SDLHelper.hpp"
+#include "InputEvent.hpp"
 
 // Struct representing a "clock", which stores time between ticks
 struct Clock {
@@ -49,6 +49,21 @@ namespace Aether {
         }
 
         // Poll all events + pass
+        SDL_Event e;
+        while (SDL_PollEvent(&e)) {
+            switch (e.type) {
+                case SDL_JOYBUTTONDOWN:
+                case SDL_JOYBUTTONUP:
+                case SDL_FINGERDOWN:
+                case SDL_FINGERMOTION:
+                case SDL_FINGERUP:
+                    // Create InputEvent and pass to screen
+                    InputEvent * event = new InputEvent(e);
+                    this->screens[this->screen]->handleEvent(event);
+                    delete event;
+                    break;
+            }
+        }
 
         // Update children
         dtClock.tick();
@@ -61,6 +76,12 @@ namespace Aether {
 
         // Render current screen
         this->screens[this->screen]->render();
+
+        // Draw FPS
+        std::string ss = "FPS: " + std::to_string((int)(1.0/(dtClock.delta/1000.0))) + " (" + std::to_string(dtClock.delta) + " ms)";
+        SDL_Texture * tt = SDLHelper::renderText(ss.c_str(), 20);
+        SDLHelper::drawTexture(tt, SDL_Color{0, 150, 150, 255}, 5, 695);
+        SDLHelper::destroyTexture(tt);
 
         SDLHelper::draw();
 
