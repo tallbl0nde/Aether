@@ -15,7 +15,9 @@ struct Clock {
 static struct Clock dtClock;
 
 namespace Aether {
-    Display::Display() : Element(nullptr, 0, 0, 1280, 720) {
+    Display::Display() : Element(0, 0, 1280, 720) {
+        this->setParent(nullptr);
+
         // Initialize SDL (loop set to false if an error)
         this->loop_ = SDLHelper::initSDL();
     }
@@ -29,6 +31,7 @@ namespace Aether {
 
     void Display::addScreen(Screen * s) {
         this->screens.push_back(s);
+        s->setParent(this);
         this->screen = this->screens.size()-1;
     }
 

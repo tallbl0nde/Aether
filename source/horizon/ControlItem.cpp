@@ -43,9 +43,9 @@ const std::string keyChar[] = {
 };
 
 namespace Aether {
-    ControlItem::ControlItem(Element * e, Key k, std::string s) : Element(e) {
-        this->icon = new Text(this, keyChar[k], ICON_FONT_SIZE, FontType::Extended);
-        this->hint = new Text(this, s, HINT_FONT_SIZE);
+    ControlItem::ControlItem(Key k, std::string s) : Element() {
+        this->icon = new Text(keyChar[k], ICON_FONT_SIZE, FontType::Extended);
+        this->hint = new Text(s, HINT_FONT_SIZE);
         this->setXY(this->x(), this->y());
         this->setW(PADDING*2 + this->icon->w() + TEXT_GAP + this->hint->w());
         this->setH(std::max(this->icon->h(), this->hint->h()) + PADDING*2);
@@ -94,9 +94,5 @@ namespace Aether {
 
     void ControlItem::setColor(uint8_t r, uint8_t g, uint8_t b, uint8_t a) {
         this->setColor(Color{r, g, b, a});
-    }
-
-    ControlItem::~ControlItem() {
-
     }
 };

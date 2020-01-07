@@ -29,9 +29,6 @@ namespace Aether {
             void repositionElements();
 
         public:
-            // Constructor must be passed parent element
-            Controls(Element *);
-
             // Wrappers for add/remove elements
             void addItem(ControlItem *);
             bool removeItem(ControlItem *);
@@ -54,8 +51,6 @@ namespace Aether {
             void setColor(Color);
             void setColour(uint8_t, uint8_t, uint8_t, uint8_t);
             void setColor(uint8_t, uint8_t, uint8_t, uint8_t);
-
-            ~Controls();
     };
 };
 

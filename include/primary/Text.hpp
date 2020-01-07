@@ -21,8 +21,8 @@ namespace Aether {
             void redrawTexture();
 
         public:
-            // Constructor accepts parent element, string, font size and font type
-            Text(Element *, std::string, unsigned int, FontType = FontType::Normal);
+            // Constructor accepts string, font size and font type
+            Text(std::string, unsigned int, FontType = FontType::Normal);
 
             // Getter + setter for scroll + scrollSpeed
             bool scroll();
@@ -37,8 +37,6 @@ namespace Aether {
             // Update and render handle animating the scroll if necessary
             void update(uint32_t);
             void render();
-
-            ~Text();
     };
 };
 

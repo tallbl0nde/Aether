@@ -1,7 +1,7 @@
 #include "Ellipse.hpp"
 
 namespace Aether {
-    Ellipse::Ellipse(Element * e, unsigned int xd, unsigned int yd) : Texture(e) {
+    Ellipse::Ellipse(unsigned int xd, unsigned int yd) : Texture() {
         this->xDiameter_ = xd;
         this->yDiameter_ = ((yd == 0) ? xd : yd);
         this->redrawTexture();
@@ -25,9 +25,5 @@ namespace Aether {
 
     void Ellipse::setYDiameter(unsigned int yd) {
         this->yDiameter_ = yd;
-    }
-
-    Ellipse::~Ellipse() {
-
     }
 };

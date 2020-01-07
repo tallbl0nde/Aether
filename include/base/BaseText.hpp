@@ -22,15 +22,13 @@ namespace Aether {
 
         public:
             // Constructor accepts string, font size and font type (defaulting to normal)
-            BaseText(Element *, std::string, unsigned int, FontType);
+            BaseText(std::string, unsigned int, FontType);
 
             // Getters + setters for variables
             std::string string();
             virtual void setString(std::string);
             unsigned int fontSize();
             virtual void setFontSize(unsigned int);
-
-            ~BaseText();
     };
 };
 

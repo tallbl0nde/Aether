@@ -22,8 +22,8 @@ namespace Aether {
             using Element::setSelectable;
 
         public:
-            // Constructor accepts parent element, key/button and text hint
-            ControlItem(Element *, Key, std::string);
+            // Constructor accepts key/button and text hint
+            ControlItem(Key, std::string);
 
             // Adjusting XY has unique behaviour (reposition all elements)
             void setX(int);
@@ -38,9 +38,6 @@ namespace Aether {
             void setColour(uint8_t, uint8_t, uint8_t, uint8_t);
             void setColor(Color);
             void setColor(uint8_t, uint8_t, uint8_t, uint8_t);
-
-            // Destructor does nothing, elements are deleted by ELement
-            ~ControlItem();
     };
 };
 

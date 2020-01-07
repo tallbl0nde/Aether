@@ -28,8 +28,8 @@ namespace Aether {
             Colour inactiveColour;
 
         public:
-            // Constructor takes parent element, string and callback function
-            MenuItem(Element *, std::string, std::function<void()>);
+            // Constructor takes string and callback function
+            MenuItem(std::string, std::function<void()>);
 
             // Adjusting XY has unique behaviour (reposition all elements)
             void setX(int);
@@ -46,9 +46,6 @@ namespace Aether {
             void setActiveColor(Color);
             void setInactiveColour(Colour);
             void setInactiveColor(Color);
-
-            // Destructor deletes all children
-            ~MenuItem();
     };
 };
 

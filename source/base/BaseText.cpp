@@ -1,7 +1,7 @@
 #include "BaseText.hpp"
 
 namespace Aether {
-    BaseText::BaseText(Element * e, std::string s, unsigned int f, FontType t) : Texture(e) {
+    BaseText::BaseText(std::string s, unsigned int f, FontType t) : Texture() {
         this->fontSize_ = f;
         this->fontType = t;
         this->string_ = s;
@@ -21,10 +21,5 @@ namespace Aether {
 
     void BaseText::setFontSize(unsigned int s) {
         this->fontSize_ = s;
-    }
-
-    // Destructor destroys texture
-    BaseText::~BaseText() {
-
     }
 };

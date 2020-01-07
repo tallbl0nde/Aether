@@ -1,8 +1,9 @@
 #include "Texture.hpp"
 
 namespace Aether {
-    Texture::Texture(Element * e, SDL_Texture * t) : Element(e) {
-        this->texture = t;
+    Texture::Texture(SDL_Texture * t) : Element() {
+        this->texture = nullptr;
+        this->setTexture(t);
         this->colour = Colour{255, 255, 255, 255};
     }
 

@@ -6,11 +6,11 @@
 #define DEFAULT_FONT_SIZE 22
 
 namespace Aether {
-    MenuItem::MenuItem(Element * e, std::string s, std::function<void()> f) : Element(e) {
+    MenuItem::MenuItem(std::string s, std::function<void()> f) : Element() {
         // Create children
-        this->rect = new Rectangle(this, 4, 52);
+        this->rect = new Rectangle(4, 52);
         this->addElement(this->rect);
-        this->text = new Text(this, s, DEFAULT_FONT_SIZE);
+        this->text = new Text(s, DEFAULT_FONT_SIZE);
         this->text->setScroll(true);
         this->addElement(this->text);
 
@@ -81,11 +81,5 @@ namespace Aether {
 
     void MenuItem::setInactiveColor(Color c) {
         this->setInactiveColour(c);
-    }
-
-
-    MenuItem::~MenuItem() {
-        // Note children aren't deleted as they are deleted
-        // by the Element destructor
     }
 };

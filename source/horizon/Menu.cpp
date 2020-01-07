@@ -7,7 +7,7 @@
 #define PADDING 0.125*DEFAULT_WIDTH
 
 namespace Aether {
-    Menu::Menu(Element * e) : Scrollable(e) {
+    Menu::Menu() : Scrollable() {
         this->setW(DEFAULT_WIDTH);
         this->setH(DEFAULT_HEIGHT);
     }
@@ -103,9 +103,5 @@ namespace Aether {
 
     void Menu::setInactiveColor(Color c) {
         this->setInactiveColour(c);
-    }
-
-    Menu::~Menu() {
-
     }
 };

@@ -39,7 +39,7 @@ namespace Aether {
         public:
             // Constructor must be passed parent element (or nullptr if there is none)
             // Coordinates and size are optional, defaults to (0,0) with size (100, 100)
-            Element(Element *, int = 0, int = 0, int = 100, int = 100);
+            Element(int = 0, int = 0, int = 100, int = 100);
 
             // Getters and setters for x, y, w, h + scale
             int x();
@@ -55,7 +55,8 @@ namespace Aether {
             void setWH(int, int);
             void setXYWH(int, int, int, int);
 
-
+            // Set given element as parent
+            void setParent(Element *);
             // Add an element as a child
             virtual void addElement(Element *);
             // Delete the given child, returns false if not a child

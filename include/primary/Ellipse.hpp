@@ -18,15 +18,13 @@ namespace Aether {
         public:
             // Constructor takes dimensions
             // If only one is provided, a circle is created
-            Ellipse(Element *, unsigned int, unsigned int = 0);
+            Ellipse(unsigned int, unsigned int = 0);
 
             // Getters + setters for diameters
             unsigned int xDiameter();
             void setXDiameter(unsigned int);
             unsigned int yDiameter();
             void setYDiameter(unsigned int);
-
-            ~Ellipse();
     };
 };
 

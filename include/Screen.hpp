@@ -16,14 +16,12 @@ namespace Aether {
 
         public:
             // Constructor takes parent element and active/inactive functions
-            Screen(Element *);
+            Screen();
 
             // These should be called when switching screens
             // They finish setting up the screen/free memory
             void callActive();
             void callInactive();
-
-            ~Screen();
     };
 };
 

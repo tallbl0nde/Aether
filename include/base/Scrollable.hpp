@@ -27,8 +27,7 @@ namespace Aether {
             void updateMaxScrollPos();
 
         public:
-            // Must pass parent
-            Scrollable(Element *);
+            Scrollable();
 
             // Getter + Setter for dampening
             float dampening();
@@ -47,9 +46,6 @@ namespace Aether {
             void update(uint32_t);
             // Render also draws scroll bar if applicable
             void render();
-
-            // Destructor simply calls element's destructor
-            ~Scrollable();
     };
 };
 

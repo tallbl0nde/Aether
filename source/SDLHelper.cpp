@@ -140,8 +140,8 @@ namespace SDLHelper {
         renderToTexture(tex);
 
         // Draw white ellipse
-        filledEllipseRGBA(renderer, w/2 - 1, h/2 - 1, w/2 - 1, h/2 - 1, 255, 255, 255, 255);
-        aaellipseRGBA(renderer, w/2 - 1, h/2 - 1, w/2 - 1, h/2 - 1, 255, 255, 255, 255);
+        filledEllipseRGBA(renderer, w/2 + 2, h/2 + 2, w/2, h/2, 255, 255, 255, 255);
+        aaellipseRGBA(renderer, w/2 + 2, h/2 + 2, w/2, h/2, 255, 255, 255, 255);
 
         renderToScreen();
 

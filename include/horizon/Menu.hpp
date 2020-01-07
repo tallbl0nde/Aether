@@ -20,8 +20,7 @@ namespace Aether {
             void repositionItems();
 
         public:
-            // Constructor takes parent element
-            Menu(Element *);
+            Menu();
 
             // Wrappers for parent functions that also call repositionItems()
             void setX(int);
@@ -48,9 +47,6 @@ namespace Aether {
             void setActiveColor(Color);
             void setInactiveColour(Colour);
             void setInactiveColor(Color);
-
-            // Destructor doesn't delete, handled by Element
-            ~Menu();
     };
 };
 

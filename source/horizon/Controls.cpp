@@ -1,10 +1,6 @@
 #include "Controls.hpp"
 
 namespace Aether {
-    Controls::Controls(Element * e) : Element(e) {
-
-    }
-
     void Controls::addItem(ControlItem * i) {
         this->items.push_back(i);
         this->addElement(i);
@@ -103,9 +99,5 @@ namespace Aether {
 
     void Controls::setColor(uint8_t r, uint8_t g, uint8_t b, uint8_t a) {
         this->setColour(Color{r, g, b, a});
-    }
-
-    Controls::~Controls() {
-
     }
 };

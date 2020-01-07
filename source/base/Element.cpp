@@ -3,16 +3,16 @@
 #include <limits>
 
 namespace Aether {
-    Element::Element(Element * p, int x, int y, int w, int h) {
+    Element::Element(int x, int y, int w, int h) {
         this->x_ = x;
         this->y_ = y;
         this->w_ = w;
         this->h_ = h;
-        this->parent = p;
+        this->parent = nullptr;
+
         this->hidden_ = false;
         this->callback_ = nullptr;
         this->selectable_ = false;
-
         this->highlighted_ = false;
         this->selected_ = false;
     }
@@ -64,7 +64,12 @@ namespace Aether {
         this->setWH(w, h);
     }
 
+    void Element::setParent(Element * p) {
+        this->parent = p;
+    }
+
     void Element::addElement(Element * e) {
+        e->setParent(this);
         this->children.push_back(e);
     }
 
@@ -200,8 +205,8 @@ namespace Aether {
         }
 
         if (this->highlighted_) {
-            SDL_Texture * t = SDLHelper::renderRect(this->w() + 10, this->h() + 10);
-            SDLHelper::drawTexture(t, Colour{0, 255, 150, 100}, this->x() - 5, this->y() - 5);
+            SDL_Texture * t = SDLHelper::renderRect(this->w(), this->h());
+            SDLHelper::drawTexture(t, Colour{0, 255, 150, 100}, this->x(), this->y());
             SDLHelper::destroyTexture(t);
         }
     }

@@ -9,7 +9,7 @@
 #define MOVE_DELAY 150
 
 namespace Aether {
-    Scrollable::Scrollable(Element * e) : Element(e) {
+    Scrollable::Scrollable() : Element() {
         this->isScrolling = false;
         this->scrollDampening = DEFAULT_DAMPENING;
         this->scrollVelocity = 0;
@@ -91,9 +91,5 @@ namespace Aether {
         // Only render applicable part of texture
         SDLHelper::drawTexture(t, Colour{255, 255, 255, 255}, this->x(), this->y(), this->w(), this->h(), this->x(), this->y() + this->scrollPos, this->w(), this->h());
         SDLHelper::destroyTexture(t);
-    }
-
-    Scrollable::~Scrollable() {
-
     }
 };

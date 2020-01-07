@@ -17,7 +17,7 @@ namespace Aether {
 
         public:
             // Constructor takes parent element and optional corner radius (defaults to 0)
-            Rectangle(Element *, int, int, unsigned int = 0);
+            Rectangle(int, int, unsigned int = 0);
 
             // Getter + setter for cornerRadius
             unsigned int cornerRadius();
@@ -25,8 +25,6 @@ namespace Aether {
 
             // Adjust rectangle size and render new texture
             void setRectSize(int, int);
-
-            ~Rectangle();
     };
 };
 
