@@ -31,11 +31,9 @@ namespace Aether {
             // Constructor takes string and callback function
             MenuItem(std::string, std::function<void()>);
 
-            // Adjusting XY has unique behaviour (reposition all elements)
-            void setX(int);
-            void setY(int);
+            // Setting the width needs to adjust width of text texture
             void setW(int);
-            void setXY(int, int);
+            void setWH(int, int);
             void setXYWH(int, int, int, int);
 
             // Setter for isActive

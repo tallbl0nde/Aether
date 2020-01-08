@@ -34,11 +34,19 @@ namespace Aether {
     }
 
     void Element::setX(int x) {
+        int diff = x - this->x();
         this->x_ = x;
+        for (size_t i = 0; i < this->children.size(); i++) {
+            this->children[i]->setX(this->children[i]->x() + diff);
+        }
     }
 
     void Element::setY(int y) {
+        int diff = y - this->y();
         this->y_ = y;
+        for (size_t i = 0; i < this->children.size(); i++) {
+            this->children[i]->setY(this->children[i]->y() + diff);
+        }
     }
 
     void Element::setW(int w) {
@@ -50,8 +58,8 @@ namespace Aether {
     }
 
     void Element::setXY(int x, int y) {
-        this->x_ = x;
-        this->y_ = y;
+        this->setX(x);
+        this->setY(y);
     }
 
     void Element::setWH(int w, int h) {

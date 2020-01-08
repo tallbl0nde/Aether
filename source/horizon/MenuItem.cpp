@@ -7,31 +7,26 @@
 
 namespace Aether {
     MenuItem::MenuItem(std::string s, std::function<void()> f) : Element() {
-        // Create children
+        // Create and add child elements
         this->rect = new Rectangle(4, 52);
-        this->addElement(this->rect);
         this->text = new Text(s, DEFAULT_FONT_SIZE);
         this->text->setScroll(true);
+        this->addElement(this->rect);
         this->addElement(this->text);
 
+        // Set size
+        this->setW(DEFAULT_WIDTH);
+        this->setH(DEFAULT_HEIGHT);
+
         // Position children
-        this->setXYWH(this->x(), this->y(), DEFAULT_WIDTH, DEFAULT_HEIGHT);
+        this->rect->setX(this->x() + 8);
+        this->text->setX(this->x() + 24);
+        this->rect->setY(this->y() + 9);
+        this->text->setY(this->y() + this->h()/2 - this->text->texH()/2);
 
         this->setActive(false);
         this->setCallback(f);
         this->setSelectable(true);
-    }
-
-    void MenuItem::setX(int x) {
-        Element::setX(x);
-        this->rect->setX(this->x() + 8);
-        this->text->setX(this->x() + 24);
-    }
-
-    void MenuItem::setY(int y) {
-        Element::setY(y);
-        this->rect->setY(this->y() + 9);
-        this->text->setY(this->y() + this->h()/2 - this->text->texH()/2);
     }
 
     void MenuItem::setW(int w) {
@@ -41,9 +36,9 @@ namespace Aether {
         }
     }
 
-    void MenuItem::setXY(int x, int y) {
-        this->setX(x);
-        this->setY(y);
+    void MenuItem::setWH(int w, int h){
+        this->setW(w);
+        this->setH(h);
     }
 
     void MenuItem::setXYWH(int x, int y, int w, int h) {

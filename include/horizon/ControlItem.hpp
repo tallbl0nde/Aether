@@ -25,11 +25,6 @@ namespace Aether {
             // Constructor accepts key/button and text hint
             ControlItem(Key, std::string);
 
-            // Adjusting XY has unique behaviour (reposition all elements)
-            void setX(int);
-            void setY(int);
-            void setXY(int, int);
-
             // Return the set colour
             Colour getColour();
             Color getColor();

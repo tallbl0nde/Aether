@@ -16,19 +16,11 @@ namespace Aether {
             using Element::removeElement;
             using Element::removeAllElements;
 
-            // Call to reposition elements after a removal / move
-            void repositionItems();
+            // Positions each menuitem's Y coordinate
+            void positionItems();
 
         public:
             Menu();
-
-            // Wrappers for parent functions that also call repositionItems()
-            void setX(int);
-            void setY(int);
-            void setW(int);
-            void setXY(int, int);
-            void setWH(int, int);
-            void setXYWH(int, int, int, int);
 
             // Add an item to the menu (only accepts MenuItems, not Elements)
             void addItem(MenuItem *);

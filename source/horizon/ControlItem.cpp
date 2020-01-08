@@ -44,30 +44,21 @@ const std::string keyChar[] = {
 
 namespace Aether {
     ControlItem::ControlItem(Key k, std::string s) : Element() {
+        // Create and add elements
         this->icon = new Text(keyChar[k], ICON_FONT_SIZE, FontType::Extended);
         this->hint = new Text(s, HINT_FONT_SIZE);
-        this->setXY(this->x(), this->y());
-        this->setW(PADDING*2 + this->icon->w() + TEXT_GAP + this->hint->w());
-        this->setH(std::max(this->icon->h(), this->hint->h()) + PADDING*2);
         this->addElement(this->icon);
         this->addElement(this->hint);
-    }
 
-    void ControlItem::setX(int x) {
-        Element::setX(x);
+        // Set size of this element
+        this->setW(PADDING*2 + this->icon->w() + TEXT_GAP + this->hint->w());
+        this->setH(std::max(this->icon->h(), this->hint->h()) + PADDING*2);
+
+        // Situate children
         this->icon->setX(this->x() + PADDING);
         this->hint->setX(this->icon->x() + this->icon->w() + TEXT_GAP);
-    }
-
-    void ControlItem::setY(int y) {
-        Element::setY(y);
         this->icon->setY(this->y() + (this->h() - this->icon->h())/2);
         this->hint->setY(this->y() + (this->h() - this->hint->h())/2);
-    }
-
-    void ControlItem::setXY(int x, int y) {
-        this->setX(x);
-        this->setY(y);
     }
 
     Colour ControlItem::getColour() {
