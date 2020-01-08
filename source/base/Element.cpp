@@ -2,19 +2,29 @@
 #include "Element.hpp"
 #include <limits>
 
+#include "Theme.hpp"
+
+// Border size of highlight
+#define HIGHLIGHT_SIZE 6
+
 namespace Aether {
     Element::Element(int x, int y, int w, int h) {
-        this->x_ = x;
-        this->y_ = y;
-        this->w_ = w;
-        this->h_ = h;
-        this->parent = nullptr;
+        this->highlightTex = nullptr;
+        this->setXYWH(x, y, w, h);
 
+        this->parent = nullptr;
         this->hidden_ = false;
         this->callback_ = nullptr;
         this->selectable_ = false;
         this->highlighted_ = false;
         this->selected_ = false;
+    }
+
+    void Element::generateHighlight() {
+        if (this->highlightTex != nullptr) {
+            SDLHelper::destroyTexture(this->highlightTex);
+        }
+        this->highlightTex = SDLHelper::renderRoundedBox(this->w() + 2 * HIGHLIGHT_SIZE, this->h() + 2 * HIGHLIGHT_SIZE, 5, HIGHLIGHT_SIZE);
     }
 
     int Element::x() {
@@ -51,10 +61,12 @@ namespace Aether {
 
     void Element::setW(int w) {
         this->w_ = w;
+        this->generateHighlight();
     }
 
     void Element::setH(int h) {
         this->h_ = h;
+        this->generateHighlight();
     }
 
     void Element::setXY(int x, int y) {
@@ -63,8 +75,8 @@ namespace Aether {
     }
 
     void Element::setWH(int w, int h) {
-        this->w_ = w;
-        this->h_ = h;
+        this->setW(w);
+        this->setH(h);
     }
 
     void Element::setXYWH(int x, int y, int w, int h) {
@@ -208,19 +220,22 @@ namespace Aether {
     }
 
     void Element::render() {
-        for (size_t i = 0; i < this->children.size(); i++) {
-            this->children[i]->render();
+        // Draw highlight
+        if (this->highlighted_) {
+            SDLHelper::drawTexture(this->highlightTex, Theme::Dark.accent, this->x() - HIGHLIGHT_SIZE, this->y() - HIGHLIGHT_SIZE);
         }
 
-        if (this->highlighted_) {
-            SDL_Texture * t = SDLHelper::renderRect(this->w(), this->h());
-            SDLHelper::drawTexture(t, Colour{0, 255, 150, 100}, this->x(), this->y());
-            SDLHelper::destroyTexture(t);
+        // Draw children
+        for (size_t i = 0; i < this->children.size(); i++) {
+            this->children[i]->render();
         }
     }
 
     Element::~Element() {
         this->removeAllElements();
+        if (this->highlightTex != nullptr) {
+            SDLHelper::destroyTexture(this->highlightTex);
+        }
     }
 
     Element * findElementToMoveTo(Element * curr, std::function<bool(Element *, Element *)> cmp) {
@@ -237,7 +252,7 @@ namespace Aether {
         Element * shortest = nullptr;
         unsigned int dist = std::numeric_limits<unsigned int>::max();
         for (size_t i = 0; i < elms.size(); i++) {
-            if (elms[i]->selectable() && cmp(curr, elms[i])) {
+            if (elms[i]->selectable() && !elms[i]->hidden() && cmp(curr, elms[i])) {
                 unsigned int d = abs(elms[i]->x() - curr->x()) + abs(elms[i]->y() - curr->y());
                 if (d < dist) {
                     dist = d;

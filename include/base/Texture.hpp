@@ -2,7 +2,6 @@
 #define AETHER_TEXTURE_HPP
 
 #include "Element.hpp"
-#include "Types.hpp"
 
 namespace Aether {
     // A Texture is an element consisting of an SDL_Texture.

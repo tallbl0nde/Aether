@@ -16,6 +16,10 @@ static std::unordered_map<int, TTF_Font *> std_font;
 // Same but for extended
 static std::unordered_map<int, TTF_Font *> ext_font;
 
+// === MISCELLANEOUS ===
+// Offset values
+static int offsetX, offsetY;
+
 namespace SDLHelper {
     bool initSDL() {
         // Init main SDL
@@ -38,8 +42,7 @@ namespace SDLHelper {
         }
 
         // Create SDL Renderer
-        //  | SDL_RENDERER_PRESENTVSYNC
-        renderer = SDL_CreateRenderer(window, 0, SDL_RENDERER_ACCELERATED);
+        renderer = SDL_CreateRenderer(window, 0, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
         if (!renderer) {
             SDL_Log("Unable to create SDL renderer %s\n", SDL_GetError());
             return false;
@@ -63,6 +66,8 @@ namespace SDLHelper {
         }
         plGetSharedFontByType(&std_font_data, PlSharedFontType_Standard);
         plGetSharedFontByType(&ext_font_data, PlSharedFontType_NintendoExt);
+
+        resetOffset();
 
         return true;
     }
@@ -121,7 +126,7 @@ namespace SDLHelper {
         }
 
         // Scale if necessary + render
-        SDL_Rect r = {x, y, w, h};
+        SDL_Rect r = {x + offsetX, y + offsetY, w, h};
         if (tx != -1 && tw != -1 && ty != -1 && th != -1) {
             SDL_Rect s = {tx, ty, tw, th};
             SDL_RenderCopy(renderer, tex, &s, &r);
@@ -168,6 +173,20 @@ namespace SDLHelper {
 
         // Draw white rectangle
         SDL_RenderFillRect(renderer, &r);
+
+        renderToScreen();
+
+        return tex;
+    }
+
+    SDL_Texture * renderRoundedBox(int w, int h, unsigned int r, unsigned int s) {
+        SDL_Texture * tex = createTexture(w, h);
+        renderToTexture(tex);
+
+        roundedBoxRGBA(renderer, 0, 0, w - 2, h - 2, r, 255, 255, 255, 255);
+        SDL_SetRenderDrawColor(renderer, 255, 255, 255, 0);
+        SDL_Rect rr = {s, s, w - 2*s, h - 2*s};
+        SDL_RenderFillRect(renderer, &rr);
 
         renderToScreen();
 
@@ -238,6 +257,16 @@ namespace SDLHelper {
         SDL_FreeSurface(tmp);
 
         return tex;
+    }
+
+    void setOffset(int ox, int oy) {
+        offsetX = ox;
+        offsetY = oy;
+    }
+
+    void resetOffset() {
+        offsetX = 0;
+        offsetY = 0;
     }
 
     SDL_Texture * createTexture(int w, int h) {

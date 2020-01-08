@@ -8,6 +8,7 @@ namespace Aether {
     Menu::Menu() : Scrollable() {
         this->setW(DEFAULT_WIDTH);
         this->setH(DEFAULT_HEIGHT);
+        this->setShowScrollBar(false);
     }
 
     void Menu::positionItems() {

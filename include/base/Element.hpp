@@ -2,6 +2,7 @@
 #define AETHER_ELEMENT_HPP
 
 #include "InputEvent.hpp"
+#include "Types.hpp"
 #include <functional>
 #include <vector>
 
@@ -25,6 +26,8 @@ namespace Aether {
 
             // Function to call when element is tapped/selected
             std::function<void()> callback_;
+            // Texture to draw behind when highlighted
+            SDL_Texture * highlightTex;
             // Is this element highlighted
             bool highlighted_;
             // Can this element be selected?
@@ -36,6 +39,9 @@ namespace Aether {
             // Vector of child elements (used to call their methods)
             std::vector<Element *> children;
 
+            // Function to regenerate highlighted texture using dimensions
+            void generateHighlight();
+
         public:
             // Constructor must be passed parent element (or nullptr if there is none)
             // Coordinates and size are optional, defaults to (0,0) with size (100, 100)
@@ -46,14 +52,14 @@ namespace Aether {
             int y();
             int w();
             int h();
-            void setX(int);
-            void setY(int);
-            void setW(int);
-            void setH(int);
+            virtual void setX(int);
+            virtual void setY(int);
+            virtual void setW(int);
+            virtual void setH(int);
             // Combines functions into one
-            void setXY(int, int);
-            void setWH(int, int);
-            void setXYWH(int, int, int, int);
+            virtual void setXY(int, int);
+            virtual void setWH(int, int);
+            virtual void setXYWH(int, int, int, int);
 
             // Set given element as parent
             void setParent(Element *);

@@ -31,8 +31,8 @@ namespace Aether {
 
     void MenuItem::setW(int w) {
         Element::setW(w);
-        if (this->text->w() > this->w() - this->text->x()) {
-            this->text->setW(this->w() - this->text->x());
+        if (this->text->w() > (this->x() + this->w()) - this->text->x()) {
+            this->text->setW((this->x() + this->w()) - this->text->x());
         }
     }
 
@@ -43,8 +43,7 @@ namespace Aether {
 
     void MenuItem::setXYWH(int x, int y, int w, int h) {
         this->setXY(x, y);
-        this->setW(w);
-        this->setH(h);
+        this->setWH(w, h);
     }
 
     void MenuItem::setActive(bool b) {

@@ -50,6 +50,9 @@ namespace SDLHelper {
     // Reads an image from a pointer to it and returns a texture containing it
     SDL_Texture * renderImage(u8 *, size_t);
 
+    // Draw a whtie rounded box with the given values
+    SDL_Texture * renderRoundedBox(int, int, unsigned int, unsigned int);
+
     // Draw a white rounded rectangle with the given values
     SDL_Texture * renderRoundedRect(int, int, unsigned int);
 
@@ -64,13 +67,16 @@ namespace SDLHelper {
     SDL_Texture * renderTextWrapped(const char *, int, uint32_t, bool = false);
 
     // === MISCELLANEOUS ===
+    // Set an offset for all drawing
+    void setOffset(int, int);
+    // Reset offset to zero
+    void resetOffset();
 
     // Create texture with given dimensions
     SDL_Texture * createTexture(int, int);
 
     // Reset renderer to screen
     void renderToScreen();
-
     // Set renderer to given texture
     void renderToTexture(SDL_Texture *);
 };

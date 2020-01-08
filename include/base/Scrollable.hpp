@@ -16,6 +16,10 @@ namespace Aether {
             // Scroll velocity (amount to scroll per second)
             float scrollVelocity;
 
+            // Scroll bar texture
+            SDL_Texture * scrollBar;
+            // Colour to tint scroll bar
+            Colour scrollBarColour;
             // Offset (y) in pixels
             unsigned int scrollPos;
             // Maximum Y offset in pixels
@@ -29,6 +33,11 @@ namespace Aether {
         public:
             Scrollable();
 
+            // Setting height needs to recalculate scroll bar
+            void setH(int);
+            void setWH(int, int);
+            void setXYWH(int, int, int, int);
+
             // Getter + Setter for dampening
             float dampening();
             void setDampening(float);
@@ -36,6 +45,11 @@ namespace Aether {
             // Getter + Setter for showing scroll bar
             bool showScrollBar();
             void setShowScrollBar(bool);
+            // Set scroll bar colour
+            void setScrollBarColour(Colour);
+            void setScrollBarColor(Color);
+            void setScrollBarColour(uint8_t, uint8_t, uint8_t, uint8_t);
+            void setScrollBarColor(uint8_t, uint8_t, uint8_t, uint8_t);
 
             // (Re-)calculate maximum scroll position whenever an element is added/removed
             void addElement(Element *);
@@ -46,6 +60,9 @@ namespace Aether {
             void update(uint32_t);
             // Render also draws scroll bar if applicable
             void render();
+
+            // Delete scroll bar texture
+            ~Scrollable();
     };
 };
 
