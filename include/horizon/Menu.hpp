@@ -29,16 +29,6 @@ namespace Aether {
             bool removeItem(MenuItem *);
             // Remove all items from the list
             void removeAllItems();
-
-            // Set active element (should only be needed at creation)
-            // Returns true on success, false otherwise
-            bool setActiveItem(MenuItem *);
-
-            // Setter for colours
-            void setActiveColour(Colour);
-            void setActiveColor(Color);
-            void setInactiveColour(Colour);
-            void setInactiveColor(Color);
     };
 };
 

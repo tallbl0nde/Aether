@@ -2,48 +2,19 @@
 #define AETHER_MENUITEM_HPP
 
 #include "base/Element.hpp"
-#include "primary/Rectangle.hpp"
-#include "primary/Text.hpp"
 
 namespace Aether {
-    // A MenuItem is a combination of elements which looks like and functions
-    // similar to Horizon's. All children are handled internally
+    // A MenuItem is a placeholder for valid Menu elements. It cannot be
+    // instantiated directly due to the constructor being protected.
     class MenuItem : public Element {
-        private:
-            // Prevent interfering with elements
+        protected:
+            // Prevent interfering with elements directly
             using Element::addElement;
             using Element::removeElement;
             using Element::removeAllElements;
             using Element::setSelectable;
 
-            // Child element pointers (required to update pointers)
-            Rectangle * rect;
-            Text * text;
-
-            // Is this item the active one?
-            bool active;
-
-            // Colours for sub elements
-            Colour activeColour;
-            Colour inactiveColour;
-
-        public:
-            // Constructor takes string and callback function
-            MenuItem(std::string, std::function<void()>);
-
-            // Setting the width needs to adjust width of text texture
-            void setW(int);
-            void setWH(int, int);
-            void setXYWH(int, int, int, int);
-
-            // Setter for isActive
-            void setActive(bool);
-
-            // Setter for colours
-            void setActiveColour(Colour);
-            void setActiveColor(Color);
-            void setInactiveColour(Colour);
-            void setInactiveColor(Color);
+            MenuItem();
     };
 };
 

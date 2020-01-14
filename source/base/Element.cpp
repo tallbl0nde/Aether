@@ -220,6 +220,11 @@ namespace Aether {
     }
 
     void Element::render() {
+        // Do nothing if hidden
+        if (this->hidden_) {
+            return;
+        }
+
         // Draw highlight
         if (this->highlighted_) {
             SDLHelper::drawTexture(this->highlightTex, Theme::Dark.accent, this->x() - HIGHLIGHT_SIZE, this->y() - HIGHLIGHT_SIZE);

@@ -28,6 +28,16 @@ namespace Aether {
         this->scrollBarColour = Colour{255, 255, 255, 255};
     }
 
+    void Scrollable::setScrollPos(int pos) {
+        if (pos < 0) {
+            this->scrollPos = 0;
+        } else if (pos > this->maxScrollPos + 2*PADDING) {
+            this->scrollPos = this->maxScrollPos + 2*PADDING;
+        } else {
+            this->scrollPos = pos;
+        }
+    }
+
     void Scrollable::updateMaxScrollPos() {
         this->maxScrollPos = 0;
 
@@ -123,19 +133,17 @@ namespace Aether {
     // }
 
     void Scrollable::update(uint32_t dt) {
-        // Scrolling stuff here w/ events
         Element::update(dt);
 
-        // Loop over items and adjust position if selected item is outside view
-        int bottom = this->y() + this->h() + this->scrollPos - 2*PADDING;
-        for (size_t i = 0; i < this->children.size(); i++) {
-            if (this->children[i]->highlighted()) {
-                if (this->children[i]->y() + this->children[i]->h() > bottom) {
-                    this->scrollPos += (180 + 6*((this->children[i]->y() + this->children[i]->h()) - bottom)) * (dt/1000.0);
-                } else if (this->children[i]->y() < this->y() + this->scrollPos) {
-                    this->scrollPos -= (180 + 6*((this->y() + this->scrollPos) - this->children[i]->y())) * (dt/1000.0);
+        // Loop over items and adjust position if selected item is not in the middle
+        if (this->maxScrollPos != 0) {
+            int sMid = this->y() + this->scrollPos + this->h()/2;
+            for (size_t i = 0; i < this->children.size(); i++) {
+                int cMid = this->children[i]->y() + (this->children[i]->h()/2) + 2*PADDING;
+                if (this->children[i]->highlighted()) {
+                    this->setScrollPos(this->scrollPos + (14 * (cMid - sMid) * (dt/1000.0)));
+                    break;
                 }
-                break;
             }
         }
     }
@@ -158,7 +166,7 @@ namespace Aether {
 
         // Draw scroll bar
         if (this->maxScrollPos != 0 && this->showScrollBar_) {
-            int yPos = this->y() + (((float)this->scrollPos / this->maxScrollPos) * (this->h() - SCROLLBAR_SIZE - PADDING*2));
+            int yPos = this->y() + (((float)this->scrollPos / (this->maxScrollPos + 2*PADDING)) * (this->h() - SCROLLBAR_SIZE));
             SDLHelper::drawTexture(this->scrollBar, this->scrollBarColour, this->x() + this->w() - 5, yPos);
         }
     }

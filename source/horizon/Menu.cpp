@@ -42,37 +42,4 @@ namespace Aether {
         Scrollable::removeAllElements();
         this->items.empty();
     }
-
-    bool Menu::setActiveItem(MenuItem * i) {
-        bool r = false;
-        for (size_t j = 0; j < this->items.size(); j++) {
-            if (this->items[j] == i) {
-                this->items[j]->setActive(true);
-                r = true;
-            } else {
-                this->items[j]->setActive(false);
-            }
-        }
-        return r;
-    }
-
-    void Menu::setActiveColour(Colour c) {
-        for (size_t i = 0; i < this->items.size(); i++) {
-            this->items[i]->setActiveColour(c);
-        }
-    }
-
-    void Menu::setActiveColor(Color c) {
-        this->setActiveColour(c);
-    }
-
-    void Menu::setInactiveColour(Colour c) {
-        for (size_t i = 0; i < this->items.size(); i++) {
-            this->items[i]->setInactiveColour(c);
-        }
-    }
-
-    void Menu::setInactiveColor(Color c) {
-        this->setInactiveColour(c);
-    }
 };

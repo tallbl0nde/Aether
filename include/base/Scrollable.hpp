@@ -27,6 +27,9 @@ namespace Aether {
             // Show the scrollbar?
             bool showScrollBar_;
 
+            // Set scrollPos but check if going to be outside of range
+            // and if so set to min/max
+            void setScrollPos(int);
             // Check all children and determine maximum height
             void updateMaxScrollPos();
 
