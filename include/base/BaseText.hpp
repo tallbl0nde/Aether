@@ -20,6 +20,9 @@ namespace Aether {
             // Type of font to use (stored for redrawing)
             FontType fontType;
 
+            // Redraw the texture whenever relevant variables are changed
+            virtual void redrawTexture() = 0;
+
         public:
             // Constructor accepts string, font size and font type (defaulting to normal)
             BaseText(std::string, unsigned int, FontType);

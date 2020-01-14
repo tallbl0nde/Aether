@@ -1,17 +1,17 @@
-#include "Menu.hpp"
+#include "List.hpp"
 
 // Dimensions
 #define DEFAULT_WIDTH 400
 #define DEFAULT_HEIGHT 500
 
 namespace Aether {
-    Menu::Menu() : Scrollable() {
+    List::List() : Scrollable() {
         this->setW(DEFAULT_WIDTH);
         this->setH(DEFAULT_HEIGHT);
-        this->setShowScrollBar(false);
+        this->setShowScrollBar(true);
     }
 
-    void Menu::positionItems() {
+    void List::positionItems() {
         unsigned int pos = 0;
         for (size_t i = 0; i < this->items.size(); i++) {
             this->items[i]->setY(this->y() + pos);
@@ -19,16 +19,16 @@ namespace Aether {
         }
     }
 
-    void Menu::addItem(MenuItem * i) {
+    void List::addItem(ListItem * i) {
         i->setW(this->w());
         this->items.push_back(i);
         this->addElement(i);
         this->positionItems();
     }
 
-    bool Menu::removeItem(MenuItem * i) {
+    bool List::removeItem(ListItem * i) {
         if (this->removeElement(i)) {
-            std::vector<MenuItem *>::iterator it = std::find(this->items.begin(), this->items.end(), i);
+            std::vector<ListItem *>::iterator it = std::find(this->items.begin(), this->items.end(), i);
             if (it != this->items.end()) {
                 this->items.erase(it);
                 this->positionItems();
@@ -38,8 +38,8 @@ namespace Aether {
         return false;
     }
 
-    void Menu::removeAllItems() {
+    void List::removeAllItems() {
         this->removeAllElements();
         this->items.empty();
     }
-};
+}

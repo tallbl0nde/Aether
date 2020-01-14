@@ -19,24 +19,12 @@ namespace Aether {
         return this->colour;
     }
 
-    Color Texture::getColor() {
-        this->getColour();
-    }
-
     void Texture::setColour(Colour c) {
         this->colour = c;
     }
 
     void Texture::setColour(uint8_t r, uint8_t g, uint8_t b, uint8_t a) {
         this->setColour(Colour{r, g, b, a});
-    }
-
-    void Texture::setColor(Color c) {
-        this->setColour(c);
-    }
-
-    void Texture::setColor(uint8_t r, uint8_t g, uint8_t b, uint8_t a) {
-        this->setColor(Color{r, g, b, a});
     }
 
     void Texture::setTexture(SDL_Texture * t) {

@@ -50,9 +50,7 @@ namespace Aether {
             void setShowScrollBar(bool);
             // Set scroll bar colour
             void setScrollBarColour(Colour);
-            void setScrollBarColor(Color);
             void setScrollBarColour(uint8_t, uint8_t, uint8_t, uint8_t);
-            void setScrollBarColor(uint8_t, uint8_t, uint8_t, uint8_t);
 
             // (Re-)calculate maximum scroll position whenever an element is added/removed
             void addElement(Element *);

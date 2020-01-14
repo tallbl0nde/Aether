@@ -95,18 +95,9 @@ namespace Aether {
         this->scrollBarColour = c;
     }
 
-    void Scrollable::setScrollBarColor(Color c) {
-        this->setScrollBarColour(c);
-    }
-
     void Scrollable::setScrollBarColour(uint8_t r, uint8_t g, uint8_t b, uint8_t a) {
         this->setScrollBarColour(Colour{r, g, b, a});
     }
-
-    void Scrollable::setScrollBarColor(uint8_t r, uint8_t g, uint8_t b, uint8_t a) {
-        this->setScrollBarColour(Colour{r, g, b, a});
-    }
-
 
     void Scrollable::addElement(Element * e) {
         e->setX(this->x() + SIDE_PADDING);

@@ -65,10 +65,6 @@ namespace Aether {
         return this->colour;
     }
 
-    Color ControlItem::getColor() {
-        this->getColour();
-    }
-
     void ControlItem::setColour(Colour c) {
         this->colour = c;
         this->icon->setColour(c);
@@ -77,13 +73,5 @@ namespace Aether {
 
     void ControlItem::setColour(uint8_t r, uint8_t g, uint8_t b, uint8_t a) {
         this->setColour(Colour{r, g, b, a});
-    }
-
-    void ControlItem::setColor(Color c) {
-        this->setColour(c);
-    }
-
-    void ControlItem::setColor(uint8_t r, uint8_t g, uint8_t b, uint8_t a) {
-        this->setColor(Color{r, g, b, a});
     }
 };

@@ -38,12 +38,9 @@ namespace Aether {
 
             // Return the set colour
             Colour getColour();
-            Color getColor();
             // Set the colour
             void setColour(Colour);
             void setColour(uint8_t, uint8_t, uint8_t, uint8_t);
-            void setColor(Color);
-            void setColor(uint8_t, uint8_t, uint8_t, uint8_t);
 
             // Set the texture and recalculate dimensions (also destroys previous one)
             void setTexture(SDL_Texture *);

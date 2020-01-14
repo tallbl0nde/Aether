@@ -45,12 +45,9 @@ namespace Aether {
 
             // Return set colour
             Colour getColour();
-            Color getColor();
             // Set colour of controls
             void setColour(Colour);
-            void setColor(Color);
             void setColour(uint8_t, uint8_t, uint8_t, uint8_t);
-            void setColor(uint8_t, uint8_t, uint8_t, uint8_t);
     };
 };
 

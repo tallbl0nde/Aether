@@ -78,10 +78,6 @@ namespace Aether {
         return this->colour;
     }
 
-    Color Controls::getColor() {
-        this->getColour();
-    }
-
     void Controls::setColour(Colour c) {
         this->colour = c;
         for (size_t i = 0; i < this->items.size(); i++) {
@@ -91,13 +87,5 @@ namespace Aether {
 
     void Controls::setColour(uint8_t r, uint8_t g, uint8_t b, uint8_t a) {
         this->setColour(Colour{r, g, b, a});
-    }
-
-    void Controls::setColor(Color c) {
-        this->setColour(c);
-    }
-
-    void Controls::setColor(uint8_t r, uint8_t g, uint8_t b, uint8_t a) {
-        this->setColour(Color{r, g, b, a});
     }
 };

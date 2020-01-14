@@ -36,9 +36,7 @@ namespace Aether {
 
             // Setter for colours (adjusts children colours)
             void setActiveColour(Colour);
-            void setActiveColor(Color);
             void setInactiveColour(Colour);
-            void setInactiveColor(Color);
     };
 };
 

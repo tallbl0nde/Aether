@@ -67,16 +67,8 @@ namespace Aether {
         this->setActive(this->active);
     }
 
-    void MenuOption::setActiveColor(Color c) {
-        this->setActiveColour(c);
-    }
-
     void MenuOption::setInactiveColour(Colour c) {
         this->inactiveColour = c;
         this->setActive(this->active);
-    }
-
-    void MenuOption::setInactiveColor(Color c) {
-        this->setInactiveColour(c);
     }
 };

@@ -38,7 +38,7 @@ namespace Aether {
     };
 
     // SDL_Color but it's not
-    typedef SDL_Color Colour, Color;
+    typedef SDL_Color Colour;
 
     // Theme (used for provided themes)
     typedef struct {
