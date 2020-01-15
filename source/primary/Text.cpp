@@ -46,6 +46,8 @@ namespace Aether {
     }
 
     void Text::update(uint32_t dt) {
+        Element::update(dt);
+
         // Check if need to scroll and do so
         if (this->scroll()) {
             if (this->texW() > this->w()) {
@@ -69,7 +71,6 @@ namespace Aether {
                 }
             }
         }
-        Element::update(dt);
     }
 
     void Text::render() {

@@ -22,16 +22,22 @@ namespace Aether {
                 this->type_ = TouchPressed;
                 this->touchX_ = e.tfinger.x * 1280;
                 this->touchY_ = e.tfinger.y * 720;
+                this->touchDX_ = 0;
+                this->touchDY_ = 0;
                 break;
             case SDL_FINGERMOTION:
                 this->type_ = TouchMoved;
                 this->touchX_ = e.tfinger.x * 1280;
                 this->touchY_ = e.tfinger.y * 720;
+                this->touchDX_ = e.tfinger.dx * 1280;
+                this->touchDY_ = e.tfinger.dy * 720;
                 break;
             case SDL_FINGERUP:
                 this->type_ = TouchReleased;
                 this->touchX_ = e.tfinger.x * 1280;
                 this->touchY_ = e.tfinger.y * 720;
+                this->touchDX_ = e.tfinger.dx * 1280;
+                this->touchDY_ = e.tfinger.dy * 720;
                 break;
         }
     }
@@ -50,6 +56,14 @@ namespace Aether {
 
     int InputEvent::touchY() {
         return this->touchY_;
+    }
+
+    int InputEvent::touchDX() {
+        return this->touchDX_;
+    }
+
+    int InputEvent::touchDY() {
+        return this->touchDY_;
     }
 
     InputEvent::~InputEvent() {

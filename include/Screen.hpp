@@ -22,6 +22,10 @@ namespace Aether {
             // They finish setting up the screen/free memory
             void callActive();
             void callInactive();
+
+            // Render calls Element::render() but then also handles rendering
+            // a highlighted element (in order to get colour behind)
+            void render();
     };
 };
 

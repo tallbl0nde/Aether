@@ -5,6 +5,8 @@
 #define HINT_FONT_SIZE 22
 #define ICON_FONT_SIZE 25
 
+// ID for controller press (only here if needed later)
+#define CONTROLS_ID 99
 // "Padding" around actual textures
 #define PADDING 20
 // Gap between icon + hint
@@ -59,6 +61,25 @@ namespace Aether {
         this->hint->setX(this->icon->x() + this->icon->w() + TEXT_GAP);
         this->icon->setY(this->y() + (this->h() - this->icon->h())/2);
         this->hint->setY(this->y() + (this->h() - this->hint->h())/2);
+
+        // Adding a callback automatically makes this item selectable and touchable
+        this->setCallback([k](){
+            // Send pushed event
+            SDL_Event event;
+            event.type = SDL_JOYBUTTONDOWN;
+            event.jbutton.which = CONTROLS_ID;
+            event.jbutton.button = (uint8_t)k;
+            event.jbutton.state = SDL_PRESSED;
+            SDL_PushEvent(&event);
+            // Send released event (so basically a verrry fast button press)
+            SDL_Event event2;
+            event2.type = SDL_JOYBUTTONUP;
+            event2.jbutton.which = CONTROLS_ID;
+            event2.jbutton.button = (uint8_t)k;
+            event2.jbutton.state = SDL_RELEASED;
+            SDL_PushEvent(&event2);
+        });
+        this->setSelectable(false);
     }
 
     Colour ControlItem::getColour() {

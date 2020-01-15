@@ -14,18 +14,15 @@ namespace Aether {
             // Elements for lines + strings
             Rectangle * topR;
             Rectangle * bottomR;
-            Text * string;
-            Text * value;
-
-            // Function to call when selected
-            std::function<std::string()> func;
+            Text * hint_;
+            Text * value_;
 
             // Reposition elements
             void positionElements();
 
         public:
             // Constructor takes strings + function
-            ListOption(std::string, std::string, std::function<std::string()>);
+            ListOption(std::string, std::string, std::function<void()>);
 
             // Getters + setters for colours
             Colour getLineColour();
@@ -36,6 +33,12 @@ namespace Aether {
             void setValueColour(Colour);
             // Set all colours at once: line, hint, value
             void setColours(Colour, Colour, Colour);
+
+            // Getter + setter for strings
+            std::string hint();
+            void setHint(std::string);
+            std::string value();
+            void setValue(std::string);
 
             // Adjusting width requires changing width of rectangles + repositioning of text
             void setW(int);

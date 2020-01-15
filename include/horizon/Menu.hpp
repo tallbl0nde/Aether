@@ -8,16 +8,10 @@ namespace Aether {
     // A Menu only accepts MenuItems and presents them as a list.
     class Menu : public Scrollable {
         private:
-            // Vector of items IN ORDER
-            std::vector<MenuItem *> items;
-
             // Prevent interfering with elements directly
             using Element::addElement;
             using Element::removeElement;
             using Element::removeAllElements;
-
-            // Positions each menuitem's Y coordinate
-            void positionItems();
 
         public:
             Menu();

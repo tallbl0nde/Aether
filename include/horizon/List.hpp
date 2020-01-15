@@ -9,15 +9,10 @@ namespace Aether {
     // or controller input. Only visible elements are updated/rendered.
     class List : public Scrollable {
         private:
-            // Vector of items IN ORDER
-            std::vector<ListItem *> items;
-
             // Prevent interfering with elements directly
             using Element::addElement;
             using Element::removeElement;
             using Element::removeAllElements;
-
-            void positionItems();
 
         public:
             // Constructor takes no parameters

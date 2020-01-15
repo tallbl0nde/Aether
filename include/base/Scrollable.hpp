@@ -11,6 +11,8 @@ namespace Aether {
         private:
             // Is the element scrolling? (used for touch events)
             bool isScrolling;
+            // Amount to "catchup" by
+            int scrollCatchup;
             // Amount to decrease velocity by (per second)
             float scrollDampening;
             // Scroll velocity (amount to scroll per second)
@@ -40,6 +42,10 @@ namespace Aether {
             void setH(int);
             void setWH(int, int);
             void setXYWH(int, int, int, int);
+
+            // Getter + setter for catchup
+            int catchup();
+            void setCatchup(int);
 
             // Getter + Setter for dampening
             float dampening();

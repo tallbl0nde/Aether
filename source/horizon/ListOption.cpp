@@ -8,29 +8,28 @@
 #define TEXT_PADDING 16
 
 namespace Aether {
-    ListOption::ListOption(std::string t, std::string v, std::function<std::string()> f) : ListItem() {
+    ListOption::ListOption(std::string t, std::string v, std::function<void()> f) : ListItem() {
         this->setH(HEIGHT);
         this->topR = new Rectangle(this->w(), 1);
         this->bottomR = new Rectangle(this->w(), 1);
         this->bottomR->setY(this->y() + this->h());
-        this->string = new Text(t, FONT_SIZE);
-        this->value = new Text(v, FONT_SIZE);
+        this->hint_ = new Text(t, FONT_SIZE);
+        this->value_ = new Text(v, FONT_SIZE);
         this->addElement(this->topR);
         this->addElement(this->bottomR);
-        this->addElement(this->string);
-        this->addElement(this->value);
+        this->addElement(this->hint_);
+        this->addElement(this->value_);
 
-        this->func = f;
+        this->setCallback(f);
         this->positionElements();
-        this->setSelectable(true);
     }
 
     void ListOption::positionElements() {
-        this->string->setX(this->x() + TEXT_PADDING);
-        this->string->setY(this->y() + (this->h() - this->string->texH())/2);
+        this->hint_->setX(this->x() + TEXT_PADDING);
+        this->hint_->setY(this->y() + (this->h() - this->hint_->texH())/2);
 
-        this->value->setX(this->x() + this->w() - TEXT_PADDING - this->value->w());
-        this->value->setY(this->y() + (this->h() - this->value->texH())/2);
+        this->value_->setX(this->x() + this->w() - TEXT_PADDING - this->value_->w());
+        this->value_->setY(this->y() + (this->h() - this->value_->texH())/2);
 
         this->topR->setW(this->w());
         this->bottomR->setW(this->w());
@@ -46,25 +45,43 @@ namespace Aether {
     }
 
     Colour ListOption::getHintColour() {
-        return this->string->getColour();
+        return this->hint_->getColour();
     }
 
     void ListOption::setHintColour(Colour c) {
-        this->string->setColour(c);
+        this->hint_->setColour(c);
     }
 
     Colour ListOption::getValueColour() {
-        return this->value->getColour();
+        return this->value_->getColour();
     }
 
     void ListOption::setValueColour(Colour c) {
-        this->value->setColour(c);
+        this->value_->setColour(c);
     }
 
     void ListOption::setColours(Colour l, Colour h, Colour v) {
         this->setLineColour(l);
         this->setHintColour(h);
         this->setValueColour(v);
+    }
+
+    std::string ListOption::hint() {
+        return this->hint_->string();
+    }
+
+    void ListOption::setHint(std::string s) {
+        this->hint_->setString(s);
+        this->positionElements();
+    }
+
+    std::string ListOption::value() {
+        return this->value_->string();
+    }
+
+    void ListOption::setValue(std::string s) {
+        this->value_->setString(s);
+        this->positionElements();
     }
 
     void ListOption::setW(int w) {

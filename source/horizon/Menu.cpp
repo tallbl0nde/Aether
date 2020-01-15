@@ -9,37 +9,18 @@ namespace Aether {
         this->setW(DEFAULT_WIDTH);
         this->setH(DEFAULT_HEIGHT);
         this->setShowScrollBar(false);
-    }
-
-    void Menu::positionItems() {
-        unsigned int pos = 0;
-        for (size_t i = 0; i < this->items.size(); i++) {
-            this->items[i]->setY(this->y() + pos);
-            pos += this->items[i]->h();
-        }
+        this->setCatchup(15);
     }
 
     void Menu::addItem(MenuItem * i) {
-        i->setW(this->w());
-        this->items.push_back(i);
         this->addElement(i);
-        this->positionItems();
     }
 
     bool Menu::removeItem(MenuItem * i) {
-        if (this->removeElement(i)) {
-            std::vector<MenuItem *>::iterator it = std::find(this->items.begin(), this->items.end(), i);
-            if (it != this->items.end()) {
-                this->items.erase(it);
-                this->positionItems();
-                return true;
-            }
-        }
-        return false;
+        return this->removeElement(i);
     }
 
     void Menu::removeAllItems() {
         this->removeAllElements();
-        this->items.empty();
     }
 };

@@ -26,14 +26,20 @@ namespace Aether {
 
             // Function to call when element is tapped/selected
             std::function<void()> callback_;
+            // True if a child element is highlighted
+            bool hasHighlighted_;
             // Texture to draw behind when highlighted
             SDL_Texture * highlightTex;
             // Is this element highlighted
             bool highlighted_;
+            // Texture to draw on top when selected
+            SDL_Texture * selectedTex;
             // Can this element be selected?
             bool selectable_;
             // Is this element selected? (ie. button held/touch held)
-            bool selected_;
+            bool selected;
+            // Can this element be touched?
+            bool touchable_;
 
         protected:
             // Vector of child elements (used to call their methods)
@@ -41,6 +47,10 @@ namespace Aether {
 
             // Function to regenerate highlighted texture using dimensions
             void generateHighlight();
+
+            bool hasHighlighted();
+            // Function to recursively set "hasHighlighted" on parent elements
+            void setHasHighlighted(bool);
 
         public:
             // Constructor must be passed parent element (or nullptr if there is none)
@@ -70,6 +80,9 @@ namespace Aether {
             // Delete all children elements
             virtual void removeAllElements();
 
+            // Returns whether this element is onscreen
+            bool isVisible();
+
             // Returns hidden
             bool hidden();
             // Hide/show this element
@@ -80,8 +93,12 @@ namespace Aether {
             // Set whether element is selectable
             void setSelectable(bool);
 
+            // Returns touchable
+            bool touchable();
+            // Set whether element is touchable
+            void setTouchable(bool);
+
             bool highlighted();
-            void setHighlighted(bool);
 
             // Returns callback function (nullptr if no callback assigned)
             std::function<void()> callback();
@@ -95,6 +112,8 @@ namespace Aether {
             // Render child elements
             virtual void render();
 
+            void setHighlighted(bool);
+
             // Destructor calls destructor of children
             virtual ~Element();
 
@@ -102,8 +121,10 @@ namespace Aether {
             // Returns the element to "move" to given selected element and a condition. If there are multiple, it calls the provided
             // function to determine which one to select (returns element which evaluates given function closest to 0)
             friend Element * findElementToMoveTo(Element *, std::function<bool(Element *, Element *)>);
-             // Recursively searches all children of given element and returns a vector containing all pointers.
+            // Recursively searches all children of given element and returns a vector containing all pointers.
             friend std::vector<Element *> getAllChildren(Element *, bool);
+            // Return element that is highlighted within given element (returns nullptr if none found)
+            friend Element * getHighlightedElement(Element *);
 
     };
 };

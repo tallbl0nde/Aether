@@ -36,6 +36,9 @@ namespace SDLHelper {
     // Update screen
     void draw();
 
+    // Draw a rectangle with given colour, position + size
+    void drawRect(SDL_Color, int, int, int, int);
+
     // Draw provided texture at specified coordinates tinted with given colour
     // width and height are optional
     void drawTexture(SDL_Texture *, SDL_Color, int, int, int = -1, int = -1, int = -1, int = -1, int = -1, int = -1);

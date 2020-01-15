@@ -62,6 +62,9 @@ namespace Aether {
                 case SDL_FINGERUP:
                     // Create InputEvent and pass to screen
                     InputEvent * event = new InputEvent(e);
+                    if (event->button() == Key::B) {
+                        this->loop_ = false;
+                    }
                     this->screens[this->screen]->handleEvent(event);
                     delete event;
                     break;

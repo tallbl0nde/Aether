@@ -26,6 +26,8 @@ namespace Aether {
             // Coordinates are from (0 - 1280) and (0 - 720)
             int touchX_;
             int touchY_;
+            int touchDX_;
+            int touchDY_;
 
         public:
             // Constructors takes SDL_Event and "converts" to InputEvent
@@ -36,6 +38,8 @@ namespace Aether {
             Key button();
             int touchX();
             int touchY();
+            int touchDX();
+            int touchDY();
 
             // Destructor does nothing
             ~InputEvent();

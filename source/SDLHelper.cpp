@@ -24,33 +24,28 @@ namespace SDLHelper {
     bool initSDL() {
         // Init main SDL
         if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_JOYSTICK) < 0) {
-            SDL_Log("Unable to initialize SDL!");
             return false;
         }
 
         // Initialize SDL_ttf
         if (TTF_Init() == -1) {
-            SDL_Log("Unable to initialize SDL_ttf!");
             return false;
         }
 
         // Create SDL Window
         window = SDL_CreateWindow("window", 0, 0, 1280, 720, 0);
         if (!window) {
-            SDL_Log("Unable to create SDL window %s\n", SDL_GetError());
             return false;
         }
 
         // Create SDL Renderer
-        renderer = SDL_CreateRenderer(window, 0, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+        renderer = SDL_CreateRenderer(window, 0, SDL_RENDERER_ACCELERATED);
         if (!renderer) {
-            SDL_Log("Unable to create SDL renderer %s\n", SDL_GetError());
             return false;
         }
 
         // Prepare controller (only railed for now)
         if (SDL_JoystickOpen(0) == NULL) {
-            SDL_Log("Unable to open joystick 0 %s\n", SDL_GetError());
             return false;
         }
 
@@ -108,6 +103,19 @@ namespace SDLHelper {
 
     void draw() {
         SDL_RenderPresent(renderer);
+    }
+
+    void drawRect(SDL_Colour c, int x, int y, int w, int h) {
+        SDL_Color b;
+        SDL_GetRenderDrawColor(renderer, &b.r, &b.g, &b.b, &b.a);
+        SDL_Rect r;
+        r.x = x;
+        r.y = y;
+        r.w = w;
+        r.h = h;
+        setColour(c);
+        SDL_RenderFillRect(renderer, &r);
+        setColour(b);
     }
 
     void drawTexture(SDL_Texture * tex, SDL_Color c, int x, int y, int w, int h, int tx, int ty, int tw, int th) {

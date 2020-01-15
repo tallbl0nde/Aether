@@ -10,14 +10,17 @@
 namespace Aether {
     Element::Element(int x, int y, int w, int h) {
         this->highlightTex = nullptr;
+        this->selectedTex = nullptr;
         this->setXYWH(x, y, w, h);
 
         this->parent = nullptr;
         this->hidden_ = false;
         this->callback_ = nullptr;
         this->selectable_ = false;
+        this->hasHighlighted_ = false;
         this->highlighted_ = false;
-        this->selected_ = false;
+        this->selected = false;
+        this->touchable_ = false;
     }
 
     void Element::generateHighlight() {
@@ -25,6 +28,22 @@ namespace Aether {
             SDLHelper::destroyTexture(this->highlightTex);
         }
         this->highlightTex = SDLHelper::renderRoundedBox(this->w() + 2 * HIGHLIGHT_SIZE, this->h() + 2 * HIGHLIGHT_SIZE, 5, HIGHLIGHT_SIZE);
+
+        if (this->selectedTex != nullptr) {
+            SDLHelper::destroyTexture(this->selectedTex);
+        }
+        this->selectedTex = SDLHelper::renderRect(this->w(), this->h());
+    }
+
+    bool Element::hasHighlighted() {
+        return this->hasHighlighted_;
+    }
+
+    void Element::setHasHighlighted(bool b) {
+        this->hasHighlighted_ = b;
+        if (this->parent != nullptr) {
+            this->parent->setHasHighlighted(b);
+        }
     }
 
     int Element::x() {
@@ -110,6 +129,14 @@ namespace Aether {
         }
     }
 
+    bool Element::isVisible() {
+        if (this->hidden_ || this->x() > 1280 || this->x() + this->w() < 0 || this->y() > 720 || this->y() + this->h() < 0) {
+            return false;
+        }
+
+        return true;
+    }
+
     bool Element::hidden() {
         return this->hidden_;
     }
@@ -126,12 +153,23 @@ namespace Aether {
         this->selectable_ = b;
     }
 
+    bool Element::touchable() {
+        return this->touchable_;
+    }
+
+    void Element::setTouchable(bool b) {
+        this->touchable_ = b;
+    }
+
     bool Element::highlighted() {
         return this->highlighted_;
     }
 
     void Element::setHighlighted(bool b) {
         this->highlighted_ = b;
+        if (this->parent != nullptr) {
+            this->parent->setHasHighlighted(b);
+        }
     }
 
     std::function<void()> Element::callback() {
@@ -140,94 +178,186 @@ namespace Aether {
 
     void Element::setCallback(std::function<void()> f) {
         this->callback_ = f;
+        this->setSelectable(true);
+        this->setTouchable(true);
     }
 
     bool Element::handleEvent(InputEvent * e) {
-        // Do nothing if hidden
         if (this->hidden_) {
             return false;
         }
 
-        // Pass event to children
-        bool handled = false;
-        for (size_t i = 0; i < this->children.size(); i++) {
-            if (this->children[i]->handleEvent(e)) {
-                handled = true;
-            }
-        }
-
-        // If children didn't handle the event, let this object do so
-        if (!handled) {
-            // Find child thats highlighted
-            Element * hid = nullptr;
+        if (e->type() == EventType::ButtonPressed || e->type() == EventType::ButtonReleased) {
+            // Pass event to children
+            bool handled = false;
             for (size_t i = 0; i < this->children.size(); i++) {
-                if (this->children[i]->highlighted()) {
-                    hid = this->children[i];
+                if (this->children[i]->handleEvent(e)) {
+                    handled = true;
                 }
             }
 
-            // Return if none found
-            if (hid == nullptr) {
-                return false;
-            }
-
-            // Attempt to move cursor
-            Element * mv = nullptr;
-            switch (e->type()) {
-                case EventType::ButtonPressed:
-                    switch (e->button()) {
-                        case Key::DPAD_RIGHT:
-                            mv = findElementToMoveTo(hid, [](Element * l, Element * r) {
-                                return (r->x() > l->x());
-                            });
-                            break;
-
-                        case Key::DPAD_LEFT:
-                            mv = findElementToMoveTo(hid, [](Element * l, Element * r) {
-                                return (r->x() < l->x());
-                            });
-                            break;
-
-                        case Key::DPAD_UP:
-                            mv = findElementToMoveTo(hid, [](Element * a, Element * b) {
-                                return (a->y() > b->y());
-                            });
-                            break;
-
-                        case Key::DPAD_DOWN:
-                            mv = findElementToMoveTo(hid, [](Element * a, Element * b) {
-                                return (a->y() < b->y());
-                            });
-                            break;
+            // If children didn't handle the event, let this object do so
+            if (!handled) {
+                // Find child thats highlighted
+                Element * hid = nullptr;
+                for (size_t i = 0; i < this->children.size(); i++) {
+                    if (this->children[i]->highlighted()) {
+                        hid = this->children[i];
                     }
-                    break;
+                }
+
+                // Return if none found
+                if (hid == nullptr) {
+                    return false;
+                }
+
+                Element * mv = nullptr;
+                switch (e->type()) {
+                    // Attempt to move cursor
+                    case EventType::ButtonPressed:
+                        switch (e->button()) {
+                            case Key::DPAD_RIGHT:
+                                mv = findElementToMoveTo(hid, [](Element * l, Element * r) {
+                                    return (r->x() > l->x());
+                                });
+                                break;
+
+                            case Key::DPAD_LEFT:
+                                mv = findElementToMoveTo(hid, [](Element * l, Element * r) {
+                                    return (r->x() < l->x());
+                                });
+                                break;
+
+                            case Key::DPAD_UP:
+                                mv = findElementToMoveTo(hid, [](Element * a, Element * b) {
+                                    return (a->y() > b->y());
+                                });
+                                break;
+
+                            case Key::DPAD_DOWN:
+                                mv = findElementToMoveTo(hid, [](Element * a, Element * b) {
+                                    return (a->y() < b->y());
+                                });
+                                break;
+
+                            case Key::A:
+                                if (hid->selectable_) {
+                                    hid->selected = true;
+                                }
+                                break;
+                        }
+                        break;
+
+                    case EventType::ButtonReleased:
+                        switch (e->button()) {
+                            case Key::A:
+                                hid->selected = false;
+                                if (hid->callback() != nullptr) {
+                                    hid->callback()();
+                                }
+                            break;
+                        }
+                }
+
+                if (mv != nullptr) {
+                    hid->setHighlighted(false);
+                    hid->selected = false;
+                    mv->setHighlighted(true);
+                    handled = true;
+                }
             }
 
-            if (mv != nullptr) {
-                hid->setHighlighted(false);
-                mv->setHighlighted(true);
-                handled = true;
+            return handled;
+        }
+
+        if (e->type() == EventType::TouchPressed) {
+            if (e->touchX() >= this->x() && e->touchX() <= this->x() + this->w() && e->touchY() >= this->y() && e->touchY() <= this->y() + this->h()) {
+                if (this->touchable_) {
+                    if (this->selectable_) {
+                        this->setHighlighted(true);
+                    }
+                    this->selected = true;
+                    return true;
+                } else {
+                    for (size_t i = 0; i < this->children.size(); i++) {
+                        if (this->children[i]->handleEvent(e)) {
+                            return true;
+                        }
+                    }
+                    return false;
+                }
+            }
+
+        } else if (e->type() == EventType::TouchMoved) {
+            int ox = e->touchX() - e->touchDX();
+            int oy = e->touchY() - e->touchDY();
+            // If touch was originally in element
+            if (ox >= this->x() && ox <= this->x() + this->w() && oy >= this->y() && oy <= this->y() + this->h()) {
+                for (size_t i = 0; i < this->children.size(); i++) {
+                    if (this->children[i]->handleEvent(e)) {
+                        return true;
+                    }
+                }
+
+                // If touch is no longer in element
+                if (e->touchX() < this->x() || e->touchX() > this->x() + this->w() || e->touchY() < this->y() || e->touchY() > this->y() + this->h()) {
+                    if (this->selected) {
+                        this->selected = false;
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
+            }
+
+        } else if (e->type() == EventType::TouchReleased) {
+            if (e->touchX() >= this->x() && e->touchX() <= this->x() + this->w() && e->touchY() >= this->y() && e->touchY() <= this->y() + this->h()) {
+                if (this->selected) {
+                    this->selected = false;
+                    if (this->callback_ != nullptr) {
+                        this->callback_();
+                    }
+                    return true;
+                } else {
+                    for (size_t i = 0; i < this->children.size(); i++) {
+                        if (this->children[i]->handleEvent(e)) {
+                            return true;
+                        }
+                    }
+                    return false;
+                }
             }
         }
 
-        return handled;
+        return false;
     }
 
     void Element::update(uint32_t dt) {
+        // Do nothing if hidden or off-screen
+        if (!this->isVisible()) {
+            return;
+        }
+
+        // Update children
         for (size_t i = 0; i < this->children.size(); i++) {
             this->children[i]->update(dt);
         }
     }
 
     void Element::render() {
-        // Do nothing if hidden
-        if (this->hidden_) {
+        // Do nothing if hidden or off-screen
+        if (!this->isVisible()) {
             return;
         }
 
+        // Draw highlight box
+        // if (this->highlighted_) {
+        //     SDLHelper::drawTexture(this->highlightTex, Theme::Dark.accent, this->x() - HIGHLIGHT_SIZE, this->y() - HIGHLIGHT_SIZE);
+        // }
+
         // Draw highlight
-        if (this->highlighted_) {
-            SDLHelper::drawTexture(this->highlightTex, Theme::Dark.accent, this->x() - HIGHLIGHT_SIZE, this->y() - HIGHLIGHT_SIZE);
+        if (this->selected) {
+            SDLHelper::drawTexture(this->selectedTex, Colour{200, 20, 20, 100}, this->x(), this->y());
         }
 
         // Draw children
@@ -285,5 +415,23 @@ namespace Aether {
         }
 
         return elms;
+    }
+
+    Element * getHighlightedElement(Element * root) {
+        Element * el = root;
+        while (el->hasHighlighted()) {
+            for (size_t i = 0; i < el->children.size(); i++) {
+                if (el->children[i]->hasHighlighted() || el->children[i]->highlighted()) {
+                    el = el->children[i];
+                    break;
+                }
+            }
+        }
+
+        if (el != root) {
+            return el;
+        }
+
+        return nullptr;
     }
 };
