@@ -18,8 +18,9 @@ namespace Aether {
         this->callback_ = nullptr;
         this->selectable_ = false;
         this->hasHighlighted_ = false;
+        this->hasSelectable_ = false;
         this->highlighted_ = false;
-        this->selected = false;
+        this->selected_ = false;
         this->touchable_ = false;
     }
 
@@ -109,6 +110,10 @@ namespace Aether {
 
     void Element::addElement(Element * e) {
         e->setParent(this);
+        e->setSelectable(e->selectable());
+        if (e->highlighted() || e->hasHighlighted()) {
+            this->setHasHighlighted(true);
+        }
         this->children.push_back(e);
     }
 
@@ -151,6 +156,9 @@ namespace Aether {
 
     void Element::setSelectable(bool b) {
         this->selectable_ = b;
+        if (this->parent != nullptr) {
+            this->parent->setHasSelectable(b);
+        }
     }
 
     bool Element::touchable() {
@@ -165,10 +173,21 @@ namespace Aether {
         return this->highlighted_;
     }
 
+    bool Element::selected() {
+        return this->selected_;
+    }
+
+    void Element::setSelected(bool b) {
+        this->selected_ = b;
+    }
+
     void Element::setHighlighted(bool b) {
         this->highlighted_ = b;
         if (this->parent != nullptr) {
             this->parent->setHasHighlighted(b);
+        }
+        if (!b) {
+            this->setSelected(false);
         }
     }
 
@@ -183,152 +202,6 @@ namespace Aether {
     }
 
     bool Element::handleEvent(InputEvent * e) {
-        if (this->hidden_) {
-            return false;
-        }
-
-        if (e->type() == EventType::ButtonPressed || e->type() == EventType::ButtonReleased) {
-            // Pass event to children
-            bool handled = false;
-            for (size_t i = 0; i < this->children.size(); i++) {
-                if (this->children[i]->handleEvent(e)) {
-                    handled = true;
-                }
-            }
-
-            // If children didn't handle the event, let this object do so
-            if (!handled) {
-                // Find child thats highlighted
-                Element * hid = nullptr;
-                for (size_t i = 0; i < this->children.size(); i++) {
-                    if (this->children[i]->highlighted()) {
-                        hid = this->children[i];
-                    }
-                }
-
-                // Return if none found
-                if (hid == nullptr) {
-                    return false;
-                }
-
-                Element * mv = nullptr;
-                switch (e->type()) {
-                    // Attempt to move cursor
-                    case EventType::ButtonPressed:
-                        switch (e->button()) {
-                            case Key::DPAD_RIGHT:
-                                mv = findElementToMoveTo(hid, [](Element * l, Element * r) {
-                                    return (r->x() > l->x());
-                                });
-                                break;
-
-                            case Key::DPAD_LEFT:
-                                mv = findElementToMoveTo(hid, [](Element * l, Element * r) {
-                                    return (r->x() < l->x());
-                                });
-                                break;
-
-                            case Key::DPAD_UP:
-                                mv = findElementToMoveTo(hid, [](Element * a, Element * b) {
-                                    return (a->y() > b->y());
-                                });
-                                break;
-
-                            case Key::DPAD_DOWN:
-                                mv = findElementToMoveTo(hid, [](Element * a, Element * b) {
-                                    return (a->y() < b->y());
-                                });
-                                break;
-
-                            case Key::A:
-                                if (hid->selectable_) {
-                                    hid->selected = true;
-                                }
-                                break;
-                        }
-                        break;
-
-                    case EventType::ButtonReleased:
-                        switch (e->button()) {
-                            case Key::A:
-                                hid->selected = false;
-                                if (hid->callback() != nullptr) {
-                                    hid->callback()();
-                                }
-                            break;
-                        }
-                }
-
-                if (mv != nullptr) {
-                    hid->setHighlighted(false);
-                    hid->selected = false;
-                    mv->setHighlighted(true);
-                    handled = true;
-                }
-            }
-
-            return handled;
-        }
-
-        if (e->type() == EventType::TouchPressed) {
-            if (e->touchX() >= this->x() && e->touchX() <= this->x() + this->w() && e->touchY() >= this->y() && e->touchY() <= this->y() + this->h()) {
-                if (this->touchable_) {
-                    if (this->selectable_) {
-                        this->setHighlighted(true);
-                    }
-                    this->selected = true;
-                    return true;
-                } else {
-                    for (size_t i = 0; i < this->children.size(); i++) {
-                        if (this->children[i]->handleEvent(e)) {
-                            return true;
-                        }
-                    }
-                    return false;
-                }
-            }
-
-        } else if (e->type() == EventType::TouchMoved) {
-            int ox = e->touchX() - e->touchDX();
-            int oy = e->touchY() - e->touchDY();
-            // If touch was originally in element
-            if (ox >= this->x() && ox <= this->x() + this->w() && oy >= this->y() && oy <= this->y() + this->h()) {
-                for (size_t i = 0; i < this->children.size(); i++) {
-                    if (this->children[i]->handleEvent(e)) {
-                        return true;
-                    }
-                }
-
-                // If touch is no longer in element
-                if (e->touchX() < this->x() || e->touchX() > this->x() + this->w() || e->touchY() < this->y() || e->touchY() > this->y() + this->h()) {
-                    if (this->selected) {
-                        this->selected = false;
-                        return true;
-                    } else {
-                        return false;
-                    }
-                }
-            }
-
-        } else if (e->type() == EventType::TouchReleased) {
-            if (e->touchX() >= this->x() && e->touchX() <= this->x() + this->w() && e->touchY() >= this->y() && e->touchY() <= this->y() + this->h()) {
-                if (this->selected) {
-                    this->selected = false;
-                    if (this->callback_ != nullptr) {
-                        this->callback_();
-                    }
-                    return true;
-                } else {
-                    for (size_t i = 0; i < this->children.size(); i++) {
-                        if (this->children[i]->handleEvent(e)) {
-                            return true;
-                        }
-                    }
-                    return false;
-                }
-            }
-        }
-
         return false;
     }
 
@@ -350,13 +223,8 @@ namespace Aether {
             return;
         }
 
-        // Draw highlight box
-        // if (this->highlighted_) {
-        //     SDLHelper::drawTexture(this->highlightTex, Theme::Dark.accent, this->x() - HIGHLIGHT_SIZE, this->y() - HIGHLIGHT_SIZE);
-        // }
-
         // Draw highlight
-        if (this->selected) {
+        if (this->selected_) {
             SDLHelper::drawTexture(this->selectedTex, Colour{200, 20, 20, 100}, this->x(), this->y());
         }
 
@@ -364,6 +232,25 @@ namespace Aether {
         for (size_t i = 0; i < this->children.size(); i++) {
             this->children[i]->render();
         }
+    }
+
+    bool Element::hasSelectable() {
+        return this->hasSelectable_;
+    }
+
+    void Element::setHasSelectable(bool b) {
+        this->hasSelectable_ = b;
+        if (this->parent != nullptr) {
+            this->parent->setHasSelectable(b);
+        }
+    }
+
+    void Element::setActive() {
+        this->setHighlighted(true);
+    }
+
+    void Element::setInactive() {
+        this->setHighlighted(false);
     }
 
     Element::~Element() {

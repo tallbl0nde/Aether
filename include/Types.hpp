@@ -34,7 +34,8 @@ namespace Aether {
         SL_LEFT,
         SR_LEFT,
         SL_RIGHT,
-        SR_RIGHT
+        SR_RIGHT,
+        NO_KEY      // Dummy key used for symbolising no key
     };
 
     // SDL_Color but it's not

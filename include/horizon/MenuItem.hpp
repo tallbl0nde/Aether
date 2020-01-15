@@ -1,20 +1,18 @@
 #ifndef AETHER_MENUITEM_HPP
 #define AETHER_MENUITEM_HPP
 
-#include "base/Element.hpp"
+#include "base/Container.hpp"
 
 namespace Aether {
     // A MenuItem is a placeholder for valid Menu elements. It cannot be
     // instantiated directly due to the constructor being protected.
-    class MenuItem : public Element {
+    class MenuItem : public Container {
         protected:
             // Prevent interfering with elements directly
             using Element::addElement;
             using Element::removeElement;
             using Element::removeAllElements;
             using Element::setSelectable;
-
-            MenuItem();
     };
 };
 

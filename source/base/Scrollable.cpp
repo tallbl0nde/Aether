@@ -8,7 +8,7 @@
 // Delay (in ms) to pause after button held
 #define HOLD_DELAY 500
 // Delay (in ms) for moving between items
-#define MOVE_DELAY 150
+#define MOVE_DELAY 100
 // Padding for very top and very bottom elements
 #define PADDING 40
 // Padding either side of items (to allow for scroll bar)
@@ -17,7 +17,7 @@
 #define SCROLLBAR_SIZE 100
 
 namespace Aether {
-    Scrollable::Scrollable() : Element() {
+    Scrollable::Scrollable() : Container() {
         this->isScrolling = false;
         this->scrollCatchup = DEFAULT_CATCHUP;
         this->scrollDampening = DEFAULT_DAMPENING;
@@ -72,17 +72,7 @@ namespace Aether {
     }
 
     void Scrollable::setH(int h) {
-        Element::setH(h);
-        this->updateMaxScrollPos();
-    }
-
-    void Scrollable::setWH(int w, int h) {
-        Element::setWH(w, h);
-        this->updateMaxScrollPos();
-    }
-
-    void Scrollable::setXYWH(int x, int y, int w, int h) {
-        Element::setXYWH(x, y, w, h);
+        Container::setH(h);
         this->updateMaxScrollPos();
     }
 
@@ -128,12 +118,12 @@ namespace Aether {
         }
         e->setW(this->w() - 2*SIDE_PADDING);
 
-        Element::addElement(e);
+        Container::addElement(e);
         this->updateMaxScrollPos();
     }
 
     bool Scrollable::removeElement(Element * e) {
-        bool b = Element::removeElement(e);
+        bool b = Container::removeElement(e);
         if (b) {
             this->updateMaxScrollPos();
         }
@@ -141,22 +131,19 @@ namespace Aether {
     }
 
     void Scrollable::removeAllElements() {
-        Element::removeAllElements();
+        Container::removeAllElements();
         this->updateMaxScrollPos();
     }
 
-    // void Scrollable::event(InputEvent * e) {
-
-    // }
-
     void Scrollable::update(uint32_t dt) {
-        Element::update(dt);
+        // Update all children first
+        Container::update(dt);
 
         // Loop over items and adjust position if selected item is not in the middle
         if (this->maxScrollPos != 0) {
             int sMid = this->y() + this->h()/2;
             for (size_t i = 0; i < this->children.size(); i++) {
-                int cMid = this->children[i]->y() + (this->children[i]->h()/2) + 2*PADDING;
+                int cMid = this->children[i]->y() + (this->children[i]->h()/2);
                 if (this->children[i]->highlighted()) {
                     this->setScrollPos(this->scrollPos + (this->scrollCatchup * (cMid - sMid) * (dt/1000.0)));
                     break;
@@ -170,7 +157,7 @@ namespace Aether {
         SDL_Texture * t = SDLHelper::createTexture(1280, 720);
         SDLHelper::renderToTexture(t);
 
-        Element::render();
+        Container::render();
 
         // Reset all rendering calls to screen
         SDLHelper::renderToScreen();

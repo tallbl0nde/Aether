@@ -3,7 +3,7 @@
 #include "Theme.hpp"
 
 namespace Aether {
-    Screen::Screen() : Element(0, 0, 1280, 720) {
+    Screen::Screen() : Container(0, 0, 1280, 720) {
         this->active_func = nullptr;
         this->inactive_func = nullptr;
     }
@@ -18,7 +18,7 @@ namespace Aether {
 
     void Screen::render() {
         // Render children
-        Element::render();
+        Container::render();
 
         // If there is a highlighted element draw behind it and then render it
         Element * el = getHighlightedElement(this);

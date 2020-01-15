@@ -28,6 +28,8 @@ namespace Aether {
             std::function<void()> callback_;
             // True if a child element is highlighted
             bool hasHighlighted_;
+            // True if a child element is selectable
+            bool hasSelectable_;
             // Texture to draw behind when highlighted
             SDL_Texture * highlightTex;
             // Is this element highlighted
@@ -37,7 +39,7 @@ namespace Aether {
             // Can this element be selected?
             bool selectable_;
             // Is this element selected? (ie. button held/touch held)
-            bool selected;
+            bool selected_;
             // Can this element be touched?
             bool touchable_;
 
@@ -100,6 +102,12 @@ namespace Aether {
 
             bool highlighted();
 
+            bool selected();
+            void setSelected(bool);
+
+            virtual void setActive();
+            virtual void setInactive();
+
             // Returns callback function (nullptr if no callback assigned)
             std::function<void()> callback();
             // Set callback function (also marks element as selectable)
@@ -113,6 +121,9 @@ namespace Aether {
             virtual void render();
 
             void setHighlighted(bool);
+
+            bool hasSelectable();
+            void setHasSelectable(bool);
 
             // Destructor calls destructor of children
             virtual ~Element();

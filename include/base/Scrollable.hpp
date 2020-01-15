@@ -1,13 +1,13 @@
 #ifndef AETHER_SCROLLABLE_HPP
 #define AETHER_SCROLLABLE_HPP
 
-#include "Element.hpp"
+#include "Container.hpp"
 
 namespace Aether {
     // A scrollable element has it's children rendered onto a
     // texture, which is then "scrolled" and only a portion of
     // it rendered (useful for lists)
-    class Scrollable : public Element {
+    class Scrollable : public Container {
         private:
             // Is the element scrolling? (used for touch events)
             bool isScrolling;
@@ -40,8 +40,6 @@ namespace Aether {
 
             // Setting height needs to recalculate scroll bar
             void setH(int);
-            void setWH(int, int);
-            void setXYWH(int, int, int, int);
 
             // Getter + setter for catchup
             int catchup();

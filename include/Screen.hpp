@@ -1,13 +1,12 @@
 #ifndef AETHER_SCREEN_HPP
 #define AETHER_SCREEN_HPP
 
-#include "base/Element.hpp"
+#include "base/Container.hpp"
 
 namespace Aether {
     // A screen represents a literal screen/layout. It stores all elements
-    // to be drawn/interacted with on a single screen. It's similar to a
-    // container object.
-    class Screen : public Element {
+    // to be drawn/interacted with on a single screen.
+    class Screen : public Container {
         private:
             // Function to call when screen is switched to
             std::function<void()> active_func;
