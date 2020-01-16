@@ -1,15 +1,15 @@
 #ifndef AETHER_LISTOPTION_HPP
 #define AETHER_LISTOPTION_HPP
 
-#include "ListItem.hpp"
+#include "base/Element.hpp"
 #include "primary/Rectangle.hpp"
 #include "primary/Text.hpp"
 
 namespace Aether {
-    // A ListOption is a ListItem similar to what appears in Horizon's
+    // A ListOption is similar to what appears in Horizon's
     // lists. It has a string and value, as well as a callback function
     // which is called when selected.
-    class ListOption : public ListItem {
+    class ListOption : public Element {
         private:
             // Elements for lines + strings
             Rectangle * topR;

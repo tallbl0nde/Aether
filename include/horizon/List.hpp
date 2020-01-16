@@ -2,29 +2,13 @@
 #define AETHER_LIST_HPP
 
 #include "base/Scrollable.hpp"
-#include "ListItem.hpp"
 
 namespace Aether {
-    // A list contains ListItems which are scrolled through by either touch
-    // or controller input. Only visible elements are updated/rendered.
+    // A list is a scrollable with some values changed to match how a list functions
+    // within Horizon.
     class List : public Scrollable {
-        private:
-            // Prevent interfering with elements directly
-            using Element::addElement;
-            using Element::removeElement;
-            using Element::removeAllElements;
-
-        public:
-            // Constructor takes no parameters
-            List();
-
-            // Add an item to the menu (only accepts ListItems, not Elements)
-            void addItem(ListItem *);
-            // Remove an item from the menu
-            // The provided item is deleted if found, so the pointer can be discarded
-            bool removeItem(ListItem *);
-            // Remove all items from the list
-            void removeAllItems();
+        // public:
+        //     List
     };
 };
 

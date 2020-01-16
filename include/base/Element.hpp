@@ -26,12 +26,8 @@ namespace Aether {
 
             // Function to call when element is tapped/selected
             std::function<void()> callback_;
-            // True if a child element is highlighted
-            bool hasHighlighted_;
-            // True if a child element is selectable
+            // Does this element contain a selectable element?
             bool hasSelectable_;
-            // Texture to draw behind when highlighted
-            SDL_Texture * highlightTex;
             // Is this element highlighted
             bool highlighted_;
             // Texture to draw on top when selected
@@ -49,10 +45,6 @@ namespace Aether {
 
             // Function to regenerate highlighted texture using dimensions
             void generateHighlight();
-
-            bool hasHighlighted();
-            // Function to recursively set "hasHighlighted" on parent elements
-            void setHasHighlighted(bool);
 
         public:
             // Constructor must be passed parent element (or nullptr if there is none)
@@ -101,9 +93,10 @@ namespace Aether {
             void setTouchable(bool);
 
             bool highlighted();
+            void setHighlighted(bool);
 
-            bool selected();
-            void setSelected(bool);
+            bool hasSelectable();
+            void setHasSelectable(bool);
 
             virtual void setActive();
             virtual void setInactive();
@@ -120,23 +113,8 @@ namespace Aether {
             // Render child elements
             virtual void render();
 
-            void setHighlighted(bool);
-
-            bool hasSelectable();
-            void setHasSelectable(bool);
-
             // Destructor calls destructor of children
             virtual ~Element();
-
-            // Friend functions used to search through parents + children
-            // Returns the element to "move" to given selected element and a condition. If there are multiple, it calls the provided
-            // function to determine which one to select (returns element which evaluates given function closest to 0)
-            friend Element * findElementToMoveTo(Element *, std::function<bool(Element *, Element *)>);
-            // Recursively searches all children of given element and returns a vector containing all pointers.
-            friend std::vector<Element *> getAllChildren(Element *, bool);
-            // Return element that is highlighted within given element (returns nullptr if none found)
-            friend Element * getHighlightedElement(Element *);
-
     };
 };
 

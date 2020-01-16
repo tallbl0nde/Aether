@@ -1,13 +1,13 @@
 #ifndef AETHER_MENUSEPERATOR_HPP
 #define AETHER_MENUSEPARATOR_HPP
 
+#include "base/Element.hpp"
 #include "primary/Rectangle.hpp"
-#include "MenuItem.hpp"
 
 namespace Aether {
-    // A MenuSeparator is a MenuItem that contains a rectangle with some padding
+    // A MenuSeparator contains a rectangle with some padding
     // above/below. It is not selectable.
-    class MenuSeparator : public MenuItem {
+    class MenuSeparator : public Element {
         private:
             // Rectangle object to draw
             Rectangle * rect;

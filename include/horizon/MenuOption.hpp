@@ -1,16 +1,16 @@
 #ifndef AETHER_MENUOPTION_HPP
 #define AETHER_MENUOPTION_HPP
 
-#include "MenuItem.hpp"
+#include "base/Element.hpp"
 #include "primary/Rectangle.hpp"
 #include "primary/Text.hpp"
 
 namespace Aether {
     // A MenuOption is a combination of elements which looks like and functions
     // similar to Horizon's. All children are handled internally
-    class MenuOption : public MenuItem {
+    class MenuOption : public Element {
         private:
-            // Is this MenuItem the active one?
+            // Draws active style when true
             bool active;
 
             // Colours to tint when active or not
@@ -27,8 +27,6 @@ namespace Aether {
 
             // Setting the width needs to adjust width of text texture
             void setW(int);
-            void setWH(int, int);
-            void setXYWH(int, int, int, int);
 
             // Setter for active
             // Changes look of option based on bool

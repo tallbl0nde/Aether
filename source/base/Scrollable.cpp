@@ -71,6 +71,13 @@ namespace Aether {
         this->maxScrollPos -= this->h();
     }
 
+    void Scrollable::setW(int w) {
+        Container::setW(w);
+        for (size_t i = 0; i < this->children.size(); i++) {
+            this->children[i]->setW(this->w() - 2*SIDE_PADDING);
+        }
+    }
+
     void Scrollable::setH(int h) {
         Container::setH(h);
         this->updateMaxScrollPos();
@@ -118,7 +125,12 @@ namespace Aether {
         }
         e->setW(this->w() - 2*SIDE_PADDING);
 
+        if (this->focussed == nullptr) {
+            this->focussed = e;
+            e->setHighlighted(true);
+        }
         Container::addElement(e);
+
         this->updateMaxScrollPos();
     }
 

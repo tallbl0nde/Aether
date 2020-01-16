@@ -38,6 +38,8 @@ namespace Aether {
         public:
             Scrollable();
 
+            // Setting width needs to adjust width of elements
+            void setW(int);
             // Setting height needs to recalculate scroll bar
             void setH(int);
 

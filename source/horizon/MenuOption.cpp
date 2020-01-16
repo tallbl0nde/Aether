@@ -6,7 +6,7 @@
 #define DEFAULT_FONT_SIZE 22
 
 namespace Aether {
-    MenuOption::MenuOption(std::string s, std::function<void()> f, Colour a, Colour ia) : MenuItem() {
+    MenuOption::MenuOption(std::string s, std::function<void()> f, Colour a, Colour ia) : Element() {
         // Create and add child elements
         this->rect = new Rectangle(4, 52);
         this->text = new Text(s, DEFAULT_FONT_SIZE);
@@ -26,27 +26,16 @@ namespace Aether {
 
         this->setActive(false);
         this->setCallback(f);
-        this->setSelectable(true);
 
         this->setActiveColour(a);
         this->setInactiveColour(ia);
     }
 
     void MenuOption::setW(int w) {
-        MenuItem::setW(w);
+        Element::setW(w);
         if (this->text->w() > (this->x() + this->w()) - this->text->x()) {
             this->text->setW((this->x() + this->w()) - this->text->x());
         }
-    }
-
-    void MenuOption::setWH(int w, int h){
-        this->setW(w);
-        this->setH(h);
-    }
-
-    void MenuOption::setXYWH(int x, int y, int w, int h) {
-        this->setXY(x, y);
-        this->setWH(w, h);
     }
 
     void MenuOption::setActive(bool b) {

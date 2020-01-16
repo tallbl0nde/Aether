@@ -8,7 +8,7 @@
 #define TEXT_PADDING 16
 
 namespace Aether {
-    ListOption::ListOption(std::string t, std::string v, std::function<void()> f) : ListItem() {
+    ListOption::ListOption(std::string t, std::string v, std::function<void()> f) : Element() {
         this->setH(HEIGHT);
         this->topR = new Rectangle(this->w(), 1);
         this->bottomR = new Rectangle(this->w(), 1);
@@ -85,7 +85,7 @@ namespace Aether {
     }
 
     void ListOption::setW(int w) {
-        ListItem::setW(w);
+        Element::setW(w);
         this->positionElements();
     }
 }

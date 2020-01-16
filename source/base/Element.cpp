@@ -9,42 +9,24 @@
 
 namespace Aether {
     Element::Element(int x, int y, int w, int h) {
-        this->highlightTex = nullptr;
         this->selectedTex = nullptr;
         this->setXYWH(x, y, w, h);
 
         this->parent = nullptr;
         this->hidden_ = false;
         this->callback_ = nullptr;
-        this->selectable_ = false;
-        this->hasHighlighted_ = false;
         this->hasSelectable_ = false;
+        this->selectable_ = false;
         this->highlighted_ = false;
         this->selected_ = false;
         this->touchable_ = false;
     }
 
     void Element::generateHighlight() {
-        if (this->highlightTex != nullptr) {
-            SDLHelper::destroyTexture(this->highlightTex);
-        }
-        this->highlightTex = SDLHelper::renderRoundedBox(this->w() + 2 * HIGHLIGHT_SIZE, this->h() + 2 * HIGHLIGHT_SIZE, 5, HIGHLIGHT_SIZE);
-
         if (this->selectedTex != nullptr) {
             SDLHelper::destroyTexture(this->selectedTex);
         }
         this->selectedTex = SDLHelper::renderRect(this->w(), this->h());
-    }
-
-    bool Element::hasHighlighted() {
-        return this->hasHighlighted_;
-    }
-
-    void Element::setHasHighlighted(bool b) {
-        this->hasHighlighted_ = b;
-        if (this->parent != nullptr) {
-            this->parent->setHasHighlighted(b);
-        }
     }
 
     int Element::x() {
@@ -110,9 +92,8 @@ namespace Aether {
 
     void Element::addElement(Element * e) {
         e->setParent(this);
-        e->setSelectable(e->selectable());
-        if (e->highlighted() || e->hasHighlighted()) {
-            this->setHasHighlighted(true);
+        if (e->selectable()) {
+            this->setHasSelectable(true);
         }
         this->children.push_back(e);
     }
@@ -156,9 +137,7 @@ namespace Aether {
 
     void Element::setSelectable(bool b) {
         this->selectable_ = b;
-        if (this->parent != nullptr) {
-            this->parent->setHasSelectable(b);
-        }
+        this->setHasSelectable(b);
     }
 
     bool Element::touchable() {
@@ -173,21 +152,10 @@ namespace Aether {
         return this->highlighted_;
     }
 
-    bool Element::selected() {
-        return this->selected_;
-    }
-
-    void Element::setSelected(bool b) {
-        this->selected_ = b;
-    }
-
     void Element::setHighlighted(bool b) {
         this->highlighted_ = b;
-        if (this->parent != nullptr) {
-            this->parent->setHasHighlighted(b);
-        }
         if (!b) {
-            this->setSelected(false);
+            this->selected_ = false;
         }
     }
 
@@ -217,10 +185,25 @@ namespace Aether {
         }
     }
 
+    bool Element::hasSelectable() {
+        return this->hasSelectable_;
+    }
+
+    void Element::setHasSelectable(bool b) {
+        this->hasSelectable_ = b;
+        if (this->parent != nullptr) {
+            this->parent->setHasSelectable(b);
+        }
+    }
+
     void Element::render() {
         // Do nothing if hidden or off-screen
         if (!this->isVisible()) {
             return;
+        }
+
+        if (this->highlighted_) {
+            SDLHelper::drawRect(Colour{255, 255, 255, 150}, this->x() - 5, this->y() - 5, this->w() + 10, this->h() + 10);
         }
 
         // Draw highlight
@@ -234,17 +217,6 @@ namespace Aether {
         }
     }
 
-    bool Element::hasSelectable() {
-        return this->hasSelectable_;
-    }
-
-    void Element::setHasSelectable(bool b) {
-        this->hasSelectable_ = b;
-        if (this->parent != nullptr) {
-            this->parent->setHasSelectable(b);
-        }
-    }
-
     void Element::setActive() {
         this->setHighlighted(true);
     }
@@ -255,70 +227,5 @@ namespace Aether {
 
     Element::~Element() {
         this->removeAllElements();
-        if (this->highlightTex != nullptr) {
-            SDLHelper::destroyTexture(this->highlightTex);
-        }
-    }
-
-    Element * findElementToMoveTo(Element * curr, std::function<bool(Element *, Element *)> cmp) {
-        // Get root element (screen)
-        Element * rootScreen = curr;
-        while (rootScreen->parent->parent != nullptr) {
-            rootScreen = rootScreen->parent;
-        }
-
-        // Now with root element, search through ALL elements to find candidates
-        std::vector<Element *> elms = getAllChildren(rootScreen, false);
-
-        // Calculate distance for each selectable element and return the smallest
-        Element * shortest = nullptr;
-        unsigned int dist = std::numeric_limits<unsigned int>::max();
-        for (size_t i = 0; i < elms.size(); i++) {
-            if (elms[i]->selectable() && !elms[i]->hidden() && cmp(curr, elms[i])) {
-                unsigned int d = abs(elms[i]->x() - curr->x()) + abs(elms[i]->y() - curr->y());
-                if (d < dist) {
-                    dist = d;
-                    shortest = elms[i];
-                }
-            }
-        }
-
-        return shortest;
-    }
-
-    std::vector<Element *> getAllChildren(Element * root, bool add) {
-        // Create initial vector (containing of root element)
-        std::vector<Element *> elms;
-        if (add) {
-            elms.push_back(root);
-        }
-
-        // Recursively call for all children + append vectors
-        for (size_t i = 0; i < root->children.size(); i++) {
-            elms.push_back(root->children[i]);
-            std::vector<Element *> tmp = getAllChildren(root->children[i], true);
-            elms.reserve(elms.size() + tmp.size() + 1);
-            elms.insert(elms.end(), tmp.begin(), tmp.end());
-        }
-
-        return elms;
-    }
-
-    Element * getHighlightedElement(Element * root) {
-        Element * el = root;
-        while (el->hasHighlighted()) {
-            for (size_t i = 0; i < el->children.size(); i++) {
-                if (el->children[i]->hasHighlighted() || el->children[i]->highlighted()) {
-                    el = el->children[i];
-                    break;
-                }
-            }
-        }
-
-        if (el != root) {
-            return el;
-        }
-
-        return nullptr;
     }
 };

@@ -6,7 +6,7 @@
 #define PADDING 18
 
 namespace Aether {
-    ListComment::ListComment(std::string s) : ListItem() {
+    ListComment::ListComment(std::string s) : Element() {
         this->text = new TextBlock(s, FONT_SIZE, this->w() - 2*PADDING);
         this->text->setXY(this->x() + PADDING, this->y() + PADDING);
         this->addElement(this->text);
@@ -26,7 +26,7 @@ namespace Aether {
     }
 
     void ListComment::setW(int w) {
-        ListItem::setW(w);
+        Element::setW(w);
         this->updateElement();
     }
 };

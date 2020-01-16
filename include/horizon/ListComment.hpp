@@ -1,13 +1,13 @@
 #ifndef AETHER_LISTCOMMENT_HPP
 #define AETHER_LISTCOMMENT_HPP
 
-#include "ListItem.hpp"
+#include "base/Element.hpp"
 #include "primary/TextBlock.hpp"
 
 namespace Aether {
     // A ListComment is a sentence/paragraph usually found under an
     // option describing what it does.
-    class ListComment : public ListItem {
+    class ListComment : public Element {
         private:
             // TextBLock element
             TextBlock * text;
