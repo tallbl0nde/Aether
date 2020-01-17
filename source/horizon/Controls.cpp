@@ -1,6 +1,10 @@
 #include "Controls.hpp"
 
 namespace Aether {
+    Controls::Controls(int x, int y, int w, int h) : Container(x, y, w, h) {
+
+    }
+
     void Controls::addItem(ControlItem * i) {
         this->items.push_back(i);
         this->addElement(i);
@@ -8,7 +12,7 @@ namespace Aether {
     }
 
     bool Controls::removeItem(ControlItem * i) {
-        if (Element::removeElement(i)) {
+        if (Container::removeElement(i)) {
             std::vector<ControlItem *>::iterator it = std::find(this->items.begin(), this->items.end(), i);
             if (it != this->items.end()) {
                 this->items.erase(it);
@@ -20,7 +24,7 @@ namespace Aether {
     }
 
     void Controls::removeAllItems() {
-        Element::removeAllElements();
+        Container::removeAllElements();
         this->items.empty();
     }
 
@@ -35,42 +39,22 @@ namespace Aether {
     }
 
     void Controls::setX(int x) {
-        Element::setX(x);
+        Container::setX(x);
         this->repositionElements();
     }
 
     void Controls::setY(int y) {
-        Element::setY(y);
+        Container::setY(y);
         this->repositionElements();
     }
 
     void Controls::setW(int w) {
-        Element::setW(w);
+        Container::setW(w);
         this->repositionElements();
     }
 
     void Controls::setH(int h) {
-        Element::setH(h);
-        this->repositionElements();
-    }
-
-    void Controls::setXY(int x, int y) {
-        Element::setX(x);
-        Element::setY(y);
-        this->repositionElements();
-    }
-
-    void Controls::setWH(int w, int h) {
-        Element::setW(w);
-        Element::setH(h);
-        this->repositionElements();
-    }
-
-    void Controls::setXYWH(int x, int y, int w, int h) {
-        Element::setX(x);
-        Element::setY(y);
-        Element::setW(w);
-        Element::setH(h);
+        Container::setH(h);
         this->repositionElements();
     }
 

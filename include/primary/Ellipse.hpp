@@ -16,9 +16,9 @@ namespace Aether {
             void redrawTexture();
 
         public:
-            // Constructor takes dimensions
+            // Constructor takes position + dimensions
             // If only one is provided, a circle is created
-            Ellipse(unsigned int, unsigned int = 0);
+            Ellipse(int, int, unsigned int, unsigned int = 0);
 
             // Getters + setters for diameters
             unsigned int xDiameter();

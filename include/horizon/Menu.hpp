@@ -9,7 +9,7 @@ namespace Aether {
     class Menu : public Scrollable {
         public:
             // Hides scrollbar + adjusts scroll 'catchup'
-            Menu();
+            Menu(int, int, int, int);
     };
 };
 

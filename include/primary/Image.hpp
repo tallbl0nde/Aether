@@ -12,10 +12,11 @@ namespace Aether {
             void redrawTexture();
 
         public:
+            // Both constructors take coordinates
             // Takes path to image to read and render
-            Image(std::string);
+            Image(int, int, std::string);
             // Takes pointer to image and size
-            Image(u8 *, size_t);
+            Image(int, int, u8 *, size_t);
     };
 };
 

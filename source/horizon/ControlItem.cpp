@@ -47,8 +47,8 @@ const std::string keyChar[] = {
 namespace Aether {
     ControlItem::ControlItem(Key k, std::string s) : Element() {
         // Create and add elements
-        this->icon = new Text(keyChar[k], ICON_FONT_SIZE, FontType::Extended);
-        this->hint = new Text(s, HINT_FONT_SIZE);
+        this->icon = new Text(PADDING, 0, keyChar[k], ICON_FONT_SIZE, FontType::Extended);
+        this->hint = new Text(0, 0, s, HINT_FONT_SIZE);
         this->addElement(this->icon);
         this->addElement(this->hint);
 
@@ -57,7 +57,6 @@ namespace Aether {
         this->setH(std::max(this->icon->h(), this->hint->h()) + PADDING*2);
 
         // Situate children
-        this->icon->setX(this->x() + PADDING);
         this->hint->setX(this->icon->x() + this->icon->w() + TEXT_GAP);
         this->icon->setY(this->y() + (this->h() - this->icon->h())/2);
         this->hint->setY(this->y() + (this->h() - this->hint->h())/2);

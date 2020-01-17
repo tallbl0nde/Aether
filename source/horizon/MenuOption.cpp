@@ -8,20 +8,16 @@
 namespace Aether {
     MenuOption::MenuOption(std::string s, std::function<void()> f, Colour a, Colour ia) : Element() {
         // Create and add child elements
-        this->rect = new Rectangle(4, 52);
-        this->text = new Text(s, DEFAULT_FONT_SIZE);
+        this->rect = new Rectangle(8, 9, 4, 52);
+        this->text = new Text(24, 0, s, DEFAULT_FONT_SIZE);
         this->text->setScroll(true);
         this->addElement(this->rect);
         this->addElement(this->text);
 
-        // Set size
-        this->setW(DEFAULT_WIDTH);
+        // Set size (width is handled when added to menu)
         this->setH(DEFAULT_HEIGHT);
 
-        // Position children
-        this->rect->setX(this->x() + 8);
-        this->text->setX(this->x() + 24);
-        this->rect->setY(this->y() + 9);
+        // Position text
         this->text->setY(this->y() + this->h()/2 - this->text->texH()/2);
 
         this->setActive(false);

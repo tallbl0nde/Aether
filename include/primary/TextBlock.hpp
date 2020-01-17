@@ -15,7 +15,7 @@ namespace Aether {
 
         public:
             // Constructor requires: string, font size, wrap width (px) + optional FontType
-            TextBlock(std::string, unsigned int, unsigned int, FontType = FontType::Normal);
+            TextBlock(int, int, std::string, unsigned int, unsigned int, FontType = FontType::Normal);
 
             // Getter + setter for wrapWidth
             // Altering requires re-render of text

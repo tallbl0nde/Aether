@@ -1,7 +1,7 @@
 #ifndef AETHER_CONTROLS_HPP
 #define AETHER_CONTROLS_HPP
 
-#include "base/Element.hpp"
+#include "base/Container.hpp"
 #include "ControlItem.hpp"
 
 namespace Aether {
@@ -11,7 +11,7 @@ namespace Aether {
     // and the w/h should be set to the desired size.
     // Items are automatically right aligned.
     // First = right-most; Last = left-most
-    class Controls : public Element {
+    class Controls : public Container {
         private:
             // Colour to draw controls in
             Colour colour;
@@ -29,6 +29,8 @@ namespace Aether {
             void repositionElements();
 
         public:
+            Controls(int, int, int, int);
+
             // Wrappers for add/remove elements
             void addItem(ControlItem *);
             bool removeItem(ControlItem *);
@@ -39,9 +41,6 @@ namespace Aether {
             void setY(int);
             void setW(int);
             void setH(int);
-            void setXY(int, int);
-            void setWH(int, int);
-            void setXYWH(int, int, int, int);
 
             // Return set colour
             Colour getColour();

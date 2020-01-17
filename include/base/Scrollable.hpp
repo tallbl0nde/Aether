@@ -36,7 +36,8 @@ namespace Aether {
             void updateMaxScrollPos();
 
         public:
-            Scrollable();
+            // X, Y, W, H of scrollable object
+            Scrollable(int, int, int, int);
 
             // Setting width needs to adjust width of elements
             void setW(int);

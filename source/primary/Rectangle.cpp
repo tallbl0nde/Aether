@@ -1,7 +1,7 @@
 #include "Rectangle.hpp"
 
 namespace Aether {
-    Rectangle::Rectangle(int w, int h, unsigned int r) : Texture() {
+    Rectangle::Rectangle(int x, int y, int w, int h, unsigned int r) : Texture(x, y) {
         Texture::setW(w);
         Texture::setH(h);
         this->setCornerRadius(r);

@@ -17,7 +17,7 @@
 #define SCROLLBAR_SIZE 100
 
 namespace Aether {
-    Scrollable::Scrollable() : Container() {
+    Scrollable::Scrollable(int x, int y, int w, int h) : Container(x, y, w, h) {
         this->isScrolling = false;
         this->scrollCatchup = DEFAULT_CATCHUP;
         this->scrollDampening = DEFAULT_DAMPENING;
@@ -156,7 +156,7 @@ namespace Aether {
             int sMid = this->y() + this->h()/2;
             for (size_t i = 0; i < this->children.size(); i++) {
                 int cMid = this->children[i]->y() + (this->children[i]->h()/2);
-                if (this->children[i]->highlighted()) {
+                if (this->focussed == this->children[i]) {
                     this->setScrollPos(this->scrollPos + (this->scrollCatchup * (cMid - sMid) * (dt/1000.0)));
                     break;
                 }

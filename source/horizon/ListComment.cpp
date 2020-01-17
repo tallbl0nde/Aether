@@ -7,8 +7,7 @@
 
 namespace Aether {
     ListComment::ListComment(std::string s) : Element() {
-        this->text = new TextBlock(s, FONT_SIZE, this->w() - 2*PADDING);
-        this->text->setXY(this->x() + PADDING, this->y() + PADDING);
+        this->text = new TextBlock(PADDING, PADDING, s, FONT_SIZE, this->w() - 2*PADDING);
         this->addElement(this->text);
     }
 

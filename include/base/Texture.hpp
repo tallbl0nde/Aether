@@ -30,7 +30,7 @@ namespace Aether {
 
         public:
             // Constructor optionally takes the texture + sets dimensions to those of the texture
-            Texture(SDL_Texture * = nullptr);
+            Texture(int, int, SDL_Texture * = nullptr);
 
             // Getters for dimensions
             int texW();

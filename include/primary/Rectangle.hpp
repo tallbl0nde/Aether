@@ -17,7 +17,7 @@ namespace Aether {
 
         public:
             // Constructor takes parent element and optional corner radius (defaults to 0)
-            Rectangle(int, int, unsigned int = 0);
+            Rectangle(int, int, int, int, unsigned int = 0);
 
             // Getter + setter for cornerRadius
             unsigned int cornerRadius();

@@ -10,11 +10,10 @@
 namespace Aether {
     ListOption::ListOption(std::string t, std::string v, std::function<void()> f) : Element() {
         this->setH(HEIGHT);
-        this->topR = new Rectangle(this->w(), 1);
-        this->bottomR = new Rectangle(this->w(), 1);
-        this->bottomR->setY(this->y() + this->h());
-        this->hint_ = new Text(t, FONT_SIZE);
-        this->value_ = new Text(v, FONT_SIZE);
+        this->topR = new Rectangle(0, 0, this->w(), 1);
+        this->bottomR = new Rectangle(0, this->y() + this->h(), this->w(), 1);
+        this->hint_ = new Text(0, 0, t, FONT_SIZE);
+        this->value_ = new Text(0, 0, v, FONT_SIZE);
         this->addElement(this->topR);
         this->addElement(this->bottomR);
         this->addElement(this->hint_);

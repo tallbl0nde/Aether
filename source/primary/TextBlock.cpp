@@ -1,7 +1,7 @@
 #include "TextBlock.hpp"
 
 namespace Aether {
-    TextBlock::TextBlock(std::string s, unsigned int f, unsigned int w, FontType t) : BaseText(s, f, t) {
+    TextBlock::TextBlock(int x, int y, std::string s, unsigned int f, unsigned int w, FontType t) : BaseText(x, y, s, f, t) {
         this->setWrapWidth(w);
     }
 
