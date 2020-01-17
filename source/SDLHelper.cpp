@@ -148,6 +148,19 @@ namespace SDLHelper {
     }
 
     // === RENDERING FUNCTIONS ===
+    SDL_Texture * renderBox(int w, int h, unsigned int b) {
+        SDL_Texture * tex = createTexture(w, h);
+        renderToTexture(tex);
+
+        // Draw white box
+        for (unsigned int i = 0; i < b; i++) {
+            rectangleRGBA(renderer, w - i, h - i, i, i, 255, 255, 255, 255);
+        }
+
+        renderToScreen();
+        return tex;
+    }
+
     SDL_Texture * renderEllipse(unsigned int w, unsigned int h) {
         SDL_Texture * tex = createTexture(w + 4, h + 4);
         renderToTexture(tex);

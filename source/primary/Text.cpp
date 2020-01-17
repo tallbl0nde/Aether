@@ -36,6 +36,10 @@ namespace Aether {
     }
 
     void Text::setString(std::string s) {
+        if (s == this->string()) {
+            return;
+        }
+
         BaseText::setString(s);
         this->redrawTexture();
     }

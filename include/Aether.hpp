@@ -8,6 +8,8 @@
 #include "horizon/Menu.hpp"
 #include "horizon/MenuOption.hpp"
 #include "horizon/MenuSeparator.hpp"
+#include "horizon/ProgressBar.hpp"
+#include "horizon/RoundProgressBar.hpp"
 #include "primary/Ellipse.hpp"
 #include "primary/Image.hpp"
 #include "Theme.hpp"

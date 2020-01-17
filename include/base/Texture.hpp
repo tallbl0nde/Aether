@@ -10,8 +10,10 @@ namespace Aether {
     class Texture : public Element {
         private:
             // Dimensions of the texture
-            int texW_;
-            int texH_;
+            int texW_, texH_;
+
+            // Coords + dimensions of OVERALL texture to draw
+            int maskX, maskY, maskW, maskH;
 
             // Delete the stored texture (only called internally)
             void destroyTexture();
@@ -41,6 +43,9 @@ namespace Aether {
             // Set the colour
             void setColour(Colour);
             void setColour(uint8_t, uint8_t, uint8_t, uint8_t);
+
+            // Set the "mask" of the texture to draw
+            void setMask(int, int, int, int);
 
             // Set the texture and recalculate dimensions (also destroys previous one)
             void setTexture(SDL_Texture *);

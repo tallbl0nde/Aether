@@ -47,6 +47,9 @@ namespace SDLHelper {
     // -> Draw to a texture and return it
     // -> The caller must destroy the texture
 
+    // Draw a white box with given dimensions and border size
+    SDL_Texture * renderBox(int, int, unsigned int);
+
     // Draw an ellipse with given diameters
     SDL_Texture * renderEllipse(unsigned int, unsigned int);
 

@@ -27,12 +27,20 @@ namespace Aether {
         this->setColour(Colour{r, g, b, a});
     }
 
+    void Texture::setMask(int dx, int dy, int dw, int dh) {
+        this->maskX = dx;
+        this->maskY = dy;
+        this->maskW = dw;
+        this->maskH = dh;
+    }
+
     void Texture::setTexture(SDL_Texture * t) {
         this->destroyTexture();
         this->texture = t;
         SDLHelper::getDimensions(this->texture, &this->texW_, &this->texH_);
         this->setW(this->texW_);
         this->setH(this->texH_);
+        this->setMask(0, 0, this->texW_, this->texH_);
     }
 
     void Texture::destroyTexture() {
@@ -49,7 +57,7 @@ namespace Aether {
             return;
         }
 
-        SDLHelper::drawTexture(this->texture, this->colour, this->x(), this->y(), this->w(), this->h());
+        SDLHelper::drawTexture(this->texture, this->colour, this->x(), this->y(), this->w(), this->h(), this->maskX, this->maskY, this->maskW, this->maskH);
         Element::render();
     }
 
