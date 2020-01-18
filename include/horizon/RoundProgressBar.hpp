@@ -19,8 +19,8 @@ namespace Aether {
             void redrawBar();
 
         public:
-            // X, Y, W, H
-            RoundProgressBar(int, int, int, int);
+            // X, Y, W, H (defaults to 12)
+            RoundProgressBar(int, int, int, int = 12);
 
             // Whenever value is changed the progressTex must be updated
             void setValue(float);

@@ -1,6 +1,7 @@
 #ifndef AETHER_DISPLAY_HPP
 #define AETHER_DISPLAY_HPP
 
+#include "Overlay.hpp"
 #include "Screen.hpp"
 #include "SDLHelper.hpp"
 
@@ -20,13 +21,12 @@ namespace Aether {
             Colour hiSel;
             std::function<Colour(uint32_t)> hiAnim;
 
-            //
+            // Variables to handle held keys
             Key heldKey;
             int heldTime;
-            //
 
-            // Overlay stuff
-            // HERE
+            // Vector of overlays, drawn from start -> end but only last one gets events!
+            std::vector<Overlay *> overlays;
 
             // Vector of screens, should be populated before the main loop!
             std::vector<Screen *> screens;
@@ -49,6 +49,9 @@ namespace Aether {
             // Set colours to highlight elements with
             void setHighlightColours(Colour, Colour);
             void setHighlightAnimation(std::function<Colour(uint32_t)>);
+
+            // Add an overlay
+            void addOverlay(Overlay *);
 
             // Add a screen to the display
             void addScreen(Screen *);

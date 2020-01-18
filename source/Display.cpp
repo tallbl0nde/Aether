@@ -46,6 +46,14 @@ namespace Aether {
         this->bg.a = 255;
     }
 
+    void Display::addOverlay(Overlay * o) {
+        this->overlays.push_back(o);
+        this->screens[this->screen]->setInactive();
+        if (this->overlays.size() > 1) {
+            this->overlays[this->overlays.size() - 2]->setInactive();
+        }
+    }
+
     void Display::addScreen(Screen * s) {
         this->screens.push_back(s);
         s->setParent(this);
@@ -86,12 +94,18 @@ namespace Aether {
                 case SDL_FINGERDOWN:
                 case SDL_FINGERMOTION:
                 case SDL_FINGERUP:
-                    // Create InputEvent and pass to screen
+                    // Create InputEvent and pass to screen.overlay
                     InputEvent * event = new InputEvent(e);
-                    if (event->button() == Key::B) {
+                    if (event->button() == Key::PLUS) {
                         this->loop_ = false;
                     }
-                    this->screens[this->screen]->handleEvent(event);
+
+                    if (this->overlays.size() == 0) {
+                        this->screens[this->screen]->handleEvent(event);
+                    } else {
+                        this->overlays[this->overlays.size()-1]->handleEvent(event);
+                    }
+
                     delete event;
                     break;
             }
@@ -109,9 +123,26 @@ namespace Aether {
             }
         }
 
-        // Update children
+        // Update screems
         dtClock.tick();
         this->screens[this->screen]->update(dtClock.delta);
+
+        // Update overlays
+        for (size_t i = 0; i < this->overlays.size(); i++) {
+            if (this->overlays[i]->shouldClose()) {
+                delete this->overlays[i];
+                this->overlays.erase(this->overlays.begin() + i);
+                i--;
+                if (this->overlays.size() == 0) {
+                    this->screens[this->screen]->setActive();
+                } else {
+                    this->overlays[this->overlays.size() - 1]->setActive();
+                }
+                continue;
+            }
+
+            this->overlays[i]->update(dtClock.delta);
+        }
 
         // Push button pressed/released event if held
         if (this->heldKey != Key::NO_KEY) {
@@ -140,6 +171,11 @@ namespace Aether {
 
         // Render current screen
         this->screens[this->screen]->render(this->hiBG, this->hiAnim(dtClock.last_tick), this->hiSel);
+
+        // Draw overlays
+        for (size_t i = 0; i < this->overlays.size(); i++) {
+            this->overlays[i]->render(this->hiBG, this->hiAnim(dtClock.last_tick), this->hiSel);
+        }
 
         // Draw FPS
         std::string ss = "FPS: " + std::to_string((int)(1.0/(dtClock.delta/1000.0))) + " (" + std::to_string(dtClock.delta) + " ms)";
