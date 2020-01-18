@@ -63,6 +63,9 @@ namespace Aether {
             // Returns false when the app should be terminated
             bool loop();
 
+            // Sets loop to false and thus exit
+            void exit();
+
             ~Display();
     };
 };

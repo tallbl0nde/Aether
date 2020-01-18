@@ -94,18 +94,13 @@ namespace Aether {
                 case SDL_FINGERDOWN:
                 case SDL_FINGERMOTION:
                 case SDL_FINGERUP:
-                    // Create InputEvent and pass to screen.overlay
+                    // Create InputEvent and pass to screen/overlay
                     InputEvent * event = new InputEvent(e);
-                    if (event->button() == Key::PLUS) {
-                        this->loop_ = false;
-                    }
-
                     if (this->overlays.size() == 0) {
                         this->screens[this->screen]->handleEvent(event);
                     } else {
                         this->overlays[this->overlays.size()-1]->handleEvent(event);
                     }
-
                     delete event;
                     break;
             }
@@ -186,6 +181,10 @@ namespace Aether {
         SDLHelper::draw();
 
         return this->loop_;
+    }
+
+    void Display::exit() {
+        this->loop_ = false;
     }
 
     Display::~Display() {
