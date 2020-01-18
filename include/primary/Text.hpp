@@ -10,8 +10,6 @@ namespace Aether {
         private:
             // Scroll if the texture width is greater than the specified width
             bool scroll_;
-            // x offset/position when scrolling
-            unsigned int scrollPos;
             // Pixels to scroll per second
             int scrollSpeed_;
             // Time since scroll finished (in ms) (only used internally)
@@ -34,9 +32,11 @@ namespace Aether {
             void setFontSize(unsigned int);
             void setString(std::string);
 
-            // Update and render handle animating the scroll if necessary
+            // Update handles animating the scroll if necessary
             void update(uint32_t);
-            void render();
+
+            // Adjusting width may need to adjust amount of text shown
+            void setW(int);
     };
 };
 

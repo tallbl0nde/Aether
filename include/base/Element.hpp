@@ -3,7 +3,6 @@
 
 #include "InputEvent.hpp"
 #include "Types.hpp"
-#include <functional>
 #include <vector>
 
 namespace Aether {
@@ -26,6 +25,8 @@ namespace Aether {
 
             // Function to call when element is tapped/selected
             std::function<void()> callback_;
+            // Does this element contain a highlighted element?
+            bool hasHighlighted_;
             // Does this element contain a selectable element?
             bool hasSelectable_;
             // Is this element highlighted
@@ -42,9 +43,6 @@ namespace Aether {
         protected:
             // Vector of child elements (used to call their methods)
             std::vector<Element *> children;
-
-            // Function to regenerate highlighted texture using dimensions
-            void generateHighlight();
 
         public:
             // Constructor must be passed parent element (or nullptr if there is none)
@@ -82,6 +80,8 @@ namespace Aether {
             // Hide/show this element
             void setHidden(bool);
 
+            // Returns true if selected
+            bool selected();
             // Returns selectable
             bool selectable();
             // Set whether element is selectable
@@ -94,6 +94,9 @@ namespace Aether {
 
             bool highlighted();
             void setHighlighted(bool);
+
+            bool hasHighlighted();
+            void setHasHighlighted(bool);
 
             bool hasSelectable();
             void setHasSelectable(bool);
@@ -113,8 +116,16 @@ namespace Aether {
             // Render child elements
             virtual void render();
 
+            // Renders the highlight graphics + calls it's own render
+            // Takes colour for background first, then colour for border, colour for selected highlight and size of border
+            virtual void renderHighlighted(Colour, Colour, Colour, unsigned int);
+
             // Destructor calls destructor of children
             virtual ~Element();
+
+            // Returns the element currently highlighted within given element
+            // or nullptr if none found
+            friend Element * getHighlightedElement(Element *);
     };
 };
 

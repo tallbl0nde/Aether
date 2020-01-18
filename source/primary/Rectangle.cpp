@@ -9,9 +9,9 @@ namespace Aether {
 
     void Rectangle::redrawTexture() {
         if (this->cornerRadius_ > 0) {
-            this->setTexture(SDLHelper::renderRoundedRect(this->w(), this->h(), this->cornerRadius_));
+            this->setTexture(SDLHelper::renderFilledRoundRect(this->w(), this->h(), this->cornerRadius_));
         } else {
-            this->setTexture(SDLHelper::renderRect(this->w(), this->h()));
+            this->setTexture(SDLHelper::renderFilledRect(this->w(), this->h()));
         }
     }
 

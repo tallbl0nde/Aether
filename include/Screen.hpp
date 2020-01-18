@@ -7,24 +7,14 @@ namespace Aether {
     // A screen represents a literal screen/layout. It stores all elements
     // to be drawn/interacted with on a single screen.
     class Screen : public Container {
-        private:
-            // Function to call when screen is switched to
-            std::function<void()> active_func;
-            // Function to call when screen is switched off of
-            std::function<void()> inactive_func;
-
         public:
             // Constructor takes parent element and active/inactive functions
             Screen();
 
-            // These should be called when switching screens
-            // They finish setting up the screen/free memory
-            void callActive();
-            void callInactive();
-
             // Render calls Element::render() but then also handles rendering
             // a highlighted element (in order to get colour behind)
-            void render();
+            // Is passed highlight colours (background, border, selected)
+            void render(Colour, Colour, Colour);
     };
 };
 

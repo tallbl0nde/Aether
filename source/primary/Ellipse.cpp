@@ -26,4 +26,23 @@ namespace Aether {
     void Ellipse::setYDiameter(unsigned int yd) {
         this->yDiameter_ = yd;
     }
+
+    void Ellipse::renderHighlighted(Colour bg, Colour hi, Colour sel, unsigned int sz) {
+        int midX = this->x() + this->w()/2;
+        int midY = this->y() + this->h()/2;
+
+        // Draw outline
+        SDLHelper::drawEllipse(hi, midX, midY, this->w() + 2*sz, this->h() + 2*sz);
+
+        // Draw background
+        SDLHelper::drawEllipse(bg, midX, midY, this->w(), this->h());
+
+        // Render this element
+        this->render();
+
+        // Draw selected overlay if selected
+        if (this->selected()) {
+            SDLHelper::drawEllipse(sel, midX, midY, this->w(), this->h());
+        }
+    }
 };

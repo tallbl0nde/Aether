@@ -16,10 +16,6 @@ static std::unordered_map<int, TTF_Font *> std_font;
 // Same but for extended
 static std::unordered_map<int, TTF_Font *> ext_font;
 
-// === MISCELLANEOUS ===
-// Offset values
-static int offsetX, offsetY;
-
 namespace SDLHelper {
     bool initSDL() {
         // Init main SDL
@@ -61,9 +57,6 @@ namespace SDLHelper {
         }
         plGetSharedFontByType(&std_font_data, PlSharedFontType_Standard);
         plGetSharedFontByType(&ext_font_data, PlSharedFontType_NintendoExt);
-
-        resetOffset();
-
         return true;
     }
 
@@ -83,8 +76,13 @@ namespace SDLHelper {
         SDL_Quit();
     }
 
-    void clearScreen() {
+    void clearScreen(SDL_Color c) {
+        SDL_SetRenderDrawColor(renderer, c.r, c.g, c.b, c.a);
         SDL_RenderClear(renderer);
+    }
+
+    SDL_Texture * createTexture(int w, int h) {
+        return SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA32, SDL_TEXTUREACCESS_TARGET, w, h);
     }
 
     void destroyTexture(SDL_Texture * t) {
@@ -95,8 +93,15 @@ namespace SDLHelper {
         SDL_QueryTexture(t, nullptr, nullptr, w, h);
     }
 
-    void setColour(SDL_Color c) {
-        SDL_SetRenderDrawColor(renderer, c.r, c.g, c.b, c.a);
+    void renderToScreen() {
+        SDL_SetRenderTarget(renderer, nullptr);
+    }
+
+    void renderToTexture(SDL_Texture * t) {
+        SDL_SetRenderTarget(renderer, t);
+        SDL_SetTextureBlendMode(t, SDL_BLENDMODE_BLEND);
+        SDL_SetRenderDrawColor(renderer, 255, 255, 255, 0);
+        SDL_RenderClear(renderer);
     }
 
     // === DRAWING FUNCTIONS ===
@@ -105,17 +110,27 @@ namespace SDLHelper {
         SDL_RenderPresent(renderer);
     }
 
-    void drawRect(SDL_Colour c, int x, int y, int w, int h) {
-        SDL_Color b;
-        SDL_GetRenderDrawColor(renderer, &b.r, &b.g, &b.b, &b.a);
-        SDL_Rect r;
-        r.x = x;
-        r.y = y;
-        r.w = w;
-        r.h = h;
-        setColour(c);
-        SDL_RenderFillRect(renderer, &r);
-        setColour(b);
+    void drawEllipse(SDL_Color c, int x, int y, unsigned int w, unsigned int h) {
+        filledEllipseRGBA(renderer, x, y, w/2, h/2, c.r, c.g, c.b, c.a);
+        aaellipseRGBA(renderer, x, y, w/2, h/2, c.r, c.g, c.b, c.a);
+    }
+
+    void drawFilledRect(SDL_Color c, int x, int y, int w, int h) {
+        SDL_Rect rr = {x, y, w, h};
+        SDL_SetRenderDrawColor(renderer, c.r, c.g, c.b, c.a);
+        SDL_RenderFillRect(renderer, &rr);
+    }
+
+    void drawFilledRoundRect(SDL_Color c, int x, int y, int w, int h, unsigned int r) {
+        roundedBoxRGBA(renderer, x + w - 2, y, x, y + h - 2, r, c.r, c.g, c.b, c.a);
+        SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
+    }
+
+    void drawRect(SDL_Color c, int x, int y, int w, int h, unsigned int b) {
+        for (unsigned int i = 0; i < b; i++) {
+            rectangleRGBA(renderer, (x + w) - i, y + i, x + i, (y + h) - i, c.r, c.g, c.b, c.a);
+        }
+        SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
     }
 
     void drawTexture(SDL_Texture * tex, SDL_Color c, int x, int y, int w, int h, int tx, int ty, int tw, int th) {
@@ -134,7 +149,7 @@ namespace SDLHelper {
         }
 
         // Scale if necessary + render
-        SDL_Rect r = {x + offsetX, y + offsetY, w, h};
+        SDL_Rect r = {x, y, w, h};
         if (tx != -1 && tw != -1 && ty != -1 && th != -1) {
             SDL_Rect s = {tx, ty, tw, th};
             SDL_RenderCopy(renderer, tex, &s, &r);
@@ -148,29 +163,36 @@ namespace SDLHelper {
     }
 
     // === RENDERING FUNCTIONS ===
-    SDL_Texture * renderBox(int w, int h, unsigned int b) {
-        SDL_Texture * tex = createTexture(w, h);
+
+    SDL_Texture * renderEllipse(unsigned int xd, unsigned int yd) {
+        SDL_Texture * tex = createTexture(xd + 4, yd + 4);
         renderToTexture(tex);
-
-        // Draw white box
-        for (unsigned int i = 0; i < b; i++) {
-            rectangleRGBA(renderer, w - i, h - i, i, i, 255, 255, 255, 255);
-        }
-
+        drawEllipse(SDL_Color{255, 255, 255, 255}, xd/2 + 2, yd/2 + 2, xd, yd);
         renderToScreen();
         return tex;
     }
 
-    SDL_Texture * renderEllipse(unsigned int w, unsigned int h) {
-        SDL_Texture * tex = createTexture(w + 4, h + 4);
+    SDL_Texture * renderFilledRect(int w, int h) {
+        SDL_Texture * tex = createTexture(w, h);
         renderToTexture(tex);
-
-        // Draw white ellipse
-        filledEllipseRGBA(renderer, w/2 + 2, h/2 + 2, w/2, h/2, 255, 255, 255, 255);
-        aaellipseRGBA(renderer, w/2 + 2, h/2 + 2, w/2, h/2, 255, 255, 255, 255);
-
+        drawFilledRect(SDL_Color{255, 255, 255, 255}, 0, 0, w, h);
         renderToScreen();
+        return tex;
+    }
 
+    SDL_Texture * renderFilledRoundRect(int w, int h, unsigned int c) {
+        SDL_Texture * tex = createTexture(w, h);
+        renderToTexture(tex);
+        drawFilledRoundRect(SDL_Color{255, 255, 255, 255}, 0, 0, w, h, c);
+        renderToScreen();
+        return tex;
+    }
+
+    SDL_Texture * renderRect(int w, int h, unsigned int b) {
+        SDL_Texture * tex = createTexture(w, h);
+        renderToTexture(tex);
+        drawRect(SDL_Color{255, 255, 255, 255}, 0, 0, w, h, b);
+        renderToScreen();
         return tex;
     }
 
@@ -178,51 +200,6 @@ namespace SDLHelper {
         SDL_Surface * tmp = IMG_Load_RW(SDL_RWFromMem(ptr, size), 1);
         SDL_Texture * tex = SDL_CreateTextureFromSurface(renderer, tmp);
         SDL_FreeSurface(tmp);
-        return tex;
-    }
-
-    SDL_Texture * renderRect(int w, int h) {
-        SDL_Rect r;
-        r.x = 0;
-        r.y = 0;
-        r.w = w;
-        r.h = h;
-
-        SDL_Texture * tex = createTexture(w, h);
-        renderToTexture(tex);
-        SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-
-        // Draw white rectangle
-        SDL_RenderFillRect(renderer, &r);
-
-        renderToScreen();
-
-        return tex;
-    }
-
-    SDL_Texture * renderRoundedBox(int w, int h, unsigned int r, unsigned int s) {
-        SDL_Texture * tex = createTexture(w, h);
-        renderToTexture(tex);
-
-        roundedBoxRGBA(renderer, 0, 0, w - 2, h - 2, r, 255, 255, 255, 255);
-        SDL_SetRenderDrawColor(renderer, 255, 255, 255, 0);
-        SDL_Rect rr = {s, s, w - 2*s, h - 2*s};
-        SDL_RenderFillRect(renderer, &rr);
-
-        renderToScreen();
-
-        return tex;
-    }
-
-    SDL_Texture * renderRoundedRect(int w, int h, unsigned int r) {
-        SDL_Texture * tex = createTexture(w, h);
-        renderToTexture(tex);
-
-        // Draw rectangle
-        roundedBoxRGBA(renderer, 0, 0, w - 2, h - 2, r, 255, 255, 255, 255);
-
-        renderToScreen();
-
         return tex;
     }
 
@@ -278,30 +255,5 @@ namespace SDLHelper {
         SDL_FreeSurface(tmp);
 
         return tex;
-    }
-
-    void setOffset(int ox, int oy) {
-        offsetX = ox;
-        offsetY = oy;
-    }
-
-    void resetOffset() {
-        offsetX = 0;
-        offsetY = 0;
-    }
-
-    SDL_Texture * createTexture(int w, int h) {
-        return SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA32, SDL_TEXTUREACCESS_TARGET, w, h);
-    }
-
-    void renderToScreen() {
-        SDL_SetRenderTarget(renderer, nullptr);
-    }
-
-    void renderToTexture(SDL_Texture * t) {
-        SDL_SetRenderTarget(renderer, t);
-        SDL_SetTextureBlendMode(t, SDL_BLENDMODE_BLEND);
-        SDL_SetRenderDrawColor(renderer, 255, 255, 255, 0);
-        SDL_RenderClear(renderer);
     }
 };

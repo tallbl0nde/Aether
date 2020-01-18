@@ -6,7 +6,6 @@ namespace Aether {
     }
 
     void Container::addElement(Element * e) {
-        e->setInactive();
         if ((e->selectable() || e->hasSelectable()) && this->focussed == nullptr) {
             this->setFocussed(e);
         }
@@ -19,12 +18,12 @@ namespace Aether {
             return false;
         }
 
-        // If children didn't handle it, shift focus between them
         // Default behaviour is to pass to focussed
         if (this->focussed->handleEvent(e)) {
             return true;
         }
 
+        // If children didn't handle it, shift focus between them
         switch (e->type()) {
             case EventType::ButtonPressed:
                 switch (e->button()) {

@@ -44,6 +44,8 @@ namespace Aether {
             void setColour(Colour);
             void setColour(uint8_t, uint8_t, uint8_t, uint8_t);
 
+            // Set pointed values to values of mask
+            void getMask(int *, int *, int *, int *);
             // Set the "mask" of the texture to draw
             void setMask(int, int, int, int);
 

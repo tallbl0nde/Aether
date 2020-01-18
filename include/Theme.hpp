@@ -3,6 +3,11 @@
 
 #include "Types.hpp"
 
+// Animation speed factor for highlighting
+#define ANIM_SPEED 1.8
+// Pi :D
+#define PI 3.14159265
+
 // These are a set of colours provided that match what is used
 // within Horizon.
 namespace Aether::Theme {
@@ -16,7 +21,13 @@ namespace Aether::Theme {
         Colour{100, 100, 100, 255}, // mutedLine
         Colour{160, 160, 160, 255}, // mutedText
         Colour{0, 250, 200, 50},    // selected
-        Colour{255, 255, 255, 255}  // text
+        Colour{255, 255, 255, 255}, // text
+        [](uint32_t t){             // highlightFunc
+            Colour col = {0, 0, 0, 255};
+            col.g = 200 + (50 * sin(ANIM_SPEED * (t/1000.0) * PI));
+            col.b = 220 + (30 * sin(ANIM_SPEED * (t/1000.0) * PI));
+            return col;
+        }
     };
 
     // Light theme (Basic White)
@@ -29,7 +40,13 @@ namespace Aether::Theme {
         Colour{200, 200, 200, 255}, // mutedLine
         Colour{130, 130, 130, 255}, // mutedText
         Colour{0, 250, 200, 50},    // selected
-        Colour{0, 0, 0, 255}        // text
+        Colour{0, 0, 0, 255},       // text
+        [](uint32_t t){             // highlightFunc
+            Colour col = {0, 0, 0, 255};
+            col.g = 225 + (25 * sin(ANIM_SPEED * (t/1000.0) * PI));
+            col.b = 203 + (13 * sin(ANIM_SPEED * (t/1000.0) * PI));
+            return col;
+        }
     };
 };
 

@@ -1,6 +1,7 @@
 #ifndef AETHER_TYPES_HPP
 #define AETHER_TYPES_HPP
 
+#include <functional>
 #include "SDLHelper.hpp"
 
 namespace Aether {
@@ -52,6 +53,8 @@ namespace Aether {
         Colour mutedText;       // Also grey; used for less important text
         Colour selected;        // Colour to draw on top of element when selected
         Colour text;            // Text colour
+
+        std::function<Colour(uint32_t)> highlightFunc;      // Function returning a colour (for highlight border) based on current time
     } Theme_T;
 };
 

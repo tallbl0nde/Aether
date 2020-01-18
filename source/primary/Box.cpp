@@ -8,7 +8,7 @@ namespace Aether {
     }
 
     void Box::redrawTexture() {
-        this->setTexture(SDLHelper::renderBox(this->w(), this->h(), this->border()));
+        this->setTexture(SDLHelper::renderRect(this->w(), this->h(), this->border()));
     }
 
     unsigned int Box::border() {

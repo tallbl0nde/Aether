@@ -23,7 +23,7 @@ namespace Aether {
     void Text::setScroll(bool s) {
         this->scroll_ = s;
         this->scrollPauseTime = -DEFAULT_SCROLL_PAUSE;
-        this->scrollPos = 0;
+        this->setMask(0, 0, this->w(), this->texH());
         this->scrollSpeed_ = DEFAULT_SCROLL_SPEED;
     }
 
@@ -55,10 +55,12 @@ namespace Aether {
         // Check if need to scroll and do so
         if (this->scroll()) {
             if (this->texW() > this->w()) {
-                if (this->scrollPos >= (this->texW() - this->w())) {
-                    this->scrollPos = this->texW() - this->w();
+                int tmp, xPos;
+                this->getMask(&xPos, &tmp, &tmp, &tmp);
+                if (xPos >= (this->texW() - this->w())) {
+                    xPos = this->texW() - this->w();
                     if (this->scrollPauseTime > DEFAULT_SCROLL_PAUSE) {
-                        this->scrollPos = 0;
+                        this->setMask(0, 0, this->w(), this->texH());
                         this->scrollPauseTime = -DEFAULT_SCROLL_PAUSE;
                     } else {
                         this->scrollPauseTime += dt;
@@ -70,18 +72,15 @@ namespace Aether {
                             this->scrollPauseTime = 0;
                         }
                     } else {
-                        this->scrollPos += DEFAULT_SCROLL_SPEED*(dt/1000.0);
+                        this->setMask(xPos + DEFAULT_SCROLL_SPEED*(dt/1000.0), 0, this->w(), this->texH());
                     }
                 }
             }
         }
     }
 
-    void Text::render() {
-        if (this->hidden()) {
-            return;
-        }
-        SDLHelper::drawTexture(this->texture, this->colour, this->x(), this->y(), this->w(), this->h(), this->scrollPos, 0, this->w(), this->h());
-        Element::render();
+    void Text::setW(int w) {
+        BaseText::setW(w);
+        this->setScroll(this->scroll_);
     }
 };

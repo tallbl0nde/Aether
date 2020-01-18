@@ -27,6 +27,13 @@ namespace Aether {
         this->setColour(Colour{r, g, b, a});
     }
 
+    void Texture::getMask(int * dx, int * dy, int * dw, int * dh) {
+        *dx = this->maskX;
+        *dy = this->maskY;
+        *dw = this->maskW;
+        *dh = this->maskH;
+    }
+
     void Texture::setMask(int dx, int dy, int dw, int dh) {
         this->maskX = dx;
         this->maskY = dy;

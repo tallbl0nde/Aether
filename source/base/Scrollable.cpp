@@ -5,10 +5,6 @@
 #define DEFAULT_CATCHUP 6
 // Default dampening amount
 #define DEFAULT_DAMPENING 20
-// Delay (in ms) to pause after button held
-#define HOLD_DELAY 500
-// Delay (in ms) for moving between items
-#define MOVE_DELAY 100
 // Padding for very top and very bottom elements
 #define PADDING 40
 // Padding either side of items (to allow for scroll bar)
@@ -27,7 +23,7 @@ namespace Aether {
         this->showScrollBar_ = true;
 
         // Render scroll bar texture
-        this->scrollBar = SDLHelper::renderRect(5, SCROLLBAR_SIZE);
+        this->scrollBar = SDLHelper::renderFilledRect(5, SCROLLBAR_SIZE);
         this->scrollBarColour = Colour{255, 255, 255, 255};
     }
 
@@ -125,12 +121,7 @@ namespace Aether {
         }
         e->setW(this->w() - 2*SIDE_PADDING);
 
-        if (this->focussed == nullptr) {
-            this->focussed = e;
-            e->setHighlighted(true);
-        }
         Container::addElement(e);
-
         this->updateMaxScrollPos();
     }
 

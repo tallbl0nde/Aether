@@ -13,7 +13,17 @@ namespace Aether {
             bool loop_;
 
             // Colour to clear screen with
-            SDL_Color bg;
+            Colour bg;
+
+            // Colours to highlight elements with
+            Colour hiBG;
+            Colour hiSel;
+            std::function<Colour(uint32_t)> hiAnim;
+
+            //
+            Key heldKey;
+            int heldTime;
+            //
 
             // Overlay stuff
             // HERE
@@ -36,6 +46,9 @@ namespace Aether {
 
             // Set colour to clear screen with
             void setBackgroundColour(uint8_t, uint8_t, uint8_t);
+            // Set colours to highlight elements with
+            void setHighlightColours(Colour, Colour);
+            void setHighlightAnimation(std::function<Colour(uint32_t)>);
 
             // Add a screen to the display
             void addScreen(Screen *);

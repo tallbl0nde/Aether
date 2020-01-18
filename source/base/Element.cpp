@@ -17,16 +17,10 @@ namespace Aether {
         this->callback_ = nullptr;
         this->hasSelectable_ = false;
         this->selectable_ = false;
+        this->hasHighlighted_ = false;
         this->highlighted_ = false;
         this->selected_ = false;
         this->touchable_ = false;
-    }
-
-    void Element::generateHighlight() {
-        if (this->selectedTex != nullptr) {
-            SDLHelper::destroyTexture(this->selectedTex);
-        }
-        this->selectedTex = SDLHelper::renderRect(this->w(), this->h());
     }
 
     int Element::x() {
@@ -63,12 +57,10 @@ namespace Aether {
 
     void Element::setW(int w) {
         this->w_ = w;
-        this->generateHighlight();
     }
 
     void Element::setH(int h) {
         this->h_ = h;
-        this->generateHighlight();
     }
 
     void Element::setXY(int x, int y) {
@@ -94,6 +86,9 @@ namespace Aether {
         e->setParent(this);
         if (e->selectable()) {
             this->setHasSelectable(true);
+        }
+        if (e->highlighted() || e->hasHighlighted()) {
+            this->setHasHighlighted(true);
         }
         this->children.push_back(e);
     }
@@ -131,6 +126,10 @@ namespace Aether {
         this->hidden_ = b;
     }
 
+    bool Element::selected() {
+        return this->selected_;
+    }
+
     bool Element::selectable() {
         return this->selectable_;
     }
@@ -154,6 +153,9 @@ namespace Aether {
 
     void Element::setHighlighted(bool b) {
         this->highlighted_ = b;
+        if (this->parent != nullptr) {
+            this->parent->setHasHighlighted(b);
+        }
         if (!b) {
             this->selected_ = false;
         }
@@ -170,7 +172,22 @@ namespace Aether {
     }
 
     bool Element::handleEvent(InputEvent * e) {
-        return false;
+        if (this->highlighted_ && e->button() == Key::A) {
+            switch(e->type()) {
+                case EventType::ButtonPressed:
+                    this->selected_ = true;
+                    break;
+
+                case EventType::ButtonReleased:
+                    if (this->selected_) {
+                        this->selected_ = false;
+                        if (this->callback_ != nullptr) {
+                            this->callback_();
+                        }
+                    }
+                    break;
+            }
+        }
     }
 
     void Element::update(uint32_t dt) {
@@ -182,6 +199,17 @@ namespace Aether {
         // Update children
         for (size_t i = 0; i < this->children.size(); i++) {
             this->children[i]->update(dt);
+        }
+    }
+
+    bool Element::hasHighlighted() {
+        return this->hasHighlighted_;
+    }
+
+    void Element::setHasHighlighted(bool b) {
+        this->hasHighlighted_ = b;
+        if (this->parent != nullptr) {
+            this->parent->setHasHighlighted(b);
         }
     }
 
@@ -202,18 +230,25 @@ namespace Aether {
             return;
         }
 
-        if (this->highlighted_) {
-            SDLHelper::drawRect(Colour{255, 255, 255, 150}, this->x() - 5, this->y() - 5, this->w() + 10, this->h() + 10);
-        }
-
-        // Draw highlight
-        if (this->selected_) {
-            SDLHelper::drawTexture(this->selectedTex, Colour{200, 20, 20, 100}, this->x(), this->y());
-        }
-
         // Draw children
         for (size_t i = 0; i < this->children.size(); i++) {
             this->children[i]->render();
+        }
+    }
+
+    void Element::renderHighlighted(Colour bg, Colour hi, Colour sel, unsigned int sz) {
+        // Draw background
+        SDLHelper::drawFilledRect(bg, this->x(), this->y(), this->w(), this->h());
+
+        // Render this element
+        this->render();
+
+        // Draw outline
+        SDLHelper::drawRect(hi, this->x() - sz, this->y() - sz, this->w() + 2*sz, this->h() + 2*sz, sz);
+
+        // Draw selected overlay if selected
+        if (this->selected()) {
+            SDLHelper::drawFilledRect(sel, this->x(), this->y(), this->w(), this->h());
         }
     }
 
@@ -227,5 +262,23 @@ namespace Aether {
 
     Element::~Element() {
         this->removeAllElements();
+    }
+
+    Element * getHighlightedElement(Element * root) {
+        Element * el = root;
+        while (el->hasHighlighted()) {
+            for (size_t i = 0; i < el->children.size(); i++) {
+                if (el->children[i]->hasHighlighted() || el->children[i]->highlighted()) {
+                    el = el->children[i];
+                    break;
+                }
+            }
+        }
+
+        if (el != root) {
+            return el;
+        }
+
+        return nullptr;
     }
 };
