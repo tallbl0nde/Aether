@@ -3,7 +3,6 @@
 
 #include "Overlay.hpp"
 #include "Screen.hpp"
-#include "SDLHelper.hpp"
 
 namespace Aether {
     // The Display represents the "root" element. It stores and handles different screens

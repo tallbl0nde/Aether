@@ -2,8 +2,8 @@
 #define AETHER_LISTHEADINGHELP_HPP
 
 #include "base/Container.hpp"
-#include "horizon/HelpButton.hpp"
-#include "horizon/ListHeading.hpp"
+#include "horizon/button/HelpButton.hpp"
+#include "horizon/list/ListHeading.hpp"
 
 namespace Aether {
     // A ListHeading but with a help icon that's right aligned

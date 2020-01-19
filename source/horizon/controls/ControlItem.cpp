@@ -1,6 +1,6 @@
 #include <algorithm>
 #include "ControlItem.hpp"
-#include "Utils.hpp"
+#include "utils/Utils.hpp"
 
 // Font sizes
 #define HINT_FONT_SIZE 22

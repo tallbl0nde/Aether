@@ -17,8 +17,8 @@ include $(DEVKITPRO)/libnx/switch_rules
 #---------------------------------------------------------------------------------
 BUILD		:=	build
 TARGET		:=  Aether
-SOURCES		:=	source source/base source/horizon source/primary
-INCLUDES	:=	include include/base include/horizon include/primary
+SOURCES		:=	source source/base source/horizon/button source/horizon/controls source/horizon/list source/horizon/menu source/horizon/progress source/primary source/utils
+INCLUDES	:=	include include/base include/horizon/button include/horizon/controls include/horizon/list include/horizon/menu include/horizon/progress include/primary include/utils
 
 #---------------------------------------------------------------------------------
 # options for code generation

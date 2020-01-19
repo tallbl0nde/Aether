@@ -1,5 +1,4 @@
 #include "Scrollable.hpp"
-#include "Types.hpp"
 
 // Default catchup amount
 #define DEFAULT_CATCHUP 6

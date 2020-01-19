@@ -1,7 +1,7 @@
 #ifndef AETHER_EVENT_HPP
 #define AETHER_EVENT_HPP
 
-#include "Types.hpp"
+#include "utils/Types.hpp"
 
 namespace Aether {
     // Supported types of events

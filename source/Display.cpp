@@ -1,6 +1,5 @@
 #include "Display.hpp"
-#include "InputEvent.hpp"
-#include "Utils.hpp"
+#include "utils/Utils.hpp"
 
 // Delay (in ms) to pause after button held
 #define HOLD_DELAY 400

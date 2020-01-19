@@ -2,7 +2,6 @@
 #define AETHER_ELEMENT_HPP
 
 #include "InputEvent.hpp"
-#include "Types.hpp"
 #include <vector>
 
 namespace Aether {

@@ -1,5 +1,5 @@
 #include "InputEvent.hpp"
-#include "Utils.hpp"
+#include "utils/Utils.hpp"
 
 namespace Aether {
     InputEvent::InputEvent(SDL_Event e) {
