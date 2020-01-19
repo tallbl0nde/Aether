@@ -126,6 +126,13 @@ namespace SDLHelper {
         SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
     }
 
+    void drawRoundRect(SDL_Color c, int x, int y, int w, int h, unsigned int r, unsigned int b) {
+        for (unsigned int i = 0; i < b; i++) {
+            roundedRectangleRGBA(renderer, (x + w) - i, y + i, x + i, (y + h) - i, r, c.r, c.g, c.b, c.a);
+        }
+        SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
+    }
+
     void drawRect(SDL_Color c, int x, int y, int w, int h, unsigned int b) {
         for (unsigned int i = 0; i < b; i++) {
             rectangleRGBA(renderer, (x + w) - i, y + i, x + i, (y + h) - i, c.r, c.g, c.b, c.a);
@@ -184,6 +191,14 @@ namespace SDLHelper {
         SDL_Texture * tex = createTexture(w, h);
         renderToTexture(tex);
         drawFilledRoundRect(SDL_Color{255, 255, 255, 255}, 0, 0, w, h, c);
+        renderToScreen();
+        return tex;
+    }
+
+    SDL_Texture * renderRoundRect(int w, int h, unsigned int r, unsigned int b) {
+        SDL_Texture * tex = createTexture(w, h);
+        renderToTexture(tex);
+        drawRoundRect(SDL_Color{255, 255, 255, 255}, 0, 0, w, h, r, b);
         renderToScreen();
         return tex;
     }

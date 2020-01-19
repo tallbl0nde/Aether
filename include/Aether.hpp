@@ -1,6 +1,8 @@
 // Include all relevant hpp's
 #include "Display.hpp"
+#include "horizon/BorderButton.hpp"
 #include "horizon/Controls.hpp"
+#include "horizon/FilledButton.hpp"
 #include "horizon/List.hpp"
 #include "horizon/ListComment.hpp"
 #include "horizon/ListOption.hpp"

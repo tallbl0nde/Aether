@@ -50,6 +50,10 @@ namespace SDLHelper {
     // Colour, x, y, w, h, corner radius
     void drawFilledRoundRect(SDL_Color, int, int, int, int, unsigned int);
 
+    // Draw a rounded rectangle (outline) with given border size
+    // Colour, x, y, w, h, corner radius, border size
+    void drawRoundRect(SDL_Color, int, int, int, int, unsigned int, unsigned int);
+
     // Draw a rectangle (outline) with given border size
     // Colour, x, y, w, h, border thickness (in px)
     void drawRect(SDL_Color, int, int, int, int, unsigned int);
@@ -70,6 +74,8 @@ namespace SDLHelper {
     SDL_Texture * renderFilledRect(int, int);
     // width, height, corner radius
     SDL_Texture * renderFilledRoundRect(int, int, unsigned int);
+    // width, height, corner radius, border thickness
+    SDL_Texture * renderRoundRect(int, int, unsigned int, unsigned int);
     // width, height, border thickness
     SDL_Texture * renderRect(int, int, unsigned int);
 
