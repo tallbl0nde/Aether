@@ -4,16 +4,16 @@
 namespace Aether {
     InputEvent::InputEvent(SDL_Event e) {
         // Turn all directional events into dpad
-        Key tmp = Utils::SDLtoKey(e.jbutton.button);
+        Button tmp = Utils::SDLtoButton(e.jbutton.button);
         if (e.type == SDL_JOYBUTTONDOWN || e.type == SDL_JOYBUTTONUP) {
-            if (tmp == Key::LSTICK_LEFT || tmp == Key::RSTICK_LEFT) {
-                tmp = Key::DPAD_LEFT;
-            } else if (tmp == Key::LSTICK_RIGHT || tmp == Key::RSTICK_RIGHT) {
-                tmp = Key::DPAD_RIGHT;
-            } else if (tmp == Key::LSTICK_UP || tmp == Key::RSTICK_UP) {
-                tmp = Key::DPAD_UP;
-            } else if (tmp == Key::LSTICK_DOWN || tmp == Key::RSTICK_DOWN) {
-                tmp = Key::DPAD_DOWN;
+            if (tmp == Button::LSTICK_LEFT || tmp == Button::RSTICK_LEFT) {
+                tmp = Button::DPAD_LEFT;
+            } else if (tmp == Button::LSTICK_RIGHT || tmp == Button::RSTICK_RIGHT) {
+                tmp = Button::DPAD_RIGHT;
+            } else if (tmp == Button::LSTICK_UP || tmp == Button::RSTICK_UP) {
+                tmp = Button::DPAD_UP;
+            } else if (tmp == Button::LSTICK_DOWN || tmp == Button::RSTICK_DOWN) {
+                tmp = Button::DPAD_DOWN;
             }
         }
 
@@ -39,7 +39,7 @@ namespace Aether {
             // Touch events
             case SDL_FINGERDOWN:
                 this->type_ = TouchPressed;
-                this->button_ = Key::NO_KEY;
+                this->button_ = Button::NO_BUTTON;
                 this->touchX_ = e.tfinger.x * 1280;
                 this->touchY_ = e.tfinger.y * 720;
                 this->touchDX_ = 0;
@@ -47,7 +47,7 @@ namespace Aether {
                 break;
             case SDL_FINGERMOTION:
                 this->type_ = TouchMoved;
-                this->button_ = Key::NO_KEY;
+                this->button_ = Button::NO_BUTTON;
                 this->touchX_ = e.tfinger.x * 1280;
                 this->touchY_ = e.tfinger.y * 720;
                 this->touchDX_ = e.tfinger.dx * 1280;
@@ -55,7 +55,7 @@ namespace Aether {
                 break;
             case SDL_FINGERUP:
                 this->type_ = TouchReleased;
-                this->button_ = Key::NO_KEY;
+                this->button_ = Button::NO_BUTTON;
                 this->touchX_ = e.tfinger.x * 1280;
                 this->touchY_ = e.tfinger.y * 720;
                 this->touchDX_ = e.tfinger.dx * 1280;
@@ -68,7 +68,7 @@ namespace Aether {
         return this->type_;
     }
 
-    Key InputEvent::button() {
+    Button InputEvent::button() {
         return this->button_;
     }
 

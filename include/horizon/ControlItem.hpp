@@ -22,8 +22,8 @@ namespace Aether {
             using Element::setSelectable;
 
         public:
-            // Constructor accepts key/button and text hint
-            ControlItem(Key, std::string);
+            // Constructor accepts button and text hint
+            ControlItem(Button, std::string);
 
             // Return the set colour
             Colour getColour();

@@ -21,8 +21,8 @@ namespace Aether {
             Colour hiSel;
             std::function<Colour(uint32_t)> hiAnim;
 
-            // Variables to handle held keys
-            Key heldKey;
+            // Variables to handle held buttons
+            Button heldButton;
             int heldTime;
 
             // Vector of overlays, drawn from start -> end but only last one gets events!

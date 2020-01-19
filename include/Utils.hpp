@@ -4,8 +4,8 @@
 #include "Types.hpp"
 
 namespace Aether::Utils {
-    // Returns Key:: equivalent of value
-    Key SDLtoKey(uint8_t);
+    // Returns Button:: equivalent of value
+    Button SDLtoButton(uint8_t);
 };
 
 #endif

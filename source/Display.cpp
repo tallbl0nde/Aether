@@ -26,7 +26,7 @@ namespace Aether {
     Display::Display() : Element(0, 0, 1280, 720) {
         this->setParent(nullptr);
 
-        this->heldKey = Key::NO_KEY;
+        this->heldButton = Button::NO_BUTTON;
         this->heldTime = 0;
 
         this->hiBG = Colour{150, 150, 150, 255};
@@ -105,14 +105,14 @@ namespace Aether {
                     break;
             }
 
-            // (Re)set held key
-            if (e.type == SDL_JOYBUTTONUP && e.jbutton.which != FAKE_ID) {
-                this->heldKey = Key::NO_KEY;
+            // (Re)set held button
+            if (e.type == SDL_JOYBUTTONUP && e.jbutton.which != FAKE_ID && e.jbutton.button == this->heldButton) {
+                this->heldButton = Button::NO_BUTTON;
             } else if (e.type == SDL_JOYBUTTONDOWN && e.jbutton.which != FAKE_ID) {
-                Key tmp = Utils::SDLtoKey(e.jbutton.button);
+                Button tmp = Utils::SDLtoButton(e.jbutton.button);
                 // Only add held if a directional button
-                if (tmp >= Key::DPAD_LEFT && tmp <= Key::RSTICK_DOWN) {
-                    this->heldKey = Utils::SDLtoKey(e.jbutton.button);
+                if (tmp >= Button::DPAD_LEFT && tmp <= Button::RSTICK_DOWN) {
+                    this->heldButton = Utils::SDLtoButton(e.jbutton.button);
                     this->heldTime = -HOLD_DELAY;
                 }
             }
@@ -140,7 +140,7 @@ namespace Aether {
         }
 
         // Push button pressed/released event if held
-        if (this->heldKey != Key::NO_KEY) {
+        if (this->heldButton != Button::NO_BUTTON) {
             this->heldTime += dtClock.delta;
             if (this->heldTime >= MOVE_DELAY) {
                 this->heldTime -= MOVE_DELAY;
@@ -148,14 +148,14 @@ namespace Aether {
                 SDL_Event event;
                 event.type = SDL_JOYBUTTONDOWN;
                 event.jbutton.which = FAKE_ID;
-                event.jbutton.button = (uint8_t)this->heldKey;
+                event.jbutton.button = (uint8_t)this->heldButton;
                 event.jbutton.state = SDL_PRESSED;
                 SDL_PushEvent(&event);
                 // Send released event (so basically a verrry fast button press)
                 SDL_Event event2;
                 event2.type = SDL_JOYBUTTONUP;
                 event2.jbutton.which = FAKE_ID;
-                event2.jbutton.button = (uint8_t)this->heldKey;
+                event2.jbutton.button = (uint8_t)this->heldButton;
                 event2.jbutton.state = SDL_RELEASED;
                 SDL_PushEvent(&event2);
             }

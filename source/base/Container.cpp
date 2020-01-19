@@ -29,7 +29,7 @@ namespace Aether {
                 switch (e->button()) {
                     // Cur: current element that's focussed
                     // Pot: potential element to move to
-                    case Key::DPAD_RIGHT:
+                    case Button::DPAD_RIGHT:
                         return moveHighlight(this, [](Element * cur, Element * pot) {
                             return (pot->x() >= cur->x() + cur->w());
                         },
@@ -38,7 +38,7 @@ namespace Aether {
                         });
                         break;
 
-                    case Key::DPAD_LEFT:
+                    case Button::DPAD_LEFT:
                         return moveHighlight(this, [](Element * cur, Element * pot) {
                             return (pot->x() + pot->w() <= cur->x());
                         },
@@ -47,7 +47,7 @@ namespace Aether {
                         });
                         break;
 
-                    case Key::DPAD_UP:
+                    case Button::DPAD_UP:
                         return moveHighlight(this, [](Element * cur, Element * pot) {
                             return (pot->y() + pot->h() <= cur->y());
                         },
@@ -56,7 +56,7 @@ namespace Aether {
                         });
                         break;
 
-                    case Key::DPAD_DOWN:
+                    case Button::DPAD_DOWN:
                         return moveHighlight(this, [](Element * cur, Element * pot) {
                             return (pot->y() >= cur->y() + cur->h());
                         },

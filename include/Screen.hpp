@@ -8,17 +8,21 @@ namespace Aether {
     // to be drawn/interacted with on a single screen.
     class Screen : public Container {
         private:
-            // Map of key > func for custom callbacks on button presses
-            std::unordered_map<Key, std::function<void()> > callbacks;
+            // Map of button > func for custom callbacks on button presses
+            std::unordered_map<Button, std::function<void()> > pressFuncs;
+
+            // Map of button > func for custom callbacks on button presses
+            std::unordered_map<Button, std::function<void()> > releaseFuncs;
 
         public:
             // Constructor takes parent element and active/inactive functions
             Screen();
 
-            // Set a the given callback to the given key press
-            // Note that setting a key callback will block the event from
+            // Set a the given callback to the given button press
+            // Note that setting a button callback will block the event from
             // going to any other elements!!
-            void setKeyCallback(Key, std::function<void()>);
+            void onButtonPress(Button, std::function<void()>);
+            void onButtonRelease(Button, std::function<void()>);
 
             // Check if callback is set and execute, otherwise pass event
             // to elements

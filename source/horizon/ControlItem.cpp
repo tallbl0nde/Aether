@@ -12,8 +12,8 @@
 // Gap between icon + hint
 #define TEXT_GAP 13
 
-// "Map" of keys to unicode characters
-const std::string keyChar[] = {
+// "Map" of buttons to unicode characters
+const std::string buttonChar[] = {
     "\uE0E0", // A
     "\uE0E1", // B
     "\uE0E2", // X
@@ -45,9 +45,9 @@ const std::string keyChar[] = {
 };
 
 namespace Aether {
-    ControlItem::ControlItem(Key k, std::string s) : Element() {
+    ControlItem::ControlItem(Button k, std::string s) : Element() {
         // Create and add elements
-        this->icon = new Text(PADDING, 0, keyChar[k], ICON_FONT_SIZE, FontType::Extended);
+        this->icon = new Text(PADDING, 0, buttonChar[k], ICON_FONT_SIZE, FontType::Extended);
         this->hint = new Text(0, 0, s, HINT_FONT_SIZE);
         this->addElement(this->icon);
         this->addElement(this->hint);

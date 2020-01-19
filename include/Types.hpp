@@ -5,9 +5,9 @@
 #include "SDLHelper.hpp"
 
 namespace Aether {
-    // Enums for keys
+    // Enums for buttons
     // Avoids confusion with SDL/libnx names
-    enum Key {
+    enum Button {
         A,
         B,
         X,
@@ -36,7 +36,7 @@ namespace Aether {
         SR_LEFT,
         SL_RIGHT,
         SR_RIGHT,
-        NO_KEY      // Dummy key used for symbolising no key
+        NO_BUTTON      // Dummy button used for symbolising no button
     };
 
     // SDL_Color but it's not

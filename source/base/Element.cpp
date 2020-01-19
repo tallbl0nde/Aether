@@ -172,7 +172,7 @@ namespace Aether {
     }
 
     bool Element::handleEvent(InputEvent * e) {
-        if (this->highlighted_ && e->button() == Key::A) {
+        if (this->highlighted_ && e->button() == Button::A) {
             switch(e->type()) {
                 case EventType::ButtonPressed:
                     this->selected_ = true;
