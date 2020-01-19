@@ -6,6 +6,7 @@ namespace Aether {
     }
 
     void Container::addElement(Element * e) {
+        e->setInactive();
         if ((e->selectable() || e->hasSelectable()) && this->focussed == nullptr) {
             this->setFocussed(e);
         }

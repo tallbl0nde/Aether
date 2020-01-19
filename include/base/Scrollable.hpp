@@ -11,8 +11,6 @@ namespace Aether {
         private:
             // Is the element scrolling? (used for touch events)
             bool isScrolling;
-            // Amount to "catchup" by
-            int scrollCatchup;
             // Amount to decrease velocity by (per second)
             float scrollDampening;
             // Scroll velocity (amount to scroll per second)
@@ -22,18 +20,23 @@ namespace Aether {
             SDL_Texture * scrollBar;
             // Colour to tint scroll bar
             Colour scrollBarColour;
-            // Offset (y) in pixels
-            unsigned int scrollPos;
-            // Maximum Y offset in pixels
-            unsigned int maxScrollPos;
             // Show the scrollbar?
             bool showScrollBar_;
+
+            // Check all children and determine maximum height
+            void updateMaxScrollPos();
+
+        protected:
+            // Maximum Y offset in pixels
+            unsigned int maxScrollPos;
+            // Amount to "catchup" by
+            float scrollCatchup;
+            // Offset (y) in pixels
+            unsigned int scrollPos;
 
             // Set scrollPos but check if going to be outside of range
             // and if so set to min/max
             void setScrollPos(int);
-            // Check all children and determine maximum height
-            void updateMaxScrollPos();
 
         public:
             // X, Y, W, H of scrollable object

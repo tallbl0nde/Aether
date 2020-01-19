@@ -22,6 +22,7 @@ namespace Aether {
             case SDL_JOYBUTTONDOWN:
                 this->type_ = ButtonPressed;
                 this->button_ = tmp;
+                this->id_ = e.jbutton.which;
                 this->touchX_ = 0;
                 this->touchY_ = 0;
                 this->touchDX_ = 0;
@@ -30,6 +31,7 @@ namespace Aether {
             case SDL_JOYBUTTONUP:
                 this->type_ = ButtonReleased;
                 this->button_ = tmp;
+                this->id_ = e.jbutton.which;
                 this->touchX_ = 0;
                 this->touchY_ = 0;
                 this->touchDX_ = 0;
@@ -40,6 +42,7 @@ namespace Aether {
             case SDL_FINGERDOWN:
                 this->type_ = TouchPressed;
                 this->button_ = Button::NO_BUTTON;
+                this->id_ = -1;
                 this->touchX_ = e.tfinger.x * 1280;
                 this->touchY_ = e.tfinger.y * 720;
                 this->touchDX_ = 0;
@@ -48,6 +51,7 @@ namespace Aether {
             case SDL_FINGERMOTION:
                 this->type_ = TouchMoved;
                 this->button_ = Button::NO_BUTTON;
+                this->id_ = -1;
                 this->touchX_ = e.tfinger.x * 1280;
                 this->touchY_ = e.tfinger.y * 720;
                 this->touchDX_ = e.tfinger.dx * 1280;
@@ -56,6 +60,7 @@ namespace Aether {
             case SDL_FINGERUP:
                 this->type_ = TouchReleased;
                 this->button_ = Button::NO_BUTTON;
+                this->id_ = -1;
                 this->touchX_ = e.tfinger.x * 1280;
                 this->touchY_ = e.tfinger.y * 720;
                 this->touchDX_ = e.tfinger.dx * 1280;
@@ -70,6 +75,10 @@ namespace Aether {
 
     Button InputEvent::button() {
         return this->button_;
+    }
+
+    int InputEvent::id() {
+        return this->id_;
     }
 
     int InputEvent::touchX() {

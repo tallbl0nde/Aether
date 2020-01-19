@@ -29,7 +29,8 @@ namespace Aether {
             void repositionElements();
 
         public:
-            Controls(int, int, int, int);
+            // Controls are automatically positioned in place unless specified
+            Controls(int = 45, int = 647, int = 1190, int = 73);
 
             // Wrappers for add/remove elements
             void addItem(ControlItem *);

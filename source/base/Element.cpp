@@ -2,12 +2,15 @@
 #include "Element.hpp"
 #include <limits>
 
-#include "Theme.hpp"
-
 // Border size of highlight
 #define HIGHLIGHT_SIZE 6
 
 namespace Aether {
+    Colour Element::hiBG = Colour{255, 255, 255, 255};
+    Colour Element::hiBorder = Colour{255, 255, 255, 255};
+    Colour Element::hiSel = Colour{255, 255, 255, 255};
+    unsigned int Element::hiSize = HIGHLIGHT_SIZE;
+
     Element::Element(int x, int y, int w, int h) {
         this->selectedTex = nullptr;
         this->setXYWH(x, y, w, h);
@@ -230,26 +233,30 @@ namespace Aether {
             return;
         }
 
+        if (this->highlighted()) {
+            this->renderHighlighted();
+        }
+
         // Draw children
         for (size_t i = 0; i < this->children.size(); i++) {
             this->children[i]->render();
         }
+
+        if (this->selected()) {
+            this->renderSelected();
+        }
     }
 
-    void Element::renderHighlighted(Colour bg, Colour hi, Colour sel, unsigned int sz) {
+    void Element::renderHighlighted() {
         // Draw background
-        SDLHelper::drawFilledRect(bg, this->x(), this->y(), this->w(), this->h());
-
-        // Render this element
-        this->render();
+        SDLHelper::drawFilledRect(this->hiBG, this->x(), this->y(), this->w(), this->h());
 
         // Draw outline
-        SDLHelper::drawRect(hi, this->x() - sz, this->y() - sz, this->w() + 2*sz, this->h() + 2*sz, sz);
+        SDLHelper::drawRect(this->hiBorder, this->x() - this->hiSize, this->y() - this->hiSize, this->w() + 2*this->hiSize, this->h() + 2*this->hiSize, this->hiSize);
+    }
 
-        // Draw selected overlay if selected
-        if (this->selected()) {
-            SDLHelper::drawFilledRect(sel, this->x(), this->y(), this->w(), this->h());
-        }
+    void Element::renderSelected() {
+        SDLHelper::drawFilledRect(this->hiSel, this->x(), this->y(), this->w(), this->h());
     }
 
     void Element::setActive() {

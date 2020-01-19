@@ -38,14 +38,16 @@ namespace Aether {
         return Container::handleEvent(e);
     }
 
-    void Screen::render(Colour bg, Colour hi, Colour sel) {
+    void Screen::render() {
         // Render children
         Container::render();
 
         // If there is a highlighted element draw behind it and then render it
-        Element * el = getHighlightedElement(this);
-        if (el != nullptr) {
-            el->renderHighlighted(bg, hi, sel, HIGHLIGHT_SIZE);
-        }
+        // Element * el = getHighlightedElement(this);
+        // if (el != nullptr) {
+        //     if (el->isVisible()) {
+        //         el->renderHighlighted(bg, hi, sel, HIGHLIGHT_SIZE);
+        //     }
+        // }
     }
 };

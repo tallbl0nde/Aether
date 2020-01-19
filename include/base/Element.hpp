@@ -41,6 +41,11 @@ namespace Aether {
             bool touchable_;
 
         protected:
+            // Colours used for highlighting
+            static Colour hiBG, hiBorder, hiSel;
+            // Size of highlight border
+            static unsigned int hiSize;
+
             // Vector of child elements (used to call their methods)
             std::vector<Element *> children;
 
@@ -116,9 +121,11 @@ namespace Aether {
             // Render child elements
             virtual void render();
 
-            // Renders the highlight graphics + calls it's own render
-            // Takes colour for background first, then colour for border, colour for selected highlight and size of border
-            virtual void renderHighlighted(Colour, Colour, Colour, unsigned int);
+            // Default are rectangles
+            // Renders the highlight border + background
+            virtual void renderHighlighted();
+            // Renders the selected overlay
+            virtual void renderSelected();
 
             // Destructor calls destructor of children
             virtual ~Element();

@@ -54,16 +54,15 @@ namespace Aether {
         this->text->setY(this->y() + this->h()/2 - this->text->h()/2);
     }
 
-    void FilledButton::renderHighlighted(Colour bg, Colour hi, Colour sel, unsigned int sz) {
+    void FilledButton::renderHighlighted() {
         // Draw background
-        SDLHelper::drawFilledRoundRect(bg, this->x(), this->y(), this->w(), this->h(), CORNER_RAD + 2);
-
-        // Render this element
-        this->render();
+        SDLHelper::drawFilledRoundRect(this->hiBG, this->x(), this->y(), this->w(), this->h(), CORNER_RAD + 2);
 
         // Draw outline
-        SDLHelper::drawRoundRect(hi, this->x() - sz - 2, this->y() - sz - 2, this->w() + 2*sz + 2, this->h() + 2*sz + 2, CORNER_RAD + 2, sz);
+        SDLHelper::drawRoundRect(this->hiBorder, this->x() - this->hiSize - 2, this->y() - this->hiSize - 2, this->w() + 2*this->hiSize + 2, this->h() + 2*this->hiSize + 2, CORNER_RAD + 2, this->hiSize);
+    }
 
-        // No selected overlay!
+    void FilledButton::renderSelected() {
+
     }
 };

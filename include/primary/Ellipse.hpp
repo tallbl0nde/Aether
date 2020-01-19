@@ -27,7 +27,8 @@ namespace Aether {
             void setYDiameter(unsigned int);
 
             // Draw elliptical highlight instead of rectangle
-            void renderHighlighted(Colour, Colour, Colour, unsigned int);
+            void renderHighlighted();
+            void renderSelected();
     };
 };
 

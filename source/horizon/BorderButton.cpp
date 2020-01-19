@@ -54,19 +54,15 @@ namespace Aether {
         this->text->setY(this->y() + this->h()/2 - this->text->h()/2);
     }
 
-    void BorderButton::renderHighlighted(Colour bg, Colour hi, Colour sel, unsigned int sz) {
+    void BorderButton::renderHighlighted() {
         // Draw background
-        SDLHelper::drawFilledRoundRect(bg, this->x(), this->y(), this->w(), this->h(), CORNER_RAD + 2);
-
-        // Render this element
-        this->render();
+        SDLHelper::drawFilledRoundRect(this->hiBG, this->x(), this->y(), this->w(), this->h(), CORNER_RAD + 2);
 
         // Draw outline
-        SDLHelper::drawRoundRect(hi, this->x() - sz + this->box->border(), this->y() - sz + this->box->border(), this->w() + 2*(sz - this->box->border()), this->h() + 2*(sz - this->box->border()), CORNER_RAD + 2, sz);
+        SDLHelper::drawRoundRect(this->hiBorder, this->x() - this->hiSize + this->box->border(), this->y() - this->hiSize + this->box->border(), this->w() + 2*(this->hiSize - this->box->border()), this->h() + 2*(this->hiSize - this->box->border()), CORNER_RAD + 2, this->hiSize);
+    }
 
-        // Draw selected overlay if selected
-        if (this->selected()) {
-            SDLHelper::drawFilledRoundRect(sel, this->x(), this->y(), this->w(), this->h(), CORNER_RAD + 2);
-        }
+    void BorderButton::renderSelected() {
+        SDLHelper::drawFilledRoundRect(this->hiSel, this->x(), this->y(), this->w(), this->h(), CORNER_RAD + 2);
     }
 };

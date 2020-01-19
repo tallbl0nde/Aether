@@ -22,12 +22,12 @@ namespace Aether {
         return this->close_;
     }
 
-    void Overlay::render(Colour bg, Colour hi, Colour sel) {
+    void Overlay::render() {
         // Draw background
         SDLHelper::drawTexture(this->background, BG_COLOUR, this->x(), this->y());
 
         // Draw elements
-        Screen::render(bg, hi, sel);
+        Screen::render();
     }
 
     Overlay::~Overlay() {

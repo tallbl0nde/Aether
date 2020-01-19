@@ -22,6 +22,7 @@ namespace Aether {
             EventType type_;
             // Button info (don't read when not button event!)
             Button button_;
+            int id_;
             // Touch info (don't read when not touch event!)
             // Coordinates are from (0 - 1280) and (0 - 720)
             int touchX_;
@@ -36,6 +37,7 @@ namespace Aether {
             // Getters for members
             EventType type();
             Button button();
+            int id();
             int touchX();
             int touchY();
             int touchDX();

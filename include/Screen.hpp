@@ -31,7 +31,7 @@ namespace Aether {
             // Render calls Element::render() but then also handles rendering
             // a highlighted element (in order to get colour behind)
             // Is passed highlight colours (background, border, selected)
-            void render(Colour, Colour, Colour);
+            void render();
     };
 };
 

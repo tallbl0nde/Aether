@@ -27,22 +27,18 @@ namespace Aether {
         this->yDiameter_ = yd;
     }
 
-    void Ellipse::renderHighlighted(Colour bg, Colour hi, Colour sel, unsigned int sz) {
+    void Ellipse::renderHighlighted() {
         int midX = this->x() + this->w()/2;
         int midY = this->y() + this->h()/2;
 
-        // Draw outline
-        SDLHelper::drawEllipse(hi, midX, midY, this->w() + 2*sz, this->h() + 2*sz);
-
         // Draw background
-        SDLHelper::drawEllipse(bg, midX, midY, this->w(), this->h());
+        SDLHelper::drawEllipse(this->hiBG, midX, midY, this->w(), this->h());
 
-        // Render this element
-        this->render();
+        // Draw outline
+        SDLHelper::drawEllipse(this->hiBorder, midX, midY, this->w() + 2*this->hiSize, this->h() + 2*this->hiSize);
+    }
 
-        // Draw selected overlay if selected
-        if (this->selected()) {
-            SDLHelper::drawEllipse(sel, midX, midY, this->w(), this->h());
-        }
+    void Ellipse::renderSelected() {
+        SDLHelper::drawEllipse(this->hiSel, this->x() + this->w()/2, this->y() + this->h()/2, this->w(), this->h());
     }
 };

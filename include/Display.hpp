@@ -17,8 +17,6 @@ namespace Aether {
             Colour bg;
 
             // Colours to highlight elements with
-            Colour hiBG;
-            Colour hiSel;
             std::function<Colour(uint32_t)> hiAnim;
 
             // Variables to handle held buttons

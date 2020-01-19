@@ -142,16 +142,10 @@ namespace Aether {
         // Update all children first
         Container::update(dt);
 
-        // Loop over items and adjust position if selected item is not in the middle
-        if (this->maxScrollPos != 0) {
+        if (this->maxScrollPos != 0 && this->focussed != nullptr) {
             int sMid = this->y() + this->h()/2;
-            for (size_t i = 0; i < this->children.size(); i++) {
-                int cMid = this->children[i]->y() + (this->children[i]->h()/2);
-                if (this->focussed == this->children[i]) {
-                    this->setScrollPos(this->scrollPos + (this->scrollCatchup * (cMid - sMid) * (dt/1000.0)));
-                    break;
-                }
-            }
+            int cMid = this->focussed->y() + (this->focussed->h()/2);
+            this->setScrollPos(this->scrollPos + (this->scrollCatchup * (cMid - sMid) * (dt/1000.0)));
         }
     }
 

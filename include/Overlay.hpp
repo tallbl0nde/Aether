@@ -23,7 +23,7 @@ namespace Aether {
             bool shouldClose();
 
             // Render calls Screen but draws background first
-            void render(Colour, Colour, Colour);
+            void render();
 
             ~Overlay();
     };

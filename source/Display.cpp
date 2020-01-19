@@ -2,8 +2,6 @@
 #include "InputEvent.hpp"
 #include "Utils.hpp"
 
-// Fake controller ID for held events
-#define FAKE_ID 99
 // Delay (in ms) to pause after button held
 #define HOLD_DELAY 400
 // Delay (in ms) for moving between items
@@ -29,8 +27,6 @@ namespace Aether {
         this->heldButton = Button::NO_BUTTON;
         this->heldTime = 0;
 
-        this->hiBG = Colour{150, 150, 150, 255};
-        this->hiSel = Colour{255, 255, 255, 150};
         this->hiAnim = [](uint32_t t){
             return Colour{255, 255, 255, 255};
         };
@@ -164,12 +160,15 @@ namespace Aether {
         // Clear screen/draw background
         SDLHelper::clearScreen(this->bg);
 
+        // Update highlight border colour
+        this->hiBorder = this->hiAnim(dtClock.last_tick);
+
         // Render current screen
-        this->screens[this->screen]->render(this->hiBG, this->hiAnim(dtClock.last_tick), this->hiSel);
+        this->screens[this->screen]->render();
 
         // Draw overlays
         for (size_t i = 0; i < this->overlays.size(); i++) {
-            this->overlays[i]->render(this->hiBG, this->hiAnim(dtClock.last_tick), this->hiSel);
+            this->overlays[i]->render();
         }
 
         // Draw FPS
