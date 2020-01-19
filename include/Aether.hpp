@@ -5,6 +5,8 @@
 #include "horizon/FilledButton.hpp"
 #include "horizon/List.hpp"
 #include "horizon/ListComment.hpp"
+#include "horizon/ListHeading.hpp"
+#include "horizon/ListHeadingHelp.hpp"
 #include "horizon/ListOption.hpp"
 #include "horizon/ListSeparator.hpp"
 #include "horizon/Menu.hpp"
