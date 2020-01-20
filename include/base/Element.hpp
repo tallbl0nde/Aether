@@ -44,9 +44,14 @@ namespace Aether {
             static Colour hiBG, hiBorder, hiSel;
             // Size of highlight border
             static unsigned int hiSize;
+            // Set true if touch is "active" (i.e. hide highlighting)
+            static bool isTouch;
 
             // Vector of child elements (used to call their methods)
             std::vector<Element *> children;
+
+            // Element which is highlighted/focussed (to regain focus on activation)
+            Element * focussed;
 
         public:
             // Constructor must be passed parent element (or nullptr if there is none)
@@ -107,6 +112,7 @@ namespace Aether {
 
             virtual void setActive();
             virtual void setInactive();
+            void setFocussed(Element *);
 
             // Returns callback function (nullptr if no callback assigned)
             std::function<void()> callback();

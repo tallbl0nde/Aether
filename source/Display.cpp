@@ -91,6 +91,13 @@ namespace Aether {
                 case SDL_FINGERUP:
                     // Create InputEvent and pass to screen/overlay
                     InputEvent * event = new InputEvent(e);
+
+                    // Set touched variable
+                    this->isTouch = (event->button() == Button::NO_BUTTON);
+                    if (event->id() == FAKE_ID && (event->button() < DPAD_LEFT || event->button() > DPAD_DOWN)) {
+                        this->isTouch = true;
+                    }
+
                     if (this->overlays.size() == 0) {
                         this->screens[this->screen]->handleEvent(event);
                     } else {

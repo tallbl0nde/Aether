@@ -10,6 +10,7 @@ namespace Aether {
     Colour Element::hiBorder = Colour{255, 255, 255, 255};
     Colour Element::hiSel = Colour{255, 255, 255, 255};
     unsigned int Element::hiSize = HIGHLIGHT_SIZE;
+    bool Element::isTouch = false;
 
     Element::Element(int x, int y, int w, int h) {
         this->selectedTex = nullptr;
@@ -24,6 +25,8 @@ namespace Aether {
         this->highlighted_ = false;
         this->selected_ = false;
         this->touchable_ = false;
+
+        this->focussed = nullptr;
     }
 
     int Element::x() {
@@ -196,7 +199,9 @@ namespace Aether {
 
             case EventType::TouchPressed:
                 if (e->touchX() >= this->x() && e->touchY() >= this->y() && e->touchX() <= this->x() + this->w() && e->touchY() <= this->y() + this->h() && this->touchable_) {
-                    // moveHighlight(this);
+                    if (this->selectable_) {
+                        moveHighlight(this);
+                    }
                     this->selected_ = true;
                     return true;
                 }
@@ -265,7 +270,7 @@ namespace Aether {
             return;
         }
 
-        if (this->highlighted()) {
+        if (this->highlighted() && !this->isTouch) {
             this->renderHighlighted();
         }
 
@@ -299,30 +304,38 @@ namespace Aether {
         this->setHighlighted(false);
     }
 
+    void Element::setFocussed(Element * e) {
+        if (this->focussed != nullptr) {
+            this->focussed->setInactive();
+        }
+        this->focussed = e;
+        e->setActive();
+    }
+
     Element::~Element() {
         this->removeAllElements();
     }
 
-    // void moveHighlight(Element * e) {
-    //     Element * next = e;
+    void moveHighlight(Element * e) {
+        Element * next = e;
 
-    //     // First get root element (screen)
-    //     while (e->parent->parent != nullptr) {
-    //         e = e->parent;
-    //     }
+        // First get root element (screen)
+        while (e->parent->parent != nullptr) {
+            e = e->parent;
+        }
 
-    //     // Set inactive
-    //     e->setInactive();
+        // Set inactive
+        e->setInactive();
 
-    //     // Set element active
-    //     next->setActive();
-    //     next->parent->setFocussed(next)
+        // Set element active
+        next->setActive();
+        next->parent->setFocussed(next);
 
-    //     // Set focussed up the tree
-    //     e = next;
-    //     while (e->parent->parent != nullptr) {
-    //         e->parent->setFocussed(e);
-    //         e = e->parent;
-    //     }
-    // }
+        // Set focussed up the tree
+        e = next;
+        while (e->parent->parent != nullptr) {
+            e->parent->setFocussed(e);
+            e = e->parent;
+        }
+    }
 };

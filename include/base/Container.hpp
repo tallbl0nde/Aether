@@ -8,10 +8,6 @@ namespace Aether {
     // to automatically move between elements without having to specify which
     // ones are next to which.
     class Container : public Element {
-        protected:
-            // Element which is highlighted/focussed (to regain focus on activation)
-            Element * focussed;
-
         public:
             // Constructor is same as Element
             Container(int = 0, int = 0, int = 100, int = 100);
@@ -25,8 +21,6 @@ namespace Aether {
             // Re-highlight/focus the focussed element
             void setActive();
             void setInactive();
-
-            void setFocussed(Element *);
 
             // Friend function to reduce similar code used for determining which element to move to
             // (parent element (usually this), function which returns true if valid, function to return distance between)

@@ -2,7 +2,7 @@
 
 namespace Aether {
     Container::Container(int x, int y, int w, int h) : Element(x, y, w, h) {
-        this->focussed = nullptr;
+
     }
 
     void Container::addElement(Element * e) {
@@ -103,14 +103,6 @@ namespace Aether {
         if (this->focussed != nullptr) {
             this->focussed->setInactive();
         }
-    }
-
-    void Container::setFocussed(Element * e) {
-        if (this->focussed != nullptr) {
-            this->focussed->setInactive();
-        }
-        this->focussed = e;
-        e->setActive();
     }
 
     bool moveHighlight(Container * parent, std::function<bool(Element *, Element*)> check, std::function<int(Element *, Element *)> dist) {
