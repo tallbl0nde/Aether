@@ -27,11 +27,6 @@ namespace Aether {
             // Check if callback is set and execute, otherwise pass event
             // to elements
             bool handleEvent(InputEvent *);
-
-            // Render calls Element::render() but then also handles rendering
-            // a highlighted element (in order to get colour behind)
-            // Is passed highlight colours (background, border, selected)
-            void render();
     };
 };
 

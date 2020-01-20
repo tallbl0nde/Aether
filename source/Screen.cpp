@@ -37,17 +37,4 @@ namespace Aether {
         // If no callback continue down the chain
         return Container::handleEvent(e);
     }
-
-    void Screen::render() {
-        // Render children
-        Container::render();
-
-        // If there is a highlighted element draw behind it and then render it
-        // Element * el = getHighlightedElement(this);
-        // if (el != nullptr) {
-        //     if (el->isVisible()) {
-        //         el->renderHighlighted(bg, hi, sel, HIGHLIGHT_SIZE);
-        //     }
-        // }
-    }
 };

@@ -15,18 +15,21 @@ namespace Aether {
 
     bool Container::handleEvent(InputEvent * e) {
         // Don't handle event if hidden!
-        if (this->hidden() || this->focussed == nullptr) {
+        if (this->hidden()) {
             return false;
         }
 
-        // Default behaviour is to pass to focussed
-        if (this->focussed->handleEvent(e)) {
-            return true;
-        }
-
-        // If children didn't handle it, shift focus between them
         switch (e->type()) {
             case EventType::ButtonPressed:
+                if (this->focussed == nullptr) {
+                    return false;
+                }
+                // Default behaviour is to pass to focussed
+                if (this->focussed->handleEvent(e)) {
+                    return true;
+                }
+
+                // If children didn't handle it, shift focus between them
                 switch (e->button()) {
                     // Cur: current element that's focussed
                     // Pot: potential element to move to
@@ -65,6 +68,24 @@ namespace Aether {
                             return sqrt(pow((pot->x() + pot->w()/2) - (cur->x() + cur->w()/2), 2) + pow(pot->y() - (cur->y() + cur->h()), 2));
                         });
                         break;
+                }
+                break;
+
+            case EventType::ButtonReleased:
+                if (this->focussed != nullptr) {
+                    if (this->focussed->handleEvent(e)) {
+                        return true;
+                    }
+                }
+                break;
+
+            case EventType::TouchPressed:
+            case EventType::TouchMoved:
+            case EventType::TouchReleased:
+                for (size_t i = 0; i < this->children.size(); i++) {
+                    if (this->children[i]->handleEvent(e)) {
+                        return true;
+                    }
                 }
                 break;
         }

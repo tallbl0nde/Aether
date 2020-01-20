@@ -131,7 +131,7 @@ namespace Aether {
 
             // Returns the element currently highlighted within given element
             // or nullptr if none found
-            friend Element * getHighlightedElement(Element *);
+            friend void moveHighlight(Element *);
     };
 };
 

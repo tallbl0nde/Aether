@@ -175,22 +175,54 @@ namespace Aether {
     }
 
     bool Element::handleEvent(InputEvent * e) {
-        if (this->highlighted_ && e->button() == Button::A) {
-            switch(e->type()) {
-                case EventType::ButtonPressed:
+        // Handles selecting by either touch or A
+        switch (e->type()) {
+            case EventType::ButtonPressed:
+                if (e->button() == Button::A && this->highlighted_) {
                     this->selected_ = true;
-                    break;
+                    return true;
+                }
+                break;
 
-                case EventType::ButtonReleased:
-                    if (this->selected_) {
-                        this->selected_ = false;
-                        if (this->callback_ != nullptr) {
-                            this->callback_();
-                        }
+            case EventType::ButtonReleased:
+                if (e->button() == Button::A && this->selected_) {
+                    this->selected_ = false;
+                    if (this->callback_ != nullptr) {
+                        this->callback_();
+                        return true;
                     }
-                    break;
-            }
+                }
+                break;
+
+            case EventType::TouchPressed:
+                if (e->touchX() >= this->x() && e->touchY() >= this->y() && e->touchX() <= this->x() + this->w() && e->touchY() <= this->y() + this->h() && this->touchable_) {
+                    // moveHighlight(this);
+                    this->selected_ = true;
+                    return true;
+                }
+                break;
+
+            case EventType::TouchMoved:
+                if ((e->touchX() < this->x() || e->touchY() < this->y() || e->touchX() > this->x() + this->w() || e->touchY() > this->y() + this->h()) && this->selected_) {
+                    if (e->touchX() - e->touchDX() >= this->x() && e->touchY() - e->touchDY() >= this->y() && e->touchX() - e->touchDX() <= this->x() + this->w() && e->touchY() - e->touchDY() <= this->y() + this->h() && this->selected_) {
+                        this->selected_ = false;
+                        return true;
+                    }
+                }
+                break;
+
+            case EventType::TouchReleased:
+                if (e->touchX() >= this->x() && e->touchY() >= this->y() && e->touchX() <= this->x() + this->w() && e->touchY() <= this->y() + this->h() && this->selected_) {
+                    this->selected_ = false;
+                    if (this->callback_ != nullptr) {
+                        this->callback_();
+                    }
+                    return true;
+                }
+                break;
         }
+
+        return false;
     }
 
     void Element::update(uint32_t dt) {
@@ -271,21 +303,26 @@ namespace Aether {
         this->removeAllElements();
     }
 
-    Element * getHighlightedElement(Element * root) {
-        Element * el = root;
-        while (el->hasHighlighted()) {
-            for (size_t i = 0; i < el->children.size(); i++) {
-                if (el->children[i]->hasHighlighted() || el->children[i]->highlighted()) {
-                    el = el->children[i];
-                    break;
-                }
-            }
-        }
+    // void moveHighlight(Element * e) {
+    //     Element * next = e;
 
-        if (el != root) {
-            return el;
-        }
+    //     // First get root element (screen)
+    //     while (e->parent->parent != nullptr) {
+    //         e = e->parent;
+    //     }
 
-        return nullptr;
-    }
+    //     // Set inactive
+    //     e->setInactive();
+
+    //     // Set element active
+    //     next->setActive();
+    //     next->parent->setFocussed(next)
+
+    //     // Set focussed up the tree
+    //     e = next;
+    //     while (e->parent->parent != nullptr) {
+    //         e->parent->setFocussed(e);
+    //         e = e->parent;
+    //     }
+    // }
 };
