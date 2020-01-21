@@ -13,7 +13,6 @@ namespace Aether {
     bool Element::isTouch = false;
 
     Element::Element(int x, int y, int w, int h) {
-        this->selectedTex = nullptr;
         this->setXYWH(x, y, w, h);
 
         this->parent = nullptr;
@@ -24,9 +23,10 @@ namespace Aether {
         this->hasHighlighted_ = false;
         this->highlighted_ = false;
         this->selected_ = false;
+        this->hasSelected_ = false;
         this->touchable_ = false;
 
-        this->focussed = nullptr;
+        this->focussed_ = nullptr;
     }
 
     int Element::x() {
@@ -136,6 +136,13 @@ namespace Aether {
         return this->selected_;
     }
 
+    void Element::setSelected(bool b) {
+        this->selected_ = b;
+        if (this->parent != nullptr) {
+            this->parent->setHasSelected(b);
+        }
+    }
+
     bool Element::selectable() {
         return this->selectable_;
     }
@@ -163,7 +170,7 @@ namespace Aether {
             this->parent->setHasHighlighted(b);
         }
         if (!b) {
-            this->selected_ = false;
+            this->setSelected(false);
         }
     }
 
@@ -182,14 +189,14 @@ namespace Aether {
         switch (e->type()) {
             case EventType::ButtonPressed:
                 if (e->button() == Button::A && this->highlighted_) {
-                    this->selected_ = true;
+                    this->setSelected(true);
                     return true;
                 }
                 break;
 
             case EventType::ButtonReleased:
                 if (e->button() == Button::A && this->selected_) {
-                    this->selected_ = false;
+                    this->setSelected(false);
                     if (this->callback_ != nullptr) {
                         this->callback_();
                         return true;
@@ -199,18 +206,15 @@ namespace Aether {
 
             case EventType::TouchPressed:
                 if (e->touchX() >= this->x() && e->touchY() >= this->y() && e->touchX() <= this->x() + this->w() && e->touchY() <= this->y() + this->h() && this->touchable_) {
-                    if (this->selectable_) {
-                        moveHighlight(this);
-                    }
-                    this->selected_ = true;
+                    this->setSelected(true);
                     return true;
                 }
                 break;
 
             case EventType::TouchMoved:
                 if ((e->touchX() < this->x() || e->touchY() < this->y() || e->touchX() > this->x() + this->w() || e->touchY() > this->y() + this->h()) && this->selected_) {
-                    if (e->touchX() - e->touchDX() >= this->x() && e->touchY() - e->touchDY() >= this->y() && e->touchX() - e->touchDX() <= this->x() + this->w() && e->touchY() - e->touchDY() <= this->y() + this->h() && this->selected_) {
-                        this->selected_ = false;
+                    if (e->touchX() - e->touchDX() >= this->x() && e->touchY() - e->touchDY() >= this->y() && e->touchX() - e->touchDX() <= this->x() + this->w() && e->touchY() - e->touchDY() <= this->y() + this->h()) {
+                        this->setSelected(false);
                         return true;
                     }
                 }
@@ -218,7 +222,10 @@ namespace Aether {
 
             case EventType::TouchReleased:
                 if (e->touchX() >= this->x() && e->touchY() >= this->y() && e->touchX() <= this->x() + this->w() && e->touchY() <= this->y() + this->h() && this->selected_) {
-                    this->selected_ = false;
+                    this->setSelected(false);
+                    if (this->selectable_) {
+                        moveHighlight(this);
+                    }
                     if (this->callback_ != nullptr) {
                         this->callback_();
                     }
@@ -264,6 +271,17 @@ namespace Aether {
         }
     }
 
+    bool Element::hasSelected() {
+        return this->hasSelected_;
+    }
+
+    void Element::setHasSelected(bool b) {
+        this->hasSelected_ = b;
+        if (this->parent != nullptr) {
+            this->parent->setHasSelected(b);
+        }
+    }
+
     void Element::render() {
         // Do nothing if hidden or off-screen
         if (!this->isVisible()) {
@@ -305,11 +323,15 @@ namespace Aether {
     }
 
     void Element::setFocussed(Element * e) {
-        if (this->focussed != nullptr) {
-            this->focussed->setInactive();
+        if (this->focussed_ != nullptr) {
+            this->focussed_->setInactive();
         }
-        this->focussed = e;
+        this->focussed_ = e;
         e->setActive();
+    }
+
+    Element * Element::focussed() {
+        return this->focussed_;
     }
 
     Element::~Element() {

@@ -4,26 +4,34 @@
 #define DEFAULT_CATCHUP 6
 // Default dampening amount
 #define DEFAULT_DAMPENING 20
+// Maximum scrollVelocity
+#define MAX_VELOCITY 50
 // Padding for very top and very bottom elements
 #define PADDING 40
 // Padding either side of items (to allow for scroll bar)
 #define SIDE_PADDING 50
 // Height of scroll bar
 #define SCROLLBAR_SIZE 100
+// Amount touch can deviate (in px) before scrolling
+#define TOUCH_RADIUS 30
 
 namespace Aether {
+    SDL_Texture * Scrollable::scrollBar = nullptr;
+
     Scrollable::Scrollable(int x, int y, int w, int h) : Container(x, y, w, h) {
         this->isScrolling = false;
+        this->isTouched = false;
         this->scrollCatchup = DEFAULT_CATCHUP;
         this->scrollDampening = DEFAULT_DAMPENING;
         this->scrollVelocity = 0;
         this->scrollPos = 0;
         this->maxScrollPos = 0;
         this->showScrollBar_ = true;
-
-        // Render scroll bar texture
-        this->scrollBar = SDLHelper::renderFilledRect(5, SCROLLBAR_SIZE);
+        if (this->scrollBar == nullptr) {
+            this->scrollBar = SDLHelper::renderFilledRect(5, SCROLLBAR_SIZE);
+        }
         this->scrollBarColour = Colour{255, 255, 255, 255};
+        this->touchY = std::numeric_limits<int>::min();
     }
 
     void Scrollable::setScrollPos(int pos) {
@@ -64,6 +72,26 @@ namespace Aether {
 
         // Subtract this element's height as it wasn't accounted for earlier
         this->maxScrollPos -= this->h();
+    }
+
+    void Scrollable::stopScrolling() {
+        if (this->isScrolling) {
+            // Move highlight to top element if not visible
+            if (!(this->focussed()->y() >= this->y() && this->focussed()->y() + this->focussed()->h() <= this->y() + this->h())) {
+                for (size_t i = 0; i < this->children.size(); i++) {
+                    if (this->children[i]->y() > this->y() && this->children[i]->selectable()) {
+                        this->setFocussed(this->children[i]);
+                        if (this->parent->focussed() == this) {
+                            this->focussed()->setActive();
+                        }
+                        break;
+                    }
+                }
+            }
+
+            this->scrollVelocity = 0;
+            this->isScrolling = false;
+        }
     }
 
     void Scrollable::setW(int w) {
@@ -137,14 +165,94 @@ namespace Aether {
         this->updateMaxScrollPos();
     }
 
+    bool Scrollable::handleEvent(InputEvent * e) {
+        switch (e->type()) {
+            case EventType::TouchPressed:
+                if (e->touchX() >= this->x() && e->touchX() <= this->x() + this->w() && e->touchY() >= this->y() && e->touchY() <= this->y() + this->h()) {
+                    // Activate this element
+                    this->isTouched = true;
+                    this->parent->setFocussed(this);
+
+                    this->touchY = e->touchY();
+                    if (this->isScrolling) {
+                        this->scrollVelocity = 0;
+                    } else {
+                        // If not scrolling pass event (ie. select)
+                        Container::handleEvent(e);
+                    }
+                    return true;
+                }
+                break;
+
+            case EventType::TouchMoved:
+                if (this->isTouched) {
+                    // Check touchY and change from tap to swipe if outside threshold
+                    if (this->touchY != std::numeric_limits<int>::min()) {
+                        if (e->touchY() > this->touchY + TOUCH_RADIUS || e->touchY() < this->touchY - TOUCH_RADIUS) {
+                            for (size_t i = 0; i < this->children.size(); i++) {
+                                if (this->children[i]->selected() || this->children[i]->hasSelected()) {
+                                    this->children[i]->setInactive();
+                                    break;
+                                }
+                            }
+                            this->touchY = std::numeric_limits<int>::min();
+                        }
+                    } else {
+                        this->setScrollPos(this->scrollPos - e->touchDY());
+                        this->scrollVelocity = -e->touchDY();
+                        if (this->scrollVelocity > MAX_VELOCITY) {
+                            this->scrollVelocity = MAX_VELOCITY;
+                        } else if (this->scrollVelocity < -MAX_VELOCITY) {
+                            this->scrollVelocity = -MAX_VELOCITY;
+                        }
+                    }
+
+                    return true;
+                }
+                break;
+
+            case EventType::TouchReleased:
+                if (this->isTouched) {
+                    this->isScrolling = true;
+                    this->isTouched = false;
+                    this->touchY = std::numeric_limits<int>::min();
+                    if (!Container::handleEvent(e)) {
+                        this->isScrolling = true;
+                    }
+                    return true;
+                }
+                break;
+
+            // Buttons are handled as a container would
+            default:
+                this->stopScrolling();
+                return Container::handleEvent(e);
+                break;
+        }
+
+        return false;
+    }
+
     void Scrollable::update(uint32_t dt) {
         // Update all children first
         Container::update(dt);
 
-        if (this->maxScrollPos != 0 && this->focussed != nullptr) {
-            int sMid = this->y() + this->h()/2;
-            int cMid = this->focussed->y() + (this->focussed->h()/2);
-            this->setScrollPos(this->scrollPos + (this->scrollCatchup * (cMid - sMid) * (dt/1000.0)));
+        // If scrolling due to touch event
+        if (this->isScrolling) {
+            this->setScrollPos(this->scrollPos + this->scrollVelocity);
+            if (this->scrollPos == 0 || this->scrollPos == this->maxScrollPos) {
+                this->scrollVelocity = 0;
+            }
+
+            if (this->scrollVelocity < 0) {
+                this->scrollVelocity += this->scrollDampening * (dt/1000.0);
+            } else if (this->scrollVelocity > 0) {
+                this->scrollVelocity -= this->scrollDampening * (dt/1000.0);
+            }
+
+            if (this->scrollVelocity > -1 && this->scrollVelocity < 1) {
+                this->stopScrolling();
+            }
         }
     }
 
@@ -164,12 +272,13 @@ namespace Aether {
 
         // Draw scroll bar
         if (this->maxScrollPos != 0 && this->showScrollBar_) {
-            int yPos = this->y() + (((float)this->scrollPos / (this->maxScrollPos + 2*PADDING)) * (this->h() - SCROLLBAR_SIZE));
+            int yPos = this->y() + PADDING/2 + (((float)this->scrollPos / (this->maxScrollPos + 2*PADDING)) * (this->h() - SCROLLBAR_SIZE - PADDING));
             SDLHelper::drawTexture(this->scrollBar, this->scrollBarColour, this->x() + this->w() - 5, yPos);
         }
     }
 
     Scrollable::~Scrollable() {
-        SDLHelper::destroyTexture(this->scrollBar);
+        // I should do this but it's static /shrug
+        // SDLHelper::destroyTexture(this->scrollBar);
     }
 };

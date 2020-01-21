@@ -10,6 +10,9 @@ namespace Aether {
         public:
             // Hides scrollbar + adjusts scroll 'catchup'
             Menu(int, int, int, int);
+
+            // Keep the selected item centred
+            void update(uint32_t);
     };
 };
 

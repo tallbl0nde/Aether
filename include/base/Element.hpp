@@ -15,10 +15,6 @@ namespace Aether {
             int w_;
             int h_;
 
-            // Parent element
-            // Only nullptr if root element (ie. display)
-            Element * parent;
-
             // Skip rendering this element + it's children
             bool hidden_;
 
@@ -28,10 +24,10 @@ namespace Aether {
             bool hasHighlighted_;
             // Does this element contain a selectable element?
             bool hasSelectable_;
+            // Does this element contain the selected element?
+            bool hasSelected_;
             // Is this element highlighted
             bool highlighted_;
-            // Texture to draw on top when selected
-            SDL_Texture * selectedTex;
             // Can this element be selected?
             bool selectable_;
             // Is this element selected? (ie. button held/touch held)
@@ -47,11 +43,15 @@ namespace Aether {
             // Set true if touch is "active" (i.e. hide highlighting)
             static bool isTouch;
 
+            // Parent element
+            // Only nullptr if root element (ie. display)
+            Element * parent;
+
             // Vector of child elements (used to call their methods)
             std::vector<Element *> children;
 
             // Element which is highlighted/focussed (to regain focus on activation)
-            Element * focussed;
+            Element * focussed_;
 
         public:
             // Constructor must be passed parent element (or nullptr if there is none)
@@ -91,6 +91,7 @@ namespace Aether {
 
             // Returns true if selected
             bool selected();
+            void setSelected(bool);
             // Returns selectable
             bool selectable();
             // Set whether element is selectable
@@ -110,9 +111,13 @@ namespace Aether {
             bool hasSelectable();
             void setHasSelectable(bool);
 
+            bool hasSelected();
+            void setHasSelected(bool);
+
             virtual void setActive();
             virtual void setInactive();
             void setFocussed(Element *);
+            Element * focussed();
 
             // Returns callback function (nullptr if no callback assigned)
             std::function<void()> callback();

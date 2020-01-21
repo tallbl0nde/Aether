@@ -7,7 +7,7 @@ namespace Aether {
 
     void Container::addElement(Element * e) {
         e->setInactive();
-        if ((e->selectable() || e->hasSelectable()) && this->focussed == nullptr) {
+        if ((e->selectable() || e->hasSelectable()) && this->focussed() == nullptr) {
             this->setFocussed(e);
         }
         Element::addElement(e);
@@ -21,11 +21,11 @@ namespace Aether {
 
         switch (e->type()) {
             case EventType::ButtonPressed:
-                if (this->focussed == nullptr) {
+                if (this->focussed() == nullptr) {
                     return false;
                 }
                 // Default behaviour is to pass to focussed
-                if (this->focussed->handleEvent(e)) {
+                if (this->focussed()->handleEvent(e)) {
                     return true;
                 }
 
@@ -72,8 +72,8 @@ namespace Aether {
                 break;
 
             case EventType::ButtonReleased:
-                if (this->focussed != nullptr) {
-                    if (this->focussed->handleEvent(e)) {
+                if (this->focussed() != nullptr) {
+                    if (this->focussed()->handleEvent(e)) {
                         return true;
                     }
                 }
@@ -94,14 +94,14 @@ namespace Aether {
     }
 
     void Container::setActive() {
-        if (this->focussed != nullptr) {
-            this->focussed->setActive();
+        if (this->focussed() != nullptr) {
+            this->focussed()->setActive();
         }
     }
 
     void Container::setInactive() {
-        if (this->focussed != nullptr) {
-            this->focussed->setInactive();
+        if (this->focussed() != nullptr) {
+            this->focussed()->setInactive();
         }
     }
 
@@ -111,12 +111,12 @@ namespace Aether {
 
         // Iterate over all children and keep valid one with smallest distance
         for (size_t i = 0; i < parent->children.size(); i++) {
-            if (parent->children[i] == parent->focussed || !(parent->children[i]->selectable() || parent->children[i]->hasSelectable())) {
+            if (parent->children[i] == parent->focussed() || !(parent->children[i]->selectable() || parent->children[i]->hasSelectable())) {
                 continue;
             }
 
-            if (check(parent->focussed, parent->children[i])) {
-                int tmpDist = dist(parent->focussed, parent->children[i]);
+            if (check(parent->focussed(), parent->children[i])) {
+                int tmpDist = dist(parent->focussed(), parent->children[i]);
                 if (tmpDist < minDist) {
                     minDist = tmpDist;
                     mv = parent->children[i];
@@ -126,9 +126,7 @@ namespace Aether {
 
         // If one found change focus
         if (mv != nullptr) {
-            parent->focussed->setInactive();
-            parent->focussed = mv;
-            parent->focussed->setActive();
+            parent->setFocussed(mv);
             return true;
         }
         return false;

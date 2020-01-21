@@ -9,15 +9,8 @@ namespace Aether {
     // it rendered (useful for lists)
     class Scrollable : public Container {
         private:
-            // Is the element scrolling? (used for touch events)
-            bool isScrolling;
-            // Amount to decrease velocity by (per second)
-            float scrollDampening;
-            // Scroll velocity (amount to scroll per second)
-            float scrollVelocity;
-
             // Scroll bar texture
-            SDL_Texture * scrollBar;
+            static SDL_Texture * scrollBar;
             // Colour to tint scroll bar
             Colour scrollBarColour;
             // Show the scrollbar?
@@ -26,7 +19,21 @@ namespace Aether {
             // Check all children and determine maximum height
             void updateMaxScrollPos();
 
+            // Stops scrolling and sets active element
+            void stopScrolling();
+
         protected:
+            // Has this scrollable been touched? (used for scrolling when touch is outside)
+            bool isTouched;
+            // Is the element scrolling? (used for touch events)
+            bool isScrolling;
+            // Amount to decrease velocity by (per second)
+            float scrollDampening;
+            // Scroll velocity (amount to scroll per second)
+            float scrollVelocity;
+            // Start of touch Y coord (used to touch instead of scroll briefly)
+            int touchY;
+
             // Maximum Y offset in pixels
             unsigned int maxScrollPos;
             // Amount to "catchup" by
@@ -67,6 +74,8 @@ namespace Aether {
             bool removeElement(Element *);
             void removeAllElements();
 
+            // Handles scrolling
+            bool handleEvent(InputEvent *);
             // Update handles scrolling after touch up
             void update(uint32_t);
             // Render also draws scroll bar if applicable

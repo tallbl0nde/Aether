@@ -93,7 +93,15 @@ namespace Aether {
                     InputEvent * event = new InputEvent(e);
 
                     // Set touched variable
+                    bool old = this->isTouch;
                     this->isTouch = (event->button() == Button::NO_BUTTON);
+
+                    // Ignore first directional press or A (ie. only highlight)
+                    if (old == true && this->isTouch == false && event->id() != FAKE_ID && ((event->button() >= DPAD_LEFT && event->button() <= DPAD_DOWN) || event->button() == A)) {
+                        delete event;
+                        break;
+                    }
+
                     if (event->id() == FAKE_ID && (event->button() < DPAD_LEFT || event->button() > DPAD_DOWN)) {
                         this->isTouch = true;
                     }

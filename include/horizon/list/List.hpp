@@ -8,7 +8,7 @@ namespace Aether {
     // within Horizon.
     class List : public Scrollable {
         private:
-            // SCROLLING VARS
+            // "Manual" scrolling variables
             Button heldButton;
             bool scroll;
 
@@ -18,8 +18,7 @@ namespace Aether {
 
             // Monitors events in order to handle scrolling without a selectable element
             bool handleEvent(InputEvent *);
-            // List has a custom update as it allows the selection to be
-            // anywhere in view and will only scroll if it is going to move off
+            // Allows the selection to be anywhere in view and will only scroll if it is going to move off
             void update(uint32_t);
     };
 };
