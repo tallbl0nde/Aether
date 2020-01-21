@@ -21,6 +21,8 @@ namespace Aether {
             // Variables to handle held buttons
             Button heldButton;
             int heldTime;
+            // Time between repeated button events (in ms)
+            int holdDelay_;
 
             // Vector of overlays, drawn from start -> end but only last one gets events!
             std::vector<Overlay *> overlays;
@@ -46,6 +48,10 @@ namespace Aether {
             // Set colours to highlight elements with
             void setHighlightColours(Colour, Colour);
             void setHighlightAnimation(std::function<Colour(uint32_t)>);
+
+            // Getter + setter for hold delay
+            int holdDelay();
+            void setHoldDelay(int);
 
             // Add an overlay
             void addOverlay(Overlay *);

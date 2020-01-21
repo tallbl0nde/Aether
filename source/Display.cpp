@@ -25,6 +25,7 @@ namespace Aether {
 
         this->heldButton = Button::NO_BUTTON;
         this->heldTime = 0;
+        this->holdDelay_ = MOVE_DELAY;
 
         this->hiAnim = [](uint32_t t){
             return Colour{255, 255, 255, 255};
@@ -72,6 +73,14 @@ namespace Aether {
 
     void Display::setHighlightAnimation(std::function<Colour(uint32_t)> f) {
         this->hiAnim = f;
+    }
+
+    int Display::holdDelay() {
+        return this->holdDelay_;
+    }
+
+    void Display::setHoldDelay(int d) {
+        this->holdDelay_ = d;
     }
 
     bool Display::loop() {
@@ -152,8 +161,8 @@ namespace Aether {
         // Push button pressed/released event if held
         if (this->heldButton != Button::NO_BUTTON) {
             this->heldTime += dtClock.delta;
-            if (this->heldTime >= MOVE_DELAY) {
-                this->heldTime -= MOVE_DELAY;
+            if (this->heldTime >= this->holdDelay_) {
+                this->heldTime -= this->holdDelay_;
                 // Send pushed event
                 SDL_Event event;
                 event.type = SDL_JOYBUTTONDOWN;
