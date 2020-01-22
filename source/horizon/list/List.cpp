@@ -18,7 +18,7 @@ namespace Aether {
 
         // If button event isn't handled...
         if (!res) {
-            if ((e->button() == Button::DPAD_DOWN && this->scrollPos < this->maxScrollPos + PADDING*2) || (e->button() == Button::DPAD_UP && this->scrollPos > 0)) {
+            if ((e->button() == Button::DPAD_DOWN && this->scrollPos < this->maxScrollPos) || (e->button() == Button::DPAD_UP && this->scrollPos > 0)) {
                 if (e->type() == EventType::ButtonPressed) {
                     this->heldButton = e->button();
                     this->scroll = true;

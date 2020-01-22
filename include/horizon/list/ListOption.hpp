@@ -1,7 +1,6 @@
 #ifndef AETHER_LISTOPTION_HPP
 #define AETHER_LISTOPTION_HPP
 
-#include "base/Element.hpp"
 #include "primary/Rectangle.hpp"
 #include "primary/Text.hpp"
 

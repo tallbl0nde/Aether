@@ -9,6 +9,8 @@ namespace Aether {
     // it rendered (useful for lists)
     class Scrollable : public Container {
         private:
+            // Texture to render to
+            SDL_Texture * renderTex;
             // Scroll bar texture
             static SDL_Texture * scrollBar;
             // Colour to tint scroll bar

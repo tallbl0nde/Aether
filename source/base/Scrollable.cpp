@@ -32,14 +32,15 @@ namespace Aether {
         }
         this->scrollBarColour = Colour{255, 255, 255, 255};
         this->touchY = std::numeric_limits<int>::min();
+        this->renderTex = SDLHelper::createTexture(1280, 720);
     }
 
     void Scrollable::setScrollPos(int pos) {
         unsigned int old = this->scrollPos;
         if (pos < 0) {
             this->scrollPos = 0;
-        } else if (pos > this->maxScrollPos + 2*PADDING) {
-            this->scrollPos = this->maxScrollPos + 2*PADDING;
+        } else if (pos > this->maxScrollPos) {
+            this->scrollPos = this->maxScrollPos;
         } else {
             this->scrollPos = pos;
         }
@@ -53,7 +54,7 @@ namespace Aether {
     }
 
     void Scrollable::updateMaxScrollPos() {
-        this->maxScrollPos = 0;
+        this->maxScrollPos = 2 * PADDING;
 
         if (this->children.size() == 0) {
             return;
@@ -257,9 +258,8 @@ namespace Aether {
     }
 
     void Scrollable::render() {
-        // Create blank texture (size of element) + render to it
-        SDL_Texture * t = SDLHelper::createTexture(1280, 720);
-        SDLHelper::renderToTexture(t);
+        SDLHelper::renderToTexture(this->renderTex);
+        SDLHelper::clearScreen({255, 255, 255, 0});
 
         Container::render();
 
@@ -267,12 +267,11 @@ namespace Aether {
         SDLHelper::renderToScreen();
 
         // Only render applicable part of texture
-        SDLHelper::drawTexture(t, Colour{255, 255, 255, 255}, this->x(), this->y(), this->w(), this->h(), this->x(), this->y(), this->w(), this->h());
-        SDLHelper::destroyTexture(t);
+        SDLHelper::drawTexture(this->renderTex, Colour{255, 255, 255, 255}, this->x(), this->y(), this->w(), this->h(), this->x(), this->y(), this->w(), this->h());
 
         // Draw scroll bar
         if (this->maxScrollPos != 0 && this->showScrollBar_) {
-            int yPos = this->y() + PADDING/2 + (((float)this->scrollPos / (this->maxScrollPos + 2*PADDING)) * (this->h() - SCROLLBAR_SIZE - PADDING));
+            int yPos = this->y() + PADDING/2 + (((float)this->scrollPos / this->maxScrollPos) * (this->h() - SCROLLBAR_SIZE - PADDING));
             SDLHelper::drawTexture(this->scrollBar, this->scrollBarColour, this->x() + this->w() - 5, yPos);
         }
     }
@@ -280,5 +279,6 @@ namespace Aether {
     Scrollable::~Scrollable() {
         // I should do this but it's static /shrug
         // SDLHelper::destroyTexture(this->scrollBar);
+        SDLHelper::destroyTexture(this->renderTex);
     }
 };
