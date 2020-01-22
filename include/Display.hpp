@@ -11,6 +11,8 @@ namespace Aether {
         private:
             // Set to false to indicate termination of app
             bool loop_;
+            // Set to true to show fps
+            bool fps_;
 
             // Colour to clear screen with
             Colour bg;
@@ -27,9 +29,8 @@ namespace Aether {
             // Vector of overlays, drawn from start -> end but only last one gets events!
             std::vector<Overlay *> overlays;
 
-            // Vector of screens, should be populated before the main loop!
-            std::vector<Screen *> screens;
-            size_t screen;
+            // Pointer to current screen to draw
+            Screen * screen;
 
             // These functions are private members of a display
             // as they are called by loop()
@@ -40,8 +41,11 @@ namespace Aether {
 
         public:
             // Constructor takes no parameters
-            // Initializes SDL
+            // Initializes SDL with Vsync on
             Display();
+
+            // Toggle showing fps
+            void setShowFPS(bool);
 
             // Set colour to clear screen with
             void setBackgroundColour(uint8_t, uint8_t, uint8_t);
@@ -56,11 +60,8 @@ namespace Aether {
             // Add an overlay
             void addOverlay(Overlay *);
 
-            // Add a screen to the display
-            void addScreen(Screen *);
-
             // Set screen to given pointer
-            bool setScreen(Screen *);
+            void setScreen(Screen *);
 
             // Executes the main loop (events + rendering)
             // Returns false when the app should be terminated

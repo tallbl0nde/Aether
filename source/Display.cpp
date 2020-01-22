@@ -31,8 +31,15 @@ namespace Aether {
             return Colour{255, 255, 255, 255};
         };
 
+        this->screen = nullptr;
+
         // Initialize SDL (loop set to false if an error)
         this->loop_ = SDLHelper::initSDL();
+        this->fps_ = false;
+    }
+
+    void Display::setShowFPS(bool b) {
+        this->fps_ = b;
     }
 
     void Display::setBackgroundColour(uint8_t r, uint8_t g, uint8_t b) {
@@ -44,26 +51,18 @@ namespace Aether {
 
     void Display::addOverlay(Overlay * o) {
         this->overlays.push_back(o);
-        this->screens[this->screen]->setInactive();
+        this->screen->setInactive();
         if (this->overlays.size() > 1) {
             this->overlays[this->overlays.size() - 2]->setInactive();
         }
     }
 
-    void Display::addScreen(Screen * s) {
-        this->screens.push_back(s);
-        s->setParent(this);
-        this->screen = this->screens.size()-1;
-    }
-
-    bool Display::setScreen(Screen * s) {
-        std::vector<Screen *>::iterator it = std::find(this->screens.begin(), this->screens.end(), s);
-        if (it != this->screens.end()) {
-            this->screen = std::distance(this->screens.begin(), it);
-            return true;
+    void Display::setScreen(Screen * s) {
+        if (s != nullptr) {
+            s->onUnload();
         }
-
-        return false;
+        this->screen = s;
+        s->onLoad();
     }
 
     void Display::setHighlightColours(Colour bg, Colour sel) {
@@ -84,8 +83,8 @@ namespace Aether {
     }
 
     bool Display::loop() {
-        // Quit loop if no screens are added
-        if (this->screens.size() == 0) {
+        // Quit loop if no screen is present
+        if (this->screen == nullptr) {
             return false;
         }
 
@@ -116,7 +115,7 @@ namespace Aether {
                     }
 
                     if (this->overlays.size() == 0) {
-                        this->screens[this->screen]->handleEvent(event);
+                        this->screen->handleEvent(event);
                     } else {
                         this->overlays[this->overlays.size()-1]->handleEvent(event);
                     }
@@ -137,18 +136,17 @@ namespace Aether {
             }
         }
 
-        // Update screems
+        // Update screen
         dtClock.tick();
-        this->screens[this->screen]->update(dtClock.delta);
+        this->screen->update(dtClock.delta);
 
         // Update overlays
         for (size_t i = 0; i < this->overlays.size(); i++) {
             if (this->overlays[i]->shouldClose()) {
-                delete this->overlays[i];
                 this->overlays.erase(this->overlays.begin() + i);
                 i--;
                 if (this->overlays.size() == 0) {
-                    this->screens[this->screen]->setActive();
+                    this->screen->setActive();
                 } else {
                     this->overlays[this->overlays.size() - 1]->setActive();
                 }
@@ -186,8 +184,8 @@ namespace Aether {
         // Update highlight border colour
         this->hiBorder = this->hiAnim(dtClock.last_tick);
 
-        // Render current screen
-        this->screens[this->screen]->render();
+        // Render screen
+        this->screen->render();
 
         // Draw overlays
         for (size_t i = 0; i < this->overlays.size(); i++) {
@@ -195,10 +193,12 @@ namespace Aether {
         }
 
         // Draw FPS
-        std::string ss = "FPS: " + std::to_string((int)(1.0/(dtClock.delta/1000.0))) + " (" + std::to_string(dtClock.delta) + " ms)";
-        SDL_Texture * tt = SDLHelper::renderText(ss.c_str(), 20);
-        SDLHelper::drawTexture(tt, SDL_Color{0, 150, 150, 255}, 5, 695);
-        SDLHelper::destroyTexture(tt);
+        if (this->fps_) {
+            std::string ss = "FPS: " + std::to_string((int)(1.0/(dtClock.delta/1000.0))) + " (" + std::to_string(dtClock.delta) + " ms)";
+            SDL_Texture * tt = SDLHelper::renderText(ss.c_str(), 20);
+            SDLHelper::drawTexture(tt, SDL_Color{0, 150, 150, 255}, 5, 695);
+            SDLHelper::destroyTexture(tt);
+        }
 
         SDLHelper::draw();
 
@@ -210,11 +210,6 @@ namespace Aether {
     }
 
     Display::~Display() {
-        while (this->screens.size() > 0) {
-            delete this->screens[0];
-            this->screens.erase(this->screens.begin());
-        }
-
         // Clean up SDL
         SDLHelper::exitSDL();
     }

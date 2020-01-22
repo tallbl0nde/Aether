@@ -12,6 +12,14 @@ namespace Aether {
         }
     }
 
+    void Screen::onLoad() {
+
+    }
+
+    void Screen::onUnload() {
+
+    }
+
     void Screen::onButtonPress(Button k, std::function<void()> f) {
         this->pressFuncs[k] = f;
     }

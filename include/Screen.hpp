@@ -18,6 +18,10 @@ namespace Aether {
             // Constructor takes parent element and active/inactive functions
             Screen();
 
+            // Functions that are called when screen is set/unser
+            virtual void onLoad();
+            virtual void onUnload();
+
             // Set a the given callback to the given button press
             // Note that setting a button callback will block the event from
             // going to any other elements!!
