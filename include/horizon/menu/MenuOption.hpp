@@ -22,8 +22,8 @@ namespace Aether {
             Text * text;
 
         public:
-            // Constructor takes string, callback function and active/inactive colours (default to white)
-            MenuOption(std::string, std::function<void()>, Colour = {255, 255, 255, 255}, Colour = {255, 255, 255, 255});
+            // Constructor takes string, active/inactive colours and callback function
+            MenuOption(std::string, Colour, Colour, std::function<void()>);
 
             // Setting the width needs to adjust width of text texture
             void setW(int);

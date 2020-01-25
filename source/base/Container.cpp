@@ -11,6 +11,13 @@ namespace Aether {
             this->setFocussed(e);
         }
         Element::addElement(e);
+
+        // Set inactive if this element is not active
+        if (this->parent != nullptr) {
+            if (this->parent->focussed() != this) {
+                e->setInactive();
+            }
+        }
     }
 
     bool Container::handleEvent(InputEvent * e) {

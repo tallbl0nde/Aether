@@ -327,7 +327,10 @@ namespace Aether {
             this->focussed_->setInactive();
         }
         this->focussed_ = e;
-        e->setActive();
+
+        if (e != nullptr) {
+            e->setActive();
+        }
     }
 
     Element * Element::focussed() {
@@ -335,6 +338,11 @@ namespace Aether {
     }
 
     Element::~Element() {
+        if (this->parent != nullptr) {
+            if (this->parent->focussed() == this) {
+                this->parent->setFocussed(nullptr);
+            }
+        }
         this->removeAllElements();
     }
 

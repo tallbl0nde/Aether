@@ -6,7 +6,7 @@
 #define DEFAULT_FONT_SIZE 22
 
 namespace Aether {
-    MenuOption::MenuOption(std::string s, std::function<void()> f, Colour a, Colour ia) : Element() {
+    MenuOption::MenuOption(std::string s, Colour a, Colour ia, std::function<void()> f) : Element() {
         // Create and add child elements
         this->rect = new Rectangle(8, 9, 4, 52);
         this->text = new Text(24, 0, s, DEFAULT_FONT_SIZE);

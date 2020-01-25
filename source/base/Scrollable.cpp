@@ -80,14 +80,16 @@ namespace Aether {
     void Scrollable::stopScrolling() {
         if (this->isScrolling) {
             // Move highlight to top element if not visible
-            if (!(this->focussed()->y() >= this->y() && this->focussed()->y() + this->focussed()->h() <= this->y() + this->h())) {
-                for (size_t i = 0; i < this->children.size(); i++) {
-                    if (this->children[i]->y() > this->y() && this->children[i]->selectable()) {
-                        this->setFocussed(this->children[i]);
-                        if (this->parent->focussed() == this) {
-                            this->focussed()->setActive();
+            if (this->hasSelectable()) {
+                if (!(this->focussed()->y() >= this->y() && this->focussed()->y() + this->focussed()->h() <= this->y() + this->h())) {
+                    for (size_t i = 0; i < this->children.size(); i++) {
+                        if (this->children[i]->y() > this->y() && this->children[i]->selectable()) {
+                            this->setFocussed(this->children[i]);
+                            if (this->parent->focussed() == this) {
+                                this->focussed()->setActive();
+                            }
+                            break;
                         }
-                        break;
                     }
                 }
             }
@@ -165,6 +167,7 @@ namespace Aether {
 
     void Scrollable::removeAllElements() {
         Container::removeAllElements();
+        this->setScrollPos(0);
         this->updateMaxScrollPos();
     }
 
