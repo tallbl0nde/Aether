@@ -1,3 +1,6 @@
+#ifndef AETHER_HPP
+#define AETHER_HPP
+
 // Include all relevant hpp's
 #include "Display.hpp"
 #include "horizon/button/BorderButton.hpp"
@@ -16,3 +19,5 @@
 #include "primary/Ellipse.hpp"
 #include "primary/Image.hpp"
 #include "utils/Theme.hpp"
+
+#endif

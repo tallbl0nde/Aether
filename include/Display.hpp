@@ -2,7 +2,6 @@
 #define AETHER_DISPLAY_HPP
 
 #include "Overlay.hpp"
-#include "Screen.hpp"
 
 namespace Aether {
     // The Display represents the "root" element. It stores and handles different screens
@@ -31,6 +30,8 @@ namespace Aether {
 
             // Pointer to current screen to draw
             Screen * screen;
+            // Pointer to screen to change to after loop
+            Screen * nextScreen;
 
             // These functions are private members of a display
             // as they are called by loop()

@@ -32,6 +32,7 @@ namespace Aether {
         };
 
         this->screen = nullptr;
+        this->nextScreen = nullptr;
 
         // Initialize SDL (loop set to false if an error)
         this->loop_ = SDLHelper::initSDL();
@@ -58,11 +59,7 @@ namespace Aether {
     }
 
     void Display::setScreen(Screen * s) {
-        if (s != nullptr) {
-            s->onUnload();
-        }
-        this->screen = s;
-        s->onLoad();
+        this->nextScreen = s;
     }
 
     void Display::setHighlightColours(Colour bg, Colour sel) {
@@ -83,6 +80,16 @@ namespace Aether {
     }
 
     bool Display::loop() {
+        // Change screen if need be
+        if (this->nextScreen != nullptr) {
+            if (this->screen != nullptr) {
+                this->screen->onUnload();
+            }
+            this->screen = this->nextScreen;
+            this->screen->onLoad();
+            this->nextScreen = nullptr;
+        }
+
         // Quit loop if no screen is present
         if (this->screen == nullptr) {
             return false;

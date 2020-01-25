@@ -54,11 +54,13 @@ namespace Aether {
     }
 
     void Scrollable::updateMaxScrollPos() {
-        this->maxScrollPos = 2 * PADDING;
+        this->maxScrollPos = 0;
 
         if (this->children.size() == 0) {
             return;
         }
+
+        this->maxScrollPos = 2 * PADDING;
 
         // Loop over child elements and determine maximum y pos
         for (size_t i = 0; i < this->children.size(); i++) {
