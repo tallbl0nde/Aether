@@ -33,6 +33,9 @@ namespace Aether {
             // Add the given item string + callback to the list (optional parameter set to true if ticked)
             void addEntry(std::string, std::function<void()>, bool = false);
 
+            // Removes all entries
+            void removeEntries();
+
             // Getters + setters colours
             Colour getBackgroundColour();
             void setBackgroundColour(Colour);

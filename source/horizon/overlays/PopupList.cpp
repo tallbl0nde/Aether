@@ -36,7 +36,7 @@ namespace Aether {
         this->setFocussed(this->list);
 
         this->onButtonPress(Button::B, [this](){
-            this->close();
+            this->close(true);
         });
     }
 
@@ -46,7 +46,7 @@ namespace Aether {
             // Call callback
             f();
             // Close
-            this->close();
+            this->close(true);
         });
         b->setH(ITEM_HEIGHT);
         b->setLineColour(this->llColour);
@@ -71,6 +71,11 @@ namespace Aether {
             this->list->setY(this->list->y() - ITEM_HEIGHT);
             this->list->setH(this->list->h() + ITEM_HEIGHT);
         }
+    }
+
+    void PopupList::removeEntries() {
+        this->items.empty();
+        this->list->removeAllElements();
     }
 
     Colour PopupList::getBackgroundColour() {

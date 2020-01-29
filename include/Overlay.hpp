@@ -18,7 +18,7 @@ namespace Aether {
             Overlay();
 
             // Call to mark the overlay to be closed
-            void close();
+            void close(bool);
             // Returns close
             bool shouldClose();
 
