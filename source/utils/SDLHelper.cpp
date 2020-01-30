@@ -16,6 +16,10 @@ static std::unordered_map<int, TTF_Font *> std_font;
 // Same but for extended
 static std::unordered_map<int, TTF_Font *> ext_font;
 
+// === MISCELLANEOUS ===
+// Set to current blend mode
+static SDL_BlendMode tex_blend_mode;
+
 namespace SDLHelper {
     bool initSDL() {
         // Init main SDL
@@ -45,10 +49,10 @@ namespace SDLHelper {
             return false;
         }
 
-        // Enable blending (transparency)
+        // Set up blending
         SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
-        // Enable antialiasing
         SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "2");
+        tex_blend_mode = SDL_BLENDMODE_BLEND;
 
         // Load fonts
         Result rc = plInitialize();
@@ -104,6 +108,18 @@ namespace SDLHelper {
         SDL_RenderClear(renderer);
     }
 
+    SDL_BlendMode getBlendMode() {
+        return tex_blend_mode;
+    }
+
+    void setBlendMode(SDL_BlendMode b) {
+        tex_blend_mode = b;
+    }
+
+    void setRendererBlendMode(SDL_BlendMode b) {
+        SDL_SetRenderDrawBlendMode(renderer, b);
+    }
+
     // === DRAWING FUNCTIONS ===
 
     void draw() {
@@ -144,6 +160,7 @@ namespace SDLHelper {
         // Set color
         SDL_SetTextureColorMod(tex, c.r, c.g, c.b);
         SDL_SetTextureAlphaMod(tex, c.a);
+        SDL_SetTextureBlendMode(tex, tex_blend_mode);
 
         // Get dimensions
         int width, height;

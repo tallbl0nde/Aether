@@ -288,16 +288,24 @@ namespace Aether {
             return;
         }
 
+        SDL_BlendMode bld = SDLHelper::getBlendMode();
         if (this->highlighted() && !this->isTouch) {
+            SDLHelper::setBlendMode(SDL_BLENDMODE_BLEND);
             this->renderHighlighted();
+        }
+
+        if (this->selected()) {
+            SDLHelper::setBlendMode(SDL_BLENDMODE_BLEND);
         }
 
         // Draw children
         for (size_t i = 0; i < this->children.size(); i++) {
             this->children[i]->render();
         }
+        SDLHelper::setBlendMode(bld);
 
         if (this->selected()) {
+            // SDLHelper::setBlendMode(SDL_BLENDMODE_BLEND);
             this->renderSelected();
         }
     }

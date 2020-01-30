@@ -24,6 +24,9 @@ namespace Aether {
             void setCircleColour(Colour);
             Colour getTickColour();
             void setTickColour(Colour);
+
+            // Render adjusts blend mode for text
+            void render();
     };
 };
 

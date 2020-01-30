@@ -264,11 +264,13 @@ namespace Aether {
 
     void Scrollable::render() {
         SDLHelper::renderToTexture(this->renderTex);
-        SDLHelper::clearScreen({255, 255, 255, 0});
+        SDL_BlendMode bld = SDLHelper::getBlendMode();
+        SDLHelper::setBlendMode(SDL_BLENDMODE_NONE);
 
         Container::render();
 
         // Reset all rendering calls to screen
+        SDLHelper::setBlendMode(bld);
         SDLHelper::renderToScreen();
 
         // Only render applicable part of texture

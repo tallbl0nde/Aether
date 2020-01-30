@@ -76,6 +76,14 @@ namespace Aether {
     void PopupList::removeEntries() {
         this->items.empty();
         this->list->removeAllElements();
+
+        // Reset heights
+        this->rect->setY(this->y() + this->h() - 224);
+        this->rect->setH(224);
+        this->title->setY(this->rect->y() + 40 - this->title->h()/2);
+        this->top->setY(this->rect->y() + 72);
+        this->list->setY(this->top->y());
+        this->list->setH(80);
     }
 
     Colour PopupList::getBackgroundColour() {

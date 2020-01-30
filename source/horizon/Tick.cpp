@@ -35,4 +35,13 @@ namespace Aether {
     void Tick::setTickColour(Colour c) {
         this->tick->setColour(c);
     }
+
+    void Tick::render() {
+        SDL_BlendMode bld = SDLHelper::getBlendMode();
+        SDLHelper::setBlendMode(SDL_BLENDMODE_BLEND);
+
+        Element::render();
+
+        SDLHelper::setBlendMode(bld);
+    }
 };

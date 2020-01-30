@@ -32,6 +32,10 @@ namespace SDLHelper {
     // Set renderer to given texture
     void renderToTexture(SDL_Texture *);
 
+    SDL_BlendMode getBlendMode();
+    void setBlendMode(SDL_BlendMode);
+    void setRendererBlendMode(SDL_BlendMode);
+
     // === DRAWING FUNCTIONS ===
     // -> Draw directly to the screen/renderer
 
