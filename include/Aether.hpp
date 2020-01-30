@@ -3,7 +3,6 @@
 
 // Include all relevant hpp's
 #include "Display.hpp"
-#include "horizon/button/BorderButton.hpp"
 #include "horizon/button/FilledButton.hpp"
 #include "horizon/list/ListComment.hpp"
 #include "horizon/list/ListHeading.hpp"
@@ -13,6 +12,7 @@
 #include "horizon/menu/Menu.hpp"
 #include "horizon/menu/MenuOption.hpp"
 #include "horizon/menu/MenuSeparator.hpp"
+#include "horizon/overlays/MessageBox.hpp"
 #include "horizon/overlays/PopupList.hpp"
 #include "horizon/progress/ProgressBar.hpp"
 #include "horizon/progress/RoundProgressBar.hpp"
