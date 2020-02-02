@@ -5,7 +5,7 @@
 // Default dampening amount
 #define DEFAULT_DAMPENING 20
 // Maximum scrollVelocity
-#define MAX_VELOCITY 50
+#define MAX_VELOCITY 70
 // Padding for very top and very bottom elements
 #define PADDING 40
 // Padding either side of items (to allow for scroll bar)
@@ -32,7 +32,7 @@ namespace Aether {
         }
         this->scrollBarColour = Colour{255, 255, 255, 255};
         this->touchY = std::numeric_limits<int>::min();
-        this->renderTex = SDLHelper::createTexture(1280, 720);
+        this->renderTex = SDLHelper::createTexture(w, h);
     }
 
     void Scrollable::setScrollPos(int pos) {
@@ -101,6 +101,8 @@ namespace Aether {
 
     void Scrollable::setW(int w) {
         Container::setW(w);
+        SDLHelper::destroyTexture(this->renderTex);
+        this->renderTex = SDLHelper::createTexture(this->w(), this->h());
         for (size_t i = 0; i < this->children.size(); i++) {
             this->children[i]->setW(this->w() - 2*SIDE_PADDING);
         }
@@ -108,6 +110,8 @@ namespace Aether {
 
     void Scrollable::setH(int h) {
         Container::setH(h);
+        SDLHelper::destroyTexture(this->renderTex);
+        this->renderTex = SDLHelper::createTexture(this->w(), this->h());
         this->updateMaxScrollPos();
     }
 
@@ -266,15 +270,17 @@ namespace Aether {
         SDLHelper::renderToTexture(this->renderTex);
         SDL_BlendMode bld = SDLHelper::getBlendMode();
         SDLHelper::setBlendMode(SDL_BLENDMODE_NONE);
+        SDLHelper::setOffset(-this->x(), -this->y());
 
         Container::render();
 
         // Reset all rendering calls to screen
+        SDLHelper::setOffset(0, 0);
         SDLHelper::setBlendMode(bld);
         SDLHelper::renderToScreen();
 
-        // Only render applicable part of texture
-        SDLHelper::drawTexture(this->renderTex, Colour{255, 255, 255, 255}, this->x(), this->y(), this->w(), this->h(), this->x(), this->y(), this->w(), this->h());
+        // Render texture
+        SDLHelper::drawTexture(this->renderTex, Colour{255, 255, 255, 255}, this->x(), this->y(), this->w(), this->h());
 
         // Draw scroll bar
         if (this->maxScrollPos != 0 && this->showScrollBar_) {

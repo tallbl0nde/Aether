@@ -1,4 +1,5 @@
 #include "SDLHelper.hpp"
+#include <unordered_map>
 
 // === SDL RENDERING ===
 // SDL Renderer instance
@@ -17,6 +18,9 @@ static std::unordered_map<int, TTF_Font *> std_font;
 static std::unordered_map<int, TTF_Font *> ext_font;
 
 // === MISCELLANEOUS ===
+// Offset position
+static int offsetX;
+static int offsetY;
 // Set to current blend mode
 static SDL_BlendMode tex_blend_mode;
 
@@ -53,6 +57,10 @@ namespace SDLHelper {
         SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
         SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "2");
         tex_blend_mode = SDL_BLENDMODE_BLEND;
+
+        // Ensure offset starts at (0, 0)
+        offsetX = 0;
+        offsetY = 0;
 
         // Load fonts
         Result rc = plInitialize();
@@ -97,6 +105,16 @@ namespace SDLHelper {
         SDL_QueryTexture(t, nullptr, nullptr, w, h);
     }
 
+    void getOffset(int * x, int * y) {
+        *x = offsetX;
+        *y = offsetY;
+    }
+
+    void setOffset(int x, int y) {
+        offsetX = x;
+        offsetY = y;
+    }
+
     void renderToScreen() {
         SDL_SetRenderTarget(renderer, nullptr);
     }
@@ -127,31 +145,31 @@ namespace SDLHelper {
     }
 
     void drawEllipse(SDL_Color c, int x, int y, unsigned int w, unsigned int h) {
-        filledEllipseRGBA(renderer, x, y, w/2, h/2, c.r, c.g, c.b, c.a);
-        aaellipseRGBA(renderer, x, y, w/2, h/2, c.r, c.g, c.b, c.a);
+        filledEllipseRGBA(renderer, x + offsetX, y + offsetY, w/2, h/2, c.r, c.g, c.b, c.a);
+        aaellipseRGBA(renderer, x + offsetX, y + offsetY, w/2, h/2, c.r, c.g, c.b, c.a);
     }
 
     void drawFilledRect(SDL_Color c, int x, int y, int w, int h) {
-        SDL_Rect rr = {x, y, w, h};
+        SDL_Rect rr = {x + offsetX, y + offsetY, w, h};
         SDL_SetRenderDrawColor(renderer, c.r, c.g, c.b, c.a);
         SDL_RenderFillRect(renderer, &rr);
     }
 
     void drawFilledRoundRect(SDL_Color c, int x, int y, int w, int h, unsigned int r) {
-        roundedBoxRGBA(renderer, x + w - 2, y, x, y + h - 2, r, c.r, c.g, c.b, c.a);
+        roundedBoxRGBA(renderer, offsetX + (x + w - 2), offsetY + y, offsetX + x, offsetY + (y + h - 2), r, c.r, c.g, c.b, c.a);
         SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
     }
 
     void drawRoundRect(SDL_Color c, int x, int y, int w, int h, unsigned int r, unsigned int b) {
         for (unsigned int i = 0; i < b; i++) {
-            roundedRectangleRGBA(renderer, (x + w) - i, y + i, x + i, (y + h) - i, r, c.r, c.g, c.b, c.a);
+            roundedRectangleRGBA(renderer, (x + offsetX + w) - i, y + offsetY + i, offsetX + x + i, (offsetY + y + h) - i, r, c.r, c.g, c.b, c.a);
         }
         SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
     }
 
     void drawRect(SDL_Color c, int x, int y, int w, int h, unsigned int b) {
         for (unsigned int i = 0; i < b; i++) {
-            rectangleRGBA(renderer, (x + w) - i, y + i, x + i, (y + h) - i, c.r, c.g, c.b, c.a);
+            rectangleRGBA(renderer, (x + offsetX + w) - i, y + offsetY + i, x + offsetX + i, (y + offsetY + h) - i, c.r, c.g, c.b, c.a);
         }
         SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
     }
@@ -173,7 +191,7 @@ namespace SDLHelper {
         }
 
         // Scale if necessary + render
-        SDL_Rect r = {x, y, w, h};
+        SDL_Rect r = {x + offsetX, y + offsetY, w, h};
         if (tx != -1 && tw != -1 && ty != -1 && th != -1) {
             SDL_Rect s = {tx, ty, tw, th};
             SDL_RenderCopy(renderer, tex, &s, &r);

@@ -6,7 +6,6 @@
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
 #include <switch.h>
-#include <unordered_map>
 
 // These are a bunch of functions to turn long repetitive actions in SDL
 // into one-liners.
@@ -27,13 +26,21 @@ namespace SDLHelper {
     // Wrapper for QueryTexture
     void getDimensions(SDL_Texture *, int *, int *);
 
+    // Return the render offset in the given pointers (x, y)
+    void getOffset(int *, int *);
+    // Set the offset of drawing operations
+    void setOffset(int, int);
+
     // Reset renderer to screen
     void renderToScreen();
     // Set renderer to given texture
     void renderToTexture(SDL_Texture *);
 
+    // Return the current texture blend mode
     SDL_BlendMode getBlendMode();
+    // Set the blend mode of drawn textures
     void setBlendMode(SDL_BlendMode);
+    // Set the blend mode of draw operations (i.e. render to screen ops)
     void setRendererBlendMode(SDL_BlendMode);
 
     // === DRAWING FUNCTIONS ===
