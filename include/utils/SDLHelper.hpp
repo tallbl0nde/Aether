@@ -2,9 +2,6 @@
 #define SDLHELPER_HPP
 
 #include <SDL2/SDL.h>
-#include <SDL2/SDL2_gfxPrimitives.h>
-#include <SDL2/SDL_image.h>
-#include <SDL2/SDL_ttf.h>
 #include <switch.h>
 
 // These are a bunch of functions to turn long repetitive actions in SDL
@@ -92,11 +89,15 @@ namespace SDLHelper {
 
     // Reads an image from a pointer to it and returns a texture containing it
     SDL_Texture * renderImage(u8 *, size_t);
+    // Above but also shrinks image by given factors
+    SDL_Texture * renderImageShrinked(u8 *, size_t, int, int);
+
     // Returns a texture with the specified text drawn at the specified font size
     // Always drawn in white!
     SDL_Texture * renderText(const char *, int, bool = false);
     // Same as renderText but wraps text at given width
     SDL_Texture * renderTextWrapped(const char *, int, uint32_t, bool = false);
+
 };
 
 #endif

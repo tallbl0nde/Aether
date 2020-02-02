@@ -1,4 +1,8 @@
 #include "SDLHelper.hpp"
+#include <SDL2/SDL2_gfxPrimitives.h>
+#include <SDL2/SDL2_rotozoom.h>
+#include <SDL2/SDL_image.h>
+#include <SDL2/SDL_ttf.h>
 #include <unordered_map>
 
 // === SDL RENDERING ===
@@ -249,8 +253,17 @@ namespace SDLHelper {
     SDL_Texture * renderImage(u8 * ptr, size_t size) {
         SDL_Surface * tmp = IMG_Load_RW(SDL_RWFromMem(ptr, size), 1);
         SDL_Surface * tmp2 = SDL_ConvertSurfaceFormat(tmp, SDL_PIXELFORMAT_RGBA32, 0);
-        SDL_Texture * tex = SDL_CreateTextureFromSurface(renderer, tmp2);
         SDL_FreeSurface(tmp);
+        SDL_Texture * tex = SDL_CreateTextureFromSurface(renderer, tmp2);
+        SDL_FreeSurface(tmp2);
+        return tex;
+    }
+
+    SDL_Texture * renderImageShrinked(u8 * ptr, size_t size, int xF, int yF) {
+        SDL_Surface * tmp = IMG_Load_RW(SDL_RWFromMem(ptr, size), 1);
+        SDL_Surface * tmp2 = shrinkSurface(tmp, xF, yF);
+        SDL_FreeSurface(tmp);
+        SDL_Texture * tex = SDL_CreateTextureFromSurface(renderer, tmp2);
         SDL_FreeSurface(tmp2);
         return tex;
     }

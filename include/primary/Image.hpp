@@ -15,8 +15,8 @@ namespace Aether {
             // Both constructors take coordinates
             // Takes path to image to read and render
             Image(int, int, std::string);
-            // Takes pointer to image and size
-            Image(int, int, u8 *, size_t);
+            // Takes pointer to image and size + optional factors to scale down (advanced!)
+            Image(int, int, u8 *, size_t, int = 1, int = 1);
     };
 };
 
