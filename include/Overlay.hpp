@@ -8,9 +8,6 @@ namespace Aether {
     // black background.
     class Overlay : public Screen {
         private:
-            // Background texture is shared between all overlays
-            static SDL_Texture * background;
-
             // Set true when it should be closed
             bool close_;
 
@@ -24,8 +21,6 @@ namespace Aether {
 
             // Render calls Screen but draws background first
             void render();
-
-            ~Overlay();
     };
 };
 

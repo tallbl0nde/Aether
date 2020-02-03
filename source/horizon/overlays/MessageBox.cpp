@@ -135,7 +135,9 @@ namespace Aether {
         }
         this->rect->setRectSize(w, h);
         this->rect->setXY(640 - this->rect->w()/2, 360 - this->rect->h()/2);
-        this->body->setXY(this->rect->x(), this->rect->y());
+        if (this->body != nullptr) {
+            this->body->setXY(this->rect->x(), this->rect->y());
+        }
         this->topH->setX(this->rect->x());
         this->bottomH->setX(this->rect->x());
         this->vertH->setY(this->rect->y() + this->rect->h() - BUTTON_HEIGHT);
