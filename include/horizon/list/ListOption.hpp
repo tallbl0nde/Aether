@@ -39,8 +39,14 @@ namespace Aether {
             std::string value();
             void setValue(std::string);
 
+            // Adjust font size (also centers)
+            void setFontSize(unsigned int);
+            unsigned int fontSize();
+
             // Adjusting width requires changing width of rectangles + repositioning of text
             void setW(int);
+            // Adjusting height moves elements
+            void setH(int);
     };
 };
 

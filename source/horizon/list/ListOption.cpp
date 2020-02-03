@@ -9,7 +9,7 @@
 
 namespace Aether {
     ListOption::ListOption(std::string t, std::string v, std::function<void()> f) : Element() {
-        this->setH(HEIGHT);
+        Element::setH(HEIGHT);
         this->topR = new Rectangle(0, 0, this->w(), 1);
         this->bottomR = new Rectangle(0, this->y() + this->h(), this->w(), 1);
         this->hint_ = new Text(0, 0, t, FONT_SIZE);
@@ -31,6 +31,7 @@ namespace Aether {
         this->value_->setY(this->y() + (this->h() - this->value_->texH())/2);
 
         this->topR->setW(this->w());
+        this->bottomR->setY(this->y() + this->h());
         this->bottomR->setW(this->w());
     }
 
@@ -83,8 +84,24 @@ namespace Aether {
         this->positionElements();
     }
 
+    void ListOption::setFontSize(unsigned int s) {
+        this->hint_->setFontSize(s);
+        this->hint_->setY(this->y() + (this->h() - this->hint_->texH())/2);
+        this->value_->setFontSize(s);
+        this->value_->setY(this->y() + (this->h() - this->value_->texH())/2);
+    }
+
+    unsigned int ListOption::fontSize() {
+        return this->hint_->fontSize();
+    }
+
     void ListOption::setW(int w) {
         Element::setW(w);
+        this->positionElements();
+    }
+
+    void ListOption::setH(int h) {
+        Element::setH(h);
         this->positionElements();
     }
 }
