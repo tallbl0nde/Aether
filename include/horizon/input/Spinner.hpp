@@ -8,7 +8,7 @@
 namespace Aether {
     // A Spinner contains a number which can be increased/decreased by pressing
     // the associated up/down buttons or the dpad.
-    // Note that this element has a default size and should not be changed!
+    // Note that this element has a default height and should not be changed!!
     class Spinner : public Container {
         private:
             // Up arrow, down arrow + actual value/text
@@ -23,6 +23,8 @@ namespace Aether {
 
             // Set true to allow values to wrap from max - min and vice versa
             bool wrap;
+            // Number of zeroes to pad number with
+            unsigned int padding;
             // Amount to inc/dec
             int amount;
             // Should be obvious
@@ -39,8 +41,8 @@ namespace Aether {
 
         public:
             // Constructor initializes value to 0
-            // x, y
-            Spinner(int, int);
+            // x, y, w (optional)
+            Spinner(int, int, int = 90);
 
             // Need to handle up/down button presses
             bool handleEvent(InputEvent *);
@@ -53,6 +55,11 @@ namespace Aether {
             // Get + set whether to wrap values around
             bool wrapAround();
             void setWrapAround(bool);
+
+            // Get + set number of digits (padded with zeroes)
+            unsigned int digits();
+            // Set to zero to disable padding
+            void setDigits(unsigned int);
 
             // Set a label for the spinner (give empty string to remove)
             // Will increase (or on removal  decrease) height!

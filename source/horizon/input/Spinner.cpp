@@ -7,11 +7,10 @@
 #define LABEL_PADDING 30
 #define VALUE_FONT_SIZE 40
 #define VALUE_PADDING 20
-#define WIDTH 90
 #define HEIGHT 200  // Height without label
 
 namespace Aether {
-    Spinner::Spinner(int x, int y) : Container(x, y, WIDTH, HEIGHT) {
+    Spinner::Spinner(int x, int y, int w) : Container(x, y, w, HEIGHT) {
         // Up arrow
         Element * e = new Element(0, this->y(), ARROW_FONT_SIZE + (2 * ARROW_PADDING), ARROW_FONT_SIZE + ARROW_PADDING);
         e->setX(this->x() + (this->w() - e->w())/2);
@@ -38,7 +37,7 @@ namespace Aether {
         this->addElement(e);
 
         // Value string
-        e = new Element(0, 0, WIDTH, VALUE_FONT_SIZE + VALUE_PADDING * 2);
+        e = new Element(0, 0, this->w(), VALUE_FONT_SIZE + VALUE_PADDING * 2);
         e->setXY(this->x() + (this->w() - e->w())/2, this->y() + (this->h() - e->h())/2);
         e->setSelectable(true);
         this->str = new Text(0, 0, "0", VALUE_FONT_SIZE);
@@ -52,6 +51,8 @@ namespace Aether {
         this->label_->setHidden(true);
         this->addElement(this->label_);
 
+        this->wrap = false;
+        this->padding = 0;
         this->value_ = 0;
         this->amount = 1;
         this->min_ = 0;
@@ -74,8 +75,7 @@ namespace Aether {
         }
 
         // Update string
-        this->str->setString(std::to_string(this->value_));
-        this->str->setX(this->x() + (this->w() - this->str->w())/2);
+        this->setValue(this->value_);
     }
 
     void Spinner::decrementVal() {
@@ -91,8 +91,7 @@ namespace Aether {
         }
 
         // Update string
-        this->str->setString(std::to_string(this->value_));
-        this->str->setX(this->x() + (this->w() - this->str->w())/2);
+        this->setValue(this->value_);
     }
 
     bool Spinner::handleEvent(InputEvent * e) {
@@ -158,6 +157,15 @@ namespace Aether {
         this->wrap = b;
     }
 
+    unsigned int Spinner::digits() {
+        return this->padding;
+    }
+
+    void Spinner::setDigits(unsigned int p) {
+        this->padding = p;
+        this->setValue(this->value_);
+    }
+
     void Spinner::setLabel(std::string s) {
         this->label_->setString(s);
 
@@ -192,7 +200,11 @@ namespace Aether {
 
     void Spinner::setValue(int v) {
         this->value_ = v;
-        this->str->setString(std::to_string(this->value_));
+        std::string tmp = std::to_string(this->value_);
+        while (tmp.length() < this->padding) {
+            tmp = "0" + tmp;
+        }
+        this->str->setString(tmp);
         this->str->setX(this->x() + (this->w() - this->str->w())/2);
     }
 
@@ -202,6 +214,9 @@ namespace Aether {
 
     void Spinner::setMin(int m) {
         this->min_ = m;
+        if (this->value_ < m) {
+            this->setValue(m);
+        }
     }
 
     int Spinner::max() {
@@ -210,6 +225,9 @@ namespace Aether {
 
     void Spinner::setMax(int m) {
         this->max_ = m;
+        if (this->value_ > m) {
+            this->setValue(m);
+        }
     }
 
     Colour Spinner::getArrowColour() {
