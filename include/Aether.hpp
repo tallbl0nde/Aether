@@ -4,6 +4,7 @@
 // Include all relevant hpp's
 #include "Display.hpp"
 #include "horizon/button/FilledButton.hpp"
+#include "horizon/input/Spinner.hpp"
 #include "horizon/list/ListComment.hpp"
 #include "horizon/list/ListHeading.hpp"
 #include "horizon/list/ListHeadingHelp.hpp"
