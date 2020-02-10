@@ -34,6 +34,7 @@ namespace Aether {
             void setH(int);
 
             // Rendering the highlight needs to be rounded (and overlapping)
+            void render();
             void renderHighlighted();
             void renderSelected();
     };

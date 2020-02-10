@@ -8,31 +8,31 @@
 #include "primary/Rectangle.hpp"
 #include "Overlay.hpp"
 
-// Spinners to show (create custom by passing bitwise OR of multiple flags!)
-// Each bit represents in the order: -- D/M/Y H:M:S
-enum class DTFlag {
-    DateTime = 0b00111111,
-    Date = 0b00111000,
-    Time = 0b00000111,
-    Day = 0b00100000,
-    Month = 0b00010000,
-    Year = 0b00001000,
-    Hour = 0b00000100,
-    Min = 0b00000010,
-    Sex = 0b00000001
-};
-
-// Bitwise OR operator for DTFlag
-inline DTFlag operator|(DTFlag a, DTFlag b) {
-    return static_cast<DTFlag>(static_cast<int>(a) | static_cast<int>(b));
-}
-
-// Bitwise AND operator for DTFlag
-inline bool operator&(DTFlag a, DTFlag b) {
-    return static_cast<int>(a) & static_cast<int>(b);
-}
-
 namespace Aether {
+    // Spinners to show (create custom by passing bitwise OR of multiple flags!)
+    // Each bit represents in the order: -- D/M/Y H:M:S
+    enum class DTFlag {
+        DateTime = 0b00111111,
+        Date = 0b00111000,
+        Time = 0b00000111,
+        Day = 0b00100000,
+        Month = 0b00010000,
+        Year = 0b00001000,
+        Hour = 0b00000100,
+        Min = 0b00000010,
+        Sex = 0b00000001
+    };
+
+    // Bitwise OR operator for DTFlag
+    inline DTFlag operator|(DTFlag a, DTFlag b) {
+        return static_cast<DTFlag>(static_cast<int>(a) | static_cast<int>(b));
+    }
+
+    // Bitwise AND operator for DTFlag
+    inline bool operator&(DTFlag a, DTFlag b) {
+        return static_cast<int>(a) & static_cast<int>(b);
+    }
+
     // The DateTime overlay is used to get the user to select a date/time.
     // It must be passed a tm struct on creation which has it's value changed
     // in place when closed (not updated when closed by pressing B!)
