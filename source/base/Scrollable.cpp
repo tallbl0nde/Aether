@@ -175,6 +175,25 @@ namespace Aether {
         this->updateMaxScrollPos();
     }
 
+    bool Scrollable::removeFollowingElements(Element * e) {
+        std::vector<Element *>::iterator it = std::find(this->children.begin(), this->children.end(), e);
+        // If the element was found loop over remaining elements and delete
+        if (it != this->children.end()) {
+            size_t i = std::distance(this->children.begin(), it);
+            i++;
+            while (i < this->children.size()) {
+                delete this->children[i];
+                this->children.erase(this->children.begin() + i);
+            }
+            this->updateMaxScrollPos();
+            if (this->scrollPos > this->maxScrollPos) {
+                this->setScrollPos(this->maxScrollPos);
+            }
+            return true;
+        }
+        return false;
+    }
+
     bool Scrollable::handleEvent(InputEvent * e) {
         switch (e->type()) {
             case EventType::TouchPressed:

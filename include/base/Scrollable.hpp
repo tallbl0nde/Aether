@@ -75,6 +75,8 @@ namespace Aether {
             void addElement(Element *);
             bool removeElement(Element *);
             void removeAllElements();
+            // Advanced: removes ny elements added _AFTER_ the given element, disregarding position in list!!
+            bool removeFollowingElements(Element *);
 
             // Handles scrolling
             bool handleEvent(InputEvent *);
