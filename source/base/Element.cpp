@@ -90,7 +90,7 @@ namespace Aether {
 
     void Element::addElement(Element * e) {
         e->setParent(this);
-        if (e->selectable()) {
+        if (e->selectable() || e->hasSelectable()) {
             this->setHasSelectable(true);
         }
         if (e->highlighted() || e->hasHighlighted()) {
