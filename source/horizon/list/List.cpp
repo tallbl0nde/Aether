@@ -17,7 +17,7 @@ namespace Aether {
         bool res = Scrollable::handleEvent(e);
 
         // If button event isn't handled...
-        if (!res) {
+        if (!res && this->canScroll_) {
             if ((e->button() == Button::DPAD_DOWN && this->scrollPos < this->maxScrollPos) || (e->button() == Button::DPAD_UP && this->scrollPos > 0)) {
                 if (e->type() == EventType::ButtonPressed) {
                     this->heldButton = e->button();

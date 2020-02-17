@@ -25,6 +25,8 @@ namespace Aether {
             void stopScrolling();
 
         protected:
+            // Is scrolling allowed? (set by function)
+            bool canScroll_;
             // Has this scrollable been touched? (used for scrolling when touch is outside)
             bool isTouched;
             // Is the element scrolling? (used for touch events)
@@ -70,6 +72,10 @@ namespace Aether {
             // Set scroll bar colour
             void setScrollBarColour(Colour);
             void setScrollBarColour(uint8_t, uint8_t, uint8_t, uint8_t);
+
+            // Get/set whether this element can scroll (by touch/drag)
+            bool canScroll();
+            void setCanScroll(bool);
 
             // (Re-)calculate maximum scroll position whenever an element is added/removed
             void addElement(Element *);

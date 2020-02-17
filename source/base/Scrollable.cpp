@@ -19,6 +19,7 @@ namespace Aether {
     SDL_Texture * Scrollable::scrollBar = nullptr;
 
     Scrollable::Scrollable(int x, int y, int w, int h) : Container(x, y, w, h) {
+        this->canScroll_ = true;
         this->isScrolling = false;
         this->isTouched = false;
         this->scrollCatchup = DEFAULT_CATCHUP;
@@ -147,6 +148,17 @@ namespace Aether {
         this->setScrollBarColour(Colour{r, g, b, a});
     }
 
+    bool Scrollable::canScroll() {
+        return this->canScroll_;
+    }
+
+    void Scrollable::setCanScroll(bool b) {
+        this->canScroll_ = b;
+        if (!b) {
+            this->stopScrolling();
+        }
+    }
+
     void Scrollable::addElement(Element * e) {
         // Position element at correct position
         e->setX(this->x() + SIDE_PADDING);
@@ -227,12 +239,14 @@ namespace Aether {
                             this->touchY = std::numeric_limits<int>::min();
                         }
                     } else {
-                        this->setScrollPos(this->scrollPos - e->touchDY());
-                        this->scrollVelocity = -e->touchDY();
-                        if (this->scrollVelocity > MAX_VELOCITY) {
-                            this->scrollVelocity = MAX_VELOCITY;
-                        } else if (this->scrollVelocity < -MAX_VELOCITY) {
-                            this->scrollVelocity = -MAX_VELOCITY;
+                        if (this->canScroll_) {
+                            this->setScrollPos(this->scrollPos - e->touchDY());
+                            this->scrollVelocity = -e->touchDY();
+                            if (this->scrollVelocity > MAX_VELOCITY) {
+                                this->scrollVelocity = MAX_VELOCITY;
+                            } else if (this->scrollVelocity < -MAX_VELOCITY) {
+                                this->scrollVelocity = -MAX_VELOCITY;
+                            }
                         }
                     }
 
@@ -242,10 +256,10 @@ namespace Aether {
 
             case EventType::TouchReleased:
                 if (this->isTouched) {
-                    this->isScrolling = true;
                     this->isTouched = false;
                     this->touchY = std::numeric_limits<int>::min();
-                    if (!Container::handleEvent(e)) {
+                    Container::handleEvent(e);
+                    if (this->canScroll_) {
                         this->isScrolling = true;
                     }
                     return true;

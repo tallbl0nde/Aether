@@ -118,7 +118,7 @@ namespace Aether {
 
         // Iterate over all children and keep valid one with smallest distance
         for (size_t i = 0; i < parent->children.size(); i++) {
-            if (parent->children[i] == parent->focussed() || !(parent->children[i]->selectable() || parent->children[i]->hasSelectable())) {
+            if (parent->children[i] == parent->focussed() || parent->children[i]->hidden() || !(parent->children[i]->selectable() || parent->children[i]->hasSelectable())) {
                 continue;
             }
 
