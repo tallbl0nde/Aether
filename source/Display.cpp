@@ -23,6 +23,7 @@ namespace Aether {
     Display::Display() : Element(0, 0, 1280, 720) {
         this->setParent(nullptr);
 
+        this->fadeAlpha = 0;
         this->heldButton = Button::NO_BUTTON;
         this->heldTime = 0;
         this->holdDelay_ = MOVE_DELAY;
@@ -77,6 +78,10 @@ namespace Aether {
 
     void Display::setHoldDelay(int d) {
         this->holdDelay_ = d;
+    }
+
+    void Display::setFadeIn() {
+        this->fadeAlpha = 255;
     }
 
     bool Display::loop() {
@@ -197,6 +202,15 @@ namespace Aether {
         // Draw overlays
         for (size_t i = 0; i < this->overlays.size(); i++) {
             this->overlays[i]->render();
+        }
+
+        // Handle/render fade in
+        if (this->fadeAlpha != 0) {
+            SDLHelper::drawFilledRect(Colour{0, 0, 0, this->fadeAlpha}, 0, 0, 1280, 720);
+            this->fadeAlpha -= 600*(dtClock.delta/1000.0);
+            if (this->fadeAlpha < 0) {
+                this->fadeAlpha = 0;
+            }
         }
 
         // Draw FPS

@@ -33,6 +33,9 @@ namespace Aether {
             // Pointer to screen to change to after loop
             Screen * nextScreen;
 
+            // Current fade alpha
+            short fadeAlpha;
+
             // These functions are private members of a display
             // as they are called by loop()
             using Element::addElement;
@@ -64,6 +67,8 @@ namespace Aether {
             // Set screen to given pointer
             void setScreen(Screen *);
 
+            // Call to fade in
+            void setFadeIn();
             // Executes the main loop (events + rendering)
             // Returns false when the app should be terminated
             bool loop();
