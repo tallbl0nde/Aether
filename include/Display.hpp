@@ -2,6 +2,14 @@
 #define AETHER_DISPLAY_HPP
 
 #include "Overlay.hpp"
+#include <stack>
+
+// Enum for stack operation performed
+enum class StackOp {
+    Push,
+    Pop,
+    None
+};
 
 namespace Aether {
     // The Display represents the "root" element. It stores and handles different screens
@@ -32,6 +40,10 @@ namespace Aether {
             Screen * screen;
             // Pointer to screen to change to after loop
             Screen * nextScreen;
+            // Stack of screens
+            std::stack<Screen *> screenStack;
+            // Set true on a stack operation to avoid on(Un)load calls
+            StackOp stackOp;
 
             // Current fade alpha
             short fadeAlpha;
@@ -66,6 +78,14 @@ namespace Aether {
 
             // Set screen to given pointer
             void setScreen(Screen *);
+            // Push the current screen on a stack
+            // onUnload (for current screen) is not called!!
+            // Note that Aether will quit if another screen is not set before next call of loop()
+            void pushScreen();
+            // Pops a screen from the stack
+            // onLoad (for stack screen) is not called!!
+            // Note that Aether will not delete the current screen - it is up to you!
+            void popScreen();
 
             // Call to fade in
             void setFadeIn();

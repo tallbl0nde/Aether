@@ -34,6 +34,7 @@ namespace Aether {
 
         this->screen = nullptr;
         this->nextScreen = nullptr;
+        this->stackOp = StackOp::None;
 
         // Initialize SDL (loop set to false if an error)
         this->loop_ = SDLHelper::initSDL();
@@ -61,6 +62,23 @@ namespace Aether {
 
     void Display::setScreen(Screen * s) {
         this->nextScreen = s;
+        if (this->stackOp != StackOp::Push) {
+            this->stackOp = StackOp::None;
+        }
+    }
+
+    void Display::pushScreen() {
+        this->screenStack.push(this->screen);
+        this->nextScreen = nullptr;
+        this->stackOp = StackOp::Push;
+    }
+
+    void Display::popScreen() {
+        if (!this->screenStack.empty()) {
+            this->setScreen(this->screenStack.top());
+            this->screenStack.pop();
+            this->stackOp = StackOp::Pop;
+        }
     }
 
     void Display::setHighlightColours(Colour bg, Colour sel) {
@@ -86,14 +104,19 @@ namespace Aether {
 
     bool Display::loop() {
         // Change screen if need be
-        if (this->nextScreen != nullptr) {
-            if (this->screen != nullptr) {
+        if (this->nextScreen != nullptr || this->stackOp == StackOp::Push) {
+            if (this->screen != nullptr && this->stackOp != StackOp::Push) {
                 this->screen->onUnload();
             }
             this->screen = this->nextScreen;
-            this->screen->onLoad();
+            if (this->screen != nullptr && this->stackOp != StackOp::Pop) {
+                this->screen->onLoad();
+            }
             this->nextScreen = nullptr;
         }
+
+        // Reset stack operation
+        this->stackOp = StackOp::None;
 
         // Quit loop if no screen is present
         if (this->screen == nullptr) {
