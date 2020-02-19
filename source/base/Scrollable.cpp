@@ -229,7 +229,7 @@ namespace Aether {
                 if (this->isTouched) {
                     // Check touchY and change from tap to swipe if outside threshold
                     if (this->touchY != std::numeric_limits<int>::min()) {
-                        if (e->touchY() > this->touchY + TOUCH_RADIUS || e->touchY() < this->touchY - TOUCH_RADIUS) {
+                        if (e->touchY() > this->touchY + TOUCH_RADIUS || e->touchY() < this->touchY - TOUCH_RADIUS || e->touchX() < this->x() || e->touchX() > this->x() + this->w()) {
                             for (size_t i = 0; i < this->children.size(); i++) {
                                 if (this->children[i]->selected() || this->children[i]->hasSelected()) {
                                     this->children[i]->setInactive();
