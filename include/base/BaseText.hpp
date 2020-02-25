@@ -9,6 +9,14 @@ namespace Aether {
         Extended    // Icon/extended font
     };
 
+    enum FontStyle {
+        Regular,
+        Bold,
+        Italic,
+        Underline,
+        Strikethrough
+    };
+
     // BaseText is an abstract class storing relevant information to render
     // a text element.
     class BaseText : public Texture {
@@ -19,13 +27,15 @@ namespace Aether {
             unsigned int fontSize_;
             // Type of font to use (stored for redrawing)
             FontType fontType;
+            // Font style (stored for redrawing)
+            FontStyle fontStyle;
 
             // Redraw the texture whenever relevant variables are changed
             virtual void redrawTexture() = 0;
 
         public:
             // Constructor accepts string, font size and font type (defaulting to normal)
-            BaseText(int, int, std::string, unsigned int, FontType);
+            BaseText(int, int, std::string, unsigned int, FontType, FontStyle);
 
             // Getters + setters for variables
             std::string string();

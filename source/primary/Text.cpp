@@ -6,14 +6,36 @@
 #define DEFAULT_SCROLL_SPEED 120
 
 namespace Aether {
-    Text::Text(int x, int y, std::string s, unsigned int f, FontType t) : BaseText(x, y, s, f, t) {
+    Text::Text(int x, int y, std::string s, unsigned int f, FontType t, FontStyle l) : BaseText(x, y, s, f, t, l) {
         this->scroll_ = false;
         this->redrawTexture();
     }
 
     void Text::redrawTexture() {
         this->setScroll(this->scroll_);
-        this->setTexture(SDLHelper::renderText(this->string_.c_str(), this->fontSize_, (this->fontType == FontType::Extended) ? true : false));
+        int style;
+        switch (this->fontStyle) {
+            case FontStyle::Regular:
+                style = TTF_STYLE_NORMAL;
+                break;
+
+            case FontStyle::Bold:
+                style = TTF_STYLE_BOLD;
+                break;
+
+            case FontStyle::Italic:
+                style = TTF_STYLE_ITALIC;
+                break;
+
+            case FontStyle::Underline:
+                style = TTF_STYLE_UNDERLINE;
+                break;
+
+            case FontStyle::Strikethrough:
+                style = TTF_STYLE_STRIKETHROUGH;
+                break;
+        }
+        this->setTexture(SDLHelper::renderText(this->string_.c_str(), this->fontSize_, style, (this->fontType == FontType::Extended) ? true : false));
     }
 
     bool Text::scroll() {

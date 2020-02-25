@@ -2,6 +2,7 @@
 #define SDLHELPER_HPP
 
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_ttf.h>
 #include <string>
 #include <switch.h>
 
@@ -99,10 +100,11 @@ namespace SDLHelper {
     SDL_Texture * renderImageShrinked(u8 *, size_t, int, int);
 
     // Returns a texture with the specified text drawn at the specified font size
+    // Optionally pass TTF style and bool for extended font!
     // Always drawn in white!
-    SDL_Texture * renderText(const char *, int, bool = false);
+    SDL_Texture * renderText(const char *, int, int = TTF_STYLE_NORMAL, bool = false);
     // Same as renderText but wraps text at given width
-    SDL_Texture * renderTextWrapped(const char *, int, uint32_t, bool = false);
+    SDL_Texture * renderTextWrapped(const char *, int, uint32_t, int = TTF_STYLE_NORMAL, bool = false);
 
 };
 

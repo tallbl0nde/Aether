@@ -2,7 +2,6 @@
 #include <SDL2/SDL2_gfxPrimitives.h>
 #include <SDL2/SDL2_rotozoom.h>
 #include <SDL2/SDL_image.h>
-#include <SDL2/SDL_ttf.h>
 #include <unordered_map>
 
 // === SDL RENDERING ===
@@ -296,7 +295,7 @@ namespace SDLHelper {
         return tex;
     }
 
-    SDL_Texture * renderText(const char * str, int font_size, bool ext) {
+    SDL_Texture * renderText(const char * str, int font_size, int style, bool ext) {
         SDL_Surface * tmp;
 
         // If font doesn't exist create it
@@ -316,6 +315,9 @@ namespace SDLHelper {
                 } else {
                     f = TTF_OpenFontRW(SDL_RWFromMem(std_font_data.address, std_font_data.size), 1, font_size);
                 }
+                if (TTF_GetFontStyle(f) != style) {
+                    TTF_SetFontStyle(f, style);
+                }
                 std_font[font_size] = f;
             }
             tmp = TTF_RenderUTF8_Blended(std_font[font_size], str, SDL_Color{255, 255, 255, 255});
@@ -328,7 +330,7 @@ namespace SDLHelper {
         return tex;
     }
 
-    SDL_Texture * renderTextWrapped(const char * str, int font_size, uint32_t max_w, bool ext) {
+    SDL_Texture * renderTextWrapped(const char * str, int font_size, uint32_t max_w, int style, bool ext) {
         SDL_Surface * tmp;
 
         // If font doesn't exist create it
@@ -347,6 +349,9 @@ namespace SDLHelper {
                     f = TTF_OpenFont(customFontPath.c_str(), font_size);
                 } else {
                     f = TTF_OpenFontRW(SDL_RWFromMem(std_font_data.address, std_font_data.size), 1, font_size);
+                }
+                if (TTF_GetFontStyle(f) != style) {
+                    TTF_SetFontStyle(f, style);
                 }
                 std_font[font_size] = f;
             }
