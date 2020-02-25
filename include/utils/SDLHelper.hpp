@@ -2,6 +2,7 @@
 #define SDLHELPER_HPP
 
 #include <SDL2/SDL.h>
+#include <string>
 #include <switch.h>
 
 // These are a bunch of functions to turn long repetitive actions in SDL
@@ -87,6 +88,8 @@ namespace SDLHelper {
     // width, height, border thickness
     SDL_Texture * renderRect(int, int, unsigned int);
 
+    // Reads an image from given path and returns texture
+    SDL_Texture * renderImage(std::string);
     // Reads an image from a pointer to it and returns a texture containing it
     SDL_Texture * renderImage(u8 *, size_t);
     // Above but also shrinks image by given factors

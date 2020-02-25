@@ -250,6 +250,15 @@ namespace SDLHelper {
         return tex;
     }
 
+    SDL_Texture * renderImage(std::string path) {
+        SDL_Surface * tmp = IMG_Load(path.c_str());
+        SDL_Surface * tmp2 = SDL_ConvertSurfaceFormat(tmp, SDL_PIXELFORMAT_RGBA32, 0);
+        SDL_FreeSurface(tmp);
+        SDL_Texture * tex = SDL_CreateTextureFromSurface(renderer, tmp2);
+        SDL_FreeSurface(tmp2);
+        return tex;
+    }
+
     SDL_Texture * renderImage(u8 * ptr, size_t size) {
         SDL_Surface * tmp = IMG_Load_RW(SDL_RWFromMem(ptr, size), 1);
         SDL_Surface * tmp2 = SDL_ConvertSurfaceFormat(tmp, SDL_PIXELFORMAT_RGBA32, 0);
