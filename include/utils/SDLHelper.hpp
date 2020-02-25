@@ -29,6 +29,9 @@ namespace SDLHelper {
     // Set the offset of drawing operations
     void setOffset(int, int);
 
+    // Set the font for future text rendering
+    void setFont(std::string);
+
     // Reset renderer to screen
     void renderToScreen();
     // Set renderer to given texture

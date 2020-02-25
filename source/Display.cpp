@@ -52,6 +52,10 @@ namespace Aether {
         this->bg.a = 255;
     }
 
+    void Display::setFont(std::string p) {
+        SDLHelper::setFont(p);
+    }
+
     void Display::addOverlay(Overlay * o) {
         this->overlays.push_back(o);
         this->screen->setInactive();

@@ -17,9 +17,13 @@ static PlFontData ext_font_data;
 // Stores data about Standard font
 static PlFontData std_font_data;
 // Map filled with TTF_Font * (standard) - referenced by font size and created if doesn't exist
+// Also used for custom font data
 static std::unordered_map<int, TTF_Font *> std_font;
 // Same but for extended
 static std::unordered_map<int, TTF_Font *> ext_font;
+// Set true if a custom font is used
+static bool customFont;
+static std::string customFontPath;
 
 // === MISCELLANEOUS ===
 // Offset position
@@ -67,6 +71,7 @@ namespace SDLHelper {
         offsetY = 0;
 
         // Load fonts
+        customFont = false;
         Result rc = plInitialize();
         if (!R_SUCCEEDED(rc)) {
             return false;
@@ -117,6 +122,20 @@ namespace SDLHelper {
     void setOffset(int x, int y) {
         offsetX = x;
         offsetY = y;
+    }
+
+    void setFont(std::string p) {
+        if (p == "") {
+            customFont = false;
+        } else {
+            customFontPath = p;
+            customFont = true;
+        }
+        // Empty standard font cache
+        for (auto it = std_font.begin(); it != std_font.end(); it++) {
+            TTF_CloseFont(it->second);
+        }
+        std_font.clear();
     }
 
     void renderToScreen() {
@@ -291,7 +310,12 @@ namespace SDLHelper {
         // Use standard font
         } else {
             if (std_font.find(font_size) == std_font.end()) {
-                TTF_Font * f = TTF_OpenFontRW(SDL_RWFromMem(std_font_data.address, std_font_data.size), 1, font_size);
+                TTF_Font * f;
+                if (customFont) {
+                    f = TTF_OpenFont(customFontPath.c_str(), font_size);
+                } else {
+                    f = TTF_OpenFontRW(SDL_RWFromMem(std_font_data.address, std_font_data.size), 1, font_size);
+                }
                 std_font[font_size] = f;
             }
             tmp = TTF_RenderUTF8_Blended(std_font[font_size], str, SDL_Color{255, 255, 255, 255});
@@ -318,7 +342,12 @@ namespace SDLHelper {
         // Use standard font
         } else {
             if (std_font.find(font_size) == std_font.end()) {
-                TTF_Font * f = TTF_OpenFontRW(SDL_RWFromMem(std_font_data.address, std_font_data.size), 1, font_size);
+                TTF_Font * f;
+                if (customFont) {
+                    f = TTF_OpenFont(customFontPath.c_str(), font_size);
+                } else {
+                    f = TTF_OpenFontRW(SDL_RWFromMem(std_font_data.address, std_font_data.size), 1, font_size);
+                }
                 std_font[font_size] = f;
             }
             tmp = TTF_RenderUTF8_Blended_Wrapped(std_font[font_size], str, SDL_Color{255, 255, 255, 255}, max_w);

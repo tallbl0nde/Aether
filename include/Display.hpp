@@ -69,6 +69,9 @@ namespace Aether {
             void setHighlightColours(Colour, Colour);
             void setHighlightAnimation(std::function<Colour(uint32_t)>);
 
+            // Set font for text
+            void setFont(std::string);
+
             // Getter + setter for hold delay
             int holdDelay();
             void setHoldDelay(int);
