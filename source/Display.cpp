@@ -13,7 +13,10 @@ struct Clock {
 
     void tick() {
         uint32_t tick = SDL_GetTicks();
-        delta = tick - last_tick;
+        // Avoid large dt on initial launch
+        if (last_tick != 0) {
+            delta = tick - last_tick;
+        }
         last_tick = tick;
     }
 };
