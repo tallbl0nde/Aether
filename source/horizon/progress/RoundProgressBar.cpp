@@ -6,6 +6,8 @@ namespace Aether {
         this->backTex = new Rectangle(this->x(), this->y(), this->w(), this->h(), (this->h()/2) - 1);
         this->addElement(this->backTex);
         this->progressTex = new Rectangle(this->x(), this->y(), this->w(), this->h(), (this->h()/2) - 1);
+        this->progressTex->setW(this->progressTex->texW() * (this->value()/100.0));
+        this->progressTex->setMask(0, 0, this->progressTex->texW() * (this->value()/100.0), this->progressTex->texH());
         this->addElement(this->progressTex);
     }
 
