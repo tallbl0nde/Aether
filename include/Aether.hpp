@@ -17,6 +17,7 @@
 #include "horizon/overlays/PopupList.hpp"
 #include "horizon/progress/ProgressBar.hpp"
 #include "horizon/progress/RoundProgressBar.hpp"
+#include "primary/Animation.hpp"
 #include "primary/Ellipse.hpp"
 #include "primary/Image.hpp"
 #include "utils/Theme.hpp"
