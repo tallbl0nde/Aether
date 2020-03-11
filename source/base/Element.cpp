@@ -205,7 +205,7 @@ namespace Aether {
                 break;
 
             case EventType::TouchPressed:
-                if (e->touchX() >= this->x() && e->touchY() >= this->y() && e->touchX() <= this->x() + this->w() && e->touchY() <= this->y() + this->h() && this->touchable_) {
+                if (e->touchX() >= this->x() && e->touchY() >= this->y() && e->touchX() <= this->x() + this->w() && e->touchY() <= this->y() + this->h() && this->touchable_ && !this->hidden()) {
                     this->setSelected(true);
                     return true;
                 }
