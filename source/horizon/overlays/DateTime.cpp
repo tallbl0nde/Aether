@@ -22,6 +22,8 @@ namespace Aether {
         this->ctrl = new Controls();
         this->ctrl->addItem(new ControlItem(Button::A, "OK"));
         this->ctrl->addItem(new ControlItem(Button::B, "Back"));
+        this->labelOK = "OK";
+        this->labelBack = "Back";
         this->addElement(this->ctrl);
 
         bool hasDate = false;
@@ -111,7 +113,7 @@ namespace Aether {
         }
 
         this->min = nullptr;
-        if (d & DTFlag::Hour) {
+        if (d & DTFlag::Min) {
             this->min = new Spinner(x, 0);
             this->min->setWrapAround(true);
             this->min->setDigits(2);
@@ -132,7 +134,7 @@ namespace Aether {
         }
 
         this->sec = nullptr;
-        if (d & DTFlag::Hour) {
+        if (d & DTFlag::Sec) {
             this->sec = new Spinner(x, 0);
             this->sec->setWrapAround(true);
             this->sec->setDigits(2);
@@ -147,7 +149,7 @@ namespace Aether {
 
         // OK Button
         x += 40;
-        this->button = new BorderButton(x, 0, 160, 60, 3, "OK", 22, [this](){
+        this->button = new BorderButton(x, 0, 160, 60, 3, "OK?", 22, [this](){
             this->setTmValues();
             this->close(true);
         });
@@ -254,6 +256,61 @@ namespace Aether {
         }
 
         return b;
+    }
+
+    void DateTime::setBackLabel(std::string s) {
+        this->labelBack = s;
+        this->removeElement(this->ctrl);
+        this->ctrl = new Controls();
+        this->ctrl->addItem(new ControlItem(Button::A, this->labelOK));
+        this->ctrl->addItem(new ControlItem(Button::B, this->labelBack));
+        this->addElement(this->ctrl);
+    }
+
+    void DateTime::setOKLabel(std::string s) {
+        this->labelOK = s;
+        this->button->setString(s);
+        this->removeElement(this->ctrl);
+        this->ctrl = new Controls();
+        this->ctrl->addItem(new ControlItem(Button::A, this->labelOK));
+        this->ctrl->addItem(new ControlItem(Button::B, this->labelBack));
+        this->addElement(this->ctrl);
+    }
+
+    void DateTime::setDayHint(std::string s) {
+        if (this->day != nullptr) {
+            this->day->setLabel(s);
+        }
+    }
+
+    void DateTime::setMonthHint(std::string s) {
+        if (this->month != nullptr) {
+            this->month->setLabel(s);
+        }
+    }
+
+    void DateTime::setYearHint(std::string s) {
+        if (this->year != nullptr) {
+            this->year->setLabel(s);
+        }
+    }
+
+    void DateTime::setHourHint(std::string s) {
+        if (this->hour != nullptr) {
+            this->hour->setLabel(s);
+        }
+    }
+
+    void DateTime::setMinuteHint(std::string s) {
+        if (this->min != nullptr) {
+            this->min->setLabel(s);
+        }
+    }
+
+    void DateTime::setSecondHint(std::string s) {
+        if (this->sec != nullptr) {
+            this->sec->setLabel(s);
+        }
     }
 
     Colour DateTime::getBackgroundColour() {

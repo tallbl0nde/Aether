@@ -20,7 +20,7 @@ namespace Aether {
         Year = 0b00001000,
         Hour = 0b00000100,
         Min = 0b00000010,
-        Sex = 0b00000001
+        Sec = 0b00000001
     };
 
     // Bitwise OR operator for DTFlag
@@ -41,6 +41,8 @@ namespace Aether {
         private:
             // Reference to passed tm
             struct tm & refTm;
+            // Strings for button labels
+            std::string labelBack, labelOK;
 
             // Pointers to elements
             Controls * ctrl;
@@ -67,10 +69,23 @@ namespace Aether {
 
         public:
             // Pass title, tm struct and type of picker (leave empty for complete date and time)
+            // Back/OK buttons have default text but can be changed using other functions
             DateTime(std::string, struct tm &, DTFlag = DTFlag::DateTime);
 
             // Whenever an event is handled update max days
             bool handleEvent(InputEvent *);
+
+            // Set button labels
+            void setBackLabel(std::string);
+            void setOKLabel(std::string);
+
+            // Set text for each spinner's hint
+            void setDayHint(std::string);
+            void setMonthHint(std::string);
+            void setYearHint(std::string);
+            void setHourHint(std::string);
+            void setMinuteHint(std::string);
+            void setSecondHint(std::string);
 
             // Getters + setters colours
             Colour getBackgroundColour();

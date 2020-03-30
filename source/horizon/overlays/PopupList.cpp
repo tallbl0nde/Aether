@@ -25,10 +25,10 @@ namespace Aether {
         this->addElement(this->title);
 
         this->ctrl = new Controls();
-        ControlItem * i = new ControlItem(Button::A, "OK");
-        this->ctrl->addItem(i);
-        i = new ControlItem(Button::B, "Back");
-        this->ctrl->addItem(i);
+        this->ctrl->addItem(new ControlItem(Button::A, "OK"));
+        this->ctrl->addItem(new ControlItem(Button::B, "Back"));
+        this->labelOK = "OK";
+        this->labelBack = "Back";
         this->addElement(this->ctrl);
 
         this->list = new List((this->w() - LIST_WIDTH)/2, this->top->y(), LIST_WIDTH, 80);
@@ -84,6 +84,24 @@ namespace Aether {
         this->top->setY(this->rect->y() + 72);
         this->list->setY(this->top->y());
         this->list->setH(80);
+    }
+
+    void PopupList::setBackLabel(std::string s) {
+        this->labelBack = s;
+        this->removeElement(this->ctrl);
+        this->ctrl = new Controls();
+        this->ctrl->addItem(new ControlItem(Button::A, this->labelOK));
+        this->ctrl->addItem(new ControlItem(Button::B, this->labelBack));
+        this->addElement(this->ctrl);
+    }
+
+    void PopupList::setOKLabel(std::string s) {
+        this->labelOK = s;
+        this->removeElement(this->ctrl);
+        this->ctrl = new Controls();
+        this->ctrl->addItem(new ControlItem(Button::A, this->labelOK));
+        this->ctrl->addItem(new ControlItem(Button::B, this->labelBack));
+        this->addElement(this->ctrl);
     }
 
     Colour PopupList::getBackgroundColour() {

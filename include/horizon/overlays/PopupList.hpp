@@ -14,6 +14,9 @@ namespace Aether {
     // to be specified within callbacks!)
     class PopupList : public Overlay {
         private:
+            // Strings for button labels
+            std::string labelBack, labelOK;
+
             // Store pointers in order to reposition
             Controls * ctrl;
             List * list;
@@ -31,7 +34,12 @@ namespace Aether {
             PopupList(std::string);
 
             // Add the given item string + callback to the list (optional parameter set to true if ticked)
+            // Back/OK buttons have default text but can be changed using other functions
             void addEntry(std::string, std::function<void()>, bool = false);
+
+            // Set button labels
+            void setBackLabel(std::string);
+            void setOKLabel(std::string);
 
             // Removes all entries
             void removeEntries();
