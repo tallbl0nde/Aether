@@ -67,6 +67,10 @@ namespace Aether {
         }
     }
 
+    void Display::dropScreen() {
+        this->screen = nullptr;
+    }
+
     void Display::setScreen(Screen * s) {
         this->nextScreen = s;
         if (this->stackOp != StackOp::Push) {

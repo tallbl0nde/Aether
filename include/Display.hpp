@@ -79,6 +79,8 @@ namespace Aether {
             // Add an overlay
             void addOverlay(Overlay *);
 
+            // Drop the current screen without calling onUnload()
+            void dropScreen();
             // Set screen to given pointer
             void setScreen(Screen *);
             // Push the current screen on a stack
