@@ -14,6 +14,7 @@ namespace Aether {
 
     void BaseText::setString(std::string s) {
         this->string_ = s;
+        this->redrawTexture();
     }
 
     unsigned int BaseText::fontSize() {

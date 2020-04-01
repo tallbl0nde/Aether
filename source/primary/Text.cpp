@@ -63,7 +63,6 @@ namespace Aether {
         }
 
         BaseText::setString(s);
-        this->redrawTexture();
     }
 
     void Text::setFontSize(unsigned int f) {
