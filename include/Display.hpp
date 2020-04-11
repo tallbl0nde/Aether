@@ -23,6 +23,8 @@ namespace Aether {
 
             // Colour to clear screen with
             Colour bg;
+            // Texture (image) to clear screen with
+            SDL_Texture * bgImg;
 
             // Colours to highlight elements with
             std::function<Colour(uint32_t)> hiAnim;
@@ -65,6 +67,8 @@ namespace Aether {
 
             // Set colour to clear screen with
             void setBackgroundColour(uint8_t, uint8_t, uint8_t);
+            // Set image to use as background (returns if successful)
+            bool setBackgroundImage(std::string);
             // Set colours to highlight elements with
             void setHighlightColours(Colour, Colour);
             void setHighlightAnimation(std::function<Colour(uint32_t)>);

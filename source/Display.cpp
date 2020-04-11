@@ -26,6 +26,7 @@ namespace Aether {
     Display::Display() : Element(0, 0, 1280, 720) {
         this->setParent(nullptr);
 
+        this->bgImg = nullptr;
         this->fadeAlpha = 0;
         this->heldButton = Button::NO_BUTTON;
         this->heldTime = 0;
@@ -53,6 +54,26 @@ namespace Aether {
         this->bg.g = g;
         this->bg.b = b;
         this->bg.a = 255;
+
+        // Remove image from background
+        SDLHelper::destroyTexture(this->bgImg);
+        this->bgImg = nullptr;
+    }
+
+    bool Display::setBackgroundImage(std::string path) {
+        // Double check the file exists
+        if (!Utils::fileExists(path)) {
+            return false;
+        }
+
+        // Create texture from image
+        SDLHelper::destroyTexture(this->bgImg);
+        this->bgImg = SDLHelper::renderImage(path);
+        this->bg = Colour{0, 0, 0, 255};
+        if (this->bgImg == nullptr) {
+            return false;
+        }
+        return true;
     }
 
     void Display::setFont(std::string p) {
@@ -226,6 +247,9 @@ namespace Aether {
 
         // Clear screen/draw background
         SDLHelper::clearScreen(this->bg);
+        if (this->bgImg) {
+            SDLHelper::drawTexture(this->bgImg, Colour{255, 255, 255, 255}, 0, 0, 1280, 720);
+        }
 
         // Update highlight border colour
         this->hiBorder = this->hiAnim(dtClock.last_tick);
@@ -266,6 +290,7 @@ namespace Aether {
 
     Display::~Display() {
         // Clean up SDL
+        SDLHelper::destroyTexture(this->bgImg);
         SDLHelper::exitSDL();
     }
 };
