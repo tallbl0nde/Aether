@@ -8,6 +8,7 @@
 
 // Struct representing a "clock", which stores time between ticks
 struct Clock {
+    bool init = false;
     uint32_t last_tick = 0;
     uint32_t delta = 0;
 
@@ -143,6 +144,12 @@ namespace Aether {
     }
 
     bool Display::loop() {
+        // Avoid first large delta due to loading time
+        if (!dtClock.init) {
+            dtClock.tick();
+            dtClock.init = true;
+        }
+
         // Change screen if need be
         if (this->nextScreen != nullptr || this->stackOp == StackOp::Push) {
             if (this->screen != nullptr && this->stackOp != StackOp::Push) {
@@ -274,7 +281,7 @@ namespace Aether {
         if (this->fading) {
             if (this->fadeIn) {
                 SDLHelper::drawFilledRect(Colour{0, 0, 0, this->fadeAlpha}, 0, 0, 1280, 720);
-                this->fadeAlpha -= 600*(dtClock.delta/1000.0);
+                this->fadeAlpha -= 800*(dtClock.delta/1000.0);
                 if (this->fadeAlpha < 0) {
                     this->fadeAlpha = 0;
                     this->fadeIn = false;
@@ -283,7 +290,7 @@ namespace Aether {
             } else {
                 if (this->fadeOut) {
                     SDLHelper::drawFilledRect(Colour{0, 0, 0, this->fadeAlpha}, 0, 0, 1280, 720);
-                    this->fadeAlpha += 600*(dtClock.delta/1000.0);
+                    this->fadeAlpha += 800*(dtClock.delta/1000.0);
                     if (this->fadeAlpha > 255) {
                         this->fadeAlpha = 255;
                         this->loop_ = false;
