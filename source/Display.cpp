@@ -28,6 +28,8 @@ namespace Aether {
 
         this->bgImg = nullptr;
         this->fadeAlpha = 0;
+        this->fadeOut = false;
+        this->fading = false;
         this->heldButton = Button::NO_BUTTON;
         this->heldTime = 0;
         this->holdDelay_ = MOVE_DELAY;
@@ -132,6 +134,12 @@ namespace Aether {
 
     void Display::setFadeIn() {
         this->fadeAlpha = 255;
+        this->fadeIn = true;
+        this->fading = true;
+    }
+
+    void Display::setFadeOut() {
+        this->fadeOut = true;
     }
 
     bool Display::loop() {
@@ -262,12 +270,25 @@ namespace Aether {
             this->overlays[i]->render();
         }
 
-        // Handle/render fade in
-        if (this->fadeAlpha != 0) {
-            SDLHelper::drawFilledRect(Colour{0, 0, 0, this->fadeAlpha}, 0, 0, 1280, 720);
-            this->fadeAlpha -= 600*(dtClock.delta/1000.0);
-            if (this->fadeAlpha < 0) {
-                this->fadeAlpha = 0;
+        // Handle/render fade in/out
+        if (this->fading) {
+            if (this->fadeIn) {
+                SDLHelper::drawFilledRect(Colour{0, 0, 0, this->fadeAlpha}, 0, 0, 1280, 720);
+                this->fadeAlpha -= 600*(dtClock.delta/1000.0);
+                if (this->fadeAlpha < 0) {
+                    this->fadeAlpha = 0;
+                    this->fadeIn = false;
+                    this->fading = false;
+                }
+            } else {
+                if (this->fadeOut) {
+                    SDLHelper::drawFilledRect(Colour{0, 0, 0, this->fadeAlpha}, 0, 0, 1280, 720);
+                    this->fadeAlpha += 600*(dtClock.delta/1000.0);
+                    if (this->fadeAlpha > 255) {
+                        this->fadeAlpha = 255;
+                        this->loop_ = false;
+                    }
+                }
             }
         }
 
@@ -285,7 +306,12 @@ namespace Aether {
     }
 
     void Display::exit() {
-        this->loop_ = false;
+        if (this->fadeOut) {
+            this->fadeAlpha = 0;
+            this->fading = true;
+        } else {
+            this->loop_ = false;
+        }
     }
 
     Display::~Display() {

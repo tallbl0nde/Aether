@@ -47,8 +47,14 @@ namespace Aether {
             // Set true on a stack operation to avoid on(Un)load calls
             StackOp stackOp;
 
+            // Are we fading in/out?
+            bool fading;
             // Current fade alpha
             short fadeAlpha;
+            // Whether to fade in (from black)
+            bool fadeIn;
+            // Whether to fade out (to black)
+            bool fadeOut;
 
             // These functions are private members of a display
             // as they are called by loop()
@@ -98,6 +104,8 @@ namespace Aether {
 
             // Call to fade in
             void setFadeIn();
+            // Call to fade out on exit
+            void setFadeOut();
             // Executes the main loop (events + rendering)
             // Returns false when the app should be terminated
             bool loop();
