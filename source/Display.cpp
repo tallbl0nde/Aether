@@ -313,7 +313,7 @@ namespace Aether {
     }
 
     void Display::exit() {
-        if (this->fadeOut) {
+        if (this->fadeOut && !this->fading) {
             this->fadeAlpha = 0;
             this->fading = true;
         } else {
