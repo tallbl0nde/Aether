@@ -2,7 +2,10 @@
 
 // Default size + dimensions
 #define ARROW_FONT_SIZE 30
-#define ARROW_PADDING 10
+#define ARROW_PADDING_X 30
+#define ARROW_PADDING_Y 15
+#define HOLD_DELAY 400      // ms to wait before repeating when held
+#define REPEAT_DELAY 100    // repeat input every ms
 #define LABEL_FONT_SIZE 18
 #define LABEL_PADDING 30
 #define VALUE_FONT_SIZE 40
@@ -12,32 +15,28 @@
 namespace Aether {
     Spinner::Spinner(int x, int y, int w) : Container(x, y, w, HEIGHT) {
         // Up arrow
-        Element * e = new Element(0, this->y(), ARROW_FONT_SIZE + (2 * ARROW_PADDING), ARROW_FONT_SIZE + ARROW_PADDING);
-        e->setX(this->x() + (this->w() - e->w())/2);
-        e->setCallback([this](){
-            this->incrementVal();
-        });
-        e->setSelectable(false);
+        this->upContainer = new Element(0, this->y(), ARROW_FONT_SIZE + (2 * ARROW_PADDING_X), ARROW_FONT_SIZE + ARROW_PADDING_Y);
+        this->upContainer->setX(this->x() + (this->w() - this->upContainer->w())/2);
+        this->upContainer->setSelectable(false);
+        this->upContainer->setTouchable(true);
         this->up = new Text(0, this->y(), "\uE147", ARROW_FONT_SIZE, FontType::Extended);
-        this->up->setXY(e->x() + (e->w() - this->up->w())/2, e->y() + (e->h() - this->up->h())/2);
-        e->addElement(this->up);
-        this->addElement(e);
+        this->up->setXY(this->upContainer->x() + (this->upContainer->w() - this->up->w())/2, this->upContainer->y() + (this->upContainer->h() - this->up->h())/2);
+        this->upContainer->addElement(this->up);
+        this->addElement(this->upContainer);
 
         // Down arrow
-        e = new Element(0, this->y() + this->h(), ARROW_FONT_SIZE + (2 * ARROW_PADDING), ARROW_FONT_SIZE + ARROW_PADDING);
-        e->setX(this->x() + (this->w() - e->w())/2);
-        e->setY(e->y() - e->h());
-        e->setCallback([this](){
-            this->decrementVal();
-        });
-        e->setSelectable(false);
+        this->downContainer = new Element(0, this->y() + this->h(), ARROW_FONT_SIZE + (2 * ARROW_PADDING_X), ARROW_FONT_SIZE + ARROW_PADDING_Y);
+        this->downContainer->setX(this->x() + (this->w() - this->downContainer->w())/2);
+        this->downContainer->setY(this->downContainer->y() - this->downContainer->h());
+        this->downContainer->setSelectable(false);
+        this->downContainer->setTouchable(true);
         this->down = new Text(0, 0, "\uE148", ARROW_FONT_SIZE, FontType::Extended);
-        this->down->setXY(e->x() + (e->w() - this->down->w())/2, e->y() + (e->h() - this->down->h())/2);
-        e->addElement(this->down);
-        this->addElement(e);
+        this->down->setXY(this->downContainer->x() + (this->downContainer->w() - this->down->w())/2, this->downContainer->y() + (this->downContainer->h() - this->down->h())/2);
+        this->downContainer->addElement(this->down);
+        this->addElement(this->downContainer);
 
         // Value string
-        e = new Element(0, 0, this->w(), VALUE_FONT_SIZE + VALUE_PADDING * 2);
+        Element * e = new Element(0, 0, this->w(), VALUE_FONT_SIZE + VALUE_PADDING * 2);
         e->setXY(this->x() + (this->w() - e->w())/2, this->y() + (this->h() - e->h())/2);
         e->setSelectable(true);
         this->str = new Text(0, 0, "0", VALUE_FONT_SIZE);
@@ -51,6 +50,8 @@ namespace Aether {
         this->label_->setHidden(true);
         this->addElement(this->label_);
 
+        this->held = ' ';
+        this->holdTime = 0;
         this->wrap = false;
         this->padding = 0;
         this->value_ = 0;
@@ -95,6 +96,8 @@ namespace Aether {
     }
 
     bool Spinner::handleEvent(InputEvent * e) {
+        bool b = false;
+
         // Inc/dec on dpad press
         if (e->type() == EventType::ButtonPressed) {
             switch (e->button()) {
@@ -111,15 +114,28 @@ namespace Aether {
                 default:
                     break;
             }
+
+        // Inc/dec on touch press, not release
+        } else if (e->type() == EventType::TouchPressed) {
+            // Don't return as the event still needs to passed to the children
+            if ((e->touchX() >= this->upContainer->x() && e->touchX() < this->upContainer->x() + this->upContainer->w())
+            && (e->touchY() >= this->upContainer->y() && e->touchY() < this->upContainer->y() + this->upContainer->h())) {
+                this->incrementVal();
+                b = true;
+            } else if ((e->touchX() >= this->downContainer->x() && e->touchX() < this->downContainer->x() + this->downContainer->w())
+              && (e->touchY() >= this->downContainer->y() && e->touchY() < this->downContainer->y() + this->downContainer->h())) {
+                this->decrementVal();
+                b = true;
+            }
         }
 
         // Set this element focussed if arrows touched (they're the only children that can handle events)
         if (Container::handleEvent(e)) {
             this->parent->setFocussed(this);
-            return true;
+            b = true;
         }
 
-        return false;
+        return b;
     }
 
     void Spinner::update(uint32_t dt) {
@@ -136,6 +152,44 @@ namespace Aether {
             this->up->setColour(this->arrowC);
             this->down->setColour(this->arrowC);
             this->str->setColour(this->textC);
+        }
+
+        // Check if containers are held
+        if (this->held == ' ') {
+            if (this->upContainer->selected()) {
+                this->held = 'u';
+                this->holdTime = 0;
+            } else if (this->downContainer->selected()) {
+                this->held = 'd';
+                this->holdTime = 0;
+            }
+
+        // Otherwise handle repeated input
+        } else {
+            this->holdTime += dt;
+            // Still within HOLD_DELAY
+            if (this->held == 'u' || this->held == 'd') {
+                if (this->holdTime >= HOLD_DELAY) {
+                    this->held -= 32;   // Capitalize chars
+                    this->holdTime = 0;
+                }
+
+            // Now in REPEAT_DELAY
+            } else {
+                if (this->holdTime >= REPEAT_DELAY) {
+                    if (this->held == 'U') {
+                        this->incrementVal();
+                    } else {
+                        this->decrementVal();
+                    }
+                    this->holdTime = 0;
+                }
+            }
+
+            // Stop repeating when let go
+            if ((this->held == 'U' && !this->upContainer->selected()) || (this->held == 'D' && !this->downContainer->selected())) {
+                this->held = ' ';
+            }
         }
     }
 

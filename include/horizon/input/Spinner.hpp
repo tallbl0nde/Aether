@@ -18,6 +18,10 @@ namespace Aether {
             // Label string (hidden if not set)
             Text * label_;
 
+            // Arrow containers (for larger touch area)
+            Element * upContainer;
+            Element * downContainer;
+
             // Set true when spinner is focussed (needed for colours)
             bool isFocussed;
 
@@ -33,6 +37,10 @@ namespace Aether {
             int value_;
             void incrementVal();
             void decrementVal();
+
+            // Variables to keep track of hold events
+            char held;
+            uint32_t holdTime;
 
             // Colours
             Colour arrowC;
