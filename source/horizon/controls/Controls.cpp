@@ -25,7 +25,7 @@ namespace Aether {
 
     void Controls::removeAllItems() {
         Container::removeAllElements();
-        this->items.empty();
+        this->items.clear();
     }
 
     void Controls::repositionElements() {

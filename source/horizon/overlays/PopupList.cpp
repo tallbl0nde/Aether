@@ -74,7 +74,7 @@ namespace Aether {
     }
 
     void PopupList::removeEntries() {
-        this->items.empty();
+        this->items.clear();
         this->list->removeAllElements();
 
         // Reset heights
