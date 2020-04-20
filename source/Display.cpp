@@ -302,7 +302,7 @@ namespace Aether {
         // Draw FPS
         if (this->fps_) {
             std::string ss = "FPS: " + std::to_string((int)(1.0/(dtClock.delta/1000.0))) + " (" + std::to_string(dtClock.delta) + " ms)";
-            SDL_Texture * tt = SDLHelper::renderText(ss.c_str(), 20);
+            SDL_Texture * tt = SDLHelper::renderText(ss, 20);
             SDLHelper::drawTexture(tt, SDL_Color{0, 150, 150, 255}, 5, 695);
             SDLHelper::destroyTexture(tt);
         }

@@ -19,7 +19,7 @@ namespace Aether {
         this->upContainer->setX(this->x() + (this->w() - this->upContainer->w())/2);
         this->upContainer->setSelectable(false);
         this->upContainer->setTouchable(true);
-        this->up = new Text(0, this->y(), "\uE147", ARROW_FONT_SIZE, FontType::Extended);
+        this->up = new Text(0, this->y(), "\uE147", ARROW_FONT_SIZE);
         this->up->setXY(this->upContainer->x() + (this->upContainer->w() - this->up->w())/2, this->upContainer->y() + (this->upContainer->h() - this->up->h())/2);
         this->upContainer->addElement(this->up);
         this->addElement(this->upContainer);
@@ -30,7 +30,7 @@ namespace Aether {
         this->downContainer->setY(this->downContainer->y() - this->downContainer->h());
         this->downContainer->setSelectable(false);
         this->downContainer->setTouchable(true);
-        this->down = new Text(0, 0, "\uE148", ARROW_FONT_SIZE, FontType::Extended);
+        this->down = new Text(0, 0, "\uE148", ARROW_FONT_SIZE);
         this->down->setXY(this->downContainer->x() + (this->downContainer->w() - this->down->w())/2, this->downContainer->y() + (this->downContainer->h() - this->down->h())/2);
         this->downContainer->addElement(this->down);
         this->addElement(this->downContainer);

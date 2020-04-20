@@ -1,7 +1,7 @@
 #include "TextBlock.hpp"
 
 namespace Aether {
-    TextBlock::TextBlock(int x, int y, std::string s, unsigned int f, unsigned int w, FontType t, FontStyle l) : BaseText(x, y, s, f, t, l) {
+    TextBlock::TextBlock(int x, int y, std::string s, unsigned int f, unsigned int w, FontStyle l) : BaseText(x, y, s, f, l) {
         this->setWrapWidth(w);
     }
 
@@ -28,7 +28,7 @@ namespace Aether {
                 style = TTF_STYLE_STRIKETHROUGH;
                 break;
         }
-        this->setTexture(SDLHelper::renderTextWrapped(this->string_.c_str(), this->fontSize_, this->wrapWidth_, style, (this->fontType == FontType::Extended) ? true : false));
+        this->setTexture(SDLHelper::renderTextWrapped(this->string_, this->fontSize_, this->wrapWidth_, style));
     }
 
     unsigned int TextBlock::wrapWidth() {

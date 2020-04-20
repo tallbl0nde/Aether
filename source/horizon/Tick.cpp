@@ -4,7 +4,7 @@ namespace Aether {
     Tick::Tick(int x, int y, unsigned int d) : Element(x, y, d, d) {
         this->circle = new Ellipse(this->x(), this->y(), d);
         this->addElement(this->circle);
-        this->tick = new Text(0, 0, "\uE14B", 19, FontType::Extended);
+        this->tick = new Text(0, 0, "\uE14B", 19);
         this->tick->setXY(this->x() + (this->w() - this->tick->w())/2 + 3, this->y() + (this->h() - this->tick->h())/2 + 3);
         this->addElement(this->tick);
     }

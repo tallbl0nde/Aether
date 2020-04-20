@@ -14,8 +14,8 @@ namespace Aether {
             void redrawTexture();
 
         public:
-            // Constructor requires: string, font size, wrap width (px) + optional FontType
-            TextBlock(int, int, std::string, unsigned int, unsigned int, FontType = FontType::Normal, FontStyle = FontStyle::Regular);
+            // Constructor requires: string, font size, wrap width (px)
+            TextBlock(int, int, std::string, unsigned int, unsigned int, FontStyle = FontStyle::Regular);
 
             // Getter + setter for wrapWidth
             // Altering requires re-render of text

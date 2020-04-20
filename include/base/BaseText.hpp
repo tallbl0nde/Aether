@@ -4,11 +4,6 @@
 #include "Texture.hpp"
 
 namespace Aether {
-    enum FontType {
-        Normal,     // Normal font
-        Extended    // Icon/extended font
-    };
-
     enum FontStyle {
         Regular,
         Bold,
@@ -25,8 +20,6 @@ namespace Aether {
             std::string string_;
             // Font size used for rendered text
             unsigned int fontSize_;
-            // Type of font to use (stored for redrawing)
-            FontType fontType;
             // Font style (stored for redrawing)
             FontStyle fontStyle;
 
@@ -35,7 +28,7 @@ namespace Aether {
 
         public:
             // Constructor accepts string, font size and font type (defaulting to normal)
-            BaseText(int, int, std::string, unsigned int, FontType, FontStyle);
+            BaseText(int, int, std::string, unsigned int, FontStyle);
 
             // Getters + setters for variables
             std::string string();

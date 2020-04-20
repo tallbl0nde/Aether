@@ -20,7 +20,7 @@ namespace Aether {
 
         public:
             // Constructor accepts string, font size and font type
-            Text(int, int, std::string, unsigned int, FontType = FontType::Normal, FontStyle = FontStyle::Regular);
+            Text(int, int, std::string, unsigned int, FontStyle = FontStyle::Regular);
 
             // Getter + setter for scroll + scrollSpeed
             bool scroll();

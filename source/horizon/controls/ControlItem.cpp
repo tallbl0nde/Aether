@@ -46,7 +46,7 @@ const std::string buttonChar[] = {
 namespace Aether {
     ControlItem::ControlItem(Button k, std::string s) : Element() {
         // Create and add elements
-        this->icon = new Text(PADDING, 0, buttonChar[k], ICON_FONT_SIZE, FontType::Extended);
+        this->icon = new Text(PADDING, 0, buttonChar[k], ICON_FONT_SIZE);
         this->hint = new Text(0, 0, s, HINT_FONT_SIZE);
         this->addElement(this->icon);
         this->addElement(this->hint);

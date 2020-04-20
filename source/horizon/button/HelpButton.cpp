@@ -2,7 +2,7 @@
 
 namespace Aether {
     HelpButton::HelpButton(int x, int y, int d, std::function<void()> f) : Element(x, y, d, d) {
-        this->text = new Text(x, y, "\uE142", d, FontType::Extended);
+        this->text = new Text(x, y, "\uE142", d);
         this->addElement(this->text);
         this->setCallback(f);
     }
