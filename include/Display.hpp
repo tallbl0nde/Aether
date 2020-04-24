@@ -89,7 +89,8 @@ namespace Aether {
             // Add an overlay
             void addOverlay(Overlay *);
 
-            // Drop the current screen without calling onUnload()
+            // Calls onUnload() of set screen and removes screen (but doesn't delete!)
+            // Set another screen before loop() or loop() will return false due to no screen set
             void dropScreen();
             // Set screen to given pointer
             void setScreen(Screen *);

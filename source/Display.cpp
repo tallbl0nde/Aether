@@ -92,6 +92,9 @@ namespace Aether {
     }
 
     void Display::dropScreen() {
+        if (this->screen != nullptr) {
+            this->screen->onUnload();
+        }
         this->screen = nullptr;
     }
 
