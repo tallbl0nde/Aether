@@ -334,7 +334,7 @@ namespace SDLHelper {
         // Create font for given size if not already cached
         if (customFont) {
             if (fontCache[0].find(font_size) == fontCache[0].end()) {
-                fontCache[0][font_size] = TTF_OpenFontRW(SDL_RWFromMem(fontData[0].address, fontData[0].size), 1, font_size);
+                fontCache[0][font_size] = TTF_OpenFont(customFontPath.c_str(), font_size);
             }
         } else {
             for (int i = 0; i < PlSharedFontType_Total; i++) {
@@ -411,7 +411,7 @@ namespace SDLHelper {
         // Create font for given size if not already cached
         if (customFont) {
             if (fontCache[0].find(font_size) == fontCache[0].end()) {
-                fontCache[0][font_size] = TTF_OpenFontRW(SDL_RWFromMem(fontData[0].address, fontData[0].size), 1, font_size);
+                fontCache[0][font_size] = TTF_OpenFont(customFontPath.c_str(), font_size);
             }
         } else {
             for (int i = 0; i < PlSharedFontType_Total; i++) {
