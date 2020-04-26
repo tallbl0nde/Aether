@@ -25,6 +25,13 @@ namespace Aether::Exp {
         return false;
     }
 
+    void Threaded::deleteTexture() {
+        if (this->status == ThreadedStatus::Texture) {
+            this->removeTexture();
+            this->status = ThreadedStatus::Empty;
+        }
+    }
+
     bool Threaded::textureReady() {
         return (this->status == ThreadedStatus::Texture);
     }

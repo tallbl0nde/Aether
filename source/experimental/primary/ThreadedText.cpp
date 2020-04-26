@@ -36,6 +36,10 @@ namespace Aether::Exp {
         this->surface = nullptr;
     }
 
+    void ThreadedText::removeTexture() {
+        this->destroyTexture();
+    }
+
     void ThreadedText::redrawTexture() {
         if (this->renderType != RenderType::Deferred) {
             this->startRendering();

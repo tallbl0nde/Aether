@@ -14,6 +14,10 @@ namespace Aether::Exp {
         this->surface = nullptr;
     }
 
+    void ThreadedRectangle::removeTexture() {
+        this->destroyTexture();
+    }
+
     void ThreadedRectangle::redrawTexture() {
         if (this->renderType != RenderType::Deferred) {
             this->startRendering();

@@ -15,10 +15,10 @@ namespace Aether {
             // Coords + dimensions of OVERALL texture to draw
             int maskX, maskY, maskW, maskH;
 
+        protected:
             // Delete the stored texture (only called internally)
             void destroyTexture();
 
-        protected:
             // Colour to tint the texture with when drawn
             // Defaults to white
             Colour colour;
@@ -29,6 +29,9 @@ namespace Aether {
 
             // The actual texture
             SDL_Texture * texture;
+
+            // Set the texture and recalculate dimensions (also destroys previous one)
+            void setTexture(SDL_Texture *);
 
         public:
             // Constructor optionally takes the texture + sets dimensions to those of the texture
@@ -48,9 +51,6 @@ namespace Aether {
             void getMask(int *, int *, int *, int *);
             // Set the "mask" of the texture to draw
             void setMask(int, int, int, int);
-
-            // Set the texture and recalculate dimensions (also destroys previous one)
-            void setTexture(SDL_Texture *);
 
             // Render the texture
             void render();

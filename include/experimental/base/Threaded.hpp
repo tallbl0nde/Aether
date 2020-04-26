@@ -26,6 +26,8 @@ namespace Aether::Exp {
             virtual void generateSurface() = 0;
             // Function to call when surface is ready (called in main thread!)
             virtual void convertSurface() = 0;
+            // Function to call when texture deletion requested
+            virtual void removeTexture() = 0;
 
             // Queues surface creation - calls generateSurface() when next in queue
             void createSurface();
@@ -42,6 +44,9 @@ namespace Aether::Exp {
 
             // Adds rendering operation to the queue (returns false if an operation is already queued/running)
             bool startRendering();
+            // Deletes the generated texture (use to save memory)
+            // Must then regenerate at a later point in time!
+            void deleteTexture();
 
             // Returns true when the texture is ready to be drawn
             bool textureReady();

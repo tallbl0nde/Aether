@@ -39,6 +39,10 @@ namespace Aether::Exp {
         this->surface = nullptr;
     }
 
+    void ThreadedImage::removeTexture() {
+        this->destroyTexture();
+    }
+
     void ThreadedImage::update(uint32_t dt) {
         this->updateState();
         Image::update(dt);

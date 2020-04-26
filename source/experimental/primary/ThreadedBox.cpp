@@ -14,6 +14,10 @@ namespace Aether::Exp {
         this->surface = nullptr;
     }
 
+    void ThreadedBox::removeTexture() {
+        this->destroyTexture();
+    }
+
     void ThreadedBox::redrawTexture() {
         if (this->renderType != RenderType::Deferred) {
             this->startRendering();

@@ -16,6 +16,7 @@ namespace Aether::Exp {
             // Override threaded functions to handle box
             void generateSurface();
             void convertSurface();
+            void removeTexture();
 
             // Type variables
             Type type;

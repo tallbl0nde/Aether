@@ -11,6 +11,7 @@ namespace Aether::Exp {
             // Override threaded functions to handle text
             void generateSurface();
             void convertSurface();
+            void removeTexture();
 
             // Don't actually create a texture when called - queue surface instead
             void redrawTexture();
