@@ -4,14 +4,14 @@
 #include "Overlay.hpp"
 #include <stack>
 
-// Enum for stack operation performed
-enum class StackOp {
-    Push,
-    Pop,
-    None
-};
-
 namespace Aether {
+    // Enum for stack operation performed
+    enum class StackOp {
+        Push,
+        Pop,
+        None
+    };
+
     // The Display represents the "root" element. It stores and handles different screens
     // and polling/passing events
     class Display : public Element {

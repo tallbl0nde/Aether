@@ -20,7 +20,8 @@ namespace Aether {
 
         public:
             // Constructor accepts string, font size and font type
-            Text(int, int, std::string, unsigned int, FontStyle = FontStyle::Regular);
+            // Also accepts whether to render on creation (this shouldn't need to be used except for internally)
+            Text(int, int, std::string, unsigned int, FontStyle = FontStyle::Regular, RenderType = RenderType::OnCreate);
 
             // Getter + setter for scroll + scrollSpeed
             bool scroll();

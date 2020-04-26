@@ -1,3 +1,4 @@
+#include <mutex>
 #include "SDLHelper.hpp"
 #include <SDL2/SDL2_gfxPrimitives.h>
 #include <SDL2/SDL2_rotozoom.h>
@@ -28,6 +29,8 @@ static int offsetX;
 static int offsetY;
 // Set to current blend mode
 static SDL_BlendMode tex_blend_mode;
+// Mutex for concurrent access to fontCache
+static std::mutex fontCacheMutex;
 
 // Helper function which returns one UTF8 character given a string (from U+0000 to U+FFFF)
 // The second argument takes the character/byte to start at and is updated to the next character/byte to look at
@@ -130,12 +133,22 @@ namespace SDLHelper {
         SDL_RenderClear(renderer);
     }
 
+    SDL_Texture * convertSurfaceToTexture(SDL_Surface * s) {
+        SDL_Texture * tex = SDL_CreateTextureFromSurface(renderer, s);
+        SDL_FreeSurface(s);
+        return tex;
+    }
+
     SDL_Texture * createTexture(int w, int h) {
         return SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA32, SDL_TEXTUREACCESS_TARGET, w, h);
     }
 
     void destroyTexture(SDL_Texture * t) {
         SDL_DestroyTexture(t);
+    }
+
+    void freeSurface(SDL_Surface * s) {
+        SDL_FreeSurface(s);
     }
 
     void getDimensions(SDL_Texture * t, int * w, int * h) {
@@ -153,6 +166,7 @@ namespace SDLHelper {
     }
 
     void emptyFontCache() {
+        std::lock_guard<std::mutex> mtx(fontCacheMutex);
         for (int i = 0; i < PlSharedFontType_Total; i++) {
             for (auto it = fontCache[i].begin(); it != fontCache[i].end(); it++) {
                 TTF_CloseFont(it->second);
@@ -232,6 +246,10 @@ namespace SDLHelper {
     }
 
     void drawTexture(SDL_Texture * tex, SDL_Color c, int x, int y, int w, int h, int tx, int ty, int tw, int th) {
+        if (tex == nullptr) {
+            return;
+        }
+
         // Set color
         SDL_SetTextureColorMod(tex, c.r, c.g, c.b);
         SDL_SetTextureAlphaMod(tex, c.a);
@@ -263,6 +281,87 @@ namespace SDLHelper {
 
     // === RENDERING FUNCTIONS ===
 
+    // -= SURFACES =-
+    SDL_Surface * renderTextS(std::string str, int font_size, int style) {
+        // Lock cache mutex
+        std::unique_lock<std::mutex> mtx(fontCacheMutex);
+
+        // Create font for given size if not already cached
+        if (customFont) {
+            if (fontCache[0].find(font_size) == fontCache[0].end()) {
+                fontCache[0][font_size] = TTF_OpenFont(customFontPath.c_str(), font_size);
+            }
+        } else {
+            for (int i = 0; i < PlSharedFontType_Total; i++) {
+                if (fontCache[i].find(font_size) == fontCache[i].end()) {
+                    fontCache[i][font_size] = TTF_OpenFontRW(SDL_RWFromMem(fontData[i].address, fontData[i].size), 1, font_size);
+                }
+            }
+        }
+
+        // Simply render and convert if custom font
+        SDL_Surface * surf;
+        if (customFont) {
+            if (TTF_GetFontStyle(fontCache[0][font_size]) != style) {
+                TTF_SetFontStyle(fontCache[0][font_size], style);
+            }
+            surf = TTF_RenderUTF8_Blended(fontCache[0][font_size], str.c_str(), SDL_Color{255, 255, 255, 255});
+
+        // Need to examine multiple fonts when using Nintendo's
+        } else {
+            // Have a vector of surfaces for each character
+            std::vector<SDL_Surface *> surfs;
+
+            // Iterate over each character in string
+            unsigned int width = 0;
+            unsigned int height = 0;
+            unsigned int pos = 0;
+            while (pos < str.length()) {
+                unsigned int posCopy = pos;
+                uint16_t ch = getUTF8Char(str, pos);
+                // Break if pos isn't changed (meaning no character could be extracted)
+                if (pos == posCopy) {
+                    break;
+                }
+
+                // Find which font contains current glyph
+                int fontIndex = 0;
+                for (int i = 0; i < PlSharedFontType_Total; i++) {
+                    if (TTF_GlyphIsProvided(fontCache[i][font_size], ch)) {
+                        fontIndex = i;
+                        break;
+                    }
+                }
+
+                // Draw character and insert surface into array
+                if (TTF_GetFontStyle(fontCache[fontIndex][font_size]) != style) {
+                    TTF_SetFontStyle(fontCache[fontIndex][font_size], style);
+                }
+                SDL_Surface * tmp = TTF_RenderGlyph_Blended(fontCache[fontIndex][font_size], ch, SDL_Color{255, 255, 255, 255});
+                width += tmp->w;
+                height = (tmp->h > height ? tmp->h : height);
+                surfs.push_back(tmp);
+            }
+
+            // Unlock mutex now that access to the cache is no longer needed
+            mtx.unlock();
+
+            // Render characters to larger surface
+            unsigned int x = 0;
+            surf = SDL_CreateRGBSurfaceWithFormat(0, width, height, 32, SDL_PIXELFORMAT_RGBA32);
+            SDL_FillRect(surf, NULL, SDL_MapRGBA(surf->format, 255, 255, 255, 0));
+            for (size_t j = 0; j < surfs.size(); j++) {
+                SDL_Rect r = SDL_Rect{x, 0, surfs[j]->w, surfs[j]->h};
+                SDL_BlitSurface(surfs[j], NULL, surf, &r);
+                x += surfs[j]->w;
+                SDL_FreeSurface(surfs[j]);
+            }
+        }
+
+        return surf;
+    }
+
+    // -= TEXTURES =-
     SDL_Texture * renderEllipse(unsigned int xd, unsigned int yd) {
         SDL_Texture * tex = createTexture(xd + 4, yd + 4);
         renderToTexture(tex);
@@ -331,79 +430,9 @@ namespace SDLHelper {
     }
 
     SDL_Texture * renderText(std::string str, int font_size, int style) {
-        // Create font for given size if not already cached
-        if (customFont) {
-            if (fontCache[0].find(font_size) == fontCache[0].end()) {
-                fontCache[0][font_size] = TTF_OpenFont(customFontPath.c_str(), font_size);
-            }
-        } else {
-            for (int i = 0; i < PlSharedFontType_Total; i++) {
-                if (fontCache[i].find(font_size) == fontCache[i].end()) {
-                    fontCache[i][font_size] = TTF_OpenFontRW(SDL_RWFromMem(fontData[i].address, fontData[i].size), 1, font_size);
-                }
-            }
-        }
-
-        // Simply render and convert if custom font
-        SDL_Texture * tex;
-        if (customFont) {
-            if (TTF_GetFontStyle(fontCache[0][font_size]) != style) {
-                TTF_SetFontStyle(fontCache[0][font_size], style);
-            }
-            SDL_Surface * surf = TTF_RenderUTF8_Blended(fontCache[0][font_size], str.c_str(), SDL_Color{255, 255, 255, 255});
-            tex = SDL_CreateTextureFromSurface(renderer, surf);
-            SDL_FreeSurface(surf);
-
-        // Need to examine multiple fonts when using Nintendo's
-        } else {
-            // Have an vector of surfaces for each character
-            std::vector<SDL_Surface *> surfs;
-
-            // Iterate over each character in string
-            unsigned int width = 0;
-            unsigned int height = 0;
-            unsigned int pos = 0;
-            while (pos < str.length()) {
-                unsigned int posCopy = pos;
-                uint16_t ch = getUTF8Char(str, pos);
-                // Break if pos isn't changed (meaning no character could be extracted)
-                if (pos == posCopy) {
-                    break;
-                }
-
-                // Find which font contains current glyph
-                int fontIndex = 0;
-                for (int i = 0; i < PlSharedFontType_Total; i++) {
-                    if (TTF_GlyphIsProvided(fontCache[i][font_size], ch)) {
-                        fontIndex = i;
-                        break;
-                    }
-                }
-
-                // Draw character and insert surface into array
-                if (TTF_GetFontStyle(fontCache[fontIndex][font_size]) != style) {
-                    TTF_SetFontStyle(fontCache[fontIndex][font_size], style);
-                }
-                SDL_Surface * surf = TTF_RenderGlyph_Blended(fontCache[fontIndex][font_size], ch, SDL_Color{255, 255, 255, 255});
-                width += surf->w;
-                height = (surf->h > height ? surf->h : height);
-                surfs.push_back(surf);
-            }
-
-            // Render characters to larger surface
-            unsigned int x = 0;
-            SDL_Surface * surf = SDL_CreateRGBSurfaceWithFormat(0, width, height, 32, SDL_PIXELFORMAT_RGBA32);
-            SDL_FillRect(surf, NULL, SDL_MapRGBA(surf->format, 255, 255, 255, 0));
-            for (size_t j = 0; j < surfs.size(); j++) {
-                SDL_Rect r = SDL_Rect{x, 0, surfs[j]->w, surfs[j]->h};
-                SDL_BlitSurface(surfs[j], NULL, surf, &r);
-                x += surfs[j]->w;
-                SDL_FreeSurface(surfs[j]);
-            }
-            tex = SDL_CreateTextureFromSurface(renderer, surf);
-            SDL_FreeSurface(surf);
-        }
-
+        SDL_Surface * surf = renderTextS(str, font_size, style);
+        SDL_Texture * tex = SDL_CreateTextureFromSurface(renderer, surf);
+        SDL_FreeSurface(surf);
         return tex;
     }
 

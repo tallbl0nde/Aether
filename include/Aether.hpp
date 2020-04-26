@@ -22,4 +22,7 @@
 #include "primary/Image.hpp"
 #include "utils/Theme.hpp"
 
+// Experimental hpp's
+#include "experimental/primary/ThreadedText.hpp"
+
 #endif

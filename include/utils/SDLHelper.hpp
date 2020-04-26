@@ -18,10 +18,15 @@ namespace SDLHelper {
     // Clears the screen (renderer) with the specified colour
     void clearScreen(SDL_Color);
 
+    // Convert surface to texture (must be called in main thread)
+    // Automatically frees surface
+    SDL_Texture * convertSurfaceToTexture(SDL_Surface *);
     // Create texture with given dimensions
     SDL_Texture * createTexture(int, int);
     // Wrapper for DestroyTexture
     void destroyTexture(SDL_Texture *);
+    // Wrapper for FreeSurface
+    void freeSurface(SDL_Surface *);
     // Wrapper for QueryTexture
     void getDimensions(SDL_Texture *, int *, int *);
 
@@ -78,11 +83,38 @@ namespace SDLHelper {
     void drawTexture(SDL_Texture *, SDL_Color, int, int, int = -1, int = -1, int = -1, int = -1, int = -1, int = -1);
 
     // === RENDERING FUNCTIONS ===
-    // -> Draw to a texture and return it
-    // -> The caller must destroy the texture
+    // -> Draw to a surface/texture and return it
+    // -> All rendering done in white
+    // -> The caller must destroy the surface/texture
 
-    // Simply changes target to texture and then calls draw...() with white colour
+    // -= SURFACES =-
+    // Have S suffix to indicate surface
+    // x diameter, y diameter
+    // SDL_Texture * renderEllipse(unsigned int, unsigned int);
+    // // width, height
+    // SDL_Texture * renderFilledRect(int, int);
+    // // width, height, corner radius
+    // SDL_Texture * renderFilledRoundRect(int, int, unsigned int);
+    // // width, height, corner radius, border thickness
+    // SDL_Texture * renderRoundRect(int, int, unsigned int, unsigned int);
+    // // width, height, border thickness
+    // SDL_Texture * renderRect(int, int, unsigned int);
 
+    // // Reads an image from given path and returns texture
+    // SDL_Texture * renderImage(std::string);
+    // // Reads an image from a pointer to it and returns a texture containing it
+    // SDL_Texture * renderImage(u8 *, size_t);
+    // // Above but also shrinks image by given factors
+    // SDL_Texture * renderImageShrinked(u8 *, size_t, int, int);
+
+    // Returns a texture with the specified text drawn at the specified font size
+    // Optionally pass TTF style and bool for extended font!
+    // Always drawn in white!
+    SDL_Surface * renderTextS(std::string, int, int = TTF_STYLE_NORMAL);
+    // // Same as renderText but wraps text at given width
+    // SDL_Texture * renderTextWrapped(const char *, int, uint32_t, int = TTF_STYLE_NORMAL, bool = false);
+
+    // -= TEXTURES =-
     // x diameter, y diameter
     SDL_Texture * renderEllipse(unsigned int, unsigned int);
     // width, height
