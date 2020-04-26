@@ -282,6 +282,45 @@ namespace SDLHelper {
     // === RENDERING FUNCTIONS ===
 
     // -= SURFACES =-
+    SDL_Surface * renderFilledRectS(int w, int h) {
+        SDL_Surface * surf = SDL_CreateRGBSurfaceWithFormat(0, w, h, 32, SDL_PIXELFORMAT_RGBA32);
+        SDL_FillRect(surf, NULL, SDL_MapRGBA(surf->format, 255, 255, 255, 255));
+        return surf;
+    }
+
+    SDL_Surface * renderRectS(int w, int h, unsigned int b) {
+        SDL_Surface * surf = SDL_CreateRGBSurfaceWithFormat(0, w, h, 32, SDL_PIXELFORMAT_RGBA32);
+        SDL_Rect rects[4];
+        rects[0] = SDL_Rect{0, 0, w, b};
+        rects[1] = SDL_Rect{0, b, b, h - (b*2)};
+        rects[2] = SDL_Rect{w - b, b, b, h - (b*2)};
+        rects[3] = SDL_Rect{0, h - b, w, b};
+        SDL_FillRects(surf, rects, 4, SDL_MapRGBA(surf->format, 255, 255, 255, 255));
+        return surf;
+    }
+
+    SDL_Surface * renderImageS(std::string path, int xF, int yF) {
+        SDL_Surface * tmp = IMG_Load(path.c_str());
+        SDL_Surface * tmp2 = SDL_ConvertSurfaceFormat(tmp, SDL_PIXELFORMAT_RGBA32, 0);
+        SDL_FreeSurface(tmp);
+        if (xF != 1 || yF != 1) {
+            SDL_Surface * tmp = shrinkSurface(tmp2, xF, yF);
+            SDL_FreeSurface(tmp2);
+            tmp2 = tmp;
+        }
+        return tmp2;
+    }
+
+    SDL_Surface * renderImageS(u8 * ptr, size_t size, int xF, int yF) {
+        SDL_Surface * tmp = IMG_Load_RW(SDL_RWFromMem(ptr, size), 1);
+        if (xF != 1 || yF != 1) {
+            SDL_Surface * tmp2 = shrinkSurface(tmp, xF, yF);
+            SDL_FreeSurface(tmp);
+            tmp = tmp2;
+        }
+        return tmp;
+    }
+
     SDL_Surface * renderTextS(std::string str, int font_size, int style) {
         // Lock cache mutex
         std::unique_lock<std::mutex> mtx(fontCacheMutex);
@@ -361,82 +400,10 @@ namespace SDLHelper {
         return surf;
     }
 
-    // -= TEXTURES =-
-    SDL_Texture * renderEllipse(unsigned int xd, unsigned int yd) {
-        SDL_Texture * tex = createTexture(xd + 4, yd + 4);
-        renderToTexture(tex);
-        drawEllipse(SDL_Color{255, 255, 255, 255}, xd/2 + 2, yd/2 + 2, xd, yd);
-        renderToScreen();
-        return tex;
-    }
+    SDL_Surface * renderTextWrappedS(std::string str, int font_size, uint32_t max_w, int style) {
+        // Lock cache mutex
+        std::lock_guard<std::mutex> mtx(fontCacheMutex);
 
-    SDL_Texture * renderFilledRect(int w, int h) {
-        SDL_Texture * tex = createTexture(w, h);
-        renderToTexture(tex);
-        drawFilledRect(SDL_Color{255, 255, 255, 255}, 0, 0, w, h);
-        renderToScreen();
-        return tex;
-    }
-
-    SDL_Texture * renderFilledRoundRect(int w, int h, unsigned int c) {
-        SDL_Texture * tex = createTexture(w, h);
-        renderToTexture(tex);
-        drawFilledRoundRect(SDL_Color{255, 255, 255, 255}, 0, 0, w, h, c);
-        renderToScreen();
-        return tex;
-    }
-
-    SDL_Texture * renderRoundRect(int w, int h, unsigned int r, unsigned int b) {
-        SDL_Texture * tex = createTexture(w, h);
-        renderToTexture(tex);
-        drawRoundRect(SDL_Color{255, 255, 255, 255}, 0, 0, w, h, r, b);
-        renderToScreen();
-        return tex;
-    }
-
-    SDL_Texture * renderRect(int w, int h, unsigned int b) {
-        SDL_Texture * tex = createTexture(w, h);
-        renderToTexture(tex);
-        drawRect(SDL_Color{255, 255, 255, 255}, 0, 0, w, h, b);
-        renderToScreen();
-        return tex;
-    }
-
-    SDL_Texture * renderImage(std::string path) {
-        SDL_Surface * tmp = IMG_Load(path.c_str());
-        SDL_Surface * tmp2 = SDL_ConvertSurfaceFormat(tmp, SDL_PIXELFORMAT_RGBA32, 0);
-        SDL_FreeSurface(tmp);
-        SDL_Texture * tex = SDL_CreateTextureFromSurface(renderer, tmp2);
-        SDL_FreeSurface(tmp2);
-        return tex;
-    }
-
-    SDL_Texture * renderImage(u8 * ptr, size_t size) {
-        SDL_Surface * tmp = IMG_Load_RW(SDL_RWFromMem(ptr, size), 1);
-        SDL_Surface * tmp2 = SDL_ConvertSurfaceFormat(tmp, SDL_PIXELFORMAT_RGBA32, 0);
-        SDL_FreeSurface(tmp);
-        SDL_Texture * tex = SDL_CreateTextureFromSurface(renderer, tmp2);
-        SDL_FreeSurface(tmp2);
-        return tex;
-    }
-
-    SDL_Texture * renderImageShrinked(u8 * ptr, size_t size, int xF, int yF) {
-        SDL_Surface * tmp = IMG_Load_RW(SDL_RWFromMem(ptr, size), 1);
-        SDL_Surface * tmp2 = shrinkSurface(tmp, xF, yF);
-        SDL_FreeSurface(tmp);
-        SDL_Texture * tex = SDL_CreateTextureFromSurface(renderer, tmp2);
-        SDL_FreeSurface(tmp2);
-        return tex;
-    }
-
-    SDL_Texture * renderText(std::string str, int font_size, int style) {
-        SDL_Surface * surf = renderTextS(str, font_size, style);
-        SDL_Texture * tex = SDL_CreateTextureFromSurface(renderer, surf);
-        SDL_FreeSurface(surf);
-        return tex;
-    }
-
-    SDL_Texture * renderTextWrapped(std::string str, int font_size, uint32_t max_w, int style) {
         // Create font for given size if not already cached
         if (customFont) {
             if (fontCache[0].find(font_size) == fontCache[0].end()) {
@@ -451,14 +418,12 @@ namespace SDLHelper {
         }
 
         // Simply render and convert if custom font
-        SDL_Texture * tex;
+        SDL_Surface * surf;
         if (customFont) {
             if (TTF_GetFontStyle(fontCache[0][font_size]) != style) {
                 TTF_SetFontStyle(fontCache[0][font_size], style);
             }
-            SDL_Surface * surf = TTF_RenderUTF8_Blended_Wrapped(fontCache[0][font_size], str.c_str(), SDL_Color{255, 255, 255, 255}, max_w);
-            tex = SDL_CreateTextureFromSurface(renderer, surf);
-            SDL_FreeSurface(surf);
+            surf = TTF_RenderUTF8_Blended_Wrapped(fontCache[0][font_size], str.c_str(), SDL_Color{255, 255, 255, 255}, max_w);
 
         // Need to examine multiple fonts when using Nintendo's
         } else {
@@ -557,7 +522,7 @@ namespace SDLHelper {
             }
 
             // Now that we have dimensions, etc... render onto a surface
-            SDL_Surface * surf = SDL_CreateRGBSurfaceWithFormat(0, max_w, lines.size() * (maxLineH * FONT_SPACING), 32, SDL_PIXELFORMAT_RGBA32);
+            surf = SDL_CreateRGBSurfaceWithFormat(0, max_w, lines.size() * (maxLineH * FONT_SPACING), 32, SDL_PIXELFORMAT_RGBA32);
             SDL_FillRect(surf, NULL, SDL_MapRGBA(surf->format, 255, 255, 255, 0));
             for (size_t i = 0; i < lines.size(); i++) {
                 int x = 0;
@@ -590,10 +555,65 @@ namespace SDLHelper {
                     SDL_FreeSurface(tmp);
                 }
             }
-            tex = SDL_CreateTextureFromSurface(renderer, surf);
-            SDL_FreeSurface(surf);
         }
 
+        return surf;
+    }
+
+    // -= TEXTURES =-
+    SDL_Texture * renderEllipse(unsigned int xd, unsigned int yd) {
+        SDL_Texture * tex = createTexture(xd + 4, yd + 4);
+        renderToTexture(tex);
+        drawEllipse(SDL_Color{255, 255, 255, 255}, xd/2 + 2, yd/2 + 2, xd, yd);
+        renderToScreen();
         return tex;
+    }
+
+    SDL_Texture * renderFilledRect(int w, int h) {
+        SDL_Texture * tex = createTexture(w, h);
+        renderToTexture(tex);
+        drawFilledRect(SDL_Color{255, 255, 255, 255}, 0, 0, w, h);
+        renderToScreen();
+        return tex;
+    }
+
+    SDL_Texture * renderFilledRoundRect(int w, int h, unsigned int c) {
+        SDL_Texture * tex = createTexture(w, h);
+        renderToTexture(tex);
+        drawFilledRoundRect(SDL_Color{255, 255, 255, 255}, 0, 0, w, h, c);
+        renderToScreen();
+        return tex;
+    }
+
+    SDL_Texture * renderRoundRect(int w, int h, unsigned int r, unsigned int b) {
+        SDL_Texture * tex = createTexture(w, h);
+        renderToTexture(tex);
+        drawRoundRect(SDL_Color{255, 255, 255, 255}, 0, 0, w, h, r, b);
+        renderToScreen();
+        return tex;
+    }
+
+    SDL_Texture * renderRect(int w, int h, unsigned int b) {
+        SDL_Texture * tex = createTexture(w, h);
+        renderToTexture(tex);
+        drawRect(SDL_Color{255, 255, 255, 255}, 0, 0, w, h, b);
+        renderToScreen();
+        return tex;
+    }
+
+    SDL_Texture * renderImage(std::string path, int xF, int yF) {
+        return convertSurfaceToTexture(renderImageS(path, xF, yF));
+    }
+
+    SDL_Texture * renderImage(u8 * ptr, size_t size, int xF, int yF) {
+        return convertSurfaceToTexture(renderImageS(ptr, size, xF, yF));
+    }
+
+    SDL_Texture * renderText(std::string str, int font_size, int style) {
+        return convertSurfaceToTexture(renderTextS(str, font_size, style));
+    }
+
+    SDL_Texture * renderTextWrapped(std::string str, int font_size, uint32_t max_w, int style) {
+        return convertSurfaceToTexture(renderTextWrappedS(str, font_size, max_w, style));
     }
 };

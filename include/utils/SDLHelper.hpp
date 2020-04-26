@@ -88,58 +88,36 @@ namespace SDLHelper {
     // -> The caller must destroy the surface/texture
 
     // -= SURFACES =-
-    // Have S suffix to indicate surface
-    // x diameter, y diameter
-    // SDL_Texture * renderEllipse(unsigned int, unsigned int);
-    // // width, height
-    // SDL_Texture * renderFilledRect(int, int);
-    // // width, height, corner radius
-    // SDL_Texture * renderFilledRoundRect(int, int, unsigned int);
-    // // width, height, corner radius, border thickness
-    // SDL_Texture * renderRoundRect(int, int, unsigned int, unsigned int);
-    // // width, height, border thickness
-    // SDL_Texture * renderRect(int, int, unsigned int);
+    // width, height
+    SDL_Surface * renderFilledRectS(int, int);
+    // width, height, border thickness
+    SDL_Surface * renderRectS(int, int, unsigned int);
 
-    // // Reads an image from given path and returns texture
-    // SDL_Texture * renderImage(std::string);
-    // // Reads an image from a pointer to it and returns a texture containing it
-    // SDL_Texture * renderImage(u8 *, size_t);
-    // // Above but also shrinks image by given factors
-    // SDL_Texture * renderImageShrinked(u8 *, size_t, int, int);
+    // path to image, x scale factor, y scale factor (only shrinks!)
+    SDL_Surface * renderImageS(std::string, int = 1, int = 1);
+    // same as above but reads from pointer to memory
+    SDL_Surface * renderImageS(u8 *, size_t, int = 1, int = 1);
 
-    // Returns a texture with the specified text drawn at the specified font size
-    // Optionally pass TTF style and bool for extended font!
-    // Always drawn in white!
+    // string to render, font size, font style
     SDL_Surface * renderTextS(std::string, int, int = TTF_STYLE_NORMAL);
-    // // Same as renderText but wraps text at given width
-    // SDL_Texture * renderTextWrapped(const char *, int, uint32_t, int = TTF_STYLE_NORMAL, bool = false);
+    // same as above but wraps at given width (uint32_t arg)
+    SDL_Surface * renderTextWrappedS(std::string, int, uint32_t, int = TTF_STYLE_NORMAL);
 
     // -= TEXTURES =-
     // x diameter, y diameter
     SDL_Texture * renderEllipse(unsigned int, unsigned int);
-    // width, height
-    SDL_Texture * renderFilledRect(int, int);
     // width, height, corner radius
     SDL_Texture * renderFilledRoundRect(int, int, unsigned int);
     // width, height, corner radius, border thickness
     SDL_Texture * renderRoundRect(int, int, unsigned int, unsigned int);
-    // width, height, border thickness
+
+    // These call the surface functions above and then convert to a texture (or call renderer functions if available)
+    SDL_Texture * renderFilledRect(int, int);
     SDL_Texture * renderRect(int, int, unsigned int);
-
-    // Reads an image from given path and returns texture
-    SDL_Texture * renderImage(std::string);
-    // Reads an image from a pointer to it and returns a texture containing it
-    SDL_Texture * renderImage(u8 *, size_t);
-    // Above but also shrinks image by given factors
-    SDL_Texture * renderImageShrinked(u8 *, size_t, int, int);
-
-    // Returns a texture with the specified text drawn at the specified font size
-    // Optionally pass TTF style!
-    // Always drawn in white!
+    SDL_Texture * renderImage(std::string, int = 1, int = 1);
+    SDL_Texture * renderImage(u8 *, size_t, int = 1, int = 1);
     SDL_Texture * renderText(std::string, int, int = TTF_STYLE_NORMAL);
-    // Same as renderText but wraps text at given width
     SDL_Texture * renderTextWrapped(std::string, int, uint32_t, int = TTF_STYLE_NORMAL);
-
 };
 
 #endif
