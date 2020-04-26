@@ -16,7 +16,7 @@ namespace Aether::Exp {
             void redrawTexture();
 
         public:
-            // Constructor accepts threadqueue, x, y, string, font size and font type
+            // Constructor accepts threadqueue, x, y, string, font size, and font type
             ThreadedText(ThreadQueue *, int, int, std::string, unsigned int, FontStyle = FontStyle::Regular, RenderType = RenderType::OnCreateDeferred);
 
             // Check if rendering done

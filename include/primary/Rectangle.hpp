@@ -16,8 +16,8 @@ namespace Aether {
             void redrawTexture();
 
         public:
-            // Constructor takes parent element and optional corner radius (defaults to 0)
-            Rectangle(int, int, int, int, unsigned int = 0);
+            // Constructor takes x, y, w, h, corner radius
+            Rectangle(int, int, int, int, unsigned int = 0, RenderType = RenderType::OnCreate);
 
             // Getter + setter for cornerRadius
             unsigned int cornerRadius();

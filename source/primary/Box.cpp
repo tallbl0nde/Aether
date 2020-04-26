@@ -1,11 +1,15 @@
 #include "Box.hpp"
 
 namespace Aether {
-    Box::Box(int x, int y, int w, int h, unsigned int b, unsigned int r) : Texture(x, y) {
+    Box::Box(int x, int y, int w, int h, unsigned int b, unsigned int r, RenderType rt) : Texture(x, y) {
         Texture::setW(w);
         Texture::setH(h);
         this->cornerRadius_ = r;
-        this->setBorder(b);
+        if (rt != RenderType::Deferred) {
+            this->setBorder(b);
+        } else {
+            this->border_ = b;
+        }
     }
 
     void Box::redrawTexture() {

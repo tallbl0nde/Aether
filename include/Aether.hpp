@@ -23,6 +23,10 @@
 #include "utils/Theme.hpp"
 
 // Experimental hpp's
+#include "experimental/primary/ThreadedBox.hpp"
+#include "experimental/primary/ThreadedImage.hpp"
+#include "experimental/primary/ThreadedRectangle.hpp"
 #include "experimental/primary/ThreadedText.hpp"
+#include "experimental/primary/ThreadedTextBlock.hpp"
 
 #endif

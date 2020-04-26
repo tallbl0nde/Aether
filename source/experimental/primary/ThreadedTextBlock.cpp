@@ -1,11 +1,11 @@
-#include "ThreadedText.hpp"
+#include "ThreadedTextBlock.hpp"
 
 namespace Aether::Exp {
-    ThreadedText::ThreadedText(ThreadQueue * q, int x, int y, std::string s, unsigned int f, FontStyle l, RenderType r) : Threaded(q, r), Text(x, y, s, f, l, RenderType::Deferred) {
+    ThreadedTextBlock::ThreadedTextBlock(ThreadQueue * q, int x, int y, std::string s, unsigned int f, unsigned int w, FontStyle l, RenderType r) : Threaded(q, r), TextBlock(x, y, s, f, w, l, RenderType::Deferred) {
         this->redrawTexture();
     }
 
-    void ThreadedText::generateSurface() {
+    void ThreadedTextBlock::generateSurface() {
         int style;
         switch (this->fontStyle) {
             case FontStyle::Regular:
@@ -28,22 +28,22 @@ namespace Aether::Exp {
                 style = TTF_STYLE_STRIKETHROUGH;
                 break;
         }
-        this->surface = SDLHelper::renderTextS(this->string_, this->fontSize_, style);
+        this->surface = SDLHelper::renderTextWrappedS(this->string_, this->fontSize_, this->wrapWidth(), style);
     }
 
-    void ThreadedText::convertSurface() {
+    void ThreadedTextBlock::convertSurface() {
         this->setTexture(SDLHelper::convertSurfaceToTexture(this->surface));
         this->surface = nullptr;
     }
 
-    void ThreadedText::redrawTexture() {
+    void ThreadedTextBlock::redrawTexture() {
         if (this->renderType != RenderType::Deferred) {
             this->startRendering();
         }
     }
 
-    void ThreadedText::update(uint32_t dt) {
+    void ThreadedTextBlock::update(uint32_t dt) {
         this->updateState();
-        Text::update(dt);
+        TextBlock::update(dt);
     }
 };

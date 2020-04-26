@@ -18,7 +18,7 @@ namespace Aether {
 
         public:
             // Size is set to 1 and no rounded corners by default
-            Box(int, int, int, int, unsigned int = 1, unsigned int = 0);
+            Box(int, int, int, int, unsigned int = 1, unsigned int = 0, RenderType = RenderType::OnCreate);
 
             // Getter + setter for border size
             unsigned int border();

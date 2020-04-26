@@ -1,10 +1,14 @@
 #include "Rectangle.hpp"
 
 namespace Aether {
-    Rectangle::Rectangle(int x, int y, int w, int h, unsigned int r) : Texture(x, y) {
+    Rectangle::Rectangle(int x, int y, int w, int h, unsigned int r, RenderType rt) : Texture(x, y) {
         Texture::setW(w);
         Texture::setH(h);
-        this->setCornerRadius(r);
+        if (rt != RenderType::Deferred) {
+            this->setCornerRadius(r);
+        } else {
+            this->cornerRadius_ = r;
+        }
     }
 
     void Rectangle::redrawTexture() {
