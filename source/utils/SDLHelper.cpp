@@ -154,6 +154,15 @@ namespace SDLHelper {
 
     SDL_Texture * convertSurfaceToTexture(SDL_Surface * s) {
         SDL_Texture * tex = SDL_CreateTextureFromSurface(renderer, s);
+
+        // Change counters
+        if (s != NULL) {
+            surfNum--;
+        }
+        if (tex != NULL) {
+            texNum++;
+        }
+
         SDL_FreeSurface(s);
         return tex;
     }
@@ -375,19 +384,21 @@ namespace SDLHelper {
 
     SDL_Surface * renderImageS(u8 * ptr, size_t size, int xF, int yF) {
         SDL_Surface * tmp = IMG_Load_RW(SDL_RWFromMem(ptr, size), 1);
+        SDL_Surface * tmp2 = SDL_ConvertSurfaceFormat(tmp, SDL_PIXELFORMAT_RGBA32, 0);
+        SDL_FreeSurface(tmp);
         if (xF != 1 || yF != 1) {
-            SDL_Surface * tmp2 = shrinkSurface(tmp, xF, yF);
-            SDL_FreeSurface(tmp);
-            tmp = tmp2;
+            SDL_Surface * tmp = shrinkSurface(tmp2, xF, yF);
+            SDL_FreeSurface(tmp2);
+            tmp2 = tmp;
         }
 
         // Increment counters
-        if (tmp != NULL) {
+        if (tmp2 != NULL) {
             surfNum++;
-            memUsage += (tmp->pitch * tmp->h);
+            memUsage += (tmp2->pitch * tmp2->h);
         }
 
-        return tmp;
+        return tmp2;
     }
 
     SDL_Surface * renderTextS(std::string str, int font_size, int style) {
