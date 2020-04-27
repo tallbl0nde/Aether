@@ -1,3 +1,4 @@
+#include <atomic>
 #include <mutex>
 #include "SDLHelper.hpp"
 #include <SDL2/SDL2_gfxPrimitives.h>
@@ -31,6 +32,12 @@ static int offsetY;
 static SDL_BlendMode tex_blend_mode;
 // Mutex for concurrent access to fontCache
 static std::mutex fontCacheMutex;
+
+// === STATUS ===
+// Counters
+static std::atomic<int> memUsage;
+static std::atomic<int> surfNum;
+static std::atomic<int> texNum;
 
 // Helper function which returns one UTF8 character given a string (from U+0000 to U+FFFF)
 // The second argument takes the character/byte to start at and is updated to the next character/byte to look at
@@ -128,6 +135,18 @@ namespace SDLHelper {
         SDL_Quit();
     }
 
+    int memoryUsage() {
+        return memUsage;
+    }
+
+    int numSurfaces() {
+        return surfNum;
+    }
+
+    int numTextures() {
+        return texNum;
+    }
+
     void clearScreen(SDL_Color c) {
         SDL_SetRenderDrawColor(renderer, c.r, c.g, c.b, c.a);
         SDL_RenderClear(renderer);
@@ -140,14 +159,36 @@ namespace SDLHelper {
     }
 
     SDL_Texture * createTexture(int w, int h) {
-        return SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA32, SDL_TEXTUREACCESS_TARGET, w, h);
+        SDL_Texture * t = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA32, SDL_TEXTUREACCESS_TARGET, w, h);
+
+        // Increment counters
+        if (t != NULL) {
+            texNum++;
+            memUsage += (w * h * 4);    // 4 bytes per pixel
+        }
+
+        return t;
     }
 
     void destroyTexture(SDL_Texture * t) {
+        // Decrease counters
+        if (t != NULL) {
+            int w, h;
+            SDL_QueryTexture(t, nullptr, nullptr, &w, &h);
+            texNum--;
+            memUsage -= (w * h * 4);    // 4 bytes per pixel
+        }
+
         SDL_DestroyTexture(t);
     }
 
     void freeSurface(SDL_Surface * s) {
+        // Decrease counters
+        if (s != NULL) {
+            surfNum--;
+            memUsage -= (s->pitch * s->h);
+        }
+
         SDL_FreeSurface(s);
     }
 
@@ -285,6 +326,13 @@ namespace SDLHelper {
     SDL_Surface * renderFilledRectS(int w, int h) {
         SDL_Surface * surf = SDL_CreateRGBSurfaceWithFormat(0, w, h, 32, SDL_PIXELFORMAT_RGBA32);
         SDL_FillRect(surf, NULL, SDL_MapRGBA(surf->format, 255, 255, 255, 255));
+
+        // Increment counters
+        if (surf != NULL) {
+            surfNum++;
+            memUsage += (surf->pitch * surf->h);
+        }
+
         return surf;
     }
 
@@ -296,6 +344,13 @@ namespace SDLHelper {
         rects[2] = SDL_Rect{w - b, b, b, h - (b*2)};
         rects[3] = SDL_Rect{0, h - b, w, b};
         SDL_FillRects(surf, rects, 4, SDL_MapRGBA(surf->format, 255, 255, 255, 255));
+
+        // Increment counters
+        if (surf != NULL) {
+            surfNum++;
+            memUsage += (surf->pitch * surf->h);
+        }
+
         return surf;
     }
 
@@ -308,6 +363,13 @@ namespace SDLHelper {
             SDL_FreeSurface(tmp2);
             tmp2 = tmp;
         }
+
+        // Increment counters
+        if (tmp2 != NULL) {
+            surfNum++;
+            memUsage += (tmp2->pitch * tmp2->h);
+        }
+
         return tmp2;
     }
 
@@ -318,6 +380,13 @@ namespace SDLHelper {
             SDL_FreeSurface(tmp);
             tmp = tmp2;
         }
+
+        // Increment counters
+        if (tmp != NULL) {
+            surfNum++;
+            memUsage += (tmp->pitch * tmp->h);
+        }
+
         return tmp;
     }
 
@@ -395,6 +464,12 @@ namespace SDLHelper {
                 x += surfs[j]->w;
                 SDL_FreeSurface(surfs[j]);
             }
+        }
+
+        // Increment counters
+        if (surf != NULL) {
+            surfNum++;
+            memUsage += (surf->pitch * surf->h);
         }
 
         return surf;
@@ -555,6 +630,12 @@ namespace SDLHelper {
                     SDL_FreeSurface(tmp);
                 }
             }
+        }
+
+        // Increment counters
+        if (surf != NULL) {
+            surfNum++;
+            memUsage += (surf->pitch * surf->h);
         }
 
         return surf;

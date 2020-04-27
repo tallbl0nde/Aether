@@ -15,6 +15,17 @@ namespace SDLHelper {
     // Clean up all initialized parts of SDL
     void exitSDL();
 
+    // === STATUS ===
+    // Note: These aren't exact - they just increase/decrease a variable when a texture/surface is created/freed
+    // But can be used to check for memory leaks - textures/surfaces/memory should be zero if all are destroyed!
+    // Returns approximate memory usage by textures and surfaces (in bytes)
+    // Only returns (w * h * (bytes per pixel)), so not accurate!
+    int memoryUsage();
+    // Returns number of surface (allocations - frees)
+    int numSurfaces();
+    // Returns number of texture (allocations - frees)
+    int numTextures();
+
     // Clears the screen (renderer) with the specified colour
     void clearScreen(SDL_Color);
 
