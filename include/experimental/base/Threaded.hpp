@@ -48,6 +48,8 @@ namespace Aether::Exp {
             // Must then regenerate at a later point in time!
             void deleteTexture();
 
+            // Returns true when the surface is ready to be converted
+            bool surfaceReady();
             // Returns true when the texture is ready to be drawn
             bool textureReady();
 
