@@ -37,8 +37,8 @@ namespace Aether {
              * @note Setting a button callback will block the event from
              *       going to any other elements
              * 
-             * @param btn Button to assign callback to
-             * @param func Function to assign as callback for button press
+             * @param btn button to assign callback to
+             * @param func function to assign as callback for button press
              */
             void onButtonPress(Button btn, std::function<void()> func);
 
@@ -47,17 +47,17 @@ namespace Aether {
              * @note Setting a button callback will block the event from
              *       going to any other elements
              * 
-             * @param btn Button to assign callback to
-             * @param func Function to assign as callback for button release
+             * @param btn button to assign callback to
+             * @param func function to assign as callback for button release
              */
             void onButtonRelease(Button btn, std::function<void()> func);
 
             /**
-             * @brief Check for callback and execute if there is one
+             * @brief Attempt event handling for an event that occured
              * 
-             * @param event Event to handle
-             * @return true if callback for button was present and executed
-             * @return false if no callback was set for button
+             * @param event event to handle
+             * @return true if event was handled
+             * @return false if event was not handled
              */
             bool handleEvent(InputEvent *event);
     };
