@@ -4,33 +4,62 @@
 #include "base/Container.hpp"
 
 namespace Aether {
-    // A screen represents a literal screen/layout. It stores all elements
-    // to be drawn/interacted with on a single screen.
+    /**
+     * @brief A class that represents a screen layout
+     * Stores all element for for a specific screen.
+     */
     class Screen : public Container {
         private:
-            // Map of button > func for custom callbacks on button presses
+            /** @brief Mappings for button presses to callback functions */
             std::unordered_map<Button, std::function<void()> > pressFuncs;
 
-            // Map of button > func for custom callbacks on button presses
+            /** @brief Mappings for button releases to callback functions */
             std::unordered_map<Button, std::function<void()> > releaseFuncs;
 
         public:
-            // Constructor takes parent element and active/inactive functions
+            /**
+             * @brief Construct a new Screen object
+             */
             Screen();
 
-            // Functions that are called when screen is set/unser
+            /**
+             * @brief Callback function when the screen is loaded
+             */
             virtual void onLoad();
+
+            /**
+             * @brief Callback function when the screen is unloaded
+             */
             virtual void onUnload();
 
-            // Set a the given callback to the given button press
-            // Note that setting a button callback will block the event from
-            // going to any other elements!!
-            void onButtonPress(Button, std::function<void()>);
-            void onButtonRelease(Button, std::function<void()>);
+            /**
+             * @brief Assigns callback function for button press
+             * @note Setting a button callback will block the event from
+             *       going to any other elements
+             * 
+             * @param btn Button to assign callback to
+             * @param func Function to assign as callback for button press
+             */
+            void onButtonPress(Button btn, std::function<void()> func);
 
-            // Check if callback is set and execute, otherwise pass event
-            // to elements
-            bool handleEvent(InputEvent *);
+            /**
+             * @brief Assigns callback function for button release
+             * @note Setting a button callback will block the event from
+             *       going to any other elements
+             * 
+             * @param btn Button to assign callback to
+             * @param func Function to assign as callback for button release
+             */
+            void onButtonRelease(Button btn, std::function<void()> func);
+
+            /**
+             * @brief Check for callback and execute if there is one
+             * 
+             * @param event Event to handle
+             * @return true if callback for button was present and executed
+             * @return false if no callback was set for button
+             */
+            bool handleEvent(InputEvent *event);
     };
 };
 
