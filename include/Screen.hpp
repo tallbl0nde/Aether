@@ -6,7 +6,7 @@
 namespace Aether {
     /**
      * @brief A class that represents a screen layout
-     * Stores all element for for a specific screen.
+     * Stores all screen elements for a specific screen.
      */
     class Screen : public Container {
         private:
