@@ -12,7 +12,9 @@ namespace Aether {
     class ThreadQueue {
         private:
             // Mutex protecting queue
-            std::mutex mutex;
+            std::mutex qMutex;
+            // Mutex protecting thread vector
+            std::mutex tMutex;
             // Max number of threads
             unsigned int num;
             // Queue of functions to execute
@@ -22,12 +24,14 @@ namespace Aether {
 
         public:
             // Takes max number of threads
-            ThreadQueue(unsigned int = std::thread::hardware_concurrency());
+            ThreadQueue(unsigned int = 2);
 
             // Add function to queue
             void addTask(std::function<void()>);
             // Remove all queued tasks (but not running tasks!)
             void removeQueuedTasks();
+            // Blocks until all tasks are finished (DO NOT CALL WITHOUT CALLING removeQueuedTasks()!)
+            void waitUntilDone();
 
             // Checks if threads are done + continues work on queue
             void processQueue();
