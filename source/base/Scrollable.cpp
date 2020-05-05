@@ -82,12 +82,12 @@ namespace Aether {
         if (this->isScrolling) {
             // Move highlight to top element if not visible
             if (this->hasSelectable()) {
-                if (!(this->focussed()->y() >= this->y() && this->focussed()->y() + this->focussed()->h() <= this->y() + this->h())) {
+                if (!(this->focused()->y() >= this->y() && this->focused()->y() + this->focused()->h() <= this->y() + this->h())) {
                     for (size_t i = 0; i < this->children.size(); i++) {
                         if (this->children[i]->y() > this->y() && this->children[i]->selectable()) {
-                            this->setFocussed(this->children[i]);
-                            if (this->parent->focussed() == this) {
-                                this->focussed()->setActive();
+                            this->setFocused(this->children[i]);
+                            if (this->parent->focused() == this) {
+                                this->focused()->setActive();
                             }
                             break;
                         }
@@ -212,7 +212,7 @@ namespace Aether {
                 if (e->touchX() >= this->x() && e->touchX() <= this->x() + this->w() && e->touchY() >= this->y() && e->touchY() <= this->y() + this->h()) {
                     // Activate this element
                     this->isTouched = true;
-                    this->parent->setFocussed(this);
+                    this->parent->setFocused(this);
 
                     this->touchY = e->touchY();
                     if (this->isScrolling) {

@@ -11,9 +11,9 @@ namespace Aether {
         Scrollable::update(dt);
 
         // Reposition based on highlighted element if not scrolling
-        if (!this->isScrolling && !this->isTouched && !this->isTouch && this->maxScrollPos != 0 && this->focussed() != nullptr) {
+        if (!this->isScrolling && !this->isTouched && !this->isTouch && this->maxScrollPos != 0 && this->focused() != nullptr) {
             int sMid = this->y() + this->h()/2;
-            int cMid = this->focussed()->y() + (this->focussed()->h()/2);
+            int cMid = this->focused()->y() + (this->focused()->h()/2);
             this->setScrollPos(this->scrollPos + (this->scrollCatchup * (cMid - sMid) * (dt/1000.0)));
         }
     }

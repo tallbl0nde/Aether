@@ -18,7 +18,7 @@ namespace Aether {
             // it will "deactivate" on element and "activate" the one it moves to
             bool handleEvent(InputEvent *);
 
-            // Re-highlight/focus the focussed element
+            // Re-highlight/focus the focused element
             void setActive();
             void setInactive();
 
