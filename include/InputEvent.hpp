@@ -5,45 +5,101 @@
 
 namespace Aether {
     // Supported types of events
+    /**
+     * @brief Enum class that contains all events types supported by Aether for handling
+     * 
+     */
     enum EventType {
-        ButtonPressed,
-        ButtonReleased,
-        TouchPressed,
-        TouchMoved,
-        TouchReleased
+        ButtonPressed, /**< Button press event */
+        ButtonReleased, /**< Button release event */
+        TouchPressed, /**< Touch press event */
+        TouchMoved, /**< Touch move event */
+        TouchReleased /**< Touch release event */
     };
 
-    // An InputEvent is basically an SDL_Event but minus the dependency
-    // on SDL, it also removes all unnecessary events that aren't handled
-    // by Aether.
+    /**
+     * @brief A class that represents an Aether input event.
+     * 
+     * This is basic stripped down version of SDL_Event only containing
+     * information that will be handled by Aether.
+     */
     class InputEvent {
         private:
-            // Type of event
+            /** @brief Type of input event */
             EventType type_;
-            // Button info (don't read when not button event!)
+            /** @brief Button information for button event */
             Button button_;
+            /** @brief ID of the event */
             int id_;
-            // Touch info (don't read when not touch event!)
-            // Coordinates are from (0 - 1280) and (0 - 720)
+            /** @brief Horizontal touch position for touch events (Min = 0, Max = 1280) */
             int touchX_;
+            /** @brief Vertical touch position for touch events (Min = 0, Max = 720) */
             int touchY_;
+            /** @brief Change in horizonal touch position for touch move events (Min = 0, Max = 1280) */
             int touchDX_;
+            /** @brief Change in vertical touch position for touch move events (Min = 0, Max = 720) */
             int touchDY_;
 
         public:
-            // Constructors takes SDL_Event and "converts" to InputEvent
-            InputEvent(SDL_Event);
+            /**
+             * @brief Construct a new Input Event object from a SDL_Event
+             * 
+             * @param event SDL_Event to make InputEvent from
+             */
+            InputEvent(SDL_Event event);
 
-            // Getters for members
+            /**
+             * @brief Getter function to get event type
+             * 
+             * @return EventType type for event that occured
+             */
             EventType type();
+
+            /**
+             * @brief Getter function to get button information for event
+             * 
+             * @return Button button information for event that occured
+             */
             Button button();
+
+            /**
+             * @brief Getter function to get event id
+             * 
+             * @return int event id of event
+             */
             int id();
+
+            /**
+             * @brief Getter function to get the horizontal position for a touch event
+             * 
+             * @return int horizontal position for a touch event
+             */
             int touchX();
+
+            /**
+             * @brief Getter function to get the vertical position for a touch event
+             * 
+             * @return int vertical position for a touch event
+             */
             int touchY();
+
+            /**
+             * @brief Getter function to get the change of horizontal position for a touch move event
+             * 
+             * @return int change in horizontal position
+             */
             int touchDX();
+
+            /**
+             * @brief Getter function to get the change of vertical position for a touch move event
+             * 
+             * @return int change in vertical position
+             */
             int touchDY();
 
-            // Destructor does nothing
+            /**
+             * @brief Destroy the Input Event object
+             */
             ~InputEvent();
     };
 };

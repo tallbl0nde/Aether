@@ -5,144 +5,406 @@
 #include <vector>
 
 namespace Aether {
-    // Element is the base class inherited from to form all other
-    // types of elements. Thus, it contains positioning, rendering, callback, etc variables
+    /**
+     * @brief Element is the base class to be inherited
+     * to form all other types of elements
+     */
     class Element {
         private:
-            // Positioning and size variables
+            /** @brief Horizontal position of element */
             int x_;
+            /** @brief Vertical position of element */
             int y_;
+            /** @brief Width of element */
             int w_;
+            /** @brief Height of element */
             int h_;
-
-            // Skip rendering this element + it's children
+            /** @brief Indicator on whether the element should be rendered or not */
             bool hidden_;
-
-            // Function to call when element is tapped/selected
+            /** @brief Function to call when the element is activated */
             std::function<void()> callback_;
-            // Does this element contain a highlighted element?
+            /** @brief Indicator on whether element contains highlighted children element */
             bool hasHighlighted_;
-            // Does this element contain a selectable element?
+            /** @brief Indicator on whether element contains selectable children element */
             bool hasSelectable_;
-            // Does this element contain the selected element?
+            /** @brief Indicator on whether element contains selected children element */
             bool hasSelected_;
-            // Is this element highlighted
+            /** @brief Indicator on whether element is highlighted */
             bool highlighted_;
-            // Can this element be selected?
+            /** @brief Indicator on whether element is selectable */
             bool selectable_;
-            // Is this element selected? (ie. button held/touch held)
+            /** @brief Indicator on whether element is selected */
             bool selected_;
-            // Can this element be touched?
+            /** @brief Indicator on whether element is touch responsive */
             bool touchable_;
 
         protected:
-            // Colours used for highlighting
-            static Colour hiBG, hiBorder, hiSel;
-            // Size of highlight border
+            /** @brief Background color if element is highlighted */
+            static Colour hiBG;
+            /** @brief Border color if element is highlighted */
+            static Colour hiBorder;
+            /** @brief Selected color if element is highlighted */
+            static Colour hiSel;
+            /** @brief Size of highlight border */
             static unsigned int hiSize;
-            // Set true if touch is "active" (i.e. hide highlighting)
+            /** @brief Indicator on whether the touch is "active" (i.e. hide highlighting) or not */
             static bool isTouch;
-
-            // Parent element
-            // Only nullptr if root element (ie. display)
+            /** @brief Pointer to parent element, if there is one */
             Element * parent;
-
-            // Vector of child elements (used to call their methods)
+            /** @brief Vector of child elements (used to call their methods) */
             std::vector<Element *> children;
-
-            // Element which is highlighted/focussed (to regain focus on activation)
+            /** @brief Element which is highlighted/focused (to regain focus on activation) */
             Element * focussed_;
 
         public:
-            // Constructor must be passed parent element (or nullptr if there is none)
-            // Coordinates and size are optional, defaults to (0,0) with size (100, 100)
-            Element(int = 0, int = 0, int = 100, int = 100);
+            /**
+             * @brief Construct a new Element object.
+             * 
+             * Co-ordinates and size are optional.
+             * Default value of co-ordinates are (0, 0)
+             * and the default value of size are (100, 100).
+             * Parent is set as nullptr
+             * 
+             * @param x x-coordinate of element
+             * @param y y-coordinate of element
+             * @param w width of element
+             * @param h height of element
+             */
+            Element(int x = 0, int y = 0, int w = 100, int h = 100);
 
-            // Getters and setters for x, y, w, h + scale
+            /**
+             * @brief Getter function for x-coordinate of element
+             * 
+             * @return int x-coordinate of element
+             */
             int x();
-            int y();
-            int w();
-            int h();
-            virtual void setX(int);
-            virtual void setY(int);
-            virtual void setW(int);
-            virtual void setH(int);
-            // Combines functions into one
-            virtual void setXY(int, int);
-            virtual void setWH(int, int);
-            virtual void setXYWH(int, int, int, int);
 
-            // Set given element as parent
-            void setParent(Element *);
-            // Add an element as a child
-            virtual void addElement(Element *);
-            // Delete the given child, returns false if not a child
-            virtual bool removeElement(Element *);
-            // Delete all children elements
+            /**
+             * @brief Getter function for y-coordinate of element
+             * 
+             * @return int y-coordinate of element
+             */
+            int y();
+
+            /**
+             * @brief Getter function for width of element
+             * 
+             * @return int width of element
+             */
+            int w();
+
+            /**
+             * @brief Getter function for height of element
+             * 
+             * @return int height of element
+             */
+            int h();
+
+            /**
+             * @brief Setter function for x-coordinate of element
+             * 
+             * @param x new x-coordinate of element
+             */
+            virtual void setX(int x);
+
+            /**
+             * @brief Setter function for y-coordinate of element
+             * 
+             * @param y new y-coordinate of element
+             */
+            virtual void setY(int y);
+
+            /**
+             * @brief Setter function for width of element
+             * 
+             * @param w new width of element
+             */
+            virtual void setW(int w);
+
+            /**
+             * @brief Setter function for height of element
+             * 
+             * @param h new height of element
+             */
+            virtual void setH(int h);
+
+            /**
+             * @brief Setter function for co-ordinates of element
+             * 
+             * @param x new x-coordinate of element
+             * @param y new y-coordinate of element
+             */
+            virtual void setXY(int x, int y);
+
+            /**
+             * @brief Setter function for size of element
+             * 
+             * @param w new width of element
+             * @param h new height of element
+             */
+            virtual void setWH(int w, int h);
+
+            /**
+             * @brief Setter function to for size and co-ordinates of element
+             * 
+             * @param x new x-coordinate of element
+             * @param y new y-coordinate of element
+             * @param w new width of element
+             * @param h new height of element
+             */
+            virtual void setXYWH(int x, int y, int w, int h);
+
+            /**
+             * @brief Set the parent element for current element
+             * 
+             * @param p parent element to set as
+             */
+            void setParent(Element * p);
+
+            /**
+             * @brief Adds new element as current element's childrent element
+             * 
+             * @param e Children element to add
+             */
+            virtual void addElement(Element * e);
+
+            /**
+             * @brief Attempt to remove children element from current element
+             * 
+             * @param e children to delete
+             * @return true if deleted successfully
+             * @return false if not a child of element
+             */
+            virtual bool removeElement(Element * e);
+
+            /**
+             * @brief Remove all children elements associated with current element
+             */
             virtual void removeAllElements();
 
-            // Returns whether this element is onscreen
+            /**
+             * @brief Check if current element is visible on-screen
+             * 
+             * @return true if element is visible
+             * @return false if element is not visible
+             */
             bool isVisible();
 
-            // Returns hidden
+            /**
+             * @brief Check if current element is hidden
+             * 
+             * @return true if element is hidden
+             * @return false if element is not hidden
+             */
             bool hidden();
-            // Hide/show this element
-            void setHidden(bool);
 
-            // Returns true if selected
+            /**
+             * @brief Set whether element is hidden or not
+             * 
+             * @param b state to change hidden status to
+             */
+            void setHidden(bool b);
+
+            /**
+             * @brief Check if current element is selected
+             * 
+             * @return true if current element is selected
+             * @return false if current element is not selected
+             */
             bool selected();
-            void setSelected(bool);
-            // Returns selectable
+
+            /**
+             * @brief Set whether element is selected or not
+             * 
+             * @param b state to change selected status to
+             */
+            void setSelected(bool b);
+
+            /**
+             * @brief Check if current element is selectable
+             * 
+             * @return true if current element is selectable
+             * @return false if current element is not selectable
+             */
             bool selectable();
-            // Set whether element is selectable
-            void setSelectable(bool);
 
-            // Returns touchable
+            /**
+             * @brief Set whether element is selectable or not
+             * 
+             * @param b state to change selectable status to
+             */
+            void setSelectable(bool b);
+
+            /**
+             * @brief Check if current element is touch responsive
+             * 
+             * @return true if current element is touch responsive
+             * @return false if current element is not touch responsive
+             */
             bool touchable();
-            // Set whether element is touchable
-            void setTouchable(bool);
 
+            /**
+             * @brief Set whether element is touch responsive or not
+             * 
+             * @param b state to change touch responsive status to
+             */
+            void setTouchable(bool b);
+
+            /**
+             * @brief Check if current element is highlighted
+             * 
+             * @return true if current element is highlighted
+             * @return false if current element is not highlighted
+             */
             bool highlighted();
-            void setHighlighted(bool);
 
+            /**
+             * @brief Set whether element is highlighted or not
+             * 
+             * @param b state to change highlighted status to
+             */
+            void setHighlighted(bool b);
+
+            /**
+             * @brief Check if current element has highlighted children element
+             * 
+             * @return true if current element has highlighted children element
+             * @return false if current element does not have highlighted children element
+             */
             bool hasHighlighted();
-            void setHasHighlighted(bool);
 
+            /**
+             * @brief Set whether element has highlighted children element or not
+             * 
+             * @param b state to change highlighted children element status to
+             */
+            void setHasHighlighted(bool b);
+
+            /**
+             * @brief Check if current element has selectable children element
+             * 
+             * @return true if current element has selectable children element
+             * @return false if current element doesn't have selectable children element
+             */
             bool hasSelectable();
-            void setHasSelectable(bool);
+            /**
+             * @brief Set whether element has selectable children element or not
+             * 
+             * @param b state to change selectable children element status to
+             */
+            void setHasSelectable(bool b);
 
+            /**
+             * @brief Check if current element has selected children element
+             * 
+             * @return true if current element has selected children element
+             * @return false if current element doesn't have selected children element
+             */
             bool hasSelected();
-            void setHasSelected(bool);
+            /**
+             * @brief Set the Has Selected object
+             * 
+             * @param b 
+             */
+            void setHasSelected(bool b);
 
+            /**
+             * @brief Set the Active object
+             * 
+             */
             virtual void setActive();
+
+            /**
+             * @brief Set the Inactive object
+             * 
+             */
             virtual void setInactive();
-            void setFocussed(Element *);
+
+            /**
+             * @brief Set the Focused object
+             * 
+             * @param e 
+             */
+            void setFocussed(Element * e);
+
+            /**
+             * @brief 
+             * 
+             * @return Element* 
+             */
             Element * focussed();
 
             // Returns callback function (nullptr if no callback assigned)
+            /**
+             * @brief 
+             * 
+             * @return std::function<void()> 
+             */
             std::function<void()> callback();
+
             // Set callback function (also marks element as selectable)
-            void setCallback(std::function<void()>);
+            /**
+             * @brief Set the Callback object
+             * 
+             * @param f 
+             */
+            void setCallback(std::function<void()> f);
 
             // Handle the given event
-            virtual bool handleEvent(InputEvent *);
+            /**
+             * @brief 
+             * 
+             * @param e 
+             * @return true 
+             * @return false 
+             */
+            virtual bool handleEvent(InputEvent * e);
+
             // Update is passed time since last frame (for animations)
-            virtual void update(uint32_t);
+            /**
+             * @brief 
+             * 
+             * @param dt 
+             */
+            virtual void update(uint32_t dt);
+
             // Render child elements
+            /**
+             * @brief 
+             * 
+             */
             virtual void render();
 
             // Default are rectangles
             // Renders the highlight border + background
+            /**
+             * @brief 
+             * 
+             */
             virtual void renderHighlighted();
+
             // Renders the selected overlay
+            /**
+             * @brief 
+             * 
+             */
             virtual void renderSelected();
 
             // Destructor calls destructor of children
+            /**
+             * @brief Destroy the Element object
+             * 
+             */
             virtual ~Element();
 
-            // Returns the element currently highlighted within given element
+            // 
             // or nullptr if none found
-            friend void moveHighlight(Element *);
+            /**
+             * @brief Returns the element currently highlighted within given element
+             * 
+             * @param e 
+             */
+            friend void moveHighlight(Element * e);
     };
 };
 
