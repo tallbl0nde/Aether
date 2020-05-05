@@ -54,7 +54,7 @@ namespace Aether {
             /** @brief Vector of child elements (used to call their methods) */
             std::vector<Element *> children;
             /** @brief Children element which is highlighted/focused (to regain focus on activation) */
-            Element * focussed_;
+            Element * focused_;
 
         public:
             /**
@@ -324,19 +324,19 @@ namespace Aether {
              * 
              * @param e element to focus
              */
-            void setFocussed(Element * e);
+            void setFocused(Element * e);
 
             /**
              * @brief Returns the currently focused element
              * 
-             * @return Element* 
+             * @return focused element
              */
-            Element * focussed();
+            Element * focused();
 
             /**
              * @brief Returns callback function (nullptr if no callback assigned)
              * 
-             * @return std::function<void()> 
+             * @return callback function
              */
             std::function<void()> callback();
 
@@ -359,7 +359,7 @@ namespace Aether {
             /**
              * @brief Update is passed time since last frame (for animations)
              * 
-             * @param dt 
+             * @param dt change in time
              */
             virtual void update(uint32_t dt);
 
@@ -388,7 +388,7 @@ namespace Aether {
             /**
              * @brief Returns the element currently highlighted within given element or nullptr if none found
              * 
-             * @param e 
+             * @param e currently highlighted element within given element or nullptr if none found
              */
             friend void moveHighlight(Element * e);
     };
