@@ -151,7 +151,7 @@ namespace Aether {
         x += 40;
         this->button = new BorderButton(x, 0, 160, 60, 3, "OK?", 22, [this](){
             this->setTmValues();
-            this->close(true);
+            this->close();
         });
         x += this->button->w();
         this->addElement(this->button);
@@ -204,12 +204,12 @@ namespace Aether {
 
         // Close without updating
         this->onButtonPress(Button::B, [this](){
-            this->close(true);
+            this->close();
         });
         // Close and update
         this->onButtonPress(Button::A, [this](){
             this->setTmValues();
-            this->close(true);
+            this->close();
         });
     }
 
