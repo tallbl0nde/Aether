@@ -53,7 +53,7 @@ namespace Aether {
             Element * parent;
             /** @brief Vector of child elements (used to call their methods) */
             std::vector<Element *> children;
-            /** @brief Element which is highlighted/focused (to regain focus on activation) */
+            /** @brief Children element which is highlighted/focused (to regain focus on activation) */
             Element * focussed_;
 
         public:
@@ -302,105 +302,91 @@ namespace Aether {
              */
             bool hasSelected();
             /**
-             * @brief Set the Has Selected object
+             * @brief Set whether element has selected children element or not
              * 
-             * @param b 
+             * @param b state to change selected children element status to
              */
             void setHasSelected(bool b);
 
             /**
-             * @brief Set the Active object
-             * 
+             * @brief Set element as activated
              */
             virtual void setActive();
 
             /**
-             * @brief Set the Inactive object
-             * 
+             * @brief Set element as in-activated
              */
             virtual void setInactive();
 
             /**
-             * @brief Set the Focused object
+             * @brief Sets current element as unfocused
+             * and instead focuses a sub-element
              * 
-             * @param e 
+             * @param e element to focus
              */
             void setFocussed(Element * e);
 
             /**
-             * @brief 
+             * @brief Returns the currently focused element
              * 
              * @return Element* 
              */
             Element * focussed();
 
-            // Returns callback function (nullptr if no callback assigned)
             /**
-             * @brief 
+             * @brief Returns callback function (nullptr if no callback assigned)
              * 
              * @return std::function<void()> 
              */
             std::function<void()> callback();
 
-            // Set callback function (also marks element as selectable)
             /**
-             * @brief Set the Callback object
+             * @brief Set callback function (also marks element as selectable)
              * 
-             * @param f 
+             * @param f new callback function to set
              */
             void setCallback(std::function<void()> f);
 
-            // Handle the given event
             /**
-             * @brief 
+             * @brief Attempt to handle a given event
              * 
-             * @param e 
-             * @return true 
-             * @return false 
+             * @param e event to handle
+             * @return true if event was handled
+             * @return false if event was not handled
              */
             virtual bool handleEvent(InputEvent * e);
 
-            // Update is passed time since last frame (for animations)
             /**
-             * @brief 
+             * @brief Update is passed time since last frame (for animations)
              * 
              * @param dt 
              */
             virtual void update(uint32_t dt);
 
-            // Render child elements
             /**
-             * @brief 
-             * 
+             * @brief Render child elements
              */
             virtual void render();
 
-            // Default are rectangles
-            // Renders the highlight border + background
             /**
-             * @brief 
+             * @brief Renders the highlight border + background
              * 
+             * Default highlighted shapes are rectangles.
              */
             virtual void renderHighlighted();
 
-            // Renders the selected overlay
             /**
-             * @brief 
-             * 
+             * @brief Renders the selected overlay
              */
             virtual void renderSelected();
 
-            // Destructor calls destructor of children
             /**
              * @brief Destroy the Element object
-             * 
              */
             virtual ~Element();
 
-            // 
-            // or nullptr if none found
             /**
-             * @brief Returns the element currently highlighted within given element
+             * @brief Returns the element currently highlighted within given element or nullptr if none found
              * 
              * @param e 
              */
