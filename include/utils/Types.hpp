@@ -5,56 +5,69 @@
 #include "SDLHelper.hpp"
 
 namespace Aether {
-    // Enums for buttons
-    // Avoids confusion with SDL/libnx names
+    /**
+     * @brief Enum class for buttons
+     * Avoids confusion with SDL/libnx names
+     */
     enum Button {
-        A,
-        B,
-        X,
-        Y,
-        LSTICK,
-        RSTICK,
-        L,
-        R,
-        ZL,
-        ZR,
-        PLUS,
-        MINUS,
-        DPAD_LEFT,
-        DPAD_UP,
-        DPAD_RIGHT,
-        DPAD_DOWN,
-        LSTICK_LEFT,
-        LSTICK_UP,
-        LSTICK_RIGHT,
-        LSTICK_DOWN,
-        RSTICK_LEFT,
-        RSTICK_UP,
-        RSTICK_RIGHT,
-        RSTICK_DOWN,
-        SL_LEFT,
-        SR_LEFT,
-        SL_RIGHT,
-        SR_RIGHT,
-        NO_BUTTON      // Dummy button used for symbolising no button
+        A,              /**< Button A */
+        B,              /**< Button B */
+        X,              /**< Button X */
+        Y,              /**< Button Y */
+        LSTICK,         /**< Button Left Stick Click */
+        RSTICK,         /**< Button Right Stick Click */
+        L,              /**< Button L */
+        R,              /**< Button R */
+        ZL,             /**< Button ZL */
+        ZR,             /**< Button ZR */
+        PLUS,           /**< Button + */
+        MINUS,          /**< Button - */
+        DPAD_LEFT,      /**< Button D-Pad Left */
+        DPAD_UP,        /**< Button D-Pad Up */
+        DPAD_RIGHT,     /**< Button D-Pad Right */
+        DPAD_DOWN,      /**< Button D-Pad Down */
+        LSTICK_LEFT,    /**< Button Left Stick Left */
+        LSTICK_UP,      /**< Button Left Stick Up */
+        LSTICK_RIGHT,   /**< Button Left Stick Right */
+        LSTICK_DOWN,    /**< Button Left Stick Down */
+        RSTICK_LEFT,    /**< Button Right Stick Left */
+        RSTICK_UP,      /**< Button Right Stick Up */
+        RSTICK_RIGHT,   /**< Button Right Stick Right */
+        RSTICK_DOWN,    /**< Button Right Stick Down */
+        SL_LEFT,        
+        SR_LEFT,        
+        SL_RIGHT,       
+        SR_RIGHT,       
+        NO_BUTTON       /**< Dummy button used for symbolising no button */
     };
 
-    // SDL_Color but it's not
+    /** @brief SDL_Color but it's not */
     typedef SDL_Color Colour;
 
-    // Theme (used for provided themes)
+    /**
+     * @brief Struct for UI Theme
+     */
     typedef struct {
-        Colour accent;          // "Selected" colour
-        Colour altBG;           // Lighter/darker shade of bg
-        Colour bg;              // Background
-        Colour fg;              // Foreground (ie. lines)
-        Colour highlightBG;     // Highlight background (usually darker/lighter than bg)
-        Colour mutedLine;       // Usually grey; used for lines that separate
-        Colour mutedText;       // Also grey; used for less important text
-        Colour selected;        // Colour to draw on top of element when selected
-        Colour text;            // Text colour
-
-        std::function<Colour(uint32_t)> highlightFunc;      // Function returning a colour (for highlight border) based on current time
+        /** @brief "Selected" colour */
+        Colour accent;
+        /** @brief Lighter/darker shade of bg */
+        Colour altBG;
+        /** @brief Background */
+        Colour bg;
+        /** @brief Foreground (ie. lines) */
+        Colour fg;
+        /** @brief Highlight background (usually darker/lighter than bg) */
+        Colour highlightBG;
+        /** @brief Usually grey; used for lines that separate */
+        Colour mutedLine;
+        /** @brief Also grey; used for less important text */
+        Colour mutedText;
+        /** @brief Colour to draw on top of element when selected */
+        Colour selected;
+        /** @brief Text colour */
+        Colour text;
+        /** @brief Function returning a colour (for highlight border) based on current time */
+        std::function<Colour(uint32_t)> highlightFunc;
     } Theme_T;
 };
 
