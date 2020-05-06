@@ -51,15 +51,15 @@ namespace Aether {
             }
         }
 
-        // If focussed element is not completely inside list scroll to it
-        if (!this->isScrolling && !this->isTouched && !this->isTouch && this->maxScrollPos != 0 && this->focussed() != nullptr) {
+        // If focused element is not completely inside list scroll to it
+        if (!this->isScrolling && !this->isTouched && !this->isTouch && this->maxScrollPos != 0 && this->focused() != nullptr) {
             // Check if above
-            if (this->focussed()->y() < this->y() + PADDING) {
-                this->setScrollPos(this->scrollPos + (this->scrollCatchup * (this->focussed()->y() - (this->y() + PADDING)) * (dt/1000.0)));
+            if (this->focused()->y() < this->y() + PADDING) {
+                this->setScrollPos(this->scrollPos + (this->scrollCatchup * (this->focused()->y() - (this->y() + PADDING)) * (dt/1000.0)));
 
             // And below ;)
-            } else if (this->focussed()->y() + this->focussed()->h() > this->y() + this->h() - (PADDING*2)) {
-                this->setScrollPos(this->scrollPos - (this->scrollCatchup * ((this->y() + this->h() - (PADDING*2)) - (this->focussed()->y() + this->focussed()->h())) * (dt/1000.0)));
+            } else if (this->focused()->y() + this->focused()->h() > this->y() + this->h() - (PADDING*2)) {
+                this->setScrollPos(this->scrollPos - (this->scrollCatchup * ((this->y() + this->h() - (PADDING*2)) - (this->focused()->y() + this->focused()->h())) * (dt/1000.0)));
             }
         }
     }

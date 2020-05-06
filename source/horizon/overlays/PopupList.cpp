@@ -33,10 +33,10 @@ namespace Aether {
 
         this->list = new List((this->w() - LIST_WIDTH)/2, this->top->y(), LIST_WIDTH, 80);
         this->addElement(this->list);
-        this->setFocussed(this->list);
+        this->setFocused(this->list);
 
         this->onButtonPress(Button::B, [this](){
-            this->close(true);
+            this->close();
         });
     }
 
@@ -46,7 +46,7 @@ namespace Aether {
             // Call callback
             f();
             // Close
-            this->close(true);
+            this->close();
         });
         b->setH(ITEM_HEIGHT);
         b->setLineColour(this->llColour);

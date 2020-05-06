@@ -43,7 +43,7 @@ namespace Aether {
         this->str->setXY(e->x() + (e->w() - this->str->w())/2, e->y() + (e->h() - this->str->h())/2);
         e->addElement(this->str);
         this->addElement(e);
-        this->setFocussed(e);
+        this->setFocused(e);
 
         // Label string (set hidden)
         this->label_ = new Text(this->x() + this->w()/2, this->y() + this->h() + LABEL_PADDING, "", LABEL_FONT_SIZE);
@@ -129,9 +129,9 @@ namespace Aether {
             }
         }
 
-        // Set this element focussed if arrows touched (they're the only children that can handle events)
+        // Set this element focused if arrows touched (they're the only children that can handle events)
         if (Container::handleEvent(e)) {
-            this->parent->setFocussed(this);
+            this->parent->setFocused(this);
             b = true;
         }
 
@@ -142,7 +142,7 @@ namespace Aether {
         Container::update(dt);
 
         // Set colours
-        if (this->isFocussed && !this->isTouch) {
+        if (this->isFocused && !this->isTouch) {
             this->label_->setColour(this->highlightC);
             this->up->setColour(this->highlightC);
             this->down->setColour(this->highlightC);
@@ -194,12 +194,12 @@ namespace Aether {
     }
 
     void Spinner::setActive() {
-        this->isFocussed = true;
+        this->isFocused = true;
         Container::setActive();
     }
 
     void Spinner::setInactive() {
-        this->isFocussed = false;
+        this->isFocused = false;
         Container::setInactive();
     }
 

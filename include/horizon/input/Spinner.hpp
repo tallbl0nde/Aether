@@ -22,8 +22,8 @@ namespace Aether {
             Element * upContainer;
             Element * downContainer;
 
-            // Set true when spinner is focussed (needed for colours)
-            bool isFocussed;
+            // Set true when spinner is focused (needed for colours)
+            bool isFocused;
 
             // Set true to allow values to wrap from max - min and vice versa
             bool wrap;
@@ -54,9 +54,9 @@ namespace Aether {
 
             // Need to handle up/down button presses
             bool handleEvent(InputEvent *);
-            // Set colours if focussed or not
+            // Set colours if focused or not
             void update(uint32_t);
-            // Sets isFocussed bool
+            // Sets isFocused bool
             void setActive();
             void setInactive();
 

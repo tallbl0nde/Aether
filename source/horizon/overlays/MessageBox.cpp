@@ -27,7 +27,7 @@ namespace Aether {
 
         // Pressing b just closes the box
         this->onButtonPress(Button::B, [this](){
-            this->close(true);
+            this->close();
         });
     }
 
