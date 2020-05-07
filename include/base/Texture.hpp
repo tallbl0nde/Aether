@@ -4,58 +4,128 @@
 #include "Element.hpp"
 
 namespace Aether {
-    // A Texture is an element consisting of an SDL_Texture.
-    // It stores the width and height of the texture and the
-    // colour it's tinted with.
+    /**
+     * @brief A Texture is an element consisting of an SDL_Texture.
+     * It stores the width and height of the texture and the
+     * colour it's tinted with.
+     * @note Colour defaults to white
+     */
     class Texture : public Element {
         private:
-            // Dimensions of the texture
-            int texW_, texH_;
+            /** @brief Width of texture */
+            int texW_;
+            /** @brief Height of texture */
+            int texH_;
+            /** @brief x-coordinate of mask offset start position */
+            int maskX;
+            /** @brief y-coordinate of mask offset start position */
+            int maskY;
+            /** @brief width of mask */
+            int maskW;
+            /** @brief height of mask */
+            int maskH;
 
-            // Coords + dimensions of OVERALL texture to draw
-            int maskX, maskY, maskW, maskH;
-
-            // Delete the stored texture (only called internally)
+            /**
+             * @brief Delete the stored texture (only called internally)
+             */
             void destroyTexture();
 
         protected:
-            // Colour to tint the texture with when drawn
-            // Defaults to white
+            /** @brief Colour to tint the texture with when drawn */
             Colour colour;
-
-            // Overriden by derived classes to redraw texture when
-            // variables are changed
-            virtual void redrawTexture() = 0;
-
-            // The actual texture
+            /** @brief The actual texture */
             SDL_Texture * texture;
 
-        public:
-            // Constructor optionally takes the texture + sets dimensions to those of the texture
-            Texture(int, int, SDL_Texture * = nullptr);
+            /**
+             * @brief Overriden by derived classes to redraw texture when
+             * variables are changed.
+             */
+            virtual void redrawTexture() = 0;
 
-            // Getters for dimensions
+        public:
+            /**
+             * @brief Construct a new Texture object
+             * 
+             * @param x x-coordinate of start position offset
+             * @param y y-coordinate of start position offset
+             * @param t texture pointer
+             */
+            Texture(int x, int y, SDL_Texture * t = nullptr);
+
+            /**
+             * @brief Get texture width
+             * 
+             * @return texture width
+             */
             int texW();
+
+            /**
+             * @brief Get texture height
+             * 
+             * @return texture height
+             */
             int texH();
 
-            // Return the set colour
+            /**
+             * @brief Get the colour of texture
+             * 
+             * @return colour of texture
+             */
             Colour getColour();
-            // Set the colour
-            void setColour(Colour);
-            void setColour(uint8_t, uint8_t, uint8_t, uint8_t);
 
-            // Set pointed values to values of mask
-            void getMask(int *, int *, int *, int *);
-            // Set the "mask" of the texture to draw
-            void setMask(int, int, int, int);
+            /**
+             * @brief Set the colour of texture
+             * 
+             * @param c new colour of texture
+             */
+            void setColour(Colour c);
 
-            // Set the texture and recalculate dimensions (also destroys previous one)
-            void setTexture(SDL_Texture *);
+            /**
+             * @brief Set the colour of texture
+             * 
+             * @param r Red value of colour
+             * @param g Green value of colour
+             * @param b Blue value of colour
+             * @param a Alpha value of colour
+             */
+            void setColour(uint8_t r, uint8_t g, uint8_t b, uint8_t a);
 
-            // Render the texture
+            /**
+             * @brief Set pointed values to values of mask
+             * 
+             * @param dx pointer to mask offset x-coordinate
+             * @param dy pointer to mask offset y-coordinate
+             * @param dw pointer to mask width
+             * @param dh pointer to mask height
+             */
+            void getMask(int * dx, int * dy, int * dw, int * dh);
+
+            /**
+             * @brief Set the mask values for the texture
+             * 
+             * @param dx mask offset x-coordinate
+             * @param dy mask offset y-coordinate
+             * @param dw mask width
+             * @param dh mask height
+             */
+            void setMask(int dx, int dy, int dw, int dh);
+
+            /**
+             * @brief Set the texture and recalculate dimensions (also destroys previous one)
+             * 
+             * @param t new texture to set
+             */
+            void setTexture(SDL_Texture * t);
+
+            /**
+             * @brief Render the texture
+             */
             void render();
 
-            // Destructor destroys stored texture
+            /**
+             * @brief Destroy the Texture object.
+             * Also, destroys stored texture.
+             */
             ~Texture();
     };
 };

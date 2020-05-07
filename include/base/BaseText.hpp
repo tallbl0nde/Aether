@@ -4,37 +4,74 @@
 #include "Texture.hpp"
 
 namespace Aether {
+    /**
+     * @brief Enum class with all available text font styles
+     */
     enum FontStyle {
-        Regular,
-        Bold,
-        Italic,
-        Underline,
-        Strikethrough
+        Regular, /**< Regular Font */
+        Bold, /**< Bold Font */
+        Italic, /**< Italic Font */
+        Underline, /**< Underlined Font */
+        Strikethrough /**< Strikethrough Font */
     };
 
-    // BaseText is an abstract class storing relevant information to render
-    // a text element.
+    /**
+     * @brief BaseText is an abstract class storing relevant information to render
+     * a text element.
+     */
     class BaseText : public Texture {
         protected:
-            // String matching rendered string
+            /** @brief String matching rendered string */
             std::string string_;
-            // Font size used for rendered text
+            /** @brief Font size used for rendered text */
             unsigned int fontSize_;
-            // Font style (stored for redrawing)
+            /** @brief Font style (stored for redrawing) */
             FontStyle fontStyle;
 
-            // Redraw the texture whenever relevant variables are changed
+            /**
+             * @brief Redraw the texture whenever relevant variables are changed
+             */
             virtual void redrawTexture() = 0;
 
         public:
-            // Constructor accepts string, font size and font type (defaulting to normal)
-            BaseText(int, int, std::string, unsigned int, FontStyle);
+            /**
+             * @brief Construct a new Base Text object
+             * 
+             * @param x x-coordinate of start position offset
+             * @param y y-coordinate of start position offset
+             * @param s string to render
+             * @param f font size (in pixels)
+             * @param l font style
+             */
+            BaseText(int x, int y, std::string s, unsigned int f, FontStyle l);
 
-            // Getters + setters for variables
+            /**
+             * @brief Get the rendered string
+             * 
+             * @return string matching rendered string
+             */
             std::string string();
-            virtual void setString(std::string);
+
+            /**
+             * @brief Set new string to render
+             * 
+             * @param s new string to render
+             */
+            virtual void setString(std::string s);
+
+            /**
+             * @brief Get the render font size for text
+             * 
+             * @return render font size for text (in pixels)
+             */
             unsigned int fontSize();
-            virtual void setFontSize(unsigned int);
+
+            /**
+             * @brief Set the render font size for text
+             * 
+             * @param s new render font size for text (in pixels)
+             */
+            virtual void setFontSize(unsigned int s);
     };
 };
 
