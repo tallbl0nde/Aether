@@ -7,29 +7,64 @@ namespace Aether {
     // A Box is a rectangle outline with no fill.
     class Box : public Texture {
         private:
-            // Size of border
+            /** @brief Size of border */
             unsigned int border_;
 
-            // Radius of each corner (draws rounded rectangle when > 0)
+            /** @brief Radius of each corner (draws rounded rectangle when > 0) */
             unsigned int cornerRadius_;
 
-            // Redraw the box texture
+            /**
+             * @brief Redraw the box texture
+             */
             void redrawTexture();
 
         public:
-            // Size is set to 1 and no rounded corners by default
-            Box(int, int, int, int, unsigned int = 1, unsigned int = 0);
+            /**
+             * @brief Construct a new Box object
+             * 
+             * @param x x-coordinate of start position offset
+             * @param y y-coordinate of start position offset
+             * @param w width of box
+             * @param h height of box
+             * @param b border thickness
+             * @param r corner radius
+             */
+            Box(int x, int y, int w, int h, unsigned int b = 1, unsigned int r = 0);
 
-            // Getter + setter for border size
+            /**
+             * @brief Get the border thickness of box
+             * 
+             * @return border thickness
+             */
             unsigned int border();
-            void setBorder(unsigned int);
+            /**
+             * @brief Set the border thickness of box
+             * 
+             * @param b new border thickness
+             */
+            void setBorder(unsigned int b);
 
-            // Getter + setter for cornerRadius
+            /**
+             * @brief Get the current corner radius for box
+             * 
+             * @return corner radius
+             */
             unsigned int cornerRadius();
-            void setCornerRadius(unsigned int);
 
-            // Adjust box size
-            void setBoxSize(int, int);
+            /**
+             * @brief Set the corner radius for box
+             * 
+             * @param r new corner radius
+             */
+            void setCornerRadius(unsigned int r);
+
+            /**
+             * @brief Adjust box size
+             * 
+             * @param w new width of box
+             * @param h new height of box
+             */
+            void setBoxSize(int w, int h);
     };
 };
 

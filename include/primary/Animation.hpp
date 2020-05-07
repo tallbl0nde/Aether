@@ -4,47 +4,97 @@
 #include "base/Element.hpp"
 
 namespace Aether {
-    // An animation is an element containing a list of textures which are changed
-    // through to create the animation. Frames are managed by using *Element calls.
-    // Note that removing an element will delete it!!
-    // Resizing this element does not resize the frames - it is up to you!
+    /**
+     * @brief An animation is an element containing a list of textures which
+     * are changed through to create the animation. Frames are managed by using
+     * *Element calls.
+     * 
+     * @note Removing an element will delete it!
+     * @note Resizing this element does not resize the frames - it is up to you!
+     */
     class Animation : public Element {
         private:
-            // Index of currently shown texture
+            /** @brief Index of currently shown texture */
             unsigned int idx;
-            // Time each frame should be shown for in milliseconds
+            /** @brief Time each frame should be shown for in milliseconds */
             int frameTime;
-            // Time spent on current frame in milliseconds
+            /** @brief Time spent on current frame in milliseconds */
             int currTime;
-            // Pauses animation when set true
+            /** @brief Pauses animation when set true */
             bool paused;
 
         public:
-            // X, Y, W, H (all added textures should have same dimensions!!)
-            Animation(int, int, int, int);
+            /**
+             * @brief Construct a new Animation object
+             * 
+             * @param x x-coordinate of start position offset
+             * @param y y-coordinate of start position offset
+             * @param w width of animation
+             * @param h height of animation
+             */
+            Animation(int x, int y, int w, int h);
 
-            // Updates handles switching between frames
-            void update(uint32_t);
-            // All children aren't rendered - only the current one
+            /**
+             * @brief Updates handles switching between frames
+             * 
+             * @param dt change in time
+             */
+            void update(uint32_t dt);
+
+            /**
+             * @brief All children aren't rendered - only the current one
+             */
             void render();
 
-            // Pause/resume the animation
+            /**
+             * @brief Pause the animation
+             */
             void pause();
+
+            /**
+             * @brief Resume the animation
+             */
             void resume();
+
+            /**
+             * @brief Check if animation is paused
+             * 
+             * @return true if animation is paused
+             * @return false otherwise
+             */
             bool isPaused();
 
-            // Set time for each frame
-            void setAnimateSpeed(int);
-            // Returns animation time
+            /**
+             * @brief Set time for each frame
+             * 
+             * @param t time for each frame
+             */
+            void setAnimateSpeed(int t);
+
+            /**
+             * @brief Returns animation time
+             * 
+             * @return animation time
+             */
             unsigned int animateSpeed();
 
-            // Set current frame to element at given index
-            // Returns false if outside of range
-            bool setFrameIndex(unsigned int);
+            /**
+             * @brief Set current frame to element at given index
+             * 
+             * @param i element index
+             * @return true if within range
+             * @return false otherwise
+             */
+            bool setFrameIndex(unsigned int i);
 
-            // Set current frame to given element
-            // Returns false if element is not a part of the animation
-            bool setFrameElement(Element *);
+            /**
+             * @brief Set current frame to given element
+             * 
+             * @param e element to set to
+             * @return true if element is not a part of the animation
+             * @return false otherwise
+             */
+            bool setFrameElement(Element * e);
     };
 };
 

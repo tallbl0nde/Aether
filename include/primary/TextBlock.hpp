@@ -4,23 +4,48 @@
 #include "base/BaseText.hpp"
 
 namespace Aether {
-    // TextBlock extends BaseText by wrapping text with the given width
-    // It's literally a block of text
+    /**
+     * @brief TextBlock extends BaseText by wrapping text with the given width
+     * 
+     * It's literally a block of text
+     */
     class TextBlock : public BaseText {
         private:
-            // Width in pixels to wrap at
+            /** @brief Width in pixels to wrap at */
             unsigned int wrapWidth_;
 
+            /**
+             * @brief Redraws texture for texture block
+             */
             void redrawTexture();
 
         public:
-            // Constructor requires: string, font size, wrap width (px)
-            TextBlock(int, int, std::string, unsigned int, unsigned int, FontStyle = FontStyle::Regular);
+            /**
+             * @brief Construct a new Text Block object
+             * 
+             * @param x x-coordinate of start position offset
+             * @param y y-coordinate of start position offset
+             * @param s block string
+             * @param f font size
+             * @param w wrap width (in pixels)
+             * @param l font style to use for block
+             */
+            TextBlock(int x, int y, std::string s, unsigned int f, unsigned int w, FontStyle l = FontStyle::Regular);
 
-            // Getter + setter for wrapWidth
-            // Altering requires re-render of text
+            /**
+             * @brief Get block wrap width
+             * 
+             * @return wrap width
+             */
+
             unsigned int wrapWidth();
-            void setWrapWidth(unsigned int);
+            /**
+             * @brief Set new wrap width
+             * @note Altering requires re-render of text
+             * 
+             * @param w new wrap width
+             */
+            void setWrapWidth(unsigned int w);
     };
 };
 
