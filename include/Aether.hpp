@@ -1,6 +1,11 @@
 #ifndef AETHER_HPP
 #define AETHER_HPP
 
+/**
+ * @namespace Aether
+ * @brief Base namespace for all Aether related classes and functions
+ */
+
 // Include all relevant hpp's
 #include "Display.hpp"
 #include "horizon/button/FilledButton.hpp"
