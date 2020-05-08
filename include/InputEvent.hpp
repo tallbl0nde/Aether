@@ -4,10 +4,8 @@
 #include "utils/Types.hpp"
 
 namespace Aether {
-    // Supported types of events
     /**
      * @brief Enum class that contains all events types supported by Aether for handling
-     * 
      */
     enum EventType {
         ButtonPressed, /**< Button press event */
