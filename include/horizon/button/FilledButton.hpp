@@ -6,35 +6,99 @@
 #include "primary/Text.hpp"
 
 namespace Aether {
-    // A FilledButton is exactly that. The text/rectangle are resized/repositioned to be centered
-    // on any resizes.
+    /**
+     * @brief A FilledButton is exactly that. The
+     * text/rectangle are resized/repositioned to
+     * be centered on any resizes.
+     */
     class FilledButton : public Element {
         private:
-            // Pointers to elements
+            /** @brief Pointer to rectangle associated with the button */
             Rectangle * rect;
+            /** @brief Pointer to text associated with the button */
             Text * text;
 
         public:
             // X, Y, W, H, Text, Text size and Callback
-            FilledButton(int, int, int, int, std::string, unsigned int, std::function<void()>);
+            /**
+             * @brief Construct a new Filled Button object
+             * 
+             * @param x x-coordinate of start position offset
+             * @param y y-coordinate of start position offset
+             * @param w width of button
+             * @param h height of button
+             * @param t button text
+             * @param s button size
+             * @param f callback function when button is pressed
+             */
+            FilledButton(int x, int y, int w, int h, std::string t, unsigned int s, std::function<void()> f);
 
-            // Getter + setter for colours
+            /**
+             * @brief Get the colour to fill rectangle with
+             * 
+             * @return rectangle colour
+             */
             Colour getFillColour();
-            void setFillColour(Colour);
+
+            /**
+             * @brief Set the colour to fill rectangle with
+             * 
+             * @param c new rectangle colour
+             */
+            void setFillColour(Colour c);
+
+            /**
+             * @brief Get the text's colour
+             * 
+             * @return text colour 
+             */
             Colour getTextColour();
-            void setTextColour(Colour);
 
-            // Getter + setter for string
+            /**
+             * @brief Set the text's colour
+             * 
+             * @param c new colour to set
+             */
+            void setTextColour(Colour c);
+
+            /**
+             * @brief Get current button text
+             * 
+             * @return button text
+             */
             std::string getString();
-            void setString(std::string);
 
-            // Adjusting dimensions requires text pos to be adjusted
-            // And rectangle to be rendered again
-            void setW(int);
-            void setH(int);
+            /**
+             * @brief Set new button text
+             * 
+             * @param s new button text
+             */
+            void setString(std::string s);
 
-            // Rendering the highlight needs to be rounded
+            /**
+             * @brief Set new width for the button
+             * @note Adjusting dimensions causes text position to be adjusted
+             * @note Rectangle needs to be rendered again
+             * @param w new width
+             */
+            void setW(int w);
+
+            /**
+             * @brief Set new width for the button
+             * @note Adjusting dimensions causes text position to be adjusted
+             * @note Rectangle needs to be rendered again
+             * @param h new height
+             */
+            void setH(int h);
+
+            /**
+             * @brief Renders the button as highlighted
+             */
             void renderHighlighted();
+
+            /**
+             * @brief Renders the button as selected
+             */
             void renderSelected();
     };
 };
