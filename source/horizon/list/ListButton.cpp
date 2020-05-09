@@ -40,6 +40,11 @@ namespace Aether {
         this->text_->setColour(c);
     }
 
+    void ListButton::setColours(Colour l, Colour t) {
+        this->setLineColour(l);
+        this->setTextColour(t);
+    }
+
     std::string ListButton::text() {
         return this->text_->string();
     }

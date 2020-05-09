@@ -42,6 +42,10 @@ namespace Aether {
         this->heading->setTextColour(c);
     }
 
+    void ListHeadingHelp::setHelpCallback(std::function<void()> f) {
+        this->help->setCallback(f);
+    }
+
     void ListHeadingHelp::setW(int w) {
         Container::setW(w);
         this->positionElements();
