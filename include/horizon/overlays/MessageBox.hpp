@@ -6,58 +6,120 @@
 #include "Overlay.hpp"
 
 namespace Aether {
-    // A "MessageBox" is a box presented in the middle of the screen,
-    // usually containing a few yes/no/cancel buttons and some text.
-    // Buttons are set up using the provided functions whereas the
-    // "body" of the box is set by giving an element containing the
-    // desired elements.
+    /**
+     * @brief A "MessageBox" is a box presented in the middle of the screen,
+     * usually containing a few yes/no/cancel buttons and some text.
+     * Buttons are set up using the provided functions whereas the
+     * "body" of the box is set by giving an element containing the
+     * desired elements.
+     */
     class MessageBox : public Overlay {
         private:
-            // Buttons
-            BorderButton * left;        // Bottom left
-            BorderButton * right;       // Bottom right
-            BorderButton * top;         // Top
-
-            // Lines/separators
+            /** @brief Bottom left button */
+            BorderButton * left;
+            /** @brief Bottom right button */
+            BorderButton * right;
+            /** @brief Top button */
+            BorderButton * top;
+            /** @brief Top line/separator */
             Rectangle * topH;
+            /** @brief Bottom line/separator */
             Rectangle * bottomH;
+            /** @brief Vertical line/separator */
             Rectangle * vertH;
-
-            // Element being used as body (set to nullptr if nothing)
-            // Anchored at top left of rectangle
+            /** @brief Element used as body (set to nullptr if nothing). Anchored at top left of rectangle. */
             Element * body;
-
-            // Rectangle "background"
+            /** @brief Rectangle "background" */
             Rectangle * rect;
 
+            /**
+             * @brief Repositions the buttons
+             */
             void repositionButtons();
+
+            /**
+             * @brief Resizes the elements
+             */
             void resizeElements();
 
         public:
-            // Constructor takes nothing but sets up rect
+            /**
+             * @brief Construct a new Message Box object.
+             */
             MessageBox();
 
-            // Set colours (must be called after adding buttons)
-            void setLineColour(Colour);
-            void setRectangleColour(Colour);
-            void setTextColour(Colour);
+            /**
+             * @brief Set the line colour
+             * @note Must be called after adding buttons!
+             * @param c new line colour
+             */
+            void setLineColour(Colour c);
 
-            // Add buttons - layout is done automatically
-            // Don't call these multiple times as the previous ones aren't deleted!
-            void addLeftButton(std::string, std::function<void()>);
-            void addRightButton(std::string, std::function<void()>);
-            void addTopButton(std::string, std::function<void()>);
+            /**
+             * @brief Set the rectangle colour
+             * 
+             * @param c new rectangle colour
+             */
+            void setRectangleColour(Colour c);
 
-            // Returns available width and height for body in given pointers
-            void getBodySize(int *, int *);
-            // Set the size of the body (not overall container)
-            void setBodySize(int, int);
+            /**
+             * @brief Set the text colour object
+             * 
+             * @param c new text colour
+             */
+            void setTextColour(Colour c);
 
-            // Deletes the element (and it's children!) used as body
+            /**
+             * @brief Add button to bottom left rectangle.
+             * @note Don't call these multiple times as the previous ones aren't deleted!
+             * @param s button label string
+             * @param f button callback
+             */
+            void addLeftButton(std::string s, std::function<void()> f);
+
+            /**
+             * @brief Add button to bottom right rectangle.
+             * @note Don't call these multiple times as the previous ones aren't deleted!
+             * @param s button label string
+             * @param f button callback
+             */
+            void addRightButton(std::string s, std::function<void()> f);
+
+            /**
+             * @brief Add button to top rectangle.
+             * @note Don't call these multiple times as the previous ones aren't deleted!
+             * @param s button label string
+             * @param f button callback
+             */
+            void addTopButton(std::string s, std::function<void()> f);
+
+            /**
+             * @brief Get the body size
+             * 
+             * @param w pointer to write body width to
+             * @param h pointer to write body height to
+             */
+            void getBodySize(int * w, int * h);
+
+            /**
+             * @brief Set the body size
+             * 
+             * @param w new body width
+             * @param h new body height
+             */
+            void setBodySize(int w, int h);
+
+            /**
+             * @brief Deletes the element (and it's children!) used as body
+             */
             void emptyBody();
-            // Accepts element to use as body (should contain other elements)
-            // Does nothing if a body has been set!
-            void setBody(Element *);
+
+            /**
+             * @brief Set the body element
+             * Does nothing if a body has been set alreadu!
+             * @param e body element to set
+             */
+            void setBody(Element * e);
     };
 };
 
