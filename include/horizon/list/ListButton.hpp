@@ -103,7 +103,7 @@ namespace Aether {
              * @brief Set the height of the list button
              * Adjusting height also moves same elements.
              * 
-             * @param w new height
+             * @param h new height
              */
             void setH(int h);
     };
