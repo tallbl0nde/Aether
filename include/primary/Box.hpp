@@ -4,7 +4,9 @@
 #include "base/Texture.hpp"
 
 namespace Aether {
-    // A Box is a rectangle outline with no fill.
+    /**
+     * @brief A Box is a rectangle outline with no fill.
+     */
     class Box : public Texture {
         private:
             /** @brief Size of border */

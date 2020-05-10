@@ -19,7 +19,6 @@ namespace Aether {
             Text * text;
 
         public:
-            // X, Y, W, H, Text, Text size and Callback
             /**
              * @brief Construct a new Filled Button object
              * 
