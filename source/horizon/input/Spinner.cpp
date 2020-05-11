@@ -50,7 +50,7 @@ namespace Aether {
         this->label_->setHidden(true);
         this->addElement(this->label_);
 
-        this->held = ' ';
+        this->held = SpinnerHoldAction::NoHeld;
         this->holdTime = 0;
         this->wrap = false;
         this->padding = 0;
@@ -155,12 +155,12 @@ namespace Aether {
         }
 
         // Check if containers are held
-        if (this->held == ' ') {
+        if (this->held == SpinnerHoldAction::NoHeld) {
             if (this->upContainer->selected()) {
-                this->held = 'u';
+                this->held = SpinnerHoldAction::UpHeld;
                 this->holdTime = 0;
             } else if (this->downContainer->selected()) {
-                this->held = 'd';
+                this->held = SpinnerHoldAction::DownHeld;
                 this->holdTime = 0;
             }
 
@@ -168,16 +168,15 @@ namespace Aether {
         } else {
             this->holdTime += dt;
             // Still within HOLD_DELAY
-            if (this->held == 'u' || this->held == 'd') {
+            if (this->held == SpinnerHoldAction::UpHeld || this->held == SpinnerHoldAction::DownHeld) {
                 if (this->holdTime >= HOLD_DELAY) {
-                    this->held -= 32;   // Capitalize chars
                     this->holdTime = 0;
                 }
 
             // Now in REPEAT_DELAY
             } else {
                 if (this->holdTime >= REPEAT_DELAY) {
-                    if (this->held == 'U') {
+                    if (this->held == SpinnerHoldAction::UpHeld) {
                         this->incrementVal();
                     } else {
                         this->decrementVal();
@@ -187,8 +186,8 @@ namespace Aether {
             }
 
             // Stop repeating when let go
-            if ((this->held == 'U' && !this->upContainer->selected()) || (this->held == 'D' && !this->downContainer->selected())) {
-                this->held = ' ';
+            if ((this->held == SpinnerHoldAction::UpHeld && !this->upContainer->selected()) || (this->held == SpinnerHoldAction::DownHeld && !this->downContainer->selected())) {
+                this->held = SpinnerHoldAction::NoHeld;
             }
         }
     }

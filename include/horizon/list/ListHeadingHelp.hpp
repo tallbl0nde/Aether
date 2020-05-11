@@ -6,34 +6,95 @@
 #include "horizon/list/ListHeading.hpp"
 
 namespace Aether {
-    // A ListHeading but with a help icon that's right aligned
+    /**
+     * @brief A ListHeading but with a help icon that's right aligned
+     */
     class ListHeadingHelp : public Container {
         private:
+            /** @brief  */
             ListHeading * heading;
+            /** @brief  */
             HelpButton * help;
 
-            // Called on size change to reposition elements
+            /**
+             * @brief Reposition elements. Usually called after size change.
+             */
             void positionElements();
 
         public:
-            // Constructor creates + positions elements
-            // String, callback function
-            ListHeadingHelp(std::string, std::function<void()>);
+            /**
+             * @brief Construct a new List Heading Help object.
+             * Auto positions elements when instantiated.
+             * 
+             * @param s list heading string
+             * @param f callback function when help button is activated
+             */
+            ListHeadingHelp(std::string s, std::function<void()> f);
 
-            // Getter + setters for colours
+            /**
+             * @brief Get the help colour
+             * 
+             * @return help colour
+             */
             Colour getHelpColour();
-            void setHelpColour(Colour);
+
+            /**
+             * @brief Set the help colour
+             * 
+             * @param c new help colour
+             */
+            void setHelpColour(Colour c);
+
+            /**
+             * @brief Get the rectangle colour
+             * 
+             * @return rectangle colour 
+             */
             Colour getRectColour();
-            void setRectColour(Colour);
+
+            /**
+             * @brief Set the rectangle colour
+             * 
+             * @param c new rectangle coloue
+             */
+            void setRectColour(Colour c);
+
+            /**
+             * @brief Get the text colour
+             * 
+             * @return text colour
+             */
             Colour getTextColour();
-            void setTextColour(Colour);
 
-            // Set callback
-            void setHelpCallback(std::function<void()>);
+            /**
+             * @brief Set the text colour
+             * 
+             * @param c new text colour
+             */
+            void setTextColour(Colour c);
 
-            // Adjusting width/height requires repositioning
-            void setW(int);
-            void setH(int);
+            /**
+             * @brief Set the callback function for help button activation
+             * 
+             * @param f new callback function
+             */
+            void setHelpCallback(std::function<void()> f);
+
+            /**
+             * @brief Adjusts the list heading width.
+             * Repositions elements as necessary.
+             * 
+             * @param w new width
+             */
+            void setW(int w);
+
+            /**
+             * @brief Adjusts the list heading height.
+             * Repositions elements as necessary.
+             * 
+             * @param h new height
+             */
+            void setH(int h);
     };
 };
 

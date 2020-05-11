@@ -4,15 +4,17 @@
 #include "primary/Text.hpp"
 
 namespace Aether {
-    // A ControlItem is stored and handled by the "Controls" element.
-    // It contains the two textures for a button icon and hint.
+    /**
+     * @brief A ControlItem is stored and handled by the "Controls" element.
+     * It contains the two textures for a button icon and hint.
+     */
     class ControlItem : public Element {
         private:
-            // Textures for button + hint
+            /** @brief Texture for icon */
             Text * icon;
+            /** @brief Texture for hint */
             Text * hint;
-
-            // Colour for text
+            /** @brief Colour for text */
             Colour colour;
 
             // These functions can't be called
@@ -22,14 +24,37 @@ namespace Aether {
             using Element::setSelectable;
 
         public:
-            // Constructor accepts button and text hint
-            ControlItem(Button, std::string);
+            /**
+             * @brief Construct a new Control Item object
+             * 
+             * @param k button associated with Control Item
+             * @param s text hint
+             */
+            ControlItem(Button k, std::string s);
 
-            // Return the set colour
+            /**
+             * @brief Get the text colour
+             * 
+             * @return text colour
+             */
             Colour getColour();
-            // Set the colour
-            void setColour(Colour);
-            void setColour(uint8_t, uint8_t, uint8_t, uint8_t);
+
+            /**
+             * @brief Set the text colour
+             * 
+             * @param c new text colour
+             */
+            void setColour(Colour c);
+
+            /**
+             * @brief Set the text colour
+             * 
+             * @param r red value of text colour
+             * @param g green value of text colour
+             * @param b blue value of text colour
+             * @param a alpha value of text colour
+             */
+            void setColour(uint8_t r, uint8_t g, uint8_t b, uint8_t a);
     };
 };
 

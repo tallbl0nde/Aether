@@ -5,26 +5,48 @@
 #include "primary/TextBlock.hpp"
 
 namespace Aether {
-    // A ListComment is a sentence/paragraph usually found under an
-    // option describing what it does.
+    /**
+     * @brief A ListComment is a sentence/paragraph usually found under an
+     * option describing what it does.
+     */
     class ListComment : public Element {
         private:
-            // TextBLock element
+            /** @brief Text block for comment text */
             TextBlock * text;
 
-            // Reposition + render text block
+            /**
+             * @brief Repositions and re-renders comment text block
+             */
             void updateElement();
 
         public:
-            // Constructor takes string
-            ListComment(std::string);
+            /**
+             * @brief Construct a new List Comment object
+             * 
+             * @param s comment string
+             */
+            ListComment(std::string s);
 
-            // Getter + setter for colour
+            /**
+             * @brief Get the text colour
+             * 
+             * @return text colour 
+             */
             Colour getTextColour();
-            void setTextColour(Colour);
 
-            // Text must be rerendered when width changes
-            void setW(int);
+            /**
+             * @brief Set the text colour
+             * 
+             * @param c new text colour
+             */
+            void setTextColour(Colour c);
+
+            /**
+             * @brief Set new width for comment
+             * @note Text must be rerendered when width changes
+             * @param w new width
+             */
+            void setW(int w);
     };
 };
 

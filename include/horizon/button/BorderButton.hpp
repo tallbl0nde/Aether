@@ -6,36 +6,103 @@
 #include "primary/Text.hpp"
 
 namespace Aether {
-    // A BorderButton is exactly that. The text/box are resized/repositioned to be centered
-    // on any resizes.
+    /**
+     * @brief A BorderButton is exactly that. The text/box are
+     * resized/repositioned to be centered on any resizes.
+     */
     class BorderButton : public Element {
         private:
-            // Pointers to elements
+            /** @brief The box associated with the button */
             Box * box;
+            /** @brief The text in the button */
             Text * text;
 
         public:
-            // X, Y, W, H, Border size, Text, Text size and Callback
-            BorderButton(int, int, int, int, unsigned int, std::string, unsigned int, std::function<void()>);
+            /**
+             * @brief Construct a new Border Button object
+             * 
+             * @param x x-coordinate of the start position offset
+             * @param y y-coordinate of the start position offset
+             * @param w width of the button
+             * @param h height of the buttpn
+             * @param b border size
+             * @param t text in button
+             * @param s button size
+             * @param f callback on button press
+             */
+            BorderButton(int x, int y, int w, int h, unsigned int b, std::string t, unsigned int s, std::function<void()> f);
 
-            // Getter + setter for colours
+            /**
+             * @brief Get the colour of the border
+             * 
+             * @return border colour 
+             */
             Colour getBorderColour();
-            void setBorderColour(Colour);
+
+            /**
+             * @brief Set the colour of the border
+             * 
+             * @param c new border colour
+             */
+            void setBorderColour(Colour c);
+
+            /**
+             * @brief Get the colour of the text
+             * 
+             * @return text colour
+             */
             Colour getTextColour();
-            void setTextColour(Colour);
 
-            // Getter + setter for string
+            /**
+             * @brief Set the colour of the text
+             * 
+             * @param c new text colour
+             */
+            void setTextColour(Colour c);
+
+            /**
+             * @brief Get the text for the button
+             * 
+             * @return button text
+             */
             std::string getString();
-            void setString(std::string);
 
-            // Adjusting dimensions requires text pos to be adjusted
-            // And box to be rendered again
-            void setW(int);
-            void setH(int);
+            /**
+             * @brief Set the text for the button
+             * 
+             * @param s new button text
+             */
+            void setString(std::string s);
 
-            // Rendering the highlight needs to be rounded (and overlapping)
+            /**
+             * @brief Set the width for the button
+             * @note Changing dimension requires text position to be adjusted
+             * @note Box to be rendered again
+             * @param w new button width
+             */
+            void setW(int w);
+
+            /**
+             * @brief Set the height for the button
+             * @note Changing dimension requires text position to be adjusted
+             * @note Box to be rendered again
+             * @param h new button height
+             */
+            void setH(int h);
+
+            /**
+             * @brief Renders the button normally
+             */
             void render();
+
+            /**
+             * @brief Renders the button as highlighted
+             */
             void renderHighlighted();
+
+            /**
+             * @brief Renders the button as selected
+             */
             void renderSelected();
     };
 };
