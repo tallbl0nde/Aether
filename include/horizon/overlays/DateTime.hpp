@@ -27,7 +27,7 @@ namespace Aether {
 
     /**
      * @brief Bitwise OR operator for DTFlag
-     * 
+     *
      * @param a first flag
      * @param b second flag
      * @return resultant flag
@@ -37,21 +37,10 @@ namespace Aether {
     }
 
     /**
-     * @brief Bitwise AND operator for DTFlag
-     * 
-     * @param a first flag
-     * @param b second flag
-     * @return resultant flag
-     */
-    inline DTFlag operator&(DTFlag a, DTFlag b) {
-        return static_cast<DTFlag>(static_cast<int>(a) & static_cast<int>(b));
-    }
-
-    /**
      * @brief The DateTime overlay is used to get the user to select a date/time.
      * It must be passed a tm struct on creation which has it's value changed
      * in place when closed (not updated when closed by pressing B!)
-     * 
+     *
      * @note Expect a segfault if the tm struct is deleted by the time this overlay is closed!
      */
     class DateTime : public Overlay {
@@ -104,7 +93,7 @@ namespace Aether {
             /**
              * @brief Construct a new Date Time object.
              * Back/OK buttons have default text but can be changed using other functions
-             * 
+             *
              * @param s title
              * @param t reference for time struct to update
              * @param d pickers to show (shows complete date and time by default)
@@ -114,7 +103,7 @@ namespace Aether {
             /**
              * @brief Attempt to handle event.
              * Whenever an event is handled, update max days for selected month.
-             * 
+             *
              * @param e event to attempt handle
              * @return true if event was handled
              * @return false otherwise
@@ -123,133 +112,133 @@ namespace Aether {
 
             /**
              * @brief Set the back button label
-             * 
+             *
              * @param s new back label
              */
             void setBackLabel(std::string s);
 
             /**
              * @brief Set the OK button label
-             * 
+             *
              * @param s new OK label
              */
             void setOKLabel(std::string s);
 
             /**
              * @brief Set the day spinner hint
-             * 
+             *
              * @param s new day hint string
              */
             void setDayHint(std::string s);
 
             /**
              * @brief Set the month spinner hint
-             * 
+             *
              * @param s new month hint string
              */
             void setMonthHint(std::string s);
 
             /**
              * @brief Set the year spinner hint
-             * 
+             *
              * @param s new year hint string
              */
             void setYearHint(std::string s);
 
             /**
              * @brief Set the hour spinner hint
-             * 
+             *
              * @param s new hour hint string
              */
             void setHourHint(std::string s);
 
             /**
              * @brief Set the minute spinner hint
-             * 
+             *
              * @param s new minute hint string
              */
             void setMinuteHint(std::string s);
 
             /**
              * @brief Set the second spinner hint
-             * 
+             *
              * @param s new second hint string
              */
             void setSecondHint(std::string s);
 
             /**
              * @brief Get the background colour
-             * 
+             *
              * @return background colour
              */
             Colour getBackgroundColour();
 
             /**
              * @brief Set the background colour
-             * 
+             *
              * @param c new background colour
              */
             void setBackgroundColour(Colour c);
 
             /**
              * @brief Get the highlight colour
-             * 
+             *
              * @return highlight colour
              */
             Colour getHighlightColour();
 
             /**
              * @brief Set the highlight colour
-             * 
+             *
              * @param c new highlight colour
              */
             void setHighlightColour(Colour c);
 
             /**
              * @brief Get the inactive colour
-             * 
+             *
              * @return inactive colour
              */
             Colour getInactiveColour();
 
             /**
              * @brief Set the inactive colour
-             * 
+             *
              * @param c new inactive colour
              */
             void setInactiveColour(Colour c);
 
             /**
              * @brief Get the separator colour
-             * 
+             *
              * @return separator colour
              */
             Colour getSeparatorColour();
 
             /**
              * @brief Set the separator colour
-             * 
+             *
              * @param c new separator colour
              */
             void setSeparatorColour(Colour c);
 
             /**
              * @brief Get the text colour
-             * 
+             *
              * @return text colour
              */
             Colour getTextColour();
 
             /**
              * @brief Set the text colour
-             * 
+             *
              * @param c new text colour
              */
             void setTextColour(Colour c);
 
             /**
              * @brief Set all colours
-             * 
+             *
              * @param c1 new background colour
              * @param c2 new highlight colour
              * @param c3 new inactive colour

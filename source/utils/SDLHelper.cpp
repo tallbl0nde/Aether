@@ -104,7 +104,7 @@ namespace SDLHelper {
 
         // Load fonts
         customFont = false;
-        Result rc = plInitialize();
+        Result rc = plInitialize(PlServiceType_User);
         if (!R_SUCCEEDED(rc)) {
             return false;
         }

@@ -6,6 +6,11 @@
 #define TITLE_FONT_SIZE 26
 
 namespace Aether {
+    // Bitwise boolean AND operator for DTFlag
+    inline bool operator&(DTFlag a, DTFlag b) {
+        return static_cast<int>(a) & static_cast<int>(b);
+    }
+
     DateTime::DateTime(std::string s, struct tm & t, DTFlag d) : Overlay(), refTm(t) {
         // Create elements
         this->rect = new Rectangle(this->x(), this->y() + this->h() - HEIGHT, this->w(), HEIGHT);
