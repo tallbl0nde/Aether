@@ -59,12 +59,12 @@ namespace Aether {
         public:
             /**
              * @brief Construct a new Element object.
-             * 
+             *
              * Co-ordinates and size are optional.
              * Default value of co-ordinates are (0, 0)
              * and the default value of size are (100, 100).
              * Parent is set as nullptr
-             * 
+             *
              * @param x x-coordinate of element
              * @param y y-coordinate of element
              * @param w width of element
@@ -74,63 +74,63 @@ namespace Aether {
 
             /**
              * @brief Getter function for x-coordinate of element
-             * 
+             *
              * @return int x-coordinate of element
              */
             int x();
 
             /**
              * @brief Getter function for y-coordinate of element
-             * 
+             *
              * @return int y-coordinate of element
              */
             int y();
 
             /**
              * @brief Getter function for width of element
-             * 
+             *
              * @return int width of element
              */
             int w();
 
             /**
              * @brief Getter function for height of element
-             * 
+             *
              * @return int height of element
              */
             int h();
 
             /**
              * @brief Setter function for x-coordinate of element
-             * 
+             *
              * @param x new x-coordinate of element
              */
             virtual void setX(int x);
 
             /**
              * @brief Setter function for y-coordinate of element
-             * 
+             *
              * @param y new y-coordinate of element
              */
             virtual void setY(int y);
 
             /**
              * @brief Setter function for width of element
-             * 
+             *
              * @param w new width of element
              */
             virtual void setW(int w);
 
             /**
              * @brief Setter function for height of element
-             * 
+             *
              * @param h new height of element
              */
             virtual void setH(int h);
 
             /**
              * @brief Setter function for co-ordinates of element
-             * 
+             *
              * @param x new x-coordinate of element
              * @param y new y-coordinate of element
              */
@@ -138,7 +138,7 @@ namespace Aether {
 
             /**
              * @brief Setter function for size of element
-             * 
+             *
              * @param w new width of element
              * @param h new height of element
              */
@@ -146,7 +146,7 @@ namespace Aether {
 
             /**
              * @brief Setter function to for size and co-ordinates of element
-             * 
+             *
              * @param x new x-coordinate of element
              * @param y new y-coordinate of element
              * @param w new width of element
@@ -156,21 +156,21 @@ namespace Aether {
 
             /**
              * @brief Set the parent element for current element
-             * 
+             *
              * @param p parent element to set as
              */
             void setParent(Element * p);
 
             /**
              * @brief Adds new element as current element's childrent element
-             * 
+             *
              * @param e Children element to add
              */
             virtual void addElement(Element * e);
 
             /**
              * @brief Attempt to remove children element from current element
-             * 
+             *
              * @param e children to delete
              * @return true if deleted successfully
              * @return false if not a child of element
@@ -184,7 +184,7 @@ namespace Aether {
 
             /**
              * @brief Check if current element is visible on-screen
-             * 
+             *
              * @return true if element is visible
              * @return false if element is not visible
              */
@@ -192,7 +192,7 @@ namespace Aether {
 
             /**
              * @brief Check if current element is hidden
-             * 
+             *
              * @return true if element is hidden
              * @return false if element is not hidden
              */
@@ -200,14 +200,14 @@ namespace Aether {
 
             /**
              * @brief Set whether element is hidden or not
-             * 
+             *
              * @param b state to change hidden status to
              */
             void setHidden(bool b);
 
             /**
              * @brief Check if current element is selected
-             * 
+             *
              * @return true if current element is selected
              * @return false if current element is not selected
              */
@@ -215,14 +215,14 @@ namespace Aether {
 
             /**
              * @brief Set whether element is selected or not
-             * 
+             *
              * @param b state to change selected status to
              */
             void setSelected(bool b);
 
             /**
              * @brief Check if current element is selectable
-             * 
+             *
              * @return true if current element is selectable
              * @return false if current element is not selectable
              */
@@ -230,14 +230,14 @@ namespace Aether {
 
             /**
              * @brief Set whether element is selectable or not
-             * 
+             *
              * @param b state to change selectable status to
              */
             void setSelectable(bool b);
 
             /**
              * @brief Check if current element is touch responsive
-             * 
+             *
              * @return true if current element is touch responsive
              * @return false if current element is not touch responsive
              */
@@ -245,14 +245,14 @@ namespace Aether {
 
             /**
              * @brief Set whether element is touch responsive or not
-             * 
+             *
              * @param b state to change touch responsive status to
              */
             void setTouchable(bool b);
 
             /**
              * @brief Check if current element is highlighted
-             * 
+             *
              * @return true if current element is highlighted
              * @return false if current element is not highlighted
              */
@@ -260,14 +260,14 @@ namespace Aether {
 
             /**
              * @brief Set whether element is highlighted or not
-             * 
+             *
              * @param b state to change highlighted status to
              */
             void setHighlighted(bool b);
 
             /**
              * @brief Check if current element has highlighted children element
-             * 
+             *
              * @return true if current element has highlighted children element
              * @return false if current element does not have highlighted children element
              */
@@ -275,35 +275,35 @@ namespace Aether {
 
             /**
              * @brief Set whether element has highlighted children element or not
-             * 
+             *
              * @param b state to change highlighted children element status to
              */
             void setHasHighlighted(bool b);
 
             /**
              * @brief Check if current element has selectable children element
-             * 
+             *
              * @return true if current element has selectable children element
              * @return false if current element doesn't have selectable children element
              */
             bool hasSelectable();
             /**
              * @brief Set whether element has selectable children element or not
-             * 
+             *
              * @param b state to change selectable children element status to
              */
             void setHasSelectable(bool b);
 
             /**
              * @brief Check if current element has selected children element
-             * 
+             *
              * @return true if current element has selected children element
              * @return false if current element doesn't have selected children element
              */
             bool hasSelected();
             /**
              * @brief Set whether element has selected children element or not
-             * 
+             *
              * @param b state to change selected children element status to
              */
             void setHasSelected(bool b);
@@ -321,35 +321,54 @@ namespace Aether {
             /**
              * @brief Sets current element as unfocused
              * and instead focuses a sub-element
-             * 
+             * @note This is the same as setFocussed
+             *
              * @param e element to focus
              */
             void setFocused(Element * e);
 
             /**
+             * @brief Sets current element as unfocused
+             * and instead focuses a sub-element
+             * @note This is the same as setFocused
+             *
+             * @param e element to focus
+             */
+            void setFocussed(Element * e);
+
+            /**
              * @brief Returns the currently focused element
-             * 
+             * @note This is the same as focussed
+             *
              * @return focused element
              */
             Element * focused();
 
             /**
+             * @brief Returns the currently focused element
+             * @note This is the same as focused
+             *
+             * @return focused element
+             */
+            Element * focussed();
+
+            /**
              * @brief Returns callback function (nullptr if no callback assigned)
-             * 
+             *
              * @return callback function
              */
             std::function<void()> callback();
 
             /**
              * @brief Set callback function (also marks element as selectable)
-             * 
+             *
              * @param f new callback function to set
              */
             void setCallback(std::function<void()> f);
 
             /**
              * @brief Attempt to handle a given event
-             * 
+             *
              * @param e event to handle
              * @return true if event was handled
              * @return false if event was not handled
@@ -358,7 +377,7 @@ namespace Aether {
 
             /**
              * @brief Update is passed time since last frame (for animations)
-             * 
+             *
              * @param dt change in time
              */
             virtual void update(uint32_t dt);
@@ -370,7 +389,7 @@ namespace Aether {
 
             /**
              * @brief Renders the highlight border + background
-             * 
+             *
              * Default highlighted shapes are rectangles.
              */
             virtual void renderHighlighted();
@@ -387,7 +406,7 @@ namespace Aether {
 
             /**
              * @brief Returns the element currently highlighted within given element or nullptr if none found
-             * 
+             *
              * @param e currently highlighted element within given element or nullptr if none found
              */
             friend void moveHighlight(Element * e);

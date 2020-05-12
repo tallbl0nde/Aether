@@ -341,8 +341,16 @@ namespace Aether {
         }
     }
 
+    void Element::setFocussed(Element * e) {
+        this->setFocused(e);
+    }
+
     Element * Element::focused() {
         return this->focused_;
+    }
+
+    Element * Element::focussed() {
+        return this->focused();
     }
 
     Element::~Element() {
