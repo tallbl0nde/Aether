@@ -23,5 +23,6 @@ var searchData=
   ['rendertoscreen',['renderToScreen',['../namespaceSDLHelper.html#a11b48521c97369792bff98a1467203fd',1,'SDLHelper']]],
   ['rendertotexture',['renderToTexture',['../namespaceSDLHelper.html#a6c7f77dcaf2cbaa89eb62b65c3fc9ea4',1,'SDLHelper']]],
   ['resume',['resume',['../classAether_1_1Animation.html#a3a15cd6e83bbbbd7d3fc9bf4e3539e5a',1,'Aether::Animation']]],
+  ['reuse',['reuse',['../classAether_1_1Overlay.html#af24c5e15f8e60a99f637b40afe847cac',1,'Aether::Overlay']]],
   ['roundprogressbar',['RoundProgressBar',['../classAether_1_1RoundProgressBar.html#acfcefac094796abc19d36aef97db3452',1,'Aether::RoundProgressBar']]]
 ];

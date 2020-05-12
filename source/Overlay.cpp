@@ -12,6 +12,10 @@ namespace Aether {
         this->close_ = true;
     }
 
+    void Overlay::reuse() {
+        this->close_ = false;
+    }
+
     bool Overlay::shouldClose() {
         return this->close_;
     }
