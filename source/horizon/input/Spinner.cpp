@@ -170,13 +170,15 @@ namespace Aether {
             // Still within HOLD_DELAY
             if (this->held == SpinnerHoldAction::UpHeld || this->held == SpinnerHoldAction::DownHeld) {
                 if (this->holdTime >= HOLD_DELAY) {
+                    // Now change to tepeat mode
+                    this->held = (this->held == SpinnerHoldAction::UpHeld ? SpinnerHoldAction::UpHeldRepeat : SpinnerHoldAction::DownHeldRepeat);
                     this->holdTime = 0;
                 }
 
             // Now in REPEAT_DELAY
             } else {
                 if (this->holdTime >= REPEAT_DELAY) {
-                    if (this->held == SpinnerHoldAction::UpHeld) {
+                    if (this->held == SpinnerHoldAction::UpHeldRepeat) {
                         this->incrementVal();
                     } else {
                         this->decrementVal();
@@ -186,7 +188,7 @@ namespace Aether {
             }
 
             // Stop repeating when let go
-            if ((this->held == SpinnerHoldAction::UpHeld && !this->upContainer->selected()) || (this->held == SpinnerHoldAction::DownHeld && !this->downContainer->selected())) {
+            if ((this->held == SpinnerHoldAction::UpHeldRepeat && !this->upContainer->selected()) || (this->held == SpinnerHoldAction::DownHeldRepeat && !this->downContainer->selected())) {
                 this->held = SpinnerHoldAction::NoHeld;
             }
         }

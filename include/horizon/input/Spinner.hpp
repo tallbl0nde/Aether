@@ -9,9 +9,11 @@
  * @brief Enum class showing all available hold actions for spinner
  */
 enum class SpinnerHoldAction {
-    UpHeld, /**< Indicates increase value is being held */
-    DownHeld, /**< Indicates decrease value is being held */
-    NoHeld /**< No Stack Operation */
+    UpHeld,         /**< Indicates increase value is being held (but not repeating yet)*/
+    UpHeldRepeat,   /**< Indicates increase value is being held (and increasing value)*/
+    DownHeld,       /**< Indicates decrease value is being held (but not repeating yet)*/
+    DownHeldRepeat, /**< Indicates decrease value is being held (and decreasing value)*/
+    NoHeld          /**< Indicates nothing is held*/
 };
 
 namespace Aether {
@@ -75,7 +77,7 @@ namespace Aether {
             /**
              * @brief Construct a new Spinner object.
              * Value is initialized to 0.
-             * 
+             *
              * @param x x-coordinate of start position offset
              * @param y y-coordinate of start position offset
              * @param w spinner width (default 90)
@@ -84,7 +86,7 @@ namespace Aether {
 
             /**
              * @brief Attempt to handle given event
-             * 
+             *
              * @param e event to attempt handle
              * @return true if event was handled
              * @return false otherwise
@@ -94,7 +96,7 @@ namespace Aether {
             /**
              * @brief Updates spinner container.
              * Updates textures and values as necessary.
-             * 
+             *
              * @param dt change in time
              */
             void update(uint32_t dt);
@@ -111,7 +113,7 @@ namespace Aether {
 
             /**
              * @brief Get whether to wrap around value if is overflowed/underflowed
-             * 
+             *
              * @return true if value should be wrapped
              * @return false otherwise
              */
@@ -119,14 +121,14 @@ namespace Aether {
 
             /**
              * @brief Set whether to wrap around value if is overflowed/underflowed
-             * 
+             *
              * @param b true if value should be wrapped, false otherwise
              */
             void setWrapAround(bool b);
 
             /**
              * @brief Get current value padding (number of zeros to pad value with)
-             * 
+             *
              * @return number of zeros to pad with
              */
             unsigned int digits();
@@ -147,105 +149,105 @@ namespace Aether {
 
             /**
              * @brief Get the current label string
-             * 
+             *
              * @return label string
              */
             std::string label();
 
             /**
              * @brief Get the step size to change value by
-             * 
-             * @return step size 
+             *
+             * @return step size
              */
             int changeAmount();
 
             /**
              * @brief Set the step size to change value by
-             * 
+             *
              * @param a new step size
              */
             void setChangeAmount(int a);
 
             /**
              * @brief Get the spinner value
-             * 
-             * @return value 
+             *
+             * @return value
              */
             int value();
 
             /**
              * @brief Set the spinner value
-             * 
+             *
              * @param v new value
              */
             void setValue(int v);
 
             /**
              * @brief Get the minimum value
-             * 
-             * @return min value 
+             *
+             * @return min value
              */
             int min();
 
             /**
              * @brief Set the minimum value
-             * 
+             *
              * @param m new min value
              */
             void setMin(int m);
 
             /**
              * @brief Get the maximum value
-             * 
+             *
              * @return max value
              */
             int max();
 
             /**
              * @brief Set the maximum value
-             * 
+             *
              * @param m new max value
              */
             void setMax(int m);
 
             /**
              * @brief Get the arrow colour
-             * 
-             * @return arrow colour 
+             *
+             * @return arrow colour
              */
             Colour getArrowColour();
 
             /**
              * @brief Set the arrow colour
-             * 
+             *
              * @param c new arrow colour
              */
             void setArrowColour(Colour c);
 
             /**
              * @brief Get the highlight colour
-             * 
-             * @return highlight colour 
+             *
+             * @return highlight colour
              */
             Colour getHighlightColour();
 
             /**
              * @brief Set the highlight colour
-             * 
+             *
              * @param c new highlight colour
              */
             void setHighlightColour(Colour c);
 
             /**
              * @brief Get the text colour
-             * 
-             * @return text colour 
+             *
+             * @return text colour
              */
             Colour getTextColour();
 
             /**
              * @brief Set the text colour
-             * 
+             *
              * @param c new text colour
              */
             void setTextColour(Colour c);
