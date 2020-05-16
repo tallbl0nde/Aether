@@ -1,4 +1,5 @@
 #include "Display.hpp"
+#include "ThreadPool.hpp"
 #include "utils/Utils.hpp"
 
 // Delay (in ms) to pause after button held
@@ -312,6 +313,9 @@ namespace Aether {
 
         SDLHelper::draw();
 
+        // Update ThreadPool
+        ThreadPool::process();
+
         return this->loop_;
     }
 
@@ -325,6 +329,10 @@ namespace Aether {
     }
 
     Display::~Display() {
+        // Clean up remaining tasks
+        ThreadPool::removeQueuedTasks();
+        ThreadPool::waitUntilDone();
+
         // Clean up SDL
         SDLHelper::destroyTexture(this->bgImg);
         SDLHelper::exitSDL();
