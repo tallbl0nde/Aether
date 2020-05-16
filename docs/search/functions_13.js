@@ -1,5 +1,7 @@
 var searchData=
 [
-  ['x',['x',['../classAether_1_1Element.html#a347f859ca2d49854c6509b759d57f477',1,'Aether::Element']]],
-  ['xdiameter',['xDiameter',['../classAether_1_1Ellipse.html#a62799fa0bdb8a1730028cba6a15fd842',1,'Aether::Ellipse']]]
+  ['w',['w',['../classAether_1_1Element.html#a324fda305a92166da025d9cca85b1502',1,'Aether::Element']]],
+  ['waituntildone',['waitUntilDone',['../namespaceAether_1_1ThreadPool.html#a1f12a9a1d957277a2e171511e17fd073',1,'Aether::ThreadPool']]],
+  ['wraparound',['wrapAround',['../classAether_1_1Spinner.html#ad3f4d94e9457a4e26188c5acd61820ff',1,'Aether::Spinner']]],
+  ['wrapwidth',['wrapWidth',['../classAether_1_1TextBlock.html#a7347b860eb056a08f124a1bac5e5e5ff',1,'Aether::TextBlock']]]
 ];

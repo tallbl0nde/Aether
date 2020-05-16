@@ -25,6 +25,7 @@
 #include "primary/Animation.hpp"
 #include "primary/Ellipse.hpp"
 #include "primary/Image.hpp"
+#include "ThreadPool.hpp"
 #include "utils/Theme.hpp"
 
 #endif

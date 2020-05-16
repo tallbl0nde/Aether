@@ -1,7 +1,5 @@
 var searchData=
 [
-  ['time',['Time',['../namespaceAether.html#a3a862896c43c3cd021470d0029eeaaf0aa76d4ef5f3f6a672bbfab2865563e530',1,'Aether']]],
-  ['touchmoved',['TouchMoved',['../namespaceAether.html#aac9911e1cc77cb27daa2945564d9b668a5a83075f71452bba7578311d40b165b2',1,'Aether']]],
-  ['touchpressed',['TouchPressed',['../namespaceAether.html#aac9911e1cc77cb27daa2945564d9b668a86a635c137cd1fc21c08ee8725f09243',1,'Aether']]],
-  ['touchreleased',['TouchReleased',['../namespaceAether.html#aac9911e1cc77cb27daa2945564d9b668aa08dbbf8c8f5ce5fcb07aaaecc82ba09',1,'Aether']]]
+  ['sec',['Sec',['../namespaceAether.html#a3a862896c43c3cd021470d0029eeaaf0a2d5cc554c126edb041901fa7d79b558b',1,'Aether']]],
+  ['strikethrough',['Strikethrough',['../namespaceAether.html#a121ed811c1bf358c3775b806667bdc67a926a51baad949d12035107e5d06e2fdb',1,'Aether']]]
 ];

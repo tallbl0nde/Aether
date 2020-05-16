@@ -1,19 +1,42 @@
 #include "Image.hpp"
 
 namespace Aether {
-    Image::Image(int x, int y, std::string p) : Texture(x, y) {
-        this->setTexture(SDLHelper::renderImage(p));
-    }
+    Image::Image(int x, int y, std::string p, int xF, int yF, RenderType t) : Texture(x, y, t) {
+        this->type = Type::Path;
+        this->path = p;
+        this->xF = xF;
+        this->yF = yF;
 
-    Image::Image(int x, int y, u8 * p, size_t s, int f1, int f2) : Texture(x, y) {
-        if (f1 == 1 && f2 == 1) {
-            this->setTexture(SDLHelper::renderImage(p, s));
-        } else {
-            this->setTexture(SDLHelper::renderImageShrinked(p, s, f1, f2));
+        // Now check if we need to render immediately
+        if (this->renderType == RenderType::OnCreate) {
+            this->generateSurface();
+            this->convertSurface();
         }
     }
 
-    void Image::redrawTexture() {
+    Image::Image(int x, int y, u8 * p, size_t s, int xF, int yF, RenderType t) : Texture(x, y, t) {
+        this->type = Type::Pointer;
+        this->ptr = p;
+        this->size = s;
+        this->xF = xF;
+        this->yF = yF;
 
+        // Now check if we need to render immediately
+        if (this->renderType == RenderType::OnCreate) {
+            this->generateSurface();
+            this->convertSurface();
+        }
+    }
+
+    void Image::generateSurface() {
+        switch (this->type) {
+            case Type::Path:
+                this->surface = SDLHelper::renderImageS(this->path, this->xF, this->yF);
+                break;
+
+            case Type::Pointer:
+                this->surface = SDLHelper::renderImageS(this->ptr, this->size, this->xF, this->yF);
+                break;
+        }
     }
 };

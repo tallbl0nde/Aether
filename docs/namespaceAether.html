@@ -60,6 +60,7 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="summary">
+<a href="#namespaces">Namespaces</a> &#124;
 <a href="#nested-classes">Classes</a> &#124;
 <a href="#typedef-members">Typedefs</a> &#124;
 <a href="#enum-members">Enumerations</a> &#124;
@@ -72,6 +73,12 @@ $(function() {
 <p>Base namespace for all <a class="el" href="namespaceAether.html" title="Base namespace for all Aether related classes and functions. ">Aether</a> related classes and functions.  
 <a href="#details">More...</a></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="namespaces"></a>
+Namespaces</h2></td></tr>
+<tr class="memitem:namespaceAether_1_1ThreadPool"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAether_1_1ThreadPool.html">ThreadPool</a></td></tr>
+<tr class="memdesc:namespaceAether_1_1ThreadPool"><td class="mdescLeft">&#160;</td><td class="mdescRight">A Thread Pool implementation which processes queued tasks on other threads. It is designed for multi-threaded texture generation - please do not use it for your own tasks! <br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAether_1_1Animation.html">Animation</a></td></tr>
@@ -205,12 +212,12 @@ typedef SDL_Color&#160;</td><td class="memItemRight" valign="bottom"><a class="e
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
 Enumerations</h2></td></tr>
 <tr class="memitem:a121ed811c1bf358c3775b806667bdc67"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAether.html#a121ed811c1bf358c3775b806667bdc67">FontStyle</a> { <br />
-&#160;&#160;<a class="el" href="namespaceAether.html#a121ed811c1bf358c3775b806667bdc67a8be35c5581d34d9f780f3867b7a265d8">Regular</a>, 
-<a class="el" href="namespaceAether.html#a121ed811c1bf358c3775b806667bdc67a1543a6952a0c7a02768c0738338e5b61">Bold</a>, 
-<a class="el" href="namespaceAether.html#a121ed811c1bf358c3775b806667bdc67a40abd06d3842061460090a1c013a458a">Italic</a>, 
-<a class="el" href="namespaceAether.html#a121ed811c1bf358c3775b806667bdc67a6add8e8da8db2bf50d5850d581194730">Underline</a>, 
+&#160;&#160;<a class="el" href="namespaceAether.html#a121ed811c1bf358c3775b806667bdc67ad2203cb1237cb6460cbad94564e39345">FontStyle::Regular</a>, 
+<a class="el" href="namespaceAether.html#a121ed811c1bf358c3775b806667bdc67a114c3050111d8b8ddd830b99ccebd246">FontStyle::Bold</a>, 
+<a class="el" href="namespaceAether.html#a121ed811c1bf358c3775b806667bdc67a1d874710ccdcd46b95397049d2e7500c">FontStyle::Italic</a>, 
+<a class="el" href="namespaceAether.html#a121ed811c1bf358c3775b806667bdc67a852721aa5fc738dfedff2945d71da439">FontStyle::Underline</a>, 
 <br />
-&#160;&#160;<a class="el" href="namespaceAether.html#a121ed811c1bf358c3775b806667bdc67a0e79460c5fa21b5937e7b075e018a243">Strikethrough</a>
+&#160;&#160;<a class="el" href="namespaceAether.html#a121ed811c1bf358c3775b806667bdc67a926a51baad949d12035107e5d06e2fdb">FontStyle::Strikethrough</a>
 <br />
  }<tr class="memdesc:a121ed811c1bf358c3775b806667bdc67"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enum class with all available text font styles.  <a href="namespaceAether.html#a121ed811c1bf358c3775b806667bdc67">More...</a><br /></td></tr>
 </td></tr>
@@ -283,6 +290,11 @@ Enumerations</h2></td></tr>
  }<tr class="memdesc:a404ceb3e1c2adbc8c7edcd5d27aa7be7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enum class for buttons Avoids confusion with SDL/libnx names.  <a href="namespaceAether.html#a404ceb3e1c2adbc8c7edcd5d27aa7be7">More...</a><br /></td></tr>
 </td></tr>
 <tr class="separator:a404ceb3e1c2adbc8c7edcd5d27aa7be7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a38fd03617d8ed79b0d692ffcd5507c62"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAether.html#a38fd03617d8ed79b0d692ffcd5507c62">RenderType</a> { <a class="el" href="namespaceAether.html#a38fd03617d8ed79b0d692ffcd5507c62a076b9c5b655fdc3350a7c269fb84294a">RenderType::OnCreate</a>, 
+<a class="el" href="namespaceAether.html#a38fd03617d8ed79b0d692ffcd5507c62a4ed71db54748b36eeb398876b0c747ac">RenderType::Deferred</a>
+ }<tr class="memdesc:a38fd03617d8ed79b0d692ffcd5507c62"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enum class for type of texture generation.  <a href="namespaceAether.html#a38fd03617d8ed79b0d692ffcd5507c62">More...</a><br /></td></tr>
+</td></tr>
+<tr class="separator:a38fd03617d8ed79b0d692ffcd5507c62"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
@@ -438,24 +450,62 @@ Functions</h2></td></tr>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">enum <a class="el" href="namespaceAether.html#a121ed811c1bf358c3775b806667bdc67">Aether::FontStyle</a></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">strong</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>Enum class with all available text font styles. </p>
 <table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a121ed811c1bf358c3775b806667bdc67a8be35c5581d34d9f780f3867b7a265d8"></a>Regular&#160;</td><td class="fielddoc"><p>Regular Font </p>
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a121ed811c1bf358c3775b806667bdc67ad2203cb1237cb6460cbad94564e39345"></a>Regular&#160;</td><td class="fielddoc"><p>Regular Font </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a121ed811c1bf358c3775b806667bdc67a1543a6952a0c7a02768c0738338e5b61"></a>Bold&#160;</td><td class="fielddoc"><p>Bold Font </p>
+<tr><td class="fieldname"><a id="a121ed811c1bf358c3775b806667bdc67a114c3050111d8b8ddd830b99ccebd246"></a>Bold&#160;</td><td class="fielddoc"><p>Bold Font </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a121ed811c1bf358c3775b806667bdc67a40abd06d3842061460090a1c013a458a"></a>Italic&#160;</td><td class="fielddoc"><p>Italic Font </p>
+<tr><td class="fieldname"><a id="a121ed811c1bf358c3775b806667bdc67a1d874710ccdcd46b95397049d2e7500c"></a>Italic&#160;</td><td class="fielddoc"><p>Italic Font </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a121ed811c1bf358c3775b806667bdc67a6add8e8da8db2bf50d5850d581194730"></a>Underline&#160;</td><td class="fielddoc"><p>Underlined Font </p>
+<tr><td class="fieldname"><a id="a121ed811c1bf358c3775b806667bdc67a852721aa5fc738dfedff2945d71da439"></a>Underline&#160;</td><td class="fielddoc"><p>Underlined Font </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a121ed811c1bf358c3775b806667bdc67a0e79460c5fa21b5937e7b075e018a243"></a>Strikethrough&#160;</td><td class="fielddoc"><p>Strikethrough Font </p>
+<tr><td class="fieldname"><a id="a121ed811c1bf358c3775b806667bdc67a926a51baad949d12035107e5d06e2fdb"></a>Strikethrough&#160;</td><td class="fielddoc"><p>Strikethrough Font </p>
+</td></tr>
+</table>
+
+</div>
+</div>
+<a id="a38fd03617d8ed79b0d692ffcd5507c62"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a38fd03617d8ed79b0d692ffcd5507c62">&#9670;&nbsp;</a></span>RenderType</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="namespaceAether.html#a38fd03617d8ed79b0d692ffcd5507c62">Aether::RenderType</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">strong</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Enum class for type of texture generation. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a38fd03617d8ed79b0d692ffcd5507c62a076b9c5b655fdc3350a7c269fb84294a"></a>OnCreate&#160;</td><td class="fielddoc"><p>Render on construction of texture element (all regenerations due to value changes will be done immediately and on the main thread </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a38fd03617d8ed79b0d692ffcd5507c62a4ed71db54748b36eeb398876b0c747ac"></a>Deferred&#160;</td><td class="fielddoc"><p>Do not render until explicitly started on another thread (value changes will not cause a regeneration - you must explicitly start it!) </p>
 </td></tr>
 </table>
 

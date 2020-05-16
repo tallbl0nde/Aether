@@ -2,7 +2,7 @@ var searchData=
 [
   ['dampening',['dampening',['../classAether_1_1Scrollable.html#a4146b2aa1ba88ff4d50385e1202aa9b6',1,'Aether::Scrollable']]],
   ['datetime',['DateTime',['../classAether_1_1DateTime.html#acaf2afc84fe485bf16e1e6ef196ebe34',1,'Aether::DateTime']]],
-  ['destroytexture',['destroyTexture',['../namespaceSDLHelper.html#a2a3218876732ea2818047cdea9030524',1,'SDLHelper']]],
+  ['destroytexture',['destroyTexture',['../classAether_1_1Texture.html#ab82ef058be98ce10d88cc13e4e881146',1,'Aether::Texture::destroyTexture()'],['../namespaceSDLHelper.html#a2a3218876732ea2818047cdea9030524',1,'SDLHelper::destroyTexture()']]],
   ['digits',['digits',['../classAether_1_1Spinner.html#ac15141bcb07595ab6ec4088803e4108e',1,'Aether::Spinner']]],
   ['display',['Display',['../classAether_1_1Display.html#ae6ff73b2927f6839b4f2446a92e4dbdd',1,'Aether::Display']]],
   ['draw',['draw',['../namespaceSDLHelper.html#a37231a0d7e92e32cc2e1429ae27c3c3c',1,'SDLHelper']]],

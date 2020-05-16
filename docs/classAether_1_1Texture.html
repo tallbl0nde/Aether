@@ -96,9 +96,9 @@ Inheritance diagram for Aether::Texture:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:af92ba3e6fa903c4f3ea09cdb1d43cef4"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAether_1_1Texture.html#af92ba3e6fa903c4f3ea09cdb1d43cef4">Texture</a> (int <a class="el" href="classAether_1_1Element.html#a347f859ca2d49854c6509b759d57f477">x</a>, int <a class="el" href="classAether_1_1Element.html#a36fabe12af3fc3d762d4779dbec6961c">y</a>, SDL_Texture *t=nullptr)</td></tr>
-<tr class="memdesc:af92ba3e6fa903c4f3ea09cdb1d43cef4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct a new <a class="el" href="classAether_1_1Texture.html" title="A Texture is an element consisting of an SDL_Texture. It stores the width and height of the texture a...">Texture</a> object.  <a href="#af92ba3e6fa903c4f3ea09cdb1d43cef4">More...</a><br /></td></tr>
-<tr class="separator:af92ba3e6fa903c4f3ea09cdb1d43cef4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afd0faad4974085483c56cd1666c8dbe2"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAether_1_1Texture.html#afd0faad4974085483c56cd1666c8dbe2">Texture</a> (int <a class="el" href="classAether_1_1Element.html#a347f859ca2d49854c6509b759d57f477">x</a>, int <a class="el" href="classAether_1_1Element.html#a36fabe12af3fc3d762d4779dbec6961c">y</a>, <a class="el" href="namespaceAether.html#a38fd03617d8ed79b0d692ffcd5507c62">RenderType</a> t)</td></tr>
+<tr class="memdesc:afd0faad4974085483c56cd1666c8dbe2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct a new <a class="el" href="classAether_1_1Texture.html" title="A Texture is an element consisting of an SDL_Texture. It stores the width and height of the texture a...">Texture</a> object.  <a href="#afd0faad4974085483c56cd1666c8dbe2">More...</a><br /></td></tr>
+<tr class="separator:afd0faad4974085483c56cd1666c8dbe2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9fe78c574a12bf0d6f8d9400e9371fac"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAether_1_1Texture.html#a9fe78c574a12bf0d6f8d9400e9371fac">texW</a> ()</td></tr>
 <tr class="memdesc:a9fe78c574a12bf0d6f8d9400e9371fac"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get texture width.  <a href="#a9fe78c574a12bf0d6f8d9400e9371fac">More...</a><br /></td></tr>
 <tr class="separator:a9fe78c574a12bf0d6f8d9400e9371fac"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -120,9 +120,23 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ae85a1453007e67899e578549de6c932c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAether_1_1Texture.html#ae85a1453007e67899e578549de6c932c">setMask</a> (int dx, int dy, int dw, int dh)</td></tr>
 <tr class="memdesc:ae85a1453007e67899e578549de6c932c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the mask values for the texture.  <a href="#ae85a1453007e67899e578549de6c932c">More...</a><br /></td></tr>
 <tr class="separator:ae85a1453007e67899e578549de6c932c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8ade95e8e0d3ae7486b7faf775472420"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAether_1_1Texture.html#a8ade95e8e0d3ae7486b7faf775472420">setTexture</a> (SDL_Texture *t)</td></tr>
-<tr class="memdesc:a8ade95e8e0d3ae7486b7faf775472420"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the texture and recalculate dimensions (also destroys previous one)  <a href="#a8ade95e8e0d3ae7486b7faf775472420">More...</a><br /></td></tr>
-<tr class="separator:a8ade95e8e0d3ae7486b7faf775472420"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab82ef058be98ce10d88cc13e4e881146"><td class="memItemLeft" align="right" valign="top"><a id="ab82ef058be98ce10d88cc13e4e881146"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAether_1_1Texture.html#ab82ef058be98ce10d88cc13e4e881146">destroyTexture</a> ()</td></tr>
+<tr class="memdesc:ab82ef058be98ce10d88cc13e4e881146"><td class="mdescLeft">&#160;</td><td class="mdescRight">Delete the rendered texture/surface. <br /></td></tr>
+<tr class="separator:ab82ef058be98ce10d88cc13e4e881146"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adc5bcad4b363cd66389a51c2e3f263e7"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAether_1_1Texture.html#adc5bcad4b363cd66389a51c2e3f263e7">startRendering</a> ()</td></tr>
+<tr class="memdesc:adc5bcad4b363cd66389a51c2e3f263e7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Start rendering texture in the background.  <a href="#adc5bcad4b363cd66389a51c2e3f263e7">More...</a><br /></td></tr>
+<tr class="separator:adc5bcad4b363cd66389a51c2e3f263e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aed95b2d1290459a529cf5508301263ba"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAether_1_1Texture.html#aed95b2d1290459a529cf5508301263ba">surfaceReady</a> ()</td></tr>
+<tr class="memdesc:aed95b2d1290459a529cf5508301263ba"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns whether the surface is finished generating.  <a href="#aed95b2d1290459a529cf5508301263ba">More...</a><br /></td></tr>
+<tr class="separator:aed95b2d1290459a529cf5508301263ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaba24d611774aaa4105436059ff4a891"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAether_1_1Texture.html#aaba24d611774aaa4105436059ff4a891">textureReady</a> ()</td></tr>
+<tr class="memdesc:aaba24d611774aaa4105436059ff4a891"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns whether a texture is ready to be drawn.  <a href="#aaba24d611774aaa4105436059ff4a891">More...</a><br /></td></tr>
+<tr class="separator:aaba24d611774aaa4105436059ff4a891"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8208110a54f061ad786dbbba7318a525"><td class="memItemLeft" align="right" valign="top"><a id="a8208110a54f061ad786dbbba7318a525"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAether_1_1Texture.html#a8208110a54f061ad786dbbba7318a525">update</a> (uint32_t)</td></tr>
+<tr class="memdesc:a8208110a54f061ad786dbbba7318a525"><td class="mdescLeft">&#160;</td><td class="mdescRight">Extends the update method to check if there is a surface that needs converting. <br /></td></tr>
+<tr class="separator:a8208110a54f061ad786dbbba7318a525"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9745969a6f31742cda2ce7bf9c36c3f4"><td class="memItemLeft" align="right" valign="top"><a id="a9745969a6f31742cda2ce7bf9c36c3f4"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAether_1_1Texture.html#a9745969a6f31742cda2ce7bf9c36c3f4">render</a> ()</td></tr>
 <tr class="memdesc:a9745969a6f31742cda2ce7bf9c36c3f4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Render the texture. <br /></td></tr>
@@ -261,9 +275,6 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hr
 <tr class="memitem:a21694ebc870c2b7f7ea265c1368ef38e inherit pub_methods_classAether_1_1Element"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAether_1_1Element.html#a21694ebc870c2b7f7ea265c1368ef38e">handleEvent</a> (<a class="el" href="classAether_1_1InputEvent.html">InputEvent</a> *e)</td></tr>
 <tr class="memdesc:a21694ebc870c2b7f7ea265c1368ef38e inherit pub_methods_classAether_1_1Element"><td class="mdescLeft">&#160;</td><td class="mdescRight">Attempt to handle a given event.  <a href="classAether_1_1Element.html#a21694ebc870c2b7f7ea265c1368ef38e">More...</a><br /></td></tr>
 <tr class="separator:a21694ebc870c2b7f7ea265c1368ef38e inherit pub_methods_classAether_1_1Element"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abb5070152fd03253d9a8e8e9adf64129 inherit pub_methods_classAether_1_1Element"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAether_1_1Element.html#abb5070152fd03253d9a8e8e9adf64129">update</a> (uint32_t dt)</td></tr>
-<tr class="memdesc:abb5070152fd03253d9a8e8e9adf64129 inherit pub_methods_classAether_1_1Element"><td class="mdescLeft">&#160;</td><td class="mdescRight">Update is passed time since last frame (for animations)  <a href="classAether_1_1Element.html#abb5070152fd03253d9a8e8e9adf64129">More...</a><br /></td></tr>
-<tr class="separator:abb5070152fd03253d9a8e8e9adf64129 inherit pub_methods_classAether_1_1Element"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0fb99a1081df2031651440504b5926cf inherit pub_methods_classAether_1_1Element"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAether_1_1Element.html#a0fb99a1081df2031651440504b5926cf">renderHighlighted</a> ()</td></tr>
 <tr class="memdesc:a0fb99a1081df2031651440504b5926cf inherit pub_methods_classAether_1_1Element"><td class="mdescLeft">&#160;</td><td class="mdescRight">Renders the highlight border + background.  <a href="classAether_1_1Element.html#a0fb99a1081df2031651440504b5926cf">More...</a><br /></td></tr>
 <tr class="separator:a0fb99a1081df2031651440504b5926cf inherit pub_methods_classAether_1_1Element"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -278,21 +289,36 @@ virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
-<tr class="memitem:a3d5e9646ecb49db6ac6b21dec2b51d77"><td class="memItemLeft" align="right" valign="top"><a id="a3d5e9646ecb49db6ac6b21dec2b51d77"></a>
-virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAether_1_1Texture.html#a3d5e9646ecb49db6ac6b21dec2b51d77">redrawTexture</a> ()=0</td></tr>
-<tr class="memdesc:a3d5e9646ecb49db6ac6b21dec2b51d77"><td class="mdescLeft">&#160;</td><td class="mdescRight">Overriden by derived classes to redraw texture when variables are changed. <br /></td></tr>
-<tr class="separator:a3d5e9646ecb49db6ac6b21dec2b51d77"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a44ad2e8a80e71a62e808e5cbb5abe39f"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAether_1_1Texture.html#a44ad2e8a80e71a62e808e5cbb5abe39f">generateSurface</a> ()=0</td></tr>
+<tr class="memdesc:a44ad2e8a80e71a62e808e5cbb5abe39f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function which must generate the appropriate surface.  <a href="#a44ad2e8a80e71a62e808e5cbb5abe39f">More...</a><br /></td></tr>
+<tr class="separator:a44ad2e8a80e71a62e808e5cbb5abe39f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a02609337507608f8f94a8eed111c42a6"><td class="memItemLeft" align="right" valign="top"><a id="a02609337507608f8f94a8eed111c42a6"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAether_1_1Texture.html#a02609337507608f8f94a8eed111c42a6">convertSurface</a> ()</td></tr>
+<tr class="memdesc:a02609337507608f8f94a8eed111c42a6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts surface to texture and sets variables to match. <br /></td></tr>
+<tr class="separator:a02609337507608f8f94a8eed111c42a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9b40572dc03194169ed5ba5d2b04d96e"><td class="memItemLeft" align="right" valign="top"><a id="a9b40572dc03194169ed5ba5d2b04d96e"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAether_1_1Texture.html#a9b40572dc03194169ed5ba5d2b04d96e">regenerate</a> ()</td></tr>
+<tr class="memdesc:a9b40572dc03194169ed5ba5d2b04d96e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Regenerate the texture based on render type. Calls a combination of available functions based on said type. <br /></td></tr>
+<tr class="separator:a9b40572dc03194169ed5ba5d2b04d96e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
+<tr class="memitem:a8647ab93616eb50dcac963441d0bf151"><td class="memItemLeft" align="right" valign="top"><a id="a8647ab93616eb50dcac963441d0bf151"></a>
+<a class="el" href="namespaceAether.html#a38fd03617d8ed79b0d692ffcd5507c62">RenderType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAether_1_1Texture.html#a8647ab93616eb50dcac963441d0bf151">renderType</a></td></tr>
+<tr class="memdesc:a8647ab93616eb50dcac963441d0bf151"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="namespaceAether.html#a38fd03617d8ed79b0d692ffcd5507c62">RenderType</a> which indicates how/when to generate texture <br /></td></tr>
+<tr class="separator:a8647ab93616eb50dcac963441d0bf151"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8dd74f8efb84b6b7631f4f0d87a9756d"><td class="memItemLeft" align="right" valign="top"><a id="a8dd74f8efb84b6b7631f4f0d87a9756d"></a>
 <a class="el" href="namespaceAether.html#ab08bd40426fce8a58489de4e261b34de">Colour</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAether_1_1Texture.html#a8dd74f8efb84b6b7631f4f0d87a9756d">colour</a></td></tr>
 <tr class="memdesc:a8dd74f8efb84b6b7631f4f0d87a9756d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Colour to tint the texture with when drawn. <br /></td></tr>
 <tr class="separator:a8dd74f8efb84b6b7631f4f0d87a9756d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6faf5dd9e067006c4d3a7425a6554ab2"><td class="memItemLeft" align="right" valign="top"><a id="a6faf5dd9e067006c4d3a7425a6554ab2"></a>
-SDL_Texture *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAether_1_1Texture.html#a6faf5dd9e067006c4d3a7425a6554ab2">texture</a></td></tr>
-<tr class="memdesc:a6faf5dd9e067006c4d3a7425a6554ab2"><td class="mdescLeft">&#160;</td><td class="mdescRight">The actual texture. <br /></td></tr>
-<tr class="separator:a6faf5dd9e067006c4d3a7425a6554ab2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abc5cc7e6f6c2e0cc03d76a2b551d9e62"><td class="memItemLeft" align="right" valign="top"><a id="abc5cc7e6f6c2e0cc03d76a2b551d9e62"></a>
+std::atomic&lt; SDL_Surface * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAether_1_1Texture.html#abc5cc7e6f6c2e0cc03d76a2b551d9e62">surface</a></td></tr>
+<tr class="memdesc:abc5cc7e6f6c2e0cc03d76a2b551d9e62"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pointer to rendered surface that is waiting to be converted to a texture. <br /></td></tr>
+<tr class="separator:abc5cc7e6f6c2e0cc03d76a2b551d9e62"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a39e8e6fdbed4a87003253bf8ba6a5dc8"><td class="memItemLeft" align="right" valign="top"><a id="a39e8e6fdbed4a87003253bf8ba6a5dc8"></a>
+std::atomic&lt; SDL_Texture * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAether_1_1Texture.html#a39e8e6fdbed4a87003253bf8ba6a5dc8">texture</a></td></tr>
+<tr class="memdesc:a39e8e6fdbed4a87003253bf8ba6a5dc8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pointer to texture to be drawn. <br /></td></tr>
+<tr class="separator:a39e8e6fdbed4a87003253bf8ba6a5dc8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pro_attribs_classAether_1_1Element"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_classAether_1_1Element')"><img src="closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="classAether_1_1Element.html">Aether::Element</a></td></tr>
 <tr class="memitem:a7aa15cdc5afe71be855b12667ae375fd inherit pro_attribs_classAether_1_1Element"><td class="memItemLeft" align="right" valign="top"><a id="a7aa15cdc5afe71be855b12667ae375fd"></a>
 <a class="el" href="classAether_1_1Element.html">Element</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAether_1_1Element.html#a7aa15cdc5afe71be855b12667ae375fd">parent</a></td></tr>
@@ -335,8 +361,8 @@ static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hre
 <div class="textblock"><p>A <a class="el" href="classAether_1_1Texture.html" title="A Texture is an element consisting of an SDL_Texture. It stores the width and height of the texture a...">Texture</a> is an element consisting of an SDL_Texture. It stores the width and height of the texture and the colour it's tinted with. </p>
 <dl class="section note"><dt>Note</dt><dd>Colour defaults to white </dd></dl>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="af92ba3e6fa903c4f3ea09cdb1d43cef4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af92ba3e6fa903c4f3ea09cdb1d43cef4">&#9670;&nbsp;</a></span>Texture()</h2>
+<a id="afd0faad4974085483c56cd1666c8dbe2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afd0faad4974085483c56cd1666c8dbe2">&#9670;&nbsp;</a></span>Texture()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -356,8 +382,8 @@ static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hre
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">SDL_Texture *&#160;</td>
-          <td class="paramname"><em>t</em> = <code>nullptr</code>&#160;</td>
+          <td class="paramtype"><a class="el" href="namespaceAether.html#a38fd03617d8ed79b0d692ffcd5507c62">RenderType</a>&#160;</td>
+          <td class="paramname"><em>t</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -368,11 +394,12 @@ static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hre
 </div><div class="memdoc">
 
 <p>Construct a new <a class="el" href="classAether_1_1Texture.html" title="A Texture is an element consisting of an SDL_Texture. It stores the width and height of the texture a...">Texture</a> object. </p>
+<dl class="section note"><dt>Note</dt><dd>Width and height will be set when a texture is created</dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">x</td><td>x-coordinate of start position offset </td></tr>
     <tr><td class="paramname">y</td><td>y-coordinate of start position offset </td></tr>
-    <tr><td class="paramname">t</td><td>texture pointer </td></tr>
+    <tr><td class="paramname">t</td><td><a class="el" href="namespaceAether.html#a38fd03617d8ed79b0d692ffcd5507c62">RenderType</a> indicating when to generate texture </td></tr>
   </table>
   </dd>
 </dl>
@@ -380,6 +407,34 @@ static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hre
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a id="a44ad2e8a80e71a62e808e5cbb5abe39f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a44ad2e8a80e71a62e808e5cbb5abe39f">&#9670;&nbsp;</a></span>generateSurface()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void Aether::Texture::generateSurface </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Function which must generate the appropriate surface. </p>
+<dl class="section note"><dt>Note</dt><dd>Called in another thread! </dd></dl>
+
+</div>
+</div>
 <a id="a2fd3d51ad6c8c37a4b657e53bb307f87"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a2fd3d51ad6c8c37a4b657e53bb307f87">&#9670;&nbsp;</a></span>getColour()</h2>
 
@@ -579,29 +634,49 @@ static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hre
 
 </div>
 </div>
-<a id="a8ade95e8e0d3ae7486b7faf775472420"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8ade95e8e0d3ae7486b7faf775472420">&#9670;&nbsp;</a></span>setTexture()</h2>
+<a id="adc5bcad4b363cd66389a51c2e3f263e7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adc5bcad4b363cd66389a51c2e3f263e7">&#9670;&nbsp;</a></span>startRendering()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void Aether::Texture::setTexture </td>
+          <td class="memname">bool Aether::Texture::startRendering </td>
           <td>(</td>
-          <td class="paramtype">SDL_Texture *&#160;</td>
-          <td class="paramname"><em>t</em></td><td>)</td>
+          <td class="paramname"></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Set the texture and recalculate dimensions (also destroys previous one) </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">t</td><td>new texture to set </td></tr>
-  </table>
-  </dd>
-</dl>
+<p>Start rendering texture in the background. </p>
+<dl class="section note"><dt>Note</dt><dd>This function does nothing if the element was created with <a class="el" href="namespaceAether.html#a38fd03617d8ed79b0d692ffcd5507c62a076b9c5b655fdc3350a7c269fb84294a">RenderType::OnCreate</a></dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>true if queued successfully </dd>
+<dd>
+false if already queued </dd></dl>
+
+</div>
+</div>
+<a id="aed95b2d1290459a529cf5508301263ba"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aed95b2d1290459a529cf5508301263ba">&#9670;&nbsp;</a></span>surfaceReady()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Aether::Texture::surfaceReady </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns whether the surface is finished generating. </p>
+<dl class="section note"><dt>Note</dt><dd>This function returns false if the element was created with <a class="el" href="namespaceAether.html#a38fd03617d8ed79b0d692ffcd5507c62a076b9c5b655fdc3350a7c269fb84294a">RenderType::OnCreate</a></dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>true if the surface is ready </dd>
+<dd>
+false otherwise </dd></dl>
 
 </div>
 </div>
@@ -622,6 +697,28 @@ static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hre
 
 <p>Get texture height. </p>
 <dl class="section return"><dt>Returns</dt><dd>texture height </dd></dl>
+
+</div>
+</div>
+<a id="aaba24d611774aaa4105436059ff4a891"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaba24d611774aaa4105436059ff4a891">&#9670;&nbsp;</a></span>textureReady()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Aether::Texture::textureReady </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns whether a texture is ready to be drawn. </p>
+<dl class="section return"><dt>Returns</dt><dd>true if the texture is ready </dd>
+<dd>
+false otherwise </dd></dl>
 
 </div>
 </div>

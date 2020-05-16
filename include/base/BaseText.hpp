@@ -7,12 +7,12 @@ namespace Aether {
     /**
      * @brief Enum class with all available text font styles
      */
-    enum FontStyle {
-        Regular, /**< Regular Font */
-        Bold, /**< Bold Font */
-        Italic, /**< Italic Font */
-        Underline, /**< Underlined Font */
-        Strikethrough /**< Strikethrough Font */
+    enum class FontStyle {
+        Regular,        /**< Regular Font */
+        Bold,           /**< Bold Font */
+        Italic,         /**< Italic Font */
+        Underline,      /**< Underlined Font */
+        Strikethrough   /**< Strikethrough Font */
     };
 
     /**
@@ -26,49 +26,45 @@ namespace Aether {
             /** @brief Font size used for rendered text */
             unsigned int fontSize_;
             /** @brief Font style (stored for redrawing) */
-            FontStyle fontStyle;
-
-            /**
-             * @brief Redraw the texture whenever relevant variables are changed
-             */
-            virtual void redrawTexture() = 0;
+            std::atomic<FontStyle> fontStyle;
 
         public:
             /**
              * @brief Construct a new Base Text object
-             * 
+             *
              * @param x x-coordinate of start position offset
              * @param y y-coordinate of start position offset
              * @param s string to render
              * @param f font size (in pixels)
              * @param l font style
+             * @param t \ref ::RenderType to use for rendering
              */
-            BaseText(int x, int y, std::string s, unsigned int f, FontStyle l);
+            BaseText(int x, int y, std::string s, unsigned int f, FontStyle l, RenderType t);
 
             /**
              * @brief Get the rendered string
-             * 
+             *
              * @return string matching rendered string
              */
             std::string string();
 
             /**
              * @brief Set new string to render
-             * 
+             *
              * @param s new string to render
              */
             virtual void setString(std::string s);
 
             /**
              * @brief Get the render font size for text
-             * 
+             *
              * @return render font size for text (in pixels)
              */
             unsigned int fontSize();
 
             /**
              * @brief Set the render font size for text
-             * 
+             *
              * @param s new render font size for text (in pixels)
              */
             virtual void setFontSize(unsigned int s);

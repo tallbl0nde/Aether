@@ -1,17 +1,18 @@
 #include "Rectangle.hpp"
 
 namespace Aether {
-    Rectangle::Rectangle(int x, int y, int w, int h, unsigned int r) : Texture(x, y) {
+    Rectangle::Rectangle(int x, int y, int w, int h, unsigned int r) : Texture(x, y, RenderType::OnCreate) {
         Texture::setW(w);
         Texture::setH(h);
         this->setCornerRadius(r);
     }
 
-    void Rectangle::redrawTexture() {
+    void Rectangle::generateSurface() {
+        // This is safe - see Texture::regenerate()
         if (this->cornerRadius_ > 0) {
-            this->setTexture(SDLHelper::renderFilledRoundRect(this->w(), this->h(), this->cornerRadius_));
+            this->texture = SDLHelper::renderFilledRoundRect(this->w(), this->h(), this->cornerRadius_);
         } else {
-            this->setTexture(SDLHelper::renderFilledRect(this->w(), this->h()));
+            this->texture = SDLHelper::renderFilledRect(this->w(), this->h());
         }
     }
 
@@ -21,12 +22,12 @@ namespace Aether {
 
     void Rectangle::setCornerRadius(unsigned int r) {
         this->cornerRadius_ = r;
-        this->redrawTexture();
+        this->regenerate();
     }
 
     void Rectangle::setRectSize(int w, int h) {
         Texture::setW(w);
         Texture::setH(h);
-        this->redrawTexture();
+        this->regenerate();
     }
 };

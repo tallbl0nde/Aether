@@ -1,4 +1,5 @@
 #include "Display.hpp"
+#include "ThreadPool.hpp"
 #include "utils/Utils.hpp"
 
 // Delay (in ms) to pause after button held
@@ -305,13 +306,16 @@ namespace Aether {
 
         // Draw FPS
         if (this->fps_) {
-            std::string ss = "FPS: " + std::to_string((int)(1.0/(dtClock.delta/1000.0))) + " (" + std::to_string(dtClock.delta) + " ms)";
+            std::string ss = "FPS: " + std::to_string((int)(1.0/(dtClock.delta/1000.0))) + " (" + std::to_string(dtClock.delta) + " ms) -- ~Mem: " + std::to_string(SDLHelper::memoryUsage()/1024) + " kB -- T/S: " + std::to_string(SDLHelper::numTextures()) + "/" + std::to_string(SDLHelper::numSurfaces());
             SDL_Texture * tt = SDLHelper::renderText(ss, 20);
             SDLHelper::drawTexture(tt, SDL_Color{0, 150, 150, 255}, 5, 695);
             SDLHelper::destroyTexture(tt);
         }
 
         SDLHelper::draw();
+
+        // Update ThreadPool
+        ThreadPool::process();
 
         return this->loop_;
     }
@@ -326,6 +330,10 @@ namespace Aether {
     }
 
     Display::~Display() {
+        // Clean up remaining tasks
+        ThreadPool::removeQueuedTasks();
+        ThreadPool::waitUntilDone();
+
         // Clean up SDL
         SDLHelper::destroyTexture(this->bgImg);
         SDLHelper::exitSDL();

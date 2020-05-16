@@ -4,23 +4,23 @@
 #include "Overlay.hpp"
 #include <stack>
 
-/**
- * @brief Enum class containing all stack operations
- */
-enum class StackOp {
-    Push, /**< Stack Push Operation */
-    Pop, /**< Stack Pop Operation */
-    None /**< No Stack Operation */
-};
-
 namespace Aether {
     /**
      * @brief A display represents a root element.
-     * 
+     *
      * It stores and handles different screens and
      * polling/passing events.
      */
     class Display : public Element {
+        /**
+         * @brief Enum class containing all stack operations
+         */
+        enum class StackOp {
+            Push, /**< Stack Push Operation */
+            Pop, /**< Stack Pop Operation */
+            None /**< No Stack Operation */
+        };
+
         private:
             /** @brief Indicator if whether the app should continue running the main loop */
             bool loop_;
@@ -67,21 +67,21 @@ namespace Aether {
         public:
             /**
              * @brief Construct a new Display object
-             * 
+             *
              * Initializes SDL with Vsync on
              */
             Display();
 
             /**
              * @brief Toggle whether FPS should be showed
-             * 
+             *
              * @param b state to change show FPS status to
              */
             void setShowFPS(bool b);
 
             /**
              * @brief Set colour to clear screen with
-             * 
+             *
              * @param r red value of color
              * @param g green value of color
              * @param b blue value of color
@@ -90,7 +90,7 @@ namespace Aether {
 
             /**
              * @brief Set image to use as background (returns if successful)
-             * 
+             *
              * @param path Path to background image
              * @return true if successfully set
              * @return false otherwise
@@ -99,7 +99,7 @@ namespace Aether {
 
             /**
              * @brief Set colours to highlight elements with
-             * 
+             *
              * @param bg Color to clear screen with
              * @param sel Color for highlighted element
              */
@@ -107,56 +107,56 @@ namespace Aether {
 
             /**
              * @brief Set the highlight animation fir display
-             * 
+             *
              * @param f the function to set the display's animation function as
              */
             void setHighlightAnimation(std::function<Colour(uint32_t)> f);
 
             /**
              * @brief Set font to use with display
-             * 
+             *
              * @param p File path for font file to use
              */
             void setFont(std::string p);
 
             /**
              * @brief Getter function for hold delay
-             * 
+             *
              * @return Time between repeated button events (in ms)
              */
             int holdDelay();
-            
+
             /**
              * @brief Setter function for hold delay
-             * 
+             *
              * @param d new time between repeated button events (in ms)
              */
             void setHoldDelay(int d);
 
             /**
              * @brief Add new overlay to current display
-             * 
+             *
              * @param o overlay to add
              */
             void addOverlay(Overlay * o);
 
             /**
              * @brief Calls onUnload for current screen and removes screen (screen is not deleted)
-             * 
+             *
              * @note Set another screen before loop() or loop() will return false due to no screen set
              */
             void dropScreen();
 
             /**
              * @brief Set next screen for display
-             * 
+             *
              * @param s next screen pointer
              */
             void setScreen(Screen * s);
 
             /**
              * @brief Push the current screen to display's screen stack
-             * 
+             *
              * @note onUnload (for current screen) is not called!
              * @note Main loop returns false if another screen is not set before next call of loop()
              */
@@ -164,7 +164,7 @@ namespace Aether {
 
             /**
              * @brief Pops top screen from the screen stack and sets it as current screen
-             * 
+             *
              * @note onLoad (for popped screen) is not called!
              * @note Current screen will not be deleted - it is up to you!
              */
@@ -182,7 +182,7 @@ namespace Aether {
 
             /**
              * @brief Executes the main loop (events + rendering)
-             * 
+             *
              * @return true while the app's main loop is running
              * @return false when the app's main loop is terminated
              */

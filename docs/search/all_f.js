@@ -70,6 +70,7 @@ var searchData=
   ['setlistlinecolour',['setListLineColour',['../classAether_1_1PopupList.html#a741690e5ac46756f0100f25a79556a2d',1,'Aether::PopupList']]],
   ['setmask',['setMask',['../classAether_1_1Texture.html#ae85a1453007e67899e578549de6c932c',1,'Aether::Texture']]],
   ['setmax',['setMax',['../classAether_1_1Spinner.html#a6c05d6b9c4cf89bb53f09b913cd143bf',1,'Aether::Spinner']]],
+  ['setmaxthreads',['setMaxThreads',['../namespaceAether_1_1ThreadPool.html#ab824b6e3a9a3b8d88d2ca37d443a021d',1,'Aether::ThreadPool']]],
   ['setmin',['setMin',['../classAether_1_1Spinner.html#a6c5f724b063cb43edc09ada597bae55a',1,'Aether::Spinner']]],
   ['setminutehint',['setMinuteHint',['../classAether_1_1DateTime.html#adf73ce350b0b4861df6590f2f2df2da9',1,'Aether::DateTime']]],
   ['setmonthhint',['setMonthHint',['../classAether_1_1DateTime.html#ac96374076c22c0141eb4dfb449fe93e1',1,'Aether::DateTime']]],
@@ -95,7 +96,6 @@ var searchData=
   ['setstring',['setString',['../classAether_1_1BaseText.html#a082cb15c6d1455ad848d7118abeff12b',1,'Aether::BaseText::setString()'],['../classAether_1_1BorderButton.html#a28c40ab7aafb7be63649354200bd73ec',1,'Aether::BorderButton::setString()'],['../classAether_1_1FilledButton.html#a8d8026bbf7b39f55953d34c5e305b791',1,'Aether::FilledButton::setString()'],['../classAether_1_1Text.html#a1b96feb57eac2acc09c2c29c227d0f75',1,'Aether::Text::setString()']]],
   ['settext',['setText',['../classAether_1_1ListButton.html#a3002fe3f15071ee32177c2502d571da0',1,'Aether::ListButton']]],
   ['settextcolour',['setTextColour',['../classAether_1_1BorderButton.html#a5d0ee0e47d8573a37d50ddc6a08f9bcc',1,'Aether::BorderButton::setTextColour()'],['../classAether_1_1FilledButton.html#a4730d92989d6f2b27d548aaf5b096a33',1,'Aether::FilledButton::setTextColour()'],['../classAether_1_1Spinner.html#a9568337f03443482e2aed5703f699efe',1,'Aether::Spinner::setTextColour()'],['../classAether_1_1ListButton.html#a739e123a1d3c83db1440958dc5ad6cb4',1,'Aether::ListButton::setTextColour()'],['../classAether_1_1ListComment.html#a181ce8cef8ac29f13f400295ff48ea69',1,'Aether::ListComment::setTextColour()'],['../classAether_1_1ListHeading.html#aec05fd6180ef411b321584ee50376301',1,'Aether::ListHeading::setTextColour()'],['../classAether_1_1ListHeadingHelp.html#a477c5304ee43a3892a334835daa9902f',1,'Aether::ListHeadingHelp::setTextColour()'],['../classAether_1_1DateTime.html#a551593ea578177f9f9f51a43160e50e2',1,'Aether::DateTime::setTextColour()'],['../classAether_1_1MessageBox.html#aba625e9659629d733c374ed3862de295',1,'Aether::MessageBox::setTextColour()'],['../classAether_1_1PopupList.html#a7f1442f1dc03c982689d4b4212b61185',1,'Aether::PopupList::setTextColour()']]],
-  ['settexture',['setTexture',['../classAether_1_1Texture.html#a8ade95e8e0d3ae7486b7faf775472420',1,'Aether::Texture']]],
   ['settickcolour',['setTickColour',['../classAether_1_1Tick.html#a45924375662bbb67b815007404856e15',1,'Aether::Tick']]],
   ['settouchable',['setTouchable',['../classAether_1_1Element.html#a4f94d14c268a3e5818ed4b7a88381248',1,'Aether::Element']]],
   ['setvalue',['setValue',['../classAether_1_1BaseProgress.html#a7d010039c618e4beaecc7766a19071a4',1,'Aether::BaseProgress::setValue()'],['../classAether_1_1Spinner.html#ab5a2a5187789c4965efe468d52e8b35a',1,'Aether::Spinner::setValue()'],['../classAether_1_1ListOption.html#a803416f9e486d2c2a29e7fdf0b8f0523',1,'Aether::ListOption::setValue()'],['../classAether_1_1ProgressBar.html#a5301be6e7e7c5dbefcecc1a36a65e34a',1,'Aether::ProgressBar::setValue()'],['../classAether_1_1RoundProgressBar.html#ab8833ab65bf09719486c3cd5934d6264',1,'Aether::RoundProgressBar::setValue()']]],
@@ -115,7 +115,10 @@ var searchData=
   ['showscrollbar',['showScrollBar',['../classAether_1_1Scrollable.html#aa23be276de90161bd61f8d03323377fd',1,'Aether::Scrollable']]],
   ['size',['size',['../classAether_1_1Tick.html#a9f01e01aff4d773fea3a3be2a0f8f393',1,'Aether::Tick']]],
   ['spinner',['Spinner',['../classAether_1_1Spinner.html',1,'Aether::Spinner'],['../classAether_1_1Spinner.html#a65a55a62f69ae0c64616acf36898b6fb',1,'Aether::Spinner::Spinner()']]],
-  ['strikethrough',['Strikethrough',['../namespaceAether.html#a121ed811c1bf358c3775b806667bdc67a0e79460c5fa21b5937e7b075e018a243',1,'Aether']]],
+  ['startrendering',['startRendering',['../classAether_1_1Texture.html#adc5bcad4b363cd66389a51c2e3f263e7',1,'Aether::Texture']]],
+  ['strikethrough',['Strikethrough',['../namespaceAether.html#a121ed811c1bf358c3775b806667bdc67a926a51baad949d12035107e5d06e2fdb',1,'Aether']]],
   ['string',['string',['../classAether_1_1BaseText.html#a02930333d6bf401c3485d138b12a29c1',1,'Aether::BaseText']]],
-  ['string_5f',['string_',['../classAether_1_1BaseText.html#a3a091d85b5529560a17cad91a3aa83eb',1,'Aether::BaseText']]]
+  ['string_5f',['string_',['../classAether_1_1BaseText.html#a3a091d85b5529560a17cad91a3aa83eb',1,'Aether::BaseText']]],
+  ['surface',['surface',['../classAether_1_1Texture.html#abc5cc7e6f6c2e0cc03d76a2b551d9e62',1,'Aether::Texture']]],
+  ['surfaceready',['surfaceReady',['../classAether_1_1Texture.html#aed95b2d1290459a529cf5508301263ba',1,'Aether::Texture']]]
 ];

@@ -1,14 +1,15 @@
 #include "Ellipse.hpp"
 
 namespace Aether {
-    Ellipse::Ellipse(int x, int y, unsigned int xd, unsigned int yd) : Texture(x, y) {
+    Ellipse::Ellipse(int x, int y, unsigned int xd, unsigned int yd) : Texture(x, y, RenderType::OnCreate) {
         this->xDiameter_ = xd;
         this->yDiameter_ = ((yd == 0) ? xd : yd);
-        this->redrawTexture();
+        this->regenerate();
     }
 
-    void Ellipse::redrawTexture() {
-        this->setTexture(SDLHelper::renderEllipse(this->xDiameter_, this->yDiameter_));
+    void Ellipse::generateSurface() {
+        // This is safe - see Texture::regenerate()
+        this->texture = SDLHelper::renderEllipse(this->xDiameter_, this->yDiameter_);
     }
 
     unsigned int Ellipse::xDiameter() {
@@ -17,6 +18,7 @@ namespace Aether {
 
     void Ellipse::setXDiameter(unsigned int xd) {
         this->xDiameter_ = xd;
+        this->regenerate();
     }
 
     unsigned int Ellipse::yDiameter() {
@@ -25,6 +27,7 @@ namespace Aether {
 
     void Ellipse::setYDiameter(unsigned int yd) {
         this->yDiameter_ = yd;
+        this->regenerate();
     }
 
     void Ellipse::renderHighlighted() {

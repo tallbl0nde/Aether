@@ -6,6 +6,7 @@
 namespace Aether {
     /**
      * @brief A Box is a rectangle outline with no fill.
+     * @note This element can not have the texture generation deferred yet!
      */
     class Box : public Texture {
         private:
@@ -15,15 +16,13 @@ namespace Aether {
             /** @brief Radius of each corner (draws rounded rectangle when > 0) */
             unsigned int cornerRadius_;
 
-            /**
-             * @brief Redraw the box texture
-             */
-            void redrawTexture();
+            /** @brief Generate a box surface */
+            void generateSurface();
 
         public:
             /**
              * @brief Construct a new Box object
-             * 
+             *
              * @param x x-coordinate of start position offset
              * @param y y-coordinate of start position offset
              * @param w width of box
@@ -35,34 +34,34 @@ namespace Aether {
 
             /**
              * @brief Get the border thickness of box
-             * 
+             *
              * @return border thickness
              */
             unsigned int border();
             /**
              * @brief Set the border thickness of box
-             * 
+             *
              * @param b new border thickness
              */
             void setBorder(unsigned int b);
 
             /**
              * @brief Get the current corner radius for box
-             * 
+             *
              * @return corner radius
              */
             unsigned int cornerRadius();
 
             /**
              * @brief Set the corner radius for box
-             * 
+             *
              * @param r new corner radius
              */
             void setCornerRadius(unsigned int r);
 
             /**
              * @brief Adjust box size
-             * 
+             *
              * @param w new width of box
              * @param h new height of box
              */

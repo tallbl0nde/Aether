@@ -71,6 +71,15 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:a539b797cfea36d829ea41b61e05541c1"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceSDLHelper.html#a539b797cfea36d829ea41b61e05541c1">memoryUsage</a> ()</td></tr>
+<tr class="memdesc:a539b797cfea36d829ea41b61e05541c1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns approximate memory usage due to textures and surfaces in use.  <a href="#a539b797cfea36d829ea41b61e05541c1">More...</a><br /></td></tr>
+<tr class="separator:a539b797cfea36d829ea41b61e05541c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abb49426dc82cefb40e7caf0960f450fc"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceSDLHelper.html#abb49426dc82cefb40e7caf0960f450fc">numSurfaces</a> ()</td></tr>
+<tr class="memdesc:abb49426dc82cefb40e7caf0960f450fc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the number of allocated surfaces that haven't been destroyed yet.  <a href="#abb49426dc82cefb40e7caf0960f450fc">More...</a><br /></td></tr>
+<tr class="separator:abb49426dc82cefb40e7caf0960f450fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0c728368f417e6322865c9e70fd7e886"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceSDLHelper.html#a0c728368f417e6322865c9e70fd7e886">numTextures</a> ()</td></tr>
+<tr class="memdesc:a0c728368f417e6322865c9e70fd7e886"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the number of allocated textures that haven't been destroyed yet.  <a href="#a0c728368f417e6322865c9e70fd7e886">More...</a><br /></td></tr>
+<tr class="separator:a0c728368f417e6322865c9e70fd7e886"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3c1dd1e2eb0c33422b1b6b1566ed7ec4"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceSDLHelper.html#a3c1dd1e2eb0c33422b1b6b1566ed7ec4">initSDL</a> ()</td></tr>
 <tr class="memdesc:a3c1dd1e2eb0c33422b1b6b1566ed7ec4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize all required/used parts of SDL.  <a href="#a3c1dd1e2eb0c33422b1b6b1566ed7ec4">More...</a><br /></td></tr>
 <tr class="separator:a3c1dd1e2eb0c33422b1b6b1566ed7ec4"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -81,12 +90,18 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="name
 <tr class="memitem:aa248e3ef0ff20d90f788a4cb02739be0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceSDLHelper.html#aa248e3ef0ff20d90f788a4cb02739be0">clearScreen</a> (SDL_Color c)</td></tr>
 <tr class="memdesc:aa248e3ef0ff20d90f788a4cb02739be0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clears the screen (renderer) with the specified colour.  <a href="#aa248e3ef0ff20d90f788a4cb02739be0">More...</a><br /></td></tr>
 <tr class="separator:aa248e3ef0ff20d90f788a4cb02739be0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa5df4cc1a5a7ba40e66cf8e6a9942d4f"><td class="memItemLeft" align="right" valign="top">SDL_Texture *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceSDLHelper.html#aa5df4cc1a5a7ba40e66cf8e6a9942d4f">convertSurfaceToTexture</a> (SDL_Surface *s)</td></tr>
+<tr class="memdesc:aa5df4cc1a5a7ba40e66cf8e6a9942d4f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert provided surface to a texture and frees the surface.  <a href="#aa5df4cc1a5a7ba40e66cf8e6a9942d4f">More...</a><br /></td></tr>
+<tr class="separator:aa5df4cc1a5a7ba40e66cf8e6a9942d4f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad76fdf27543fc4faeed2e00e5129f67a"><td class="memItemLeft" align="right" valign="top">SDL_Texture *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceSDLHelper.html#ad76fdf27543fc4faeed2e00e5129f67a">createTexture</a> (int w, int h)</td></tr>
 <tr class="memdesc:ad76fdf27543fc4faeed2e00e5129f67a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create texture with given dimensions.  <a href="#ad76fdf27543fc4faeed2e00e5129f67a">More...</a><br /></td></tr>
 <tr class="separator:ad76fdf27543fc4faeed2e00e5129f67a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2a3218876732ea2818047cdea9030524"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceSDLHelper.html#a2a3218876732ea2818047cdea9030524">destroyTexture</a> (SDL_Texture *t)</td></tr>
 <tr class="memdesc:a2a3218876732ea2818047cdea9030524"><td class="mdescLeft">&#160;</td><td class="mdescRight">DestroyTexture wrapper.  <a href="#a2a3218876732ea2818047cdea9030524">More...</a><br /></td></tr>
 <tr class="separator:a2a3218876732ea2818047cdea9030524"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac87eedac2cf8de2bd0e25d195c643901"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceSDLHelper.html#ac87eedac2cf8de2bd0e25d195c643901">freeSurface</a> (SDL_Surface *s)</td></tr>
+<tr class="memdesc:ac87eedac2cf8de2bd0e25d195c643901"><td class="mdescLeft">&#160;</td><td class="mdescRight">FreeSurface wrapper.  <a href="#ac87eedac2cf8de2bd0e25d195c643901">More...</a><br /></td></tr>
+<tr class="separator:ac87eedac2cf8de2bd0e25d195c643901"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a90a78b52d871476fb359057935b0b9bb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceSDLHelper.html#a90a78b52d871476fb359057935b0b9bb">getDimensions</a> (SDL_Texture *t, int *w, int *h)</td></tr>
 <tr class="memdesc:a90a78b52d871476fb359057935b0b9bb"><td class="mdescLeft">&#160;</td><td class="mdescRight">QueryTexture wrapper.  <a href="#a90a78b52d871476fb359057935b0b9bb">More...</a><br /></td></tr>
 <tr class="separator:a90a78b52d871476fb359057935b0b9bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -141,6 +156,24 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="name
 <tr class="memitem:ac931506d76c0baaeef4b112694421c1d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceSDLHelper.html#ac931506d76c0baaeef4b112694421c1d">drawTexture</a> (SDL_Texture *tex, SDL_Color c, int x, int y, int w=-1, int h=-1, int tx=-1, int ty=-1, int tw=-1, int th=-1)</td></tr>
 <tr class="memdesc:ac931506d76c0baaeef4b112694421c1d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Draw provided texture at specified coordinates tinted with given colour.  <a href="#ac931506d76c0baaeef4b112694421c1d">More...</a><br /></td></tr>
 <tr class="separator:ac931506d76c0baaeef4b112694421c1d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6c54e88820ac79a7db2fe8dce102cdd5"><td class="memItemLeft" align="right" valign="top">SDL_Surface *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceSDLHelper.html#a6c54e88820ac79a7db2fe8dce102cdd5">renderFilledRectS</a> (int w, int h)</td></tr>
+<tr class="memdesc:a6c54e88820ac79a7db2fe8dce102cdd5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Renders a filled corner rectangle.  <a href="#a6c54e88820ac79a7db2fe8dce102cdd5">More...</a><br /></td></tr>
+<tr class="separator:a6c54e88820ac79a7db2fe8dce102cdd5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a21d6c1ea24a4b88f9afb47431571c0d3"><td class="memItemLeft" align="right" valign="top">SDL_Surface *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceSDLHelper.html#a21d6c1ea24a4b88f9afb47431571c0d3">renderRectS</a> (int w, int h, unsigned int b)</td></tr>
+<tr class="memdesc:a21d6c1ea24a4b88f9afb47431571c0d3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Renders a basic rectangle.  <a href="#a21d6c1ea24a4b88f9afb47431571c0d3">More...</a><br /></td></tr>
+<tr class="separator:a21d6c1ea24a4b88f9afb47431571c0d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9fc11a01476d3c404e5ccd440cdf860d"><td class="memItemLeft" align="right" valign="top">SDL_Surface *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceSDLHelper.html#a9fc11a01476d3c404e5ccd440cdf860d">renderImageS</a> (std::string path, int xF=1, int yF=1)</td></tr>
+<tr class="memdesc:a9fc11a01476d3c404e5ccd440cdf860d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Renders image from image path.  <a href="#a9fc11a01476d3c404e5ccd440cdf860d">More...</a><br /></td></tr>
+<tr class="separator:a9fc11a01476d3c404e5ccd440cdf860d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1973fe0c75706d0704ba53fb0139a436"><td class="memItemLeft" align="right" valign="top">SDL_Surface *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceSDLHelper.html#a1973fe0c75706d0704ba53fb0139a436">renderImageS</a> (u8 *ptr, size_t size, int xF=1, int yF=1)</td></tr>
+<tr class="memdesc:a1973fe0c75706d0704ba53fb0139a436"><td class="mdescLeft">&#160;</td><td class="mdescRight">Renders image from image pointer and image size.  <a href="#a1973fe0c75706d0704ba53fb0139a436">More...</a><br /></td></tr>
+<tr class="separator:a1973fe0c75706d0704ba53fb0139a436"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a28a0a7f73452e79dad026df266188166"><td class="memItemLeft" align="right" valign="top">SDL_Surface *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceSDLHelper.html#a28a0a7f73452e79dad026df266188166">renderTextS</a> (std::string str, int font_size, int style=TTF_STYLE_NORMAL)</td></tr>
+<tr class="memdesc:a28a0a7f73452e79dad026df266188166"><td class="mdescLeft">&#160;</td><td class="mdescRight">Renders text.  <a href="#a28a0a7f73452e79dad026df266188166">More...</a><br /></td></tr>
+<tr class="separator:a28a0a7f73452e79dad026df266188166"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ace72e6bacddd4501d18089107ca37146"><td class="memItemLeft" align="right" valign="top">SDL_Surface *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceSDLHelper.html#ace72e6bacddd4501d18089107ca37146">renderTextWrappedS</a> (std::string str, int font_size, uint32_t max_w, int style=TTF_STYLE_NORMAL)</td></tr>
+<tr class="memdesc:ace72e6bacddd4501d18089107ca37146"><td class="mdescLeft">&#160;</td><td class="mdescRight">Renders text with specified width.  <a href="#ace72e6bacddd4501d18089107ca37146">More...</a><br /></td></tr>
+<tr class="separator:ace72e6bacddd4501d18089107ca37146"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7375fc383ab13ca862c402f9c5bc3fd2"><td class="memItemLeft" align="right" valign="top">SDL_Texture *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceSDLHelper.html#a7375fc383ab13ca862c402f9c5bc3fd2">renderEllipse</a> (unsigned int xd, unsigned int yd)</td></tr>
 <tr class="memdesc:a7375fc383ab13ca862c402f9c5bc3fd2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Renders an eclipse.  <a href="#a7375fc383ab13ca862c402f9c5bc3fd2">More...</a><br /></td></tr>
 <tr class="separator:a7375fc383ab13ca862c402f9c5bc3fd2"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -198,6 +231,34 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="name
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<a id="aa5df4cc1a5a7ba40e66cf8e6a9942d4f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa5df4cc1a5a7ba40e66cf8e6a9942d4f">&#9670;&nbsp;</a></span>convertSurfaceToTexture()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">SDL_Texture* SDLHelper::convertSurfaceToTexture </td>
+          <td>(</td>
+          <td class="paramtype">SDL_Surface *&#160;</td>
+          <td class="paramname"><em>s</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Convert provided surface to a texture and frees the surface. </p>
+<dl class="section note"><dt>Note</dt><dd>Must be called in main thread!</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">s</td><td>surface to convert to texture </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>pointer to texture </dd></dl>
 
 </div>
 </div>
@@ -676,6 +737,32 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="name
 
 </div>
 </div>
+<a id="ac87eedac2cf8de2bd0e25d195c643901"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac87eedac2cf8de2bd0e25d195c643901">&#9670;&nbsp;</a></span>freeSurface()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void SDLHelper::freeSurface </td>
+          <td>(</td>
+          <td class="paramtype">SDL_Surface *&#160;</td>
+          <td class="paramname"><em>s</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>FreeSurface wrapper. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">s</td><td>surface to destroy </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="a023b62c614527eedb1f273ba1ebfe9e7"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a023b62c614527eedb1f273ba1ebfe9e7">&#9670;&nbsp;</a></span>getBlendMode()</h2>
 
@@ -799,6 +886,67 @@ false otherwise </dd></dl>
 
 </div>
 </div>
+<a id="a539b797cfea36d829ea41b61e05541c1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a539b797cfea36d829ea41b61e05541c1">&#9670;&nbsp;</a></span>memoryUsage()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int SDLHelper::memoryUsage </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns approximate memory usage due to textures and surfaces in use. </p>
+<dl class="section note"><dt>Note</dt><dd>This is in no way accurate, use it as an estimation!</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>int number of bytes occupied by SDL textures/surfaces </dd></dl>
+
+</div>
+</div>
+<a id="abb49426dc82cefb40e7caf0960f450fc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abb49426dc82cefb40e7caf0960f450fc">&#9670;&nbsp;</a></span>numSurfaces()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int SDLHelper::numSurfaces </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the number of allocated surfaces that haven't been destroyed yet. </p>
+<dl class="section return"><dt>Returns</dt><dd>int indicating number of surfaces </dd></dl>
+
+</div>
+</div>
+<a id="a0c728368f417e6322865c9e70fd7e886"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0c728368f417e6322865c9e70fd7e886">&#9670;&nbsp;</a></span>numTextures()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int SDLHelper::numTextures </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the number of allocated textures that haven't been destroyed yet. </p>
+<dl class="section return"><dt>Returns</dt><dd>int indicating number of textures </dd></dl>
+
+</div>
+</div>
 <a id="a7375fc383ab13ca862c402f9c5bc3fd2"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a7375fc383ab13ca862c402f9c5bc3fd2">&#9670;&nbsp;</a></span>renderEllipse()</h2>
 
@@ -872,6 +1020,44 @@ false otherwise </dd></dl>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>pointer to rendered texture </dd></dl>
+
+</div>
+</div>
+<a id="a6c54e88820ac79a7db2fe8dce102cdd5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6c54e88820ac79a7db2fe8dce102cdd5">&#9670;&nbsp;</a></span>renderFilledRectS()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">SDL_Surface* SDLHelper::renderFilledRectS </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>w</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>h</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Renders a filled corner rectangle. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">w</td><td>width of rectangle </td></tr>
+    <tr><td class="paramname">h</td><td>height of rectangle </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>pointer to rendered surface </dd></dl>
 
 </div>
 </div>
@@ -985,6 +1171,105 @@ false otherwise </dd></dl>
 
 </div>
 </div>
+<a id="a9fc11a01476d3c404e5ccd440cdf860d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9fc11a01476d3c404e5ccd440cdf860d">&#9670;&nbsp;</a></span>renderImageS() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">SDL_Surface* SDLHelper::renderImageS </td>
+          <td>(</td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>path</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>xF</em> = <code>1</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>yF</em> = <code>1</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Renders image from image path. </p>
+<dl class="section note"><dt>Note</dt><dd>The scaling factors only shrink for the time being!</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">path</td><td>file path to image </td></tr>
+    <tr><td class="paramname">xF</td><td>x scaling factor </td></tr>
+    <tr><td class="paramname">yF</td><td>y scaling factor </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>pointer to rendered surface </dd></dl>
+
+</div>
+</div>
+<a id="a1973fe0c75706d0704ba53fb0139a436"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1973fe0c75706d0704ba53fb0139a436">&#9670;&nbsp;</a></span>renderImageS() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">SDL_Surface* SDLHelper::renderImageS </td>
+          <td>(</td>
+          <td class="paramtype">u8 *&#160;</td>
+          <td class="paramname"><em>ptr</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>size</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>xF</em> = <code>1</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>yF</em> = <code>1</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Renders image from image pointer and image size. </p>
+<dl class="section note"><dt>Note</dt><dd>The scaling factors only shrink for the time being!</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ptr</td><td>pointer to image </td></tr>
+    <tr><td class="paramname">size</td><td>image size </td></tr>
+    <tr><td class="paramname">xF</td><td>x scaling factor </td></tr>
+    <tr><td class="paramname">yF</td><td>y scaling factor </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>pointer to rendered surface </dd></dl>
+
+</div>
+</div>
 <a id="a08c75705cd1456aec6f1613ca6a0967f"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a08c75705cd1456aec6f1613ca6a0967f">&#9670;&nbsp;</a></span>renderImageShrinked()</h2>
 
@@ -1079,6 +1364,51 @@ false otherwise </dd></dl>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>pointer to rendered texture </dd></dl>
+
+</div>
+</div>
+<a id="a21d6c1ea24a4b88f9afb47431571c0d3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a21d6c1ea24a4b88f9afb47431571c0d3">&#9670;&nbsp;</a></span>renderRectS()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">SDL_Surface* SDLHelper::renderRectS </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>w</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>h</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">unsigned int&#160;</td>
+          <td class="paramname"><em>b</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Renders a basic rectangle. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">w</td><td>width of rectangle </td></tr>
+    <tr><td class="paramname">h</td><td>height of rectangle </td></tr>
+    <tr><td class="paramname">b</td><td>border thickness </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>pointer to rendered surface </dd></dl>
 
 </div>
 </div>
@@ -1180,6 +1510,52 @@ false otherwise </dd></dl>
 
 </div>
 </div>
+<a id="a28a0a7f73452e79dad026df266188166"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a28a0a7f73452e79dad026df266188166">&#9670;&nbsp;</a></span>renderTextS()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">SDL_Surface* SDLHelper::renderTextS </td>
+          <td>(</td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>str</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>font_size</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>style</em> = <code>TTF_STYLE_NORMAL</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Renders text. </p>
+<dl class="section note"><dt>Note</dt><dd>Always drawn in white!</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">str</td><td>text to render </td></tr>
+    <tr><td class="paramname">font_size</td><td>font size to render width in </td></tr>
+    <tr><td class="paramname">style</td><td>font style to render with </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>pointer to rendered surface </dd></dl>
+
+</div>
+</div>
 <a id="ab983534b52de9750f92a842b4abbbe67"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ab983534b52de9750f92a842b4abbbe67">&#9670;&nbsp;</a></span>renderTextWrapped()</h2>
 
@@ -1229,6 +1605,58 @@ false otherwise </dd></dl>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>pointer to rendered texture </dd></dl>
+
+</div>
+</div>
+<a id="ace72e6bacddd4501d18089107ca37146"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ace72e6bacddd4501d18089107ca37146">&#9670;&nbsp;</a></span>renderTextWrappedS()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">SDL_Surface* SDLHelper::renderTextWrappedS </td>
+          <td>(</td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>str</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>font_size</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>max_w</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>style</em> = <code>TTF_STYLE_NORMAL</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Renders text with specified width. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">str</td><td>text to render </td></tr>
+    <tr><td class="paramname">font_size</td><td>font size to render width in </td></tr>
+    <tr><td class="paramname">max_w</td><td>max width to render in </td></tr>
+    <tr><td class="paramname">style</td><td>font style to render with </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>pointer to rendered surface </dd></dl>
 
 </div>
 </div>

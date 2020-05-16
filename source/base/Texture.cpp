@@ -1,10 +1,54 @@
 #include "Texture.hpp"
+#include "ThreadPool.hpp"
 
 namespace Aether {
-    Texture::Texture(int x, int y, SDL_Texture * t) : Element(x, y) {
-        this->texture = nullptr;
-        this->setTexture(t);
+    Texture::Texture(int x, int y, RenderType t) : Element(x, y) {
+        // Initialize everything
         this->colour = Colour{255, 255, 255, 255};
+        this->renderType = t;
+        this->status = ThreadedStatus::Empty;
+        this->surface = nullptr;
+        this->texture = nullptr;
+        this->texH_ = 0;
+        this->texW_ = 0;
+        this->setMask(0, 0, 0, 0);
+    }
+
+    void Texture::createSurface() {
+        this->status == ThreadedStatus::Queued;
+        ThreadPool::addTask([this]() {
+            this->generateSurface();
+            this->status = ThreadedStatus::Surface;
+        });
+    }
+
+    void Texture::convertSurface() {
+        if (this->surface != nullptr) {
+            this->texture = SDLHelper::convertSurfaceToTexture(this->surface);
+
+            this->surface = nullptr;
+        }
+
+        SDLHelper::getDimensions(this->texture, &this->texW_, &this->texH_);
+        this->setW(this->texW_);
+        this->setH(this->texH_);
+        this->setMask(0, 0, this->texW_, this->texH_);
+        if (this->texture != nullptr) {
+            this->status = ThreadedStatus::Texture;
+        }
+    }
+
+    void Texture::regenerate() {
+        // Regenerate immediately if needed
+        if (this->renderType == RenderType::OnCreate) {
+            this->destroyTexture();
+            this->generateSurface();
+            this->convertSurface();
+
+        // Otherwise queue generation
+        } else {
+            this->startRendering();
+        }
     }
 
     int Texture::texW() {
@@ -41,22 +85,55 @@ namespace Aether {
         this->maskH = dh;
     }
 
-    void Texture::setTexture(SDL_Texture * t) {
-        this->destroyTexture();
-        this->texture = t;
-        SDLHelper::getDimensions(this->texture, &this->texW_, &this->texH_);
-        this->setW(this->texW_);
-        this->setH(this->texH_);
-        this->setMask(0, 0, this->texW_, this->texH_);
+    void Texture::destroyTexture() {
+        ThreadedStatus st = this->status;
+
+        // Delete texture if present
+        if (st == ThreadedStatus::Texture) {
+            if (this->texture != nullptr) {
+                SDLHelper::destroyTexture(this->texture);
+            }
+            this->texture = nullptr;
+            this->texW_ = 0;
+            this->texH_ = 0;
+            this->status = ThreadedStatus::Empty;
+
+        // Otherwise delete surface if it hasn't been converted yet
+        } else if (st == ThreadedStatus::Surface) {
+            if (this->surface != nullptr) {
+                SDLHelper::freeSurface(this->surface);
+                this->surface = nullptr;
+                this->texW_ = 0;
+                this->texH_ = 0;
+            }
+            this->status = ThreadedStatus::Empty;
+        }
     }
 
-    void Texture::destroyTexture() {
-        if (this->texture != nullptr) {
-            SDLHelper::destroyTexture(this->texture);
+    bool Texture::startRendering() {
+        ThreadedStatus st = this->status;
+        if (this->renderType == RenderType::Deferred && (st == ThreadedStatus::Empty || st == ThreadedStatus::Texture)) {
+            this->createSurface();
+            return true;
         }
-        this->texture = nullptr;
-        this->texW_ = 0;
-        this->texH_ = 0;
+        return false;
+    }
+
+    bool Texture::surfaceReady() {
+        return (this->status == ThreadedStatus::Surface);
+    }
+
+    bool Texture::textureReady() {
+        return (this->status == ThreadedStatus::Texture);
+    }
+
+    void Texture::update(uint32_t dt) {
+        // Convert surface to texture when it is ready
+        if (this->status == ThreadedStatus::Surface) {
+            this->convertSurface();
+        }
+
+        Element::update(dt);
     }
 
     void Texture::render() {
