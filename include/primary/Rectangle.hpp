@@ -7,17 +7,18 @@ namespace Aether {
     // A rectangle is a texture containing either a normal or rounded
     // rectangle. The object stores all relevant information so that
     // it can be regenerated whenever the dimensions/radius changes.
+    // NOTE: This element cannot not have generation deferred...
     class Rectangle : public Texture {
         private:
             // Radius of each corner (draws rounded rectangle when > 0)
             unsigned int cornerRadius_;
 
-            // Called to regenerate texture
-            void redrawTexture();
+            // Called to regenerate texture (creates texture and not surface...)
+            void generateSurface();
 
         public:
             // Constructor takes x, y, w, h, corner radius
-            Rectangle(int, int, int, int, unsigned int = 0, RenderType = RenderType::OnCreate);
+            Rectangle(int, int, int, int, unsigned int = 0);
 
             // Getter + setter for cornerRadius
             unsigned int cornerRadius();

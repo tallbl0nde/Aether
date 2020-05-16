@@ -5,6 +5,7 @@
 
 namespace Aether {
     // A Box is a rectangle outline with no fill.
+    // NOTE: This element cannot not have generation deferred...
     class Box : public Texture {
         private:
             // Size of border
@@ -13,12 +14,12 @@ namespace Aether {
             // Radius of each corner (draws rounded rectangle when > 0)
             unsigned int cornerRadius_;
 
-            // Redraw the box texture
-            void redrawTexture();
+            // Called to regenerate texture (creates texture and not surface...)
+            void generateSurface();
 
         public:
             // Size is set to 1 and no rounded corners by default
-            Box(int, int, int, int, unsigned int = 1, unsigned int = 0, RenderType = RenderType::OnCreate);
+            Box(int, int, int, int, unsigned int = 1, unsigned int = 0);
 
             // Getter + setter for border size
             unsigned int border();

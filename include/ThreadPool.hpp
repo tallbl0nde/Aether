@@ -15,7 +15,7 @@ namespace Aether {
          *
          * @param t maximum number of threads
          */
-        void setMaxThreads(unsigned int t)
+        void setMaxThreads(unsigned int t);
 
         /**
          * @brief Remove any remaining queued tasks (called internally upon exit)

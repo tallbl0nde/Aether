@@ -6,6 +6,7 @@
 namespace Aether {
     // An ellipse is a texture containing an ellipse. It can be used as
     // both a circle and ellipse/oval.
+    // NOTE: This element cannot not have generation deferred...
     class Ellipse : public Texture {
         private:
             // Horizontal diameter
@@ -13,7 +14,7 @@ namespace Aether {
             // Vetical diameter
             unsigned int yDiameter_;
 
-            void redrawTexture();
+            void generateSurface();
 
         public:
             // Constructor takes position + dimensions

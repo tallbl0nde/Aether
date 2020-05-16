@@ -56,7 +56,7 @@ namespace Aether::ThreadPool {
 
         // Start new tasks
         std::scoped_lock<std::mutex> qMtx(qMutex);
-        while (threads.size() < num) {
+        while (threads.size() < maxThreads) {
             if (queue.empty()) {
                 break;
             }

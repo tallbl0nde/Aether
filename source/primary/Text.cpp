@@ -6,15 +6,19 @@
 #define DEFAULT_SCROLL_SPEED 120
 
 namespace Aether {
-    Text::Text(int x, int y, std::string s, unsigned int f, FontStyle l, RenderType r) : BaseText(x, y, s, f, l) {
+    Text::Text(int x, int y, std::string s, unsigned int f, FontStyle l, RenderType r) : BaseText(x, y, s, f, l, r) {
         this->scroll_ = false;
-        if (r != RenderType::Deferred) {
-            this->redrawTexture();
+
+        // Now check if we need to render immediately
+        if (this->renderType == RenderType::OnCreate) {
+            this->generateSurface();
+            this->convertSurface();
         }
+
+        this->setScroll(this->scroll_);
     }
 
-    void Text::redrawTexture() {
-        this->setScroll(this->scroll_);
+    void Text::generateSurface() {
         int style;
         switch (this->fontStyle) {
             case FontStyle::Regular:
@@ -37,7 +41,7 @@ namespace Aether {
                 style = TTF_STYLE_STRIKETHROUGH;
                 break;
         }
-        this->setTexture(SDLHelper::renderText(this->string_, this->fontSize_, style));
+        this->surface = SDLHelper::renderTextS(this->string_, this->fontSize_, style);
     }
 
     bool Text::scroll() {
@@ -59,21 +63,18 @@ namespace Aether {
         this->scrollSpeed_ = s;
     }
 
-    void Text::setString(std::string s) {
-        if (s == this->string()) {
-            return;
-        }
-
-        BaseText::setString(s);
+    void Text::setFontSize(unsigned int s) {
+        BaseText::setFontSize(s);
+        this->setScroll(this->scroll_);
     }
 
-    void Text::setFontSize(unsigned int f) {
-        BaseText::setFontSize(f);
-        this->redrawTexture();
+    void Text::setString(std::string s) {
+        BaseText::setString(s);
+        this->setScroll(this->scroll_);
     }
 
     void Text::update(uint32_t dt) {
-        Element::update(dt);
+        BaseText::update(dt);
 
         // Check if need to scroll and do so
         if (this->scroll()) {

@@ -9,9 +9,10 @@ namespace Aether {
     class TextBlock : public BaseText {
         private:
             // Width in pixels to wrap at
-            unsigned int wrapWidth_;
+            std::atomic<unsigned int> wrapWidth_;
 
-            void redrawTexture();
+            // Redraw the texture whenever relevant variables are changed
+            void generateSurface();
 
         public:
             // Constructor requires: string, font size, wrap width (px)

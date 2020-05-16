@@ -16,11 +16,11 @@ namespace Aether {
             int scrollPauseTime;
 
             // Redraw the texture whenever relevant variables are changed
-            void redrawTexture();
+            void generateSurface();
 
         public:
             // Constructor accepts string, font size and font type
-            // Also accepts whether to render on creation (this shouldn't need to be used except for internally)
+            // Also accepts whether to render on creation
             Text(int, int, std::string, unsigned int, FontStyle = FontStyle::Regular, RenderType = RenderType::OnCreate);
 
             // Getter + setter for scroll + scrollSpeed
@@ -29,7 +29,7 @@ namespace Aether {
             int scrollSpeed();
             void setScrollSpeed(int);
 
-            // Wrapper for BaseText functions that also renders the texture
+            // Wrapper for BaseText functions that also resets scroll
             void setFontSize(unsigned int);
             void setString(std::string);
 

@@ -39,15 +39,12 @@ namespace Aether {
         NO_BUTTON      // Dummy button used for symbolising no button
     };
 
-    // Whether to render element or not (essentially just a bool)
+    /**
+     * @brief Enum class for type of texture generation
+     */
     enum class RenderType {
-        OnCreate,               // Render as part of construction (this is the same as OnCreateDeferred in threaded elements)
-        OnCreateDeferred,       // Render in background as soon as constructed (this is the same as OnCreate for non-threaded elements)
-                                // RECOMMENDED FOR STRINGS THAT DON'T CHANGE
-        Deferred                // No rendering will be done until explicitly started
-                                // In threaded elements: any update to values will not be rendered until calling startRendering();
-                                // In non-threaded elements: any update to initial value will be rendered on main thread
-                                // RECOMMENDED FOR STRINGS THAT CHANGE
+        OnCreate,               /*< Render on construction of texture element (all regenerations due to value changes will be done immediately and on the main thread */
+        Deferred                /*< Do not render until explicitly started (value changes will not cause a regeneration - you must explicitly start it!) */
     };
 
     // SDL_Color but it's not

@@ -21,14 +21,11 @@ namespace Aether {
             // Font size used for rendered text
             unsigned int fontSize_;
             // Font style (stored for redrawing)
-            FontStyle fontStyle;
-
-            // Redraw the texture whenever relevant variables are changed
-            virtual void redrawTexture() = 0;
+            std::atomic<FontStyle> fontStyle;
 
         public:
-            // Constructor accepts string, font size and font type (defaulting to normal)
-            BaseText(int, int, std::string, unsigned int, FontStyle);
+            // Constructor accepts string, font size and font type (defaulting to normal) and render type
+            BaseText(int, int, std::string, unsigned int, FontStyle, RenderType);
 
             // Getters + setters for variables
             std::string string();

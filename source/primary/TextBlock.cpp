@@ -1,15 +1,17 @@
 #include "TextBlock.hpp"
 
 namespace Aether {
-    TextBlock::TextBlock(int x, int y, std::string s, unsigned int f, unsigned int w, FontStyle l, RenderType rt) : BaseText(x, y, s, f, l) {
-        if (rt != RenderType::Deferred) {
-            this->setWrapWidth(w);
-        } else {
-            this->wrapWidth_ = w;
+    TextBlock::TextBlock(int x, int y, std::string s, unsigned int f, unsigned int w, FontStyle l, RenderType rt) : BaseText(x, y, s, f, l, rt) {
+        this->wrapWidth_ = w;
+
+        // Now check if we need to render immediately
+        if (this->renderType == RenderType::OnCreate) {
+            this->generateSurface();
+            this->convertSurface();
         }
     }
 
-    void TextBlock::redrawTexture() {
+    void TextBlock::generateSurface() {
         int style;
         switch (this->fontStyle) {
             case FontStyle::Regular:
@@ -32,7 +34,7 @@ namespace Aether {
                 style = TTF_STYLE_STRIKETHROUGH;
                 break;
         }
-        this->setTexture(SDLHelper::renderTextWrapped(this->string_, this->fontSize_, this->wrapWidth_, style));
+        this->surface = SDLHelper::renderTextWrappedS(this->string_, this->fontSize_, this->wrapWidth(), style);
     }
 
     unsigned int TextBlock::wrapWidth() {
@@ -40,7 +42,13 @@ namespace Aether {
     }
 
     void TextBlock::setWrapWidth(unsigned int w) {
+        if (w == this->wrapWidth_) {
+            return;
+        }
         this->wrapWidth_ = w;
-        this->redrawTexture();
+
+        if (this->renderType == RenderType::OnCreate) {
+            this->regenerate();
+        }
     }
 };
