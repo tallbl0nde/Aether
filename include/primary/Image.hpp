@@ -4,10 +4,12 @@
 #include "base/Texture.hpp"
 
 namespace Aether {
-    // An image is literally a texture that is created from an image.
-    // Not much more to it than that!
-    // If the render type is set to Deferred make sure path/pointer is still available when
-    // you want to render the image!
+    /**
+     * @brief An image is literally a texture that is created from
+     * an image. Not much more to it than that!
+     * @note If the render type is set to Deferred make sure the path/pointer is still available when
+     * you want to render the image!
+     */
     class Image : public Texture {
         /**
          * @brief Enum class for type of image
@@ -18,9 +20,7 @@ namespace Aether {
         };
 
         private:
-            /**
-             * @brief Type of image
-             */
+            /** @brief Type of image */
             Type type;
 
             /**
@@ -41,27 +41,41 @@ namespace Aether {
              */
             size_t size;
 
-            /**
-             * @brief x scaling factor
-             */
+            /** @brief x scaling factor */
             int xF;
 
-            /**
-             * @brief y scaling factor
-             */
+            /** @brief y scaling factor */
             int yF;
 
-            /**
-             * @brief Creates the image as a surface
-             */
+            /** @brief Creates the image as a surface */
             void generateSurface();
 
         public:
-            // Both constructors take coordinates
-            // Takes path to image to read and render
-            Image(int, int, std::string, int = 1, int = 1, RenderType = RenderType::OnCreate);
-            // Takes pointer to image and size + optional factors to scale down (advanced!)
-            Image(int, int, u8 *, size_t, int = 1, int = 1, RenderType = RenderType::OnCreate);
+            /**
+             * @brief Construct a new Image object.
+             * Image is rendered when object is first created.
+             *
+             * @param x x-coordinate of start position offset
+             * @param y y-coordinate of start position offset
+             * @param p path to image file
+             * @param xF x scaling factor
+             * @param yF y scaling factor
+             * @param t \ref ::RenderType to use for texture generation
+             */
+            Image(int x, int y, std::string p, int xF = 1, int yF = 1, RenderType t = RenderType::OnCreate);
+
+            /**
+             * @brief Construct a new Image object
+             *
+             * @param x x-coordinate of start position offset
+             * @param y y-coordinate of start position offset
+             * @param p pointer to image data start
+             * @param s image data size
+             * @param xF x scaling factor
+             * @param yF y scaling factor
+             * @param t \ref ::RenderType to use for texture generation
+             */
+            Image(int x, int y, u8 * p, size_t s, int xF = 1, int yF = 1, RenderType t = RenderType::OnCreate);
     };
 };
 

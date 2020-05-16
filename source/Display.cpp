@@ -85,6 +85,7 @@ namespace Aether {
     }
 
     void Display::addOverlay(Overlay * o) {
+        o->reuse();
         this->overlays.push_back(o);
         this->screen->setInactive();
         if (this->overlays.size() > 1) {

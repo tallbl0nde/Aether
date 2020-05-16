@@ -6,35 +6,61 @@
 #include "primary/Text.hpp"
 
 namespace Aether {
-    // A MenuOption is a combination of elements which looks like and functions
-    // similar to Horizon's. All children are handled internally
+    /**
+     * @brief A MenuOption is a combination of elements which looks like and functions
+     * similar to Horizon's. All children are handled internally.
+     */
     class MenuOption : public Element {
         private:
-            // Draws active style when true
+            /** @brief Indicator on whether to draw active style */
             bool active;
-
-            // Colours to tint when active or not
+            /** @brief Colour when active */
             Colour activeColour;
+            /** @brief Colour when inactive */
             Colour inactiveColour;
-
-            // Child element pointers (required to update pointers)
+            /** @brief Pointer to menu rectangle */
             Rectangle * rect;
+            /** @brief Pointer to menu text */
             Text * text;
 
         public:
-            // Constructor takes string, active/inactive colours and callback function
-            MenuOption(std::string, Colour, Colour, std::function<void()>);
+            /**
+             * @brief Construct a new Menu Option object
+             * 
+             * @param s menu text
+             * @param a active colour
+             * @param ia inactive Colour
+             * @param f callback function when option is selected
+             */
+            MenuOption(std::string s, Colour a, Colour ia, std::function<void()> f);
 
-            // Setting the width needs to adjust width of text texture
-            void setW(int);
+            /**
+             * @brief Updates width for menu option
+             * Setting new width also adjusts the width of text texture if necessary.
+             * @param w new width
+             */
+            void setW(int w);
 
-            // Setter for active
-            // Changes look of option based on bool
-            void setActive(bool);
+            /**
+             * @brief Set the active status of option
+             * 
+             * @param b true if option is selected, false otherwise
+             */
+            void setActive(bool b);
 
-            // Setter for colours (adjusts children colours)
-            void setActiveColour(Colour);
-            void setInactiveColour(Colour);
+            /**
+             * @brief Set the active colour for option
+             * 
+             * @param c new active colour
+             */
+            void setActiveColour(Colour c);
+
+            /**
+             * @brief Set the inactive colour for option
+             * 
+             * @param c new inactive colour
+             */
+            void setInactiveColour(Colour c);
     };
 };
 

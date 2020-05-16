@@ -5,19 +5,31 @@
 #include "primary/Rectangle.hpp"
 
 namespace Aether {
-    // A MenuSeparator contains a rectangle with some padding
-    // above/below. It is not selectable.
+    /**
+     * @brief A MenuSeparator contains a rectangle with some padding
+     * above/below. It is not selectable.
+     */
     class MenuSeparator : public Element {
         private:
-            // Rectangle object to draw
+            /** @brief Rectangle object to draw */
             Rectangle * rect;
 
         public:
-            // Constructor creates rectangle with width 100px
-            MenuSeparator(Colour = {255, 255, 255, 255});
+            /**
+             * @brief Construct a new Menu Separator object.
+             * Creates a rectangle with width 100px.
+             * 
+             * @param c rectangle colour
+             */
+            MenuSeparator(Colour c = {255, 255, 255, 255});
 
-            // Adjusting width needs to rescale rectangle
-            void setW(int);
+            /**
+             * @brief Adjusts menu separator width.
+             * Adjusting width also rescales the rectangle.
+             * 
+             * @param w new width
+             */
+            void setW(int w);
     };
 };
 

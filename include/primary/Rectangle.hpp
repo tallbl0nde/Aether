@@ -4,28 +4,54 @@
 #include "base/Texture.hpp"
 
 namespace Aether {
-    // A rectangle is a texture containing either a normal or rounded
-    // rectangle. The object stores all relevant information so that
-    // it can be regenerated whenever the dimensions/radius changes.
-    // NOTE: This element cannot not have generation deferred...
+    /**
+     * @brief A rectangle is a texture containing either a normal or
+     * rounded rectangle. The object stores all relevant information
+     * so that it can be regenerated whenever the dimensions/radius
+     * changes.
+     * @note This element can not have the texture generation deferred yet!
+     */
     class Rectangle : public Texture {
         private:
-            // Radius of each corner (draws rounded rectangle when > 0)
+            /** @brief Radius of each corner (draws rounded rectangle when > 0) */
             unsigned int cornerRadius_;
 
-            // Called to regenerate texture (creates texture and not surface...)
+            /** @brief Generate a rectangle surface */
             void generateSurface();
 
         public:
-            // Constructor takes x, y, w, h, corner radius
-            Rectangle(int, int, int, int, unsigned int = 0);
+            /**
+             * @brief Construct a new Rectangle object
+             *
+             * @param x x-coordinate of start position offset
+             * @param y y-coordinate of start position offset
+             * @param w width of rectangle
+             * @param h height of rectangle
+             * @param r corner radius (optional)
+             */
+            Rectangle(int x, int y, int w, int h, unsigned int r = 0);
 
-            // Getter + setter for cornerRadius
+            /**
+             * @brief Get the corner radius for rectangle
+             *
+             * @return corner radius
+             */
             unsigned int cornerRadius();
-            void setCornerRadius(unsigned int);
 
-            // Adjust rectangle size and render new texture
-            void setRectSize(int, int);
+            /**
+             * @brief Set new corner radius for rectangle
+             *
+             * @param r new corner radius
+             */
+            void setCornerRadius(unsigned int r);
+
+            /**
+             * @brief Set new size for rectangle
+             *
+             * @param w new width of rectangle
+             * @param h new height of rectangle
+             */
+            void setRectSize(int w, int h);
     };
 };
 

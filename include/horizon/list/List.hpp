@@ -4,22 +4,43 @@
 #include "base/Scrollable.hpp"
 
 namespace Aether {
-    // A list is a scrollable with some values changed to match how a list functions
-    // within Horizon.
+    /**
+     * @brief A list is a scrollable with some values changed to match how a list functions
+     * within Horizon.
+     */
     class List : public Scrollable {
         private:
-            // "Manual" scrolling variables
+            /** @brief Button that is being currently held, if any */
             Button heldButton;
+            /** @brief Indicator on whether list is being scrolled */
             bool scroll;
 
         public:
-            // Constructor shows scrollbar
-            List(int, int, int, int);
+            /**
+             * @brief Construct a new List object. The scrollbar is shown by default.
+             * 
+             * @param x x-coordinate of start position offset
+             * @param y y-coordinate of start position offset
+             * @param w width of list
+             * @param h height of list
+             */
+            List(int x, int y, int w, int h);
 
-            // Monitors events in order to handle scrolling without a selectable element
-            bool handleEvent(InputEvent *);
-            // Allows the selection to be anywhere in view and will only scroll if it is going to move off
-            void update(uint32_t);
+            /**
+             * @brief Attempts to handle event
+             * 
+             * @param e event to attempt handle
+             * @return true if event was handled
+             * @return false otherwise
+             */
+            bool handleEvent(InputEvent * e);
+
+            /**
+             * @brief Updates info as necessary
+             * 
+             * @param dt change in time
+             */
+            void update(uint32_t dt);
     };
 };
 

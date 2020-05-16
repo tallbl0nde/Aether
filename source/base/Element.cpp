@@ -26,7 +26,7 @@ namespace Aether {
         this->hasSelected_ = false;
         this->touchable_ = false;
 
-        this->focussed_ = nullptr;
+        this->focused_ = nullptr;
     }
 
     int Element::x() {
@@ -330,25 +330,33 @@ namespace Aether {
         this->setHighlighted(false);
     }
 
-    void Element::setFocussed(Element * e) {
-        if (this->focussed_ != nullptr) {
-            this->focussed_->setInactive();
+    void Element::setFocused(Element * e) {
+        if (this->focused_ != nullptr) {
+            this->focused_->setInactive();
         }
-        this->focussed_ = e;
+        this->focused_ = e;
 
         if (e != nullptr) {
             e->setActive();
         }
     }
 
+    void Element::setFocussed(Element * e) {
+        this->setFocused(e);
+    }
+
+    Element * Element::focused() {
+        return this->focused_;
+    }
+
     Element * Element::focussed() {
-        return this->focussed_;
+        return this->focused();
     }
 
     Element::~Element() {
         if (this->parent != nullptr) {
-            if (this->parent->focussed() == this) {
-                this->parent->setFocussed(nullptr);
+            if (this->parent->focused() == this) {
+                this->parent->setFocused(nullptr);
             }
         }
         this->removeAllElements();
@@ -367,12 +375,12 @@ namespace Aether {
 
         // Set element active
         next->setActive();
-        next->parent->setFocussed(next);
+        next->parent->setFocused(next);
 
-        // Set focussed up the tree
+        // Set focused up the tree
         e = next;
         while (e->parent->parent != nullptr) {
-            e->parent->setFocussed(e);
+            e->parent->setFocused(e);
             e = e->parent;
         }
     }

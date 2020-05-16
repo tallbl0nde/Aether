@@ -3,16 +3,22 @@
 
 #include "base/Element.hpp"
 
-// Default height
+/** @brief Default list separator height */
 #define DEFAULT_HEIGHT 45
 
 namespace Aether {
-    // ListSeparator is simply a blank element. It has a default height
-    // which matches Horizon's but can be changed if necessary using setH()
+    /**
+     * @brief ListSeparator is simply a blank element. It has a default height
+     * which matches Horizon's but can be changed if necessary using setH()
+     */
     class ListSeparator : public Element {
         public:
-            // Constructor optionally takes height of separator
-            ListSeparator(unsigned int = DEFAULT_HEIGHT);
+            /**
+             * @brief Construct a new List Separator object
+             * 
+             * @param h list separator height
+             */
+            ListSeparator(unsigned int h = DEFAULT_HEIGHT);
     };
 };
 

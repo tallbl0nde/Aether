@@ -1,3 +1,6 @@
 # Aether
+My attempt at creating a Horizon-esque UI library for homebrew. While there's no examples just yet I recommend looking at [NX-Activity-Log](https://github.com/tallbl0nde/NX-Activity-Log) for an example of implementation as it relies on this library for it's UI.
 
-My attempt at creating a Horizon-esque UI library for homebrew. I haven't written any documentation nor heavily tested it yet so I don't recommend using it _just yet_ unless you're patient enough to look through the source code + debug!
+Documentation can be found [here](https://tallbl0nde.github.io/Aether/)!
+
+A massive thanks to @eXhumer for preparing the documentation :)

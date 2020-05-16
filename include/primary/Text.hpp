@@ -4,40 +4,95 @@
 #include "base/BaseText.hpp"
 
 namespace Aether {
-    // Text extends BaseText by implementing scrolling when the text
-    // overflows. Thus it's for single-line text.
+    /**
+     * @brief Text extends BaseText by implementing scrolling when the text overflows.
+     *
+     * It's for single-line text.
+     */
     class Text : public BaseText {
         private:
-            // Scroll if the texture width is greater than the specified width
+            /** @brief Indicator on whether the text is scrollable */
             bool scroll_;
-            // Pixels to scroll per second
+            /** @brief Pixels to scroll per second */
             int scrollSpeed_;
-            // Time since scroll finished (in ms) (only used internally)
+            /** @brief Time since scroll finished (in ms) (only used internally) */
             int scrollPauseTime;
 
-            // Redraw the texture whenever relevant variables are changed
+            /** @brief Generate a text surface */
             void generateSurface();
 
         public:
-            // Constructor accepts string, font size and font type
-            // Also accepts whether to render on creation
-            Text(int, int, std::string, unsigned int, FontStyle = FontStyle::Regular, RenderType = RenderType::OnCreate);
+            /**
+             * @brief Construct a new Text object
+             *
+             * @param x x-coordinate of start position offset
+             * @param y y-coordinate of start position offset
+             * @param s text string
+             * @param f font size
+             * @param l font style
+             * @param t \ref ::RenderType to use for texture generation
+             */
+            Text(int x, int y, std::string s, unsigned int f, FontStyle l = FontStyle::Regular, RenderType t = RenderType::OnCreate);
 
-            // Getter + setter for scroll + scrollSpeed
+            /**
+             * @brief Indicator on whether the text is scrollable
+             *
+             * @return true if it is scrollable
+             * @return false otherwise
+             */
             bool scroll();
-            void setScroll(bool);
+
+            /**
+             * @brief Set whether the text is scrollable
+             *
+             * @param s true if text is scrollable, false otherwise
+             */
+            void setScroll(bool s);
+
+            /**
+             * @brief Get the scroll speed for text
+             *
+             * @return scroll speed for text
+             */
             int scrollSpeed();
-            void setScrollSpeed(int);
+            /**
+             * @brief Set the scroll speed for text
+             *
+             * @param s new scroll speed for text
+             */
+            void setScrollSpeed(int s);
 
-            // Wrapper for BaseText functions that also resets scroll
-            void setFontSize(unsigned int);
-            void setString(std::string);
+            /**
+             * @brief Set the font size for the text
+             *
+             * @param f new font size
+             */
+            void setFontSize(unsigned int f);
 
-            // Update handles animating the scroll if necessary
-            void update(uint32_t);
+            /**
+             * @brief Set text
+             *
+             * @param s new text to set
+             */
+            void setString(std::string s);
 
-            // Adjusting width may need to adjust amount of text shown
-            void setW(int);
+            /**
+             * @brief Updates the text.
+             *
+             * Update handles animating the scroll if necessary.
+             *
+             * @param dt change in time
+             */
+            void update(uint32_t dt);
+
+            /**
+             * @brief Adjusts the text width.
+             *
+             * Adjusting width may need to adjust amount of text shown.
+             *
+             * @param w new width
+             */
+            void setW(int w);
     };
 };
 

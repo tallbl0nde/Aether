@@ -5,48 +5,146 @@
 #include "primary/Text.hpp"
 
 namespace Aether {
-    // A ListOption is similar to what appears in Horizon's
-    // lists. It has a string and value, as well as a callback function
-    // which is called when selected.
+    /**
+     * @brief A ListOption is similar to what appears in Horizon's
+     * lists. It has a string and value, as well as a callback function
+     * which is called when selected.
+     */
     class ListOption : public Element {
         private:
-            // Elements for lines + strings
+            /** @brief Pointer to top rectangle */
             Rectangle * topR;
+            /** @brief Pointer to bottom rectangle */
             Rectangle * bottomR;
+            /** @brief Pointer to hint text */
             Text * hint_;
+            /** @brief Pointer to value text */
             Text * value_;
 
-            // Reposition elements
+            /**
+             * @brief Repositions all elements.
+             */
             void positionElements();
 
         public:
-            // Constructor takes strings + function
-            ListOption(std::string, std::string, std::function<void()>);
+            /**
+             * @brief Construct a new List Option object
+             * 
+             * @param t hint string
+             * @param v value string
+             * @param f callback function when option is selected
+             */
+            ListOption(std::string t, std::string v, std::function<void()> f);
 
-            // Getters + setters for colours
+            /**
+             * @brief Get the line colour (top rectangle colour)
+             * 
+             * @return line colour
+             */
             Colour getLineColour();
-            void setLineColour(Colour);
+
+            /**
+             * @brief Set the line colour (top rectangle colour)
+             * 
+             * @param c new line colour
+             */
+            void setLineColour(Colour c);
+
+            /**
+             * @brief Get the hint colour
+             * 
+             * @return hint colour
+             */
             Colour getHintColour();
-            void setHintColour(Colour);
+
+            /**
+             * @brief Set the hint colour
+             * 
+             * @param c new hint colour
+             */
+            void setHintColour(Colour c);
+
+            /**
+             * @brief Get the value colour
+             * 
+             * @return value colour
+             */
             Colour getValueColour();
-            void setValueColour(Colour);
-            // Set all colours at once: line, hint, value
-            void setColours(Colour, Colour, Colour);
 
-            // Getter + setter for strings
+            /**
+             * @brief Set the value colour
+             * 
+             * @param c new value colour
+             */
+            void setValueColour(Colour c);
+
+            /**
+             * @brief Set all colours at once: line, hint, value
+             * 
+             * @param l new line colour
+             * @param h new help colour
+             * @param v new value colour
+             */
+            void setColours(Colour l, Colour h, Colour v);
+
+            /**
+             * @brief Get the hint string
+             * 
+             * @return hint string
+             */
             std::string hint();
-            void setHint(std::string);
-            std::string value();
-            void setValue(std::string);
 
-            // Adjust font size (also centers)
-            void setFontSize(unsigned int);
+            /**
+             * @brief Set the hint string
+             * 
+             * @param s new hint string
+             */
+            void setHint(std::string s);
+
+            /**
+             * @brief Get the value string
+             * 
+             * @return value string
+             */
+            std::string value();
+
+            /**
+             * @brief Set the value string
+             * 
+             * @param s new value string
+             */
+            void setValue(std::string s);
+
+            /**
+             * @brief Set the font size.
+             * Also repositions centers.
+
+             * @param s new font size
+             */
+            void setFontSize(unsigned int s);
+
+            /**
+             * @brief Get the font size
+             * 
+             * @return font size
+             */
             unsigned int fontSize();
 
-            // Adjusting width requires changing width of rectangles + repositioning of text
-            void setW(int);
-            // Adjusting height moves elements
-            void setH(int);
+            /**
+             * @brief Set the width of the list option
+             * All elements are repositioned when this is called.
+             * 
+             * @param w new width
+             */
+            void setW(int w);
+
+            /**
+             * @brief Set the height of the list option
+             * All elements are repositioned when this is called.
+             * 
+             * @param h new height
+             */
+            void setH(int h);
     };
 };
 

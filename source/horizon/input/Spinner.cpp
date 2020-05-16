@@ -43,14 +43,14 @@ namespace Aether {
         this->str->setXY(e->x() + (e->w() - this->str->w())/2, e->y() + (e->h() - this->str->h())/2);
         e->addElement(this->str);
         this->addElement(e);
-        this->setFocussed(e);
+        this->setFocused(e);
 
         // Label string (set hidden)
         this->label_ = new Text(this->x() + this->w()/2, this->y() + this->h() + LABEL_PADDING, "", LABEL_FONT_SIZE);
         this->label_->setHidden(true);
         this->addElement(this->label_);
 
-        this->held = ' ';
+        this->held = SpinnerHoldAction::NoHeld;
         this->holdTime = 0;
         this->wrap = false;
         this->padding = 0;
@@ -129,9 +129,9 @@ namespace Aether {
             }
         }
 
-        // Set this element focussed if arrows touched (they're the only children that can handle events)
+        // Set this element focused if arrows touched (they're the only children that can handle events)
         if (Container::handleEvent(e)) {
-            this->parent->setFocussed(this);
+            this->parent->setFocused(this);
             b = true;
         }
 
@@ -142,7 +142,7 @@ namespace Aether {
         Container::update(dt);
 
         // Set colours
-        if (this->isFocussed && !this->isTouch) {
+        if (this->isFocused && !this->isTouch) {
             this->label_->setColour(this->highlightC);
             this->up->setColour(this->highlightC);
             this->down->setColour(this->highlightC);
@@ -155,12 +155,12 @@ namespace Aether {
         }
 
         // Check if containers are held
-        if (this->held == ' ') {
+        if (this->held == SpinnerHoldAction::NoHeld) {
             if (this->upContainer->selected()) {
-                this->held = 'u';
+                this->held = SpinnerHoldAction::UpHeld;
                 this->holdTime = 0;
             } else if (this->downContainer->selected()) {
-                this->held = 'd';
+                this->held = SpinnerHoldAction::DownHeld;
                 this->holdTime = 0;
             }
 
@@ -168,16 +168,17 @@ namespace Aether {
         } else {
             this->holdTime += dt;
             // Still within HOLD_DELAY
-            if (this->held == 'u' || this->held == 'd') {
+            if (this->held == SpinnerHoldAction::UpHeld || this->held == SpinnerHoldAction::DownHeld) {
                 if (this->holdTime >= HOLD_DELAY) {
-                    this->held -= 32;   // Capitalize chars
+                    // Now change to tepeat mode
+                    this->held = (this->held == SpinnerHoldAction::UpHeld ? SpinnerHoldAction::UpHeldRepeat : SpinnerHoldAction::DownHeldRepeat);
                     this->holdTime = 0;
                 }
 
             // Now in REPEAT_DELAY
             } else {
                 if (this->holdTime >= REPEAT_DELAY) {
-                    if (this->held == 'U') {
+                    if (this->held == SpinnerHoldAction::UpHeldRepeat) {
                         this->incrementVal();
                     } else {
                         this->decrementVal();
@@ -187,19 +188,19 @@ namespace Aether {
             }
 
             // Stop repeating when let go
-            if ((this->held == 'U' && !this->upContainer->selected()) || (this->held == 'D' && !this->downContainer->selected())) {
-                this->held = ' ';
+            if ((this->held == SpinnerHoldAction::UpHeldRepeat && !this->upContainer->selected()) || (this->held == SpinnerHoldAction::DownHeldRepeat && !this->downContainer->selected())) {
+                this->held = SpinnerHoldAction::NoHeld;
             }
         }
     }
 
     void Spinner::setActive() {
-        this->isFocussed = true;
+        this->isFocused = true;
         Container::setActive();
     }
 
     void Spinner::setInactive() {
-        this->isFocussed = false;
+        this->isFocused = false;
         Container::setInactive();
     }
 

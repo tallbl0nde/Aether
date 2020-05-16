@@ -5,35 +5,89 @@
 #include "primary/Rectangle.hpp"
 
 namespace Aether {
-    // A RoundProgressBar is a completely filled progress bar rounded at either end.
+    /**
+     * @brief A RoundProgressBar is a completely filled
+     * progress bar rounded at either end.
+     */
     class RoundProgressBar : public BaseProgress {
         private:
-            // "Greyed out" progress texture
+            /** @brief Progress bar background colour */
             Colour bgColour;
+            /** @brief Progress bar background texture */
             Rectangle * backTex;
-            // Actual highlighted progress texture
+            /** @brief Highlighted progress bar colour */
             Colour fgColour;
+            /** @brief Highlighted progress bar texture */
             Rectangle * progressTex;
 
-            // Rerender progressTex (on value change)
+            /**
+             * @brief Rerender progressTex (on value change)
+             */
             void redrawBar();
 
         public:
-            // X, Y, W, H (defaults to 12)
-            RoundProgressBar(int, int, int, int = 12);
+            /**
+             * @brief Construct a new Round Progress Bar object
+             * 
+             * @param x x-coordinate of start position offset
+             * @param y y-coordinate of start position offset
+             * @param w width of progress bar
+             * @param h height of progress bar(default value is 12)
+             */
+            RoundProgressBar(int x, int y, int w, int h = 12);
 
-            // Whenever value is changed the progressTex must be updated
-            void setValue(float);
+            /**
+             * @brief Set the value of the progress bar.
+             * When value is changed, the mask of the
+             * rectangle will also be changed.
+             * 
+             * @param f New progress bar value
+             */
+            void setValue(float f);
 
-            // Textures must be adjusted when dimensions are changed
-            void setW(int);
-            void setH(int);
+            /**
+             * @brief Set new width for the progress bar
+             * Textures will be redrawn when dimensions are changed.
+             * 
+             * @param w new width of progress bar
+             */
+            void setW(int w);
 
-            // Getter + setter for colours
+            /**
+             * @brief Set new height for the progress bar
+             * Textures will be redrawn when dimensions are changed.
+             * 
+             * @param h new height of progress bar
+             */
+            void setH(int h);
+
+            /**
+             * @brief Get the background colour of the progress bar
+             * 
+             * @return background colour 
+             */
             Colour getBackgroundColour();
-            void setBackgroundColour(Colour);
+
+            /**
+             * @brief Set the background colour of the progress bar
+             * 
+             * @param c new background colour
+             */
+            void setBackgroundColour(Colour c);
+
+            /**
+             * @brief Get the foreground colour of the progress bar
+             * 
+             * @return foreground colour 
+             */
             Colour getForegroundColour();
-            void setForegroundColour(Colour);
+
+            /**
+             * @brief Set the foreground colour of the progress bar
+             * 
+             * @param c new foreground colour
+             */
+            void setForegroundColour(Colour c);
     };
 };
 

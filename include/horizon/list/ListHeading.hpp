@@ -6,22 +6,52 @@
 #include "primary/Text.hpp"
 
 namespace Aether {
-    // A listHeading is a small rectangle with text alongside, usually used in a list.
+    /**
+     * @brief A ListHeading is a small rectangle with text alongside, usually used in a list.
+     */
     class ListHeading : public Element {
         private:
+            /** @brief Rectangle for ListHeading */
             Rectangle * rect;
+            /** @brief Text for ListHeading */
             Text * text;
 
         public:
-            // Constructor creates rect + text
-            // String
-            ListHeading(std::string);
+            /**
+             * @brief Construct a new List Heading object.
+             * Creates rectangle and text associated when list heading is instantiated.
+             * 
+             * @param s initial text string
+             */
+            ListHeading(std::string s);
 
-            // Getter + setter for colours
+            /**
+             * @brief Get the rectangle colour
+             * 
+             * @return rectangle colour
+             */
             Colour getRectColour();
-            void setRectColour(Colour);
+
+            /**
+             * @brief Set the rectangle colour
+             * 
+             * @param c new rectangle colour
+             */
+            void setRectColour(Colour c);
+
+            /**
+             * @brief Get the text colour
+             * 
+             * @return text colour
+             */
             Colour getTextColour();
-            void setTextColour(Colour);
+
+            /**
+             * @brief Set the text colour
+             * 
+             * @param c new text colour
+             */
+            void setTextColour(Colour c);
     };
 };
 

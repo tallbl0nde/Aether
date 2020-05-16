@@ -6,6 +6,11 @@
 #define TITLE_FONT_SIZE 26
 
 namespace Aether {
+    // Bitwise boolean AND operator for DTFlag
+    inline bool operator&(DTFlag a, DTFlag b) {
+        return static_cast<int>(a) & static_cast<int>(b);
+    }
+
     DateTime::DateTime(std::string s, struct tm & t, DTFlag d) : Overlay(), refTm(t) {
         // Create elements
         this->rect = new Rectangle(this->x(), this->y() + this->h() - HEIGHT, this->w(), HEIGHT);
@@ -151,7 +156,7 @@ namespace Aether {
         x += 40;
         this->button = new BorderButton(x, 0, 160, 60, 3, "OK?", 22, [this](){
             this->setTmValues();
-            this->close(true);
+            this->close();
         });
         x += this->button->w();
         this->addElement(this->button);
@@ -204,12 +209,12 @@ namespace Aether {
 
         // Close without updating
         this->onButtonPress(Button::B, [this](){
-            this->close(true);
+            this->close();
         });
         // Close and update
         this->onButtonPress(Button::A, [this](){
             this->setTmValues();
-            this->close(true);
+            this->close();
         });
     }
 

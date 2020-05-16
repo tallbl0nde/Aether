@@ -3,15 +3,15 @@
 
 #include "Types.hpp"
 
-// Animation speed factor for highlighting
+/** @brief Animation speed factor for highlighting */
 #define ANIM_SPEED 1.8
-// Pi :D
+/** @brief Pi :D */
 #define PI 3.14159265
 
 // These are a set of colours provided that match what is used
 // within Horizon.
 namespace Aether::Theme {
-    // Dark theme (Basic Black)
+    /** @brief Dark theme (Basic Black) */
     const Theme_T Dark = {
         Colour{0, 255, 203, 255},   // accent
         Colour{49, 49, 49, 255},    // altBG
@@ -30,7 +30,7 @@ namespace Aether::Theme {
         }
     };
 
-    // Light theme (Basic White)
+    /** @brief Light theme (Basic White) */
     const Theme_T Light = {
         Colour{50, 80, 240, 255},   // accent
         Colour{231, 231, 231, 255}, // altBG

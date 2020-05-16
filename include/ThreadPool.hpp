@@ -25,7 +25,7 @@ namespace Aether {
 
         /**
          * @brief Block the calling thread until tasks are finished (called internally upon exit)
-         * @note This does not clear the queue - please call \ref removeQueueTasks() first!
+         * @note This does not clear the queue - please call \ref removeQueuedTasks() first!
          */
         void waitUntilDone();
 
