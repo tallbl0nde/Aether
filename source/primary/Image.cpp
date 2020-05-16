@@ -16,8 +16,8 @@ namespace Aether {
 
     Image::Image(int x, int y, u8 * p, size_t s, int xF, int yF, RenderType t) : Texture(x, y, t) {
         this->type = Type::Pointer;
-        this->ptr = ptr;
-        this->size = size;
+        this->ptr = p;
+        this->size = s;
         this->xF = xF;
         this->yF = yF;
 

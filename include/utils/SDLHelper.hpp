@@ -363,29 +363,22 @@ namespace SDLHelper {
      * @brief Renders image from image path
      *
      * @param path file path to image
+     * @param xF x scaling factor
+     * @param yF y scaling factor
      * @return pointer to rendered texture
      */
-    SDL_Texture * renderImage(std::string path);
+    SDL_Texture * renderImage(std::string path, int xF = 1, int yF = 1);
 
     /**
      * @brief Renders image from image pointer and image size
      *
      * @param ptr pointer to image
      * @param size image size
+     * @param xF x scaling factor
+     * @param yF y scaling factor
      * @return pointer to rendered texture
      */
-    SDL_Texture * renderImage(u8 * ptr, size_t size);
-
-    /**
-     * @brief Renders image shrinked from image pointer and image size
-     *
-     * @param ptr pointer to image
-     * @param size image size
-     * @param xF shrink factor for x-coordinate
-     * @param yF shrink factor for y-coordinate
-     * @return pointer to rendered texture
-     */
-    SDL_Texture * renderImageShrinked(u8 * ptr, size_t size, int xF, int yF);
+    SDL_Texture * renderImage(u8 * ptr, size_t size, int xF = 1, int yF = 1);
 
     /**
      * @brief Renders text
