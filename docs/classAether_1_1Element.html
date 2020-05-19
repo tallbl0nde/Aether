@@ -65,6 +65,7 @@ $(function() {
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pro-methods">Protected Member Functions</a> &#124;
 <a href="#pro-attribs">Protected Attributes</a> &#124;
 <a href="#pro-static-attribs">Static Protected Attributes</a> &#124;
 <a href="#friends">Friends</a> &#124;
@@ -87,7 +88,7 @@ Inheritance diagram for Aether::Element:</div>
 <area href="classAether_1_1Animation.html" title="An animation is an element containing a list of textures which are changed through to create the anim..." alt="Aether::Animation" shape="rect" coords="154,56,298,80"/>
 <area href="classAether_1_1BaseProgress.html" title="Base element for progress bars that handles the value. " alt="Aether::BaseProgress" shape="rect" coords="154,112,298,136"/>
 <area href="classAether_1_1BorderButton.html" title="A BorderButton is exactly that. The text/box are resized/repositioned to be centered on any resizes..." alt="Aether::BorderButton" shape="rect" coords="154,168,298,192"/>
-<area href="classAether_1_1Container.html" title="A container is an element that contains other elements. " alt="Aether::Container" shape="rect" coords="154,224,298,248"/>
+<area href="classAether_1_1Container.html" title="A container is an element that contains other elements. It implements the required behaviour to navig..." alt="Aether::Container" shape="rect" coords="154,224,298,248"/>
 <area href="classAether_1_1ControlItem.html" title="A ControlItem is stored and handled by the &quot;Controls&quot; element. It contains the two textures for a but..." alt="Aether::ControlItem" shape="rect" coords="154,280,298,304"/>
 <area href="classAether_1_1Display.html" title="A display represents a root element. " alt="Aether::Display" shape="rect" coords="154,336,298,360"/>
 <area href="classAether_1_1FilledButton.html" title="A FilledButton is exactly that. The text/rectangle are resized/repositioned to be centered on any res..." alt="Aether::FilledButton" shape="rect" coords="154,392,298,416"/>
@@ -110,50 +111,50 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a2e928e040d26a1a87d74a93ca6e496ed"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct a new <a class="el" href="classAether_1_1Element.html" title="Element is the base class to be inherited to form all other types of elements. ">Element</a> object.  <a href="#a2e928e040d26a1a87d74a93ca6e496ed">More...</a><br /></td></tr>
 <tr class="separator:a2e928e040d26a1a87d74a93ca6e496ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a347f859ca2d49854c6509b759d57f477"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAether_1_1Element.html#a347f859ca2d49854c6509b759d57f477">x</a> ()</td></tr>
-<tr class="memdesc:a347f859ca2d49854c6509b759d57f477"><td class="mdescLeft">&#160;</td><td class="mdescRight">Getter function for x-coordinate of element.  <a href="#a347f859ca2d49854c6509b759d57f477">More...</a><br /></td></tr>
+<tr class="memdesc:a347f859ca2d49854c6509b759d57f477"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns x-coordinate of element.  <a href="#a347f859ca2d49854c6509b759d57f477">More...</a><br /></td></tr>
 <tr class="separator:a347f859ca2d49854c6509b759d57f477"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a36fabe12af3fc3d762d4779dbec6961c"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAether_1_1Element.html#a36fabe12af3fc3d762d4779dbec6961c">y</a> ()</td></tr>
-<tr class="memdesc:a36fabe12af3fc3d762d4779dbec6961c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Getter function for y-coordinate of element.  <a href="#a36fabe12af3fc3d762d4779dbec6961c">More...</a><br /></td></tr>
+<tr class="memdesc:a36fabe12af3fc3d762d4779dbec6961c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns y-coordinate of element.  <a href="#a36fabe12af3fc3d762d4779dbec6961c">More...</a><br /></td></tr>
 <tr class="separator:a36fabe12af3fc3d762d4779dbec6961c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a324fda305a92166da025d9cca85b1502"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAether_1_1Element.html#a324fda305a92166da025d9cca85b1502">w</a> ()</td></tr>
-<tr class="memdesc:a324fda305a92166da025d9cca85b1502"><td class="mdescLeft">&#160;</td><td class="mdescRight">Getter function for width of element.  <a href="#a324fda305a92166da025d9cca85b1502">More...</a><br /></td></tr>
+<tr class="memdesc:a324fda305a92166da025d9cca85b1502"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns width of element.  <a href="#a324fda305a92166da025d9cca85b1502">More...</a><br /></td></tr>
 <tr class="separator:a324fda305a92166da025d9cca85b1502"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a64ce2c1468aec05812f69fd73af30f6b"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAether_1_1Element.html#a64ce2c1468aec05812f69fd73af30f6b">h</a> ()</td></tr>
-<tr class="memdesc:a64ce2c1468aec05812f69fd73af30f6b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Getter function for height of element.  <a href="#a64ce2c1468aec05812f69fd73af30f6b">More...</a><br /></td></tr>
+<tr class="memdesc:a64ce2c1468aec05812f69fd73af30f6b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns height of element.  <a href="#a64ce2c1468aec05812f69fd73af30f6b">More...</a><br /></td></tr>
 <tr class="separator:a64ce2c1468aec05812f69fd73af30f6b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5365d78a9fee6a95731e2c91eb2edfda"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAether_1_1Element.html#a5365d78a9fee6a95731e2c91eb2edfda">setX</a> (int <a class="el" href="classAether_1_1Element.html#a347f859ca2d49854c6509b759d57f477">x</a>)</td></tr>
-<tr class="memdesc:a5365d78a9fee6a95731e2c91eb2edfda"><td class="mdescLeft">&#160;</td><td class="mdescRight">Setter function for x-coordinate of element.  <a href="#a5365d78a9fee6a95731e2c91eb2edfda">More...</a><br /></td></tr>
+<tr class="memdesc:a5365d78a9fee6a95731e2c91eb2edfda"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set x-coordinate of element.  <a href="#a5365d78a9fee6a95731e2c91eb2edfda">More...</a><br /></td></tr>
 <tr class="separator:a5365d78a9fee6a95731e2c91eb2edfda"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ade5bd60e8008e95af54949b2d842bec8"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAether_1_1Element.html#ade5bd60e8008e95af54949b2d842bec8">setY</a> (int <a class="el" href="classAether_1_1Element.html#a36fabe12af3fc3d762d4779dbec6961c">y</a>)</td></tr>
-<tr class="memdesc:ade5bd60e8008e95af54949b2d842bec8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Setter function for y-coordinate of element.  <a href="#ade5bd60e8008e95af54949b2d842bec8">More...</a><br /></td></tr>
+<tr class="memdesc:ade5bd60e8008e95af54949b2d842bec8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set y-coordinate of element.  <a href="#ade5bd60e8008e95af54949b2d842bec8">More...</a><br /></td></tr>
 <tr class="separator:ade5bd60e8008e95af54949b2d842bec8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac25d62572eb69bb9a894457815b2ccc3"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAether_1_1Element.html#ac25d62572eb69bb9a894457815b2ccc3">setW</a> (int <a class="el" href="classAether_1_1Element.html#a324fda305a92166da025d9cca85b1502">w</a>)</td></tr>
-<tr class="memdesc:ac25d62572eb69bb9a894457815b2ccc3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Setter function for width of element.  <a href="#ac25d62572eb69bb9a894457815b2ccc3">More...</a><br /></td></tr>
+<tr class="memdesc:ac25d62572eb69bb9a894457815b2ccc3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set width of element.  <a href="#ac25d62572eb69bb9a894457815b2ccc3">More...</a><br /></td></tr>
 <tr class="separator:ac25d62572eb69bb9a894457815b2ccc3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1e58df667b0438a8518252379a7455e5"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAether_1_1Element.html#a1e58df667b0438a8518252379a7455e5">setH</a> (int <a class="el" href="classAether_1_1Element.html#a64ce2c1468aec05812f69fd73af30f6b">h</a>)</td></tr>
-<tr class="memdesc:a1e58df667b0438a8518252379a7455e5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Setter function for height of element.  <a href="#a1e58df667b0438a8518252379a7455e5">More...</a><br /></td></tr>
+<tr class="memdesc:a1e58df667b0438a8518252379a7455e5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set height of element.  <a href="#a1e58df667b0438a8518252379a7455e5">More...</a><br /></td></tr>
 <tr class="separator:a1e58df667b0438a8518252379a7455e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6ca9abfadb720f8d905ee2fb88921a1c"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAether_1_1Element.html#a6ca9abfadb720f8d905ee2fb88921a1c">setXY</a> (int <a class="el" href="classAether_1_1Element.html#a347f859ca2d49854c6509b759d57f477">x</a>, int <a class="el" href="classAether_1_1Element.html#a36fabe12af3fc3d762d4779dbec6961c">y</a>)</td></tr>
-<tr class="memdesc:a6ca9abfadb720f8d905ee2fb88921a1c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Setter function for co-ordinates of element.  <a href="#a6ca9abfadb720f8d905ee2fb88921a1c">More...</a><br /></td></tr>
+<tr class="memdesc:a6ca9abfadb720f8d905ee2fb88921a1c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set co-ordinates of element.  <a href="#a6ca9abfadb720f8d905ee2fb88921a1c">More...</a><br /></td></tr>
 <tr class="separator:a6ca9abfadb720f8d905ee2fb88921a1c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a052eda13e22bd8147cfd0f1cc2dfe624"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAether_1_1Element.html#a052eda13e22bd8147cfd0f1cc2dfe624">setWH</a> (int <a class="el" href="classAether_1_1Element.html#a324fda305a92166da025d9cca85b1502">w</a>, int <a class="el" href="classAether_1_1Element.html#a64ce2c1468aec05812f69fd73af30f6b">h</a>)</td></tr>
-<tr class="memdesc:a052eda13e22bd8147cfd0f1cc2dfe624"><td class="mdescLeft">&#160;</td><td class="mdescRight">Setter function for size of element.  <a href="#a052eda13e22bd8147cfd0f1cc2dfe624">More...</a><br /></td></tr>
+<tr class="memdesc:a052eda13e22bd8147cfd0f1cc2dfe624"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set size of element.  <a href="#a052eda13e22bd8147cfd0f1cc2dfe624">More...</a><br /></td></tr>
 <tr class="separator:a052eda13e22bd8147cfd0f1cc2dfe624"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac87f3384f59d2794fb405397b8e01ec6"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAether_1_1Element.html#ac87f3384f59d2794fb405397b8e01ec6">setXYWH</a> (int <a class="el" href="classAether_1_1Element.html#a347f859ca2d49854c6509b759d57f477">x</a>, int <a class="el" href="classAether_1_1Element.html#a36fabe12af3fc3d762d4779dbec6961c">y</a>, int <a class="el" href="classAether_1_1Element.html#a324fda305a92166da025d9cca85b1502">w</a>, int <a class="el" href="classAether_1_1Element.html#a64ce2c1468aec05812f69fd73af30f6b">h</a>)</td></tr>
-<tr class="memdesc:ac87f3384f59d2794fb405397b8e01ec6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Setter function to for size and co-ordinates of element.  <a href="#ac87f3384f59d2794fb405397b8e01ec6">More...</a><br /></td></tr>
+<tr class="memdesc:ac87f3384f59d2794fb405397b8e01ec6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Setter size and co-ordinates of element.  <a href="#ac87f3384f59d2794fb405397b8e01ec6">More...</a><br /></td></tr>
 <tr class="separator:ac87f3384f59d2794fb405397b8e01ec6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5a0deee493ed7f51ed777fcde14d1d75"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAether_1_1Element.html#a5a0deee493ed7f51ed777fcde14d1d75">setParent</a> (<a class="el" href="classAether_1_1Element.html">Element</a> *p)</td></tr>
-<tr class="memdesc:a5a0deee493ed7f51ed777fcde14d1d75"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the parent element for current element.  <a href="#a5a0deee493ed7f51ed777fcde14d1d75">More...</a><br /></td></tr>
+<tr class="memdesc:a5a0deee493ed7f51ed777fcde14d1d75"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the parent element of this element.  <a href="#a5a0deee493ed7f51ed777fcde14d1d75">More...</a><br /></td></tr>
 <tr class="separator:a5a0deee493ed7f51ed777fcde14d1d75"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac111fd688d029bcf53ce9ec8435d6831"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAether_1_1Element.html#ac111fd688d029bcf53ce9ec8435d6831">addElement</a> (<a class="el" href="classAether_1_1Element.html">Element</a> *e)</td></tr>
-<tr class="memdesc:ac111fd688d029bcf53ce9ec8435d6831"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds new element as current element's childrent element.  <a href="#ac111fd688d029bcf53ce9ec8435d6831">More...</a><br /></td></tr>
+<tr class="memdesc:ac111fd688d029bcf53ce9ec8435d6831"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds new element a child.  <a href="#ac111fd688d029bcf53ce9ec8435d6831">More...</a><br /></td></tr>
 <tr class="separator:ac111fd688d029bcf53ce9ec8435d6831"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7a9fb442cd5353b71fc6c6dceb123717"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAether_1_1Element.html#a7a9fb442cd5353b71fc6c6dceb123717">removeElement</a> (<a class="el" href="classAether_1_1Element.html">Element</a> *e)</td></tr>
-<tr class="memdesc:a7a9fb442cd5353b71fc6c6dceb123717"><td class="mdescLeft">&#160;</td><td class="mdescRight">Attempt to remove children element from current element.  <a href="#a7a9fb442cd5353b71fc6c6dceb123717">More...</a><br /></td></tr>
+<tr class="memdesc:a7a9fb442cd5353b71fc6c6dceb123717"><td class="mdescLeft">&#160;</td><td class="mdescRight">Attempt to remove child element.  <a href="#a7a9fb442cd5353b71fc6c6dceb123717">More...</a><br /></td></tr>
 <tr class="separator:a7a9fb442cd5353b71fc6c6dceb123717"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad5888fdb87ebed404d8432bb8f6cfb8e"><td class="memItemLeft" align="right" valign="top"><a id="ad5888fdb87ebed404d8432bb8f6cfb8e"></a>
 virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAether_1_1Element.html#ad5888fdb87ebed404d8432bb8f6cfb8e">removeAllElements</a> ()</td></tr>
-<tr class="memdesc:ad5888fdb87ebed404d8432bb8f6cfb8e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Remove all children elements associated with current element. <br /></td></tr>
+<tr class="memdesc:ad5888fdb87ebed404d8432bb8f6cfb8e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Remove all children elementst. <br /></td></tr>
 <tr class="separator:ad5888fdb87ebed404d8432bb8f6cfb8e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3e2ace400d3eff4e18962c9e7f5eebf5"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAether_1_1Element.html#a3e2ace400d3eff4e18962c9e7f5eebf5">isVisible</a> ()</td></tr>
 <tr class="memdesc:a3e2ace400d3eff4e18962c9e7f5eebf5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if current element is visible on-screen.  <a href="#a3e2ace400d3eff4e18962c9e7f5eebf5">More...</a><br /></td></tr>
@@ -253,6 +254,12 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hr
 virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAether_1_1Element.html#a7d407b1de51d4c0fe799a9cced7e0534">~Element</a> ()</td></tr>
 <tr class="memdesc:a7d407b1de51d4c0fe799a9cced7e0534"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destroy the <a class="el" href="classAether_1_1Element.html" title="Element is the base class to be inherited to form all other types of elements. ">Element</a> object. <br /></td></tr>
 <tr class="separator:a7d407b1de51d4c0fe799a9cced7e0534"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
+Protected Member Functions</h2></td></tr>
+<tr class="memitem:adf58296b2d08fb9ee001323fdedef4f8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAether_1_1Element.html#adf58296b2d08fb9ee001323fdedef4f8">addElementAt</a> (<a class="el" href="classAether_1_1Element.html">Element</a> *e, size_t i)</td></tr>
+<tr class="memdesc:adf58296b2d08fb9ee001323fdedef4f8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add element at given index in vector.  <a href="#adf58296b2d08fb9ee001323fdedef4f8">More...</a><br /></td></tr>
+<tr class="separator:adf58296b2d08fb9ee001323fdedef4f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
@@ -378,15 +385,61 @@ Friends</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Adds new element as current element's childrent element. </p>
+<p>Adds new element a child. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">e</td><td>Children element to add </td></tr>
+    <tr><td class="paramname">e</td><td>element to add </td></tr>
   </table>
   </dd>
 </dl>
 
 <p>Reimplemented in <a class="el" href="classAether_1_1Scrollable.html#ab8ae33a9c10460828355f8a18a8cd44f">Aether::Scrollable</a>, and <a class="el" href="classAether_1_1Container.html#a3890d4637b2261151fba52a7b16c62a8">Aether::Container</a>.</p>
+
+</div>
+</div>
+<a id="adf58296b2d08fb9ee001323fdedef4f8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adf58296b2d08fb9ee001323fdedef4f8">&#9670;&nbsp;</a></span>addElementAt()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Aether::Element::addElementAt </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classAether_1_1Element.html">Element</a> *&#160;</td>
+          <td class="paramname"><em>e</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>i</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Add element at given index in vector. </p>
+<dl class="section note"><dt>Note</dt><dd>Will insert at end if index is beyond the end!</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">e</td><td>element to add </td></tr>
+    <tr><td class="paramname">i</td><td>index to insert at </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -467,7 +520,7 @@ Friends</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Getter function for height of element. </p>
+<p>Returns height of element. </p>
 <dl class="section return"><dt>Returns</dt><dd>int height of element </dd></dl>
 
 </div>
@@ -667,14 +720,14 @@ false if element is not visible </dd></dl>
 </table>
 </div><div class="memdoc">
 
-<p>Attempt to remove children element from current element. </p>
+<p>Attempt to remove child element. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">e</td><td>children to delete </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>true if deleted successfully </dd>
+<dl class="section return"><dt>Returns</dt><dd>true if deleted successfully (i.e. was a child) </dd>
 <dd>
 false if not a child of element </dd></dl>
 
@@ -860,7 +913,7 @@ false if current element is not selected </dd></dl>
 </table>
 </div><div class="memdoc">
 
-<p>Setter function for height of element. </p>
+<p>Set height of element. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">h</td><td>new height of element </td></tr>
@@ -868,7 +921,7 @@ false if current element is not selected </dd></dl>
   </dd>
 </dl>
 
-<p>Reimplemented in <a class="el" href="classAether_1_1ListOption.html#ad9bea69937f768cde3c977792f7ce3be">Aether::ListOption</a>, <a class="el" href="classAether_1_1ListButton.html#a95909088fd9da8f4b9aaff3624691494">Aether::ListButton</a>, <a class="el" href="classAether_1_1ListHeadingHelp.html#aa8ceb93b94d15fb19d27e0a0f36f2480">Aether::ListHeadingHelp</a>, <a class="el" href="classAether_1_1Controls.html#adb4b87977f5d195059e0453a17e401ed">Aether::Controls</a>, <a class="el" href="classAether_1_1BorderButton.html#a588b07d1fe0184306d770406a5e69988">Aether::BorderButton</a>, <a class="el" href="classAether_1_1FilledButton.html#a9bf5f09e56bc1a11d89c0e51017f1b68">Aether::FilledButton</a>, <a class="el" href="classAether_1_1Scrollable.html#a8c8a347a5288c8ccfa9b114b095cee68">Aether::Scrollable</a>, <a class="el" href="classAether_1_1RoundProgressBar.html#a6fc9c129c0e4b76ec495f95d33027796">Aether::RoundProgressBar</a>, and <a class="el" href="classAether_1_1ProgressBar.html#a2d2084f60bbb25187d617b0ed5b16072">Aether::ProgressBar</a>.</p>
+<p>Reimplemented in <a class="el" href="classAether_1_1Scrollable.html#a8c8a347a5288c8ccfa9b114b095cee68">Aether::Scrollable</a>, <a class="el" href="classAether_1_1ListOption.html#ad9bea69937f768cde3c977792f7ce3be">Aether::ListOption</a>, <a class="el" href="classAether_1_1ListButton.html#a95909088fd9da8f4b9aaff3624691494">Aether::ListButton</a>, <a class="el" href="classAether_1_1ListHeadingHelp.html#aa8ceb93b94d15fb19d27e0a0f36f2480">Aether::ListHeadingHelp</a>, <a class="el" href="classAether_1_1Controls.html#adb4b87977f5d195059e0453a17e401ed">Aether::Controls</a>, <a class="el" href="classAether_1_1BorderButton.html#a588b07d1fe0184306d770406a5e69988">Aether::BorderButton</a>, <a class="el" href="classAether_1_1FilledButton.html#a9bf5f09e56bc1a11d89c0e51017f1b68">Aether::FilledButton</a>, <a class="el" href="classAether_1_1RoundProgressBar.html#a6fc9c129c0e4b76ec495f95d33027796">Aether::RoundProgressBar</a>, and <a class="el" href="classAether_1_1ProgressBar.html#a2d2084f60bbb25187d617b0ed5b16072">Aether::ProgressBar</a>.</p>
 
 </div>
 </div>
@@ -1018,7 +1071,7 @@ false if current element is not selected </dd></dl>
       </table>
 </div><div class="memdoc">
 
-<p>Set the parent element for current element. </p>
+<p>Set the parent element of this element. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">p</td><td>parent element to set as </td></tr>
@@ -1130,7 +1183,7 @@ false if current element is not selected </dd></dl>
 </table>
 </div><div class="memdoc">
 
-<p>Setter function for width of element. </p>
+<p>Set width of element. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">w</td><td>new width of element </td></tr>
@@ -1138,7 +1191,7 @@ false if current element is not selected </dd></dl>
   </dd>
 </dl>
 
-<p>Reimplemented in <a class="el" href="classAether_1_1ListOption.html#a40dc0bf83fe955fe5dc7d6307f9ba47b">Aether::ListOption</a>, <a class="el" href="classAether_1_1ListButton.html#a32b1edce785bc1f852ad3164a6205f0e">Aether::ListButton</a>, <a class="el" href="classAether_1_1Text.html#ae3a8b90fe4dcc97494d0565db129a672">Aether::Text</a>, <a class="el" href="classAether_1_1ListHeadingHelp.html#a31b92362ea7b5e98fedba6b27cac65c1">Aether::ListHeadingHelp</a>, <a class="el" href="classAether_1_1Controls.html#af9f2ec1395fca8f2a7a96b66ac11c585">Aether::Controls</a>, <a class="el" href="classAether_1_1BorderButton.html#a1be612e8f8645c6d98d6d6572a4f82cf">Aether::BorderButton</a>, <a class="el" href="classAether_1_1FilledButton.html#a35d1ce59010d0d743cc6faa7ee487416">Aether::FilledButton</a>, <a class="el" href="classAether_1_1Scrollable.html#a8074444a03b02697428697c864c99aac">Aether::Scrollable</a>, <a class="el" href="classAether_1_1RoundProgressBar.html#ad2a4b6aa3a8d53cdd0055a5a552d6cd2">Aether::RoundProgressBar</a>, <a class="el" href="classAether_1_1ProgressBar.html#ad54c0ccd848af5a3fa3a8af09c1edad1">Aether::ProgressBar</a>, <a class="el" href="classAether_1_1ListComment.html#a3c88a2ab3fd5e4ab92fe14e0d1a778ba">Aether::ListComment</a>, <a class="el" href="classAether_1_1MenuOption.html#a739c062721152c2324eda9c75cfcaaa5">Aether::MenuOption</a>, and <a class="el" href="classAether_1_1MenuSeparator.html#ab0cce2ba827fa5bce94dfd4a33ef7989">Aether::MenuSeparator</a>.</p>
+<p>Reimplemented in <a class="el" href="classAether_1_1Scrollable.html#a8074444a03b02697428697c864c99aac">Aether::Scrollable</a>, <a class="el" href="classAether_1_1ListOption.html#a40dc0bf83fe955fe5dc7d6307f9ba47b">Aether::ListOption</a>, <a class="el" href="classAether_1_1ListButton.html#a32b1edce785bc1f852ad3164a6205f0e">Aether::ListButton</a>, <a class="el" href="classAether_1_1Text.html#ae3a8b90fe4dcc97494d0565db129a672">Aether::Text</a>, <a class="el" href="classAether_1_1ListHeadingHelp.html#a31b92362ea7b5e98fedba6b27cac65c1">Aether::ListHeadingHelp</a>, <a class="el" href="classAether_1_1Controls.html#af9f2ec1395fca8f2a7a96b66ac11c585">Aether::Controls</a>, <a class="el" href="classAether_1_1BorderButton.html#a1be612e8f8645c6d98d6d6572a4f82cf">Aether::BorderButton</a>, <a class="el" href="classAether_1_1FilledButton.html#a35d1ce59010d0d743cc6faa7ee487416">Aether::FilledButton</a>, <a class="el" href="classAether_1_1RoundProgressBar.html#ad2a4b6aa3a8d53cdd0055a5a552d6cd2">Aether::RoundProgressBar</a>, <a class="el" href="classAether_1_1ProgressBar.html#ad54c0ccd848af5a3fa3a8af09c1edad1">Aether::ProgressBar</a>, <a class="el" href="classAether_1_1ListComment.html#a3c88a2ab3fd5e4ab92fe14e0d1a778ba">Aether::ListComment</a>, <a class="el" href="classAether_1_1MenuOption.html#a739c062721152c2324eda9c75cfcaaa5">Aether::MenuOption</a>, and <a class="el" href="classAether_1_1MenuSeparator.html#ab0cce2ba827fa5bce94dfd4a33ef7989">Aether::MenuSeparator</a>.</p>
 
 </div>
 </div>
@@ -1176,7 +1229,7 @@ false if current element is not selected </dd></dl>
 </table>
 </div><div class="memdoc">
 
-<p>Setter function for size of element. </p>
+<p>Set size of element. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">w</td><td>new width of element </td></tr>
@@ -1211,7 +1264,7 @@ false if current element is not selected </dd></dl>
 </table>
 </div><div class="memdoc">
 
-<p>Setter function for x-coordinate of element. </p>
+<p>Set x-coordinate of element. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">x</td><td>new x-coordinate of element </td></tr>
@@ -1257,7 +1310,7 @@ false if current element is not selected </dd></dl>
 </table>
 </div><div class="memdoc">
 
-<p>Setter function for co-ordinates of element. </p>
+<p>Set co-ordinates of element. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">x</td><td>new x-coordinate of element </td></tr>
@@ -1314,7 +1367,7 @@ false if current element is not selected </dd></dl>
 </table>
 </div><div class="memdoc">
 
-<p>Setter function to for size and co-ordinates of element. </p>
+<p>Setter size and co-ordinates of element. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">x</td><td>new x-coordinate of element </td></tr>
@@ -1351,7 +1404,7 @@ false if current element is not selected </dd></dl>
 </table>
 </div><div class="memdoc">
 
-<p>Setter function for y-coordinate of element. </p>
+<p>Set y-coordinate of element. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">y</td><td>new y-coordinate of element </td></tr>
@@ -1436,7 +1489,7 @@ false if current element is not touch responsive </dd></dl>
       </table>
 </div><div class="memdoc">
 
-<p>Getter function for width of element. </p>
+<p>Returns width of element. </p>
 <dl class="section return"><dt>Returns</dt><dd>int width of element </dd></dl>
 
 </div>
@@ -1456,7 +1509,7 @@ false if current element is not touch responsive </dd></dl>
       </table>
 </div><div class="memdoc">
 
-<p>Getter function for x-coordinate of element. </p>
+<p>Returns x-coordinate of element. </p>
 <dl class="section return"><dt>Returns</dt><dd>int x-coordinate of element </dd></dl>
 
 </div>
@@ -1476,7 +1529,7 @@ false if current element is not touch responsive </dd></dl>
       </table>
 </div><div class="memdoc">
 
-<p>Getter function for y-coordinate of element. </p>
+<p>Returns y-coordinate of element. </p>
 <dl class="section return"><dt>Returns</dt><dd>int y-coordinate of element </dd></dl>
 
 </div>

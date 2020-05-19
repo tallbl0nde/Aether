@@ -77,7 +77,7 @@ var searchData=
   ['setrendererblendmode',['setRendererBlendMode',['../namespaceSDLHelper.html#a4c496608bc2bca23b1f3fe1f72d02f48',1,'SDLHelper']]],
   ['setscreen',['setScreen',['../classAether_1_1Display.html#a41b4f87afdebfefc60e88457e432cb2e',1,'Aether::Display']]],
   ['setscroll',['setScroll',['../classAether_1_1Text.html#a228ceb1468837705d4124346ace86584',1,'Aether::Text']]],
-  ['setscrollbarcolour',['setScrollBarColour',['../classAether_1_1Scrollable.html#acabf71e5bc7a7e5d28acdd6195b3f63b',1,'Aether::Scrollable::setScrollBarColour(Colour c)'],['../classAether_1_1Scrollable.html#a7030f471603cc74039118f57a63719b5',1,'Aether::Scrollable::setScrollBarColour(uint8_t r, uint8_t g, uint8_t b, uint8_t a)']]],
+  ['setscrollbarcolour',['setScrollBarColour',['../classAether_1_1Scrollable.html#acabf71e5bc7a7e5d28acdd6195b3f63b',1,'Aether::Scrollable']]],
   ['setscrollpos',['setScrollPos',['../classAether_1_1Scrollable.html#a48692adb102ce0fe44ce7456117d1da9',1,'Aether::Scrollable']]],
   ['setscrollspeed',['setScrollSpeed',['../classAether_1_1Text.html#a46de28216ec3d163dde326d3c6d9b6b1',1,'Aether::Text']]],
   ['setsecondhint',['setSecondHint',['../classAether_1_1DateTime.html#aa34fdc561247f1ce7b647be4606e9bcd',1,'Aether::DateTime']]],

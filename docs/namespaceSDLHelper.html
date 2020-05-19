@@ -189,15 +189,12 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="name
 <tr class="memitem:aaac379ef81a4b81a6b5fd9a500ed6acd"><td class="memItemLeft" align="right" valign="top">SDL_Texture *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceSDLHelper.html#aaac379ef81a4b81a6b5fd9a500ed6acd">renderRect</a> (int w, int h, unsigned int b)</td></tr>
 <tr class="memdesc:aaac379ef81a4b81a6b5fd9a500ed6acd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Renders a basic rectangle.  <a href="#aaac379ef81a4b81a6b5fd9a500ed6acd">More...</a><br /></td></tr>
 <tr class="separator:aaac379ef81a4b81a6b5fd9a500ed6acd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4c2cfaaca8e420f57f39d8ec53cd334e"><td class="memItemLeft" align="right" valign="top">SDL_Texture *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceSDLHelper.html#a4c2cfaaca8e420f57f39d8ec53cd334e">renderImage</a> (std::string path)</td></tr>
-<tr class="memdesc:a4c2cfaaca8e420f57f39d8ec53cd334e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Renders image from image path.  <a href="#a4c2cfaaca8e420f57f39d8ec53cd334e">More...</a><br /></td></tr>
-<tr class="separator:a4c2cfaaca8e420f57f39d8ec53cd334e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af594e070d81e3002b4cf932c0a81fe7e"><td class="memItemLeft" align="right" valign="top">SDL_Texture *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceSDLHelper.html#af594e070d81e3002b4cf932c0a81fe7e">renderImage</a> (u8 *ptr, size_t size)</td></tr>
-<tr class="memdesc:af594e070d81e3002b4cf932c0a81fe7e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Renders image from image pointer and image size.  <a href="#af594e070d81e3002b4cf932c0a81fe7e">More...</a><br /></td></tr>
-<tr class="separator:af594e070d81e3002b4cf932c0a81fe7e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a08c75705cd1456aec6f1613ca6a0967f"><td class="memItemLeft" align="right" valign="top">SDL_Texture *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceSDLHelper.html#a08c75705cd1456aec6f1613ca6a0967f">renderImageShrinked</a> (u8 *ptr, size_t size, int xF, int yF)</td></tr>
-<tr class="memdesc:a08c75705cd1456aec6f1613ca6a0967f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Renders image shrinked from image pointer and image size.  <a href="#a08c75705cd1456aec6f1613ca6a0967f">More...</a><br /></td></tr>
-<tr class="separator:a08c75705cd1456aec6f1613ca6a0967f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0f63b29124add574f2210072b90bc14e"><td class="memItemLeft" align="right" valign="top">SDL_Texture *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceSDLHelper.html#a0f63b29124add574f2210072b90bc14e">renderImage</a> (std::string path, int xF=1, int yF=1)</td></tr>
+<tr class="memdesc:a0f63b29124add574f2210072b90bc14e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Renders image from image path.  <a href="#a0f63b29124add574f2210072b90bc14e">More...</a><br /></td></tr>
+<tr class="separator:a0f63b29124add574f2210072b90bc14e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7a6e2028749ce25b9fb1df20ca9b9cc7"><td class="memItemLeft" align="right" valign="top">SDL_Texture *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceSDLHelper.html#a7a6e2028749ce25b9fb1df20ca9b9cc7">renderImage</a> (u8 *ptr, size_t size, int xF=1, int yF=1)</td></tr>
+<tr class="memdesc:a7a6e2028749ce25b9fb1df20ca9b9cc7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Renders image from image pointer and image size.  <a href="#a7a6e2028749ce25b9fb1df20ca9b9cc7">More...</a><br /></td></tr>
+<tr class="separator:a7a6e2028749ce25b9fb1df20ca9b9cc7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1716239712ce8772b403ff47c6d0082f"><td class="memItemLeft" align="right" valign="top">SDL_Texture *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceSDLHelper.html#a1716239712ce8772b403ff47c6d0082f">renderText</a> (std::string str, int font_size, int style=TTF_STYLE_NORMAL)</td></tr>
 <tr class="memdesc:a1716239712ce8772b403ff47c6d0082f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Renders text.  <a href="#a1716239712ce8772b403ff47c6d0082f">More...</a><br /></td></tr>
 <tr class="separator:a1716239712ce8772b403ff47c6d0082f"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -1106,8 +1103,8 @@ false otherwise </dd></dl>
 
 </div>
 </div>
-<a id="a4c2cfaaca8e420f57f39d8ec53cd334e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4c2cfaaca8e420f57f39d8ec53cd334e">&#9670;&nbsp;</a></span>renderImage() <span class="overload">[1/2]</span></h2>
+<a id="a0f63b29124add574f2210072b90bc14e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0f63b29124add574f2210072b90bc14e">&#9670;&nbsp;</a></span>renderImage() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1116,8 +1113,24 @@ false otherwise </dd></dl>
           <td class="memname">SDL_Texture* SDLHelper::renderImage </td>
           <td>(</td>
           <td class="paramtype">std::string&#160;</td>
-          <td class="paramname"><em>path</em></td><td>)</td>
+          <td class="paramname"><em>path</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>xF</em> = <code>1</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>yF</em> = <code>1</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -1126,6 +1139,8 @@ false otherwise </dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">path</td><td>file path to image </td></tr>
+    <tr><td class="paramname">xF</td><td>x scaling factor </td></tr>
+    <tr><td class="paramname">yF</td><td>y scaling factor </td></tr>
   </table>
   </dd>
 </dl>
@@ -1133,8 +1148,8 @@ false otherwise </dd></dl>
 
 </div>
 </div>
-<a id="af594e070d81e3002b4cf932c0a81fe7e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af594e070d81e3002b4cf932c0a81fe7e">&#9670;&nbsp;</a></span>renderImage() <span class="overload">[2/2]</span></h2>
+<a id="a7a6e2028749ce25b9fb1df20ca9b9cc7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7a6e2028749ce25b9fb1df20ca9b9cc7">&#9670;&nbsp;</a></span>renderImage() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1149,7 +1164,19 @@ false otherwise </dd></dl>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>size</em>&#160;</td>
+          <td class="paramname"><em>size</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>xF</em> = <code>1</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>yF</em> = <code>1</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -1164,6 +1191,8 @@ false otherwise </dd></dl>
   <table class="params">
     <tr><td class="paramname">ptr</td><td>pointer to image </td></tr>
     <tr><td class="paramname">size</td><td>image size </td></tr>
+    <tr><td class="paramname">xF</td><td>x scaling factor </td></tr>
+    <tr><td class="paramname">yF</td><td>y scaling factor </td></tr>
   </table>
   </dd>
 </dl>
@@ -1267,58 +1296,6 @@ false otherwise </dd></dl>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>pointer to rendered surface </dd></dl>
-
-</div>
-</div>
-<a id="a08c75705cd1456aec6f1613ca6a0967f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a08c75705cd1456aec6f1613ca6a0967f">&#9670;&nbsp;</a></span>renderImageShrinked()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">SDL_Texture* SDLHelper::renderImageShrinked </td>
-          <td>(</td>
-          <td class="paramtype">u8 *&#160;</td>
-          <td class="paramname"><em>ptr</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>size</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>xF</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>yF</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Renders image shrinked from image pointer and image size. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">ptr</td><td>pointer to image </td></tr>
-    <tr><td class="paramname">size</td><td>image size </td></tr>
-    <tr><td class="paramname">xF</td><td>shrink factor for x-coordinate </td></tr>
-    <tr><td class="paramname">yF</td><td>shrink factor for y-coordinate </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>pointer to rendered texture </dd></dl>
 
 </div>
 </div>
