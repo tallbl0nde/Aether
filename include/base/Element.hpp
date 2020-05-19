@@ -56,6 +56,15 @@ namespace Aether {
             /** @brief Children element which is highlighted/focused (to regain focus on activation) */
             Element * focused_;
 
+            /**
+             * @brief Add element at given index in vector
+             * @note Will insert at end if index is beyond the end!
+             *
+             * @param e element to add
+             * @param i index to insert at
+             */
+             void addElementAt(Element * e, size_t i);
+
         public:
             /**
              * @brief Construct a new Element object.
@@ -73,63 +82,63 @@ namespace Aether {
             Element(int x = 0, int y = 0, int w = 100, int h = 100);
 
             /**
-             * @brief Getter function for x-coordinate of element
+             * @brief Returns x-coordinate of element
              *
              * @return int x-coordinate of element
              */
             int x();
 
             /**
-             * @brief Getter function for y-coordinate of element
+             * @brief Returns y-coordinate of element
              *
              * @return int y-coordinate of element
              */
             int y();
 
             /**
-             * @brief Getter function for width of element
+             * @brief Returns width of element
              *
              * @return int width of element
              */
             int w();
 
             /**
-             * @brief Getter function for height of element
+             * @brief Returns height of element
              *
              * @return int height of element
              */
             int h();
 
             /**
-             * @brief Setter function for x-coordinate of element
+             * @brief Set x-coordinate of element
              *
              * @param x new x-coordinate of element
              */
             virtual void setX(int x);
 
             /**
-             * @brief Setter function for y-coordinate of element
+             * @brief Set y-coordinate of element
              *
              * @param y new y-coordinate of element
              */
             virtual void setY(int y);
 
             /**
-             * @brief Setter function for width of element
+             * @brief Set width of element
              *
              * @param w new width of element
              */
             virtual void setW(int w);
 
             /**
-             * @brief Setter function for height of element
+             * @brief Set height of element
              *
              * @param h new height of element
              */
             virtual void setH(int h);
 
             /**
-             * @brief Setter function for co-ordinates of element
+             * @brief Set co-ordinates of element
              *
              * @param x new x-coordinate of element
              * @param y new y-coordinate of element
@@ -137,7 +146,7 @@ namespace Aether {
             virtual void setXY(int x, int y);
 
             /**
-             * @brief Setter function for size of element
+             * @brief Set size of element
              *
              * @param w new width of element
              * @param h new height of element
@@ -145,7 +154,7 @@ namespace Aether {
             virtual void setWH(int w, int h);
 
             /**
-             * @brief Setter function to for size and co-ordinates of element
+             * @brief Setter size and co-ordinates of element
              *
              * @param x new x-coordinate of element
              * @param y new y-coordinate of element
@@ -155,30 +164,30 @@ namespace Aether {
             virtual void setXYWH(int x, int y, int w, int h);
 
             /**
-             * @brief Set the parent element for current element
+             * @brief Set the parent element of this element
              *
              * @param p parent element to set as
              */
             void setParent(Element * p);
 
             /**
-             * @brief Adds new element as current element's childrent element
+             * @brief Adds new element a child
              *
-             * @param e Children element to add
+             * @param e element to add
              */
             virtual void addElement(Element * e);
 
             /**
-             * @brief Attempt to remove children element from current element
+             * @brief Attempt to remove child element
              *
              * @param e children to delete
-             * @return true if deleted successfully
+             * @return true if deleted successfully (i.e. was a child)
              * @return false if not a child of element
              */
             virtual bool removeElement(Element * e);
 
             /**
-             * @brief Remove all children elements associated with current element
+             * @brief Remove all children elementst
              */
             virtual void removeAllElements();
 

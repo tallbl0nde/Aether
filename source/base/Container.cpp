@@ -6,11 +6,15 @@ namespace Aether {
     }
 
     void Container::addElement(Element * e) {
+        this->addElementAt(e, this->children.size());
+    }
+
+    void Container::addElementAt(Element * e, size_t i) {
         e->setInactive();
         if ((e->selectable() || e->hasSelectable()) && this->focused() == nullptr) {
             this->setFocused(e);
         }
-        Element::addElement(e);
+        Element::addElementAt(e, i);
 
         // Set inactive if this element is not active
         if (this->parent != nullptr) {

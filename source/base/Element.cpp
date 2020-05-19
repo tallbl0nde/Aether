@@ -89,6 +89,16 @@ namespace Aether {
     }
 
     void Element::addElement(Element * e) {
+        this->addElementAt(e, this->children.size());
+    }
+
+    void Element::addElementAt(Element * e, size_t i) {
+        // If wanting to insert at end do just that!
+        if (i > this->children.size()) {
+            i = this->children.size();
+        }
+
+        // Otherwise insert and perform the necessary checks
         e->setParent(this);
         if (e->selectable() || e->hasSelectable()) {
             this->setHasSelectable(true);
@@ -96,7 +106,7 @@ namespace Aether {
         if (e->highlighted() || e->hasHighlighted()) {
             this->setHasHighlighted(true);
         }
-        this->children.push_back(e);
+        this->children.insert(this->children.begin() + i, e);
     }
 
     bool Element::removeElement(Element * e) {

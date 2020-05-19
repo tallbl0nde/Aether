@@ -144,10 +144,6 @@ namespace Aether {
         this->scrollBarColour = c;
     }
 
-    void Scrollable::setScrollBarColour(uint8_t r, uint8_t g, uint8_t b, uint8_t a) {
-        this->setScrollBarColour(Colour{r, g, b, a});
-    }
-
     bool Scrollable::canScroll() {
         return this->canScroll_;
     }
@@ -160,17 +156,64 @@ namespace Aether {
     }
 
     void Scrollable::addElement(Element * e) {
+        this->addElementAt(e, this->children.size());
+    }
+
+    void Scrollable::addElementAt(Element * e, size_t i) {
         // Position element at correct position
         e->setX(this->x() + SIDE_PADDING);
-        if (this->children.size() == 0) {
+        if (i == 0) {
             e->setY(this->y() + PADDING);
         } else {
-            e->setY(this->children[this->children.size() - 1]->y() + this->children[this->children.size() - 1]->h());
+            Element * last = this->children[i - 1];
+            e->setY(last->y() + last->h());
         }
         e->setW(this->w() - 2*SIDE_PADDING);
 
-        Container::addElement(e);
+        Container::addElementAt(e, i);
+
+        // Increment following children's y value
+        for (size_t j = i + 1; j < this->children.size(); j++) {
+            Element * last = this->children[j-1];
+            this->children[j]->setY(last->y() + last->h());
+        }
         this->updateMaxScrollPos();
+    }
+
+    bool Scrollable::addElementAfter(Element * e, Element * a) {
+        // Handle nullptr
+        if (a == nullptr) {
+            Container::addElementAt(e, 0);
+            return true;
+        }
+
+        // Find element to succeed
+        std::vector<Element *>::iterator it = std::find(this->children.begin(), this->children.end(), a);
+        if (it == this->children.end()) {
+            return false;
+        }
+
+        // Insert at position
+        this->addElementAt(e, std::distance(this->children.begin(), it) + 1);
+        return true;
+    }
+
+    bool Scrollable::addElementBefore(Element * e, Element * b) {
+        // Handle nullptr
+        if (b == nullptr) {
+            this->addElement(e);
+            return true;
+        }
+
+        // Find element to succeed
+        std::vector<Element *>::iterator it = std::find(this->children.begin(), this->children.end(), b);
+        if (it == this->children.end()) {
+            return false;
+        }
+
+        // Insert at position
+        this->addElementAt(e, std::distance(this->children.begin(), it));
+        return true;
     }
 
     bool Scrollable::removeElement(Element * e) {
@@ -187,16 +230,53 @@ namespace Aether {
         this->updateMaxScrollPos();
     }
 
-    bool Scrollable::removeFollowingElements(Element * e) {
+    bool Scrollable::removeElementsAfter(Element * e) {
         std::vector<Element *>::iterator it = std::find(this->children.begin(), this->children.end(), e);
         // If the element was found loop over remaining elements and delete
         if (it != this->children.end()) {
             size_t i = std::distance(this->children.begin(), it);
             i++;
             while (i < this->children.size()) {
+                // We don't call Element::removeElement to avoid the repeated finds
                 delete this->children[i];
                 this->children.erase(this->children.begin() + i);
             }
+
+            // Update scrolling vars
+            this->updateMaxScrollPos();
+            if (this->scrollPos > this->maxScrollPos) {
+                this->setScrollPos(this->maxScrollPos);
+            }
+            return true;
+        }
+        return false;
+    }
+
+    bool Scrollable::removeElementsBefore(Element * e) {
+        std::vector<Element *>::iterator it = std::find(this->children.begin(), this->children.end(), e);
+        // If the element was found loop over remaining elements and delete
+        if (it != this->children.end()) {
+            long i = std::distance(this->children.begin(), it) - 1;
+            if (i == -1) {
+                // No need to iterate over everything if nothing to remove
+                return true;
+            }
+
+            int decH = 0;
+            while (i >= 0) {
+                // We don't call Element::removeElement to avoid the repeated finds
+                decH += this->children[i]->h();
+                delete this->children[i];
+                this->children.erase(this->children.begin() + i);
+                i--;
+            }
+
+            // Recalculate y values
+            for (size_t j = 0; j < this->children.size(); j++) {
+                this->children[j]->setY(this->children[j]->y() - decH);
+            }
+
+            // Update scrolling vars
             this->updateMaxScrollPos();
             if (this->scrollPos > this->maxScrollPos) {
                 this->setScrollPos(this->maxScrollPos);
