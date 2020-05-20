@@ -2,6 +2,7 @@
 #define AETHER_SCREEN_HPP
 
 #include "base/Container.hpp"
+#include <unordered_map>
 
 namespace Aether {
     /**
@@ -36,7 +37,7 @@ namespace Aether {
              * @brief Assigns callback function for button press
              * @note Setting a button callback will block the event from
              *       going to any other elements
-             * 
+             *
              * @param btn button to assign callback to
              * @param func function to assign as callback for button press
              */
@@ -46,7 +47,7 @@ namespace Aether {
              * @brief Assigns callback function for button release
              * @note Setting a button callback will block the event from
              *       going to any other elements
-             * 
+             *
              * @param btn button to assign callback to
              * @param func function to assign as callback for button release
              */
@@ -54,7 +55,7 @@ namespace Aether {
 
             /**
              * @brief Attempt event handling for an event that occured
-             * 
+             *
              * @param event event to handle
              * @return true if event was handled
              * @return false if event was not handled
