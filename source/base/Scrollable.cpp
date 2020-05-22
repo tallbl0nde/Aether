@@ -25,8 +25,8 @@ namespace Aether {
         this->scrollCatchup = DEFAULT_CATCHUP;
         this->scrollDampening = DEFAULT_DAMPENING;
         this->scrollVelocity = 0;
-        this->scrollPos = 0;
-        this->maxScrollPos = 0;
+        this->scrollPos_ = 0;
+        this->maxScrollPos_ = 0;
         this->showScrollBar_ = true;
         if (this->scrollBar == nullptr) {
             this->scrollBar = SDLHelper::renderFilledRect(5, SCROLLBAR_SIZE);
@@ -36,46 +36,28 @@ namespace Aether {
         this->renderTex = SDLHelper::createTexture(w, h);
     }
 
-    void Scrollable::setScrollPos(int pos) {
-        unsigned int old = this->scrollPos;
-        if (pos < 0) {
-            this->scrollPos = 0;
-        } else if (pos > this->maxScrollPos) {
-            this->scrollPos = this->maxScrollPos;
-        } else {
-            this->scrollPos = pos;
-        }
-
-        // Update children positions
-        if (old != this->scrollPos) {
-            for (size_t i = 0; i < this->children.size(); i++) {
-                this->children[i]->setY(this->children[i]->y() - (this->scrollPos - old));
-            }
-        }
-    }
-
     void Scrollable::updateMaxScrollPos() {
-        this->maxScrollPos = 0;
+        this->maxScrollPos_ = 0;
 
         if (this->children.size() == 0) {
             return;
         }
 
-        this->maxScrollPos = 2 * PADDING;
+        this->maxScrollPos_ = 2 * PADDING;
 
         // Loop over child elements and determine maximum y pos
         for (size_t i = 0; i < this->children.size(); i++) {
-            this->maxScrollPos += this->children[i]->h();
+            this->maxScrollPos_ += this->children[i]->h();
         }
 
         // If children don't take up enough space don't scroll!
-        if (this->maxScrollPos <= this->h()) {
-            this->maxScrollPos = 0;
+        if (this->maxScrollPos_ <= this->h()) {
+            this->maxScrollPos_ = 0;
             return;
         }
 
         // Subtract this element's height as it wasn't accounted for earlier
-        this->maxScrollPos -= this->h();
+        this->maxScrollPos_ -= this->h();
     }
 
     void Scrollable::stopScrolling() {
@@ -86,7 +68,7 @@ namespace Aether {
                     for (size_t i = 0; i < this->children.size(); i++) {
                         if (this->children[i]->y() > this->y() && this->children[i]->selectable()) {
                             this->setFocused(this->children[i]);
-                            if (this->parent->focused() == this) {
+                            if (this->parent()->focused() == this) {
                                 this->focused()->setActive();
                             }
                             break;
@@ -155,6 +137,32 @@ namespace Aether {
         }
     }
 
+    int Scrollable::maxScrollPos() {
+        return this->maxScrollPos_;
+    }
+
+    int Scrollable::scrollPos() {
+        return this->scrollPos_;
+    }
+
+    void Scrollable::setScrollPos(int pos) {
+        unsigned int old = this->scrollPos_;
+        if (pos < 0) {
+            this->scrollPos_ = 0;
+        } else if (pos > this->maxScrollPos_) {
+            this->scrollPos_ = this->maxScrollPos_;
+        } else {
+            this->scrollPos_ = pos;
+        }
+
+        // Update children positions
+        if (old != this->scrollPos_) {
+            for (size_t i = 0; i < this->children.size(); i++) {
+                this->children[i]->setY(this->children[i]->y() - (this->scrollPos_ - old));
+            }
+        }
+    }
+
     void Scrollable::addElement(Element * e) {
         this->addElementAt(e, this->children.size());
     }
@@ -163,7 +171,11 @@ namespace Aether {
         // Position element at correct position
         e->setX(this->x() + SIDE_PADDING);
         if (i == 0) {
-            e->setY(this->y() + PADDING);
+            if (this->children.empty()) {
+                e->setY(this->y() + PADDING);
+            } else {
+                e->setY(this->children[0]->y());
+            }
         } else {
             Element * last = this->children[i - 1];
             e->setY(last->y() + last->h());
@@ -213,6 +225,7 @@ namespace Aether {
 
         // Insert at position
         this->addElementAt(e, std::distance(this->children.begin(), it));
+        this->setScrollPos(this->scrollPos_ + e->h());
         return true;
     }
 
@@ -225,6 +238,7 @@ namespace Aether {
     }
 
     void Scrollable::removeAllElements() {
+        this->stopScrolling();
         Container::removeAllElements();
         this->setScrollPos(0);
         this->updateMaxScrollPos();
@@ -237,6 +251,11 @@ namespace Aether {
             size_t i = std::distance(this->children.begin(), it);
             i++;
             while (i < this->children.size()) {
+                // If an element is focussed change focus to the 'after' element
+                if (this->focussed() == this->children[i]) {
+                    this->setFocussed(e);
+                }
+
                 // We don't call Element::removeElement to avoid the repeated finds
                 delete this->children[i];
                 this->children.erase(this->children.begin() + i);
@@ -244,8 +263,8 @@ namespace Aether {
 
             // Update scrolling vars
             this->updateMaxScrollPos();
-            if (this->scrollPos > this->maxScrollPos) {
-                this->setScrollPos(this->maxScrollPos);
+            if (this->scrollPos_ > this->maxScrollPos_) {
+                this->setScrollPos(this->maxScrollPos_);
             }
             return true;
         }
@@ -264,6 +283,11 @@ namespace Aether {
 
             int decH = 0;
             while (i >= 0) {
+                // If an element is focussed change focus to the 'before' element
+                if (this->focussed() == this->children[i]) {
+                    this->setFocussed(e);
+                }
+
                 // We don't call Element::removeElement to avoid the repeated finds
                 decH += this->children[i]->h();
                 delete this->children[i];
@@ -278,9 +302,10 @@ namespace Aether {
 
             // Update scrolling vars
             this->updateMaxScrollPos();
-            if (this->scrollPos > this->maxScrollPos) {
-                this->setScrollPos(this->maxScrollPos);
+            if (this->scrollPos_ > this->maxScrollPos_) {
+                this->setScrollPos(this->maxScrollPos_);
             }
+            this->setScrollPos(this->scrollPos_ - e->h());
             return true;
         }
         return false;
@@ -292,7 +317,16 @@ namespace Aether {
                 if (e->touchX() >= this->x() && e->touchX() <= this->x() + this->w() && e->touchY() >= this->y() && e->touchY() <= this->y() + this->h()) {
                     // Activate this element
                     this->isTouched = true;
-                    this->parent->setFocused(this);
+                    // Note we need to traverse up the tree in order to ensure scrollable is focussed
+                    Element * elm = this->parent();
+                    if (elm != nullptr) {
+                        while (elm->parent() != nullptr) {
+                            elm->parent()->setFocused(elm);
+                            elm = elm->parent();
+                        }
+                    }
+                    // Now set scrollable focussed
+                    this->parent()->setFocused(this);
 
                     this->touchY = e->touchY();
                     if (this->isScrolling) {
@@ -320,7 +354,7 @@ namespace Aether {
                         }
                     } else {
                         if (this->canScroll_) {
-                            this->setScrollPos(this->scrollPos - e->touchDY());
+                            this->setScrollPos(this->scrollPos_ - e->touchDY());
                             this->scrollVelocity = -e->touchDY();
                             if (this->scrollVelocity > MAX_VELOCITY) {
                                 this->scrollVelocity = MAX_VELOCITY;
@@ -362,8 +396,8 @@ namespace Aether {
 
         // If scrolling due to touch event
         if (this->isScrolling) {
-            this->setScrollPos(this->scrollPos + this->scrollVelocity);
-            if (this->scrollPos == 0 || this->scrollPos == this->maxScrollPos) {
+            this->setScrollPos(this->scrollPos_ + this->scrollVelocity);
+            if (this->scrollPos_ == 0 || this->scrollPos_ == this->maxScrollPos_) {
                 this->scrollVelocity = 0;
             }
 
@@ -396,8 +430,8 @@ namespace Aether {
         SDLHelper::drawTexture(this->renderTex, Colour{255, 255, 255, 255}, this->x(), this->y(), this->w(), this->h());
 
         // Draw scroll bar
-        if (this->maxScrollPos != 0 && this->showScrollBar_) {
-            int yPos = this->y() + PADDING/2 + (((float)this->scrollPos / this->maxScrollPos) * (this->h() - SCROLLBAR_SIZE - PADDING));
+        if (this->maxScrollPos_ != 0 && this->showScrollBar_) {
+            int yPos = this->y() + PADDING/2 + (((float)this->scrollPos_ / this->maxScrollPos_) * (this->h() - SCROLLBAR_SIZE - PADDING));
             SDLHelper::drawTexture(this->scrollBar, this->scrollBarColour, this->x() + this->w() - 5, yPos);
         }
     }

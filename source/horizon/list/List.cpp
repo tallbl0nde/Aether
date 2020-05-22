@@ -18,7 +18,7 @@ namespace Aether {
 
         // If button event isn't handled...
         if (!res && this->canScroll_) {
-            if ((e->button() == Button::DPAD_DOWN && this->scrollPos < this->maxScrollPos) || (e->button() == Button::DPAD_UP && this->scrollPos > 0)) {
+            if ((e->button() == Button::DPAD_DOWN && this->scrollPos() < this->maxScrollPos()) || (e->button() == Button::DPAD_UP && this->scrollPos() > 0)) {
                 if (e->type() == EventType::ButtonPressed) {
                     this->heldButton = e->button();
                     this->scroll = true;
@@ -43,23 +43,23 @@ namespace Aether {
         // Allow "manual" scrolling at top and bottom
         if (this->scroll) {
             if (this->heldButton == Button::DPAD_DOWN) {
-                this->setScrollPos(this->scrollPos + (500 * (dt/1000.0)));
+                this->setScrollPos(this->scrollPos() + (500 * (dt/1000.0)));
                 return;
             } else if (this->heldButton == Button::DPAD_UP) {
-                this->setScrollPos(this->scrollPos - (500 * (dt/1000.0)));
+                this->setScrollPos(this->scrollPos() - (500 * (dt/1000.0)));
                 return;
             }
         }
 
         // If focused element is not completely inside list scroll to it
-        if (!this->isScrolling && !this->isTouched && !this->isTouch && this->maxScrollPos != 0 && this->focused() != nullptr) {
+        if (!this->isScrolling && !this->isTouched && !this->isTouch && this->maxScrollPos() != 0 && this->focused() != nullptr) {
             // Check if above
             if (this->focused()->y() < this->y() + PADDING) {
-                this->setScrollPos(this->scrollPos + (this->scrollCatchup * (this->focused()->y() - (this->y() + PADDING)) * (dt/1000.0)));
+                this->setScrollPos(this->scrollPos() + (this->scrollCatchup * (this->focused()->y() - (this->y() + PADDING)) * (dt/1000.0)));
 
             // And below ;)
             } else if (this->focused()->y() + this->focused()->h() > this->y() + this->h() - (PADDING*2)) {
-                this->setScrollPos(this->scrollPos - (this->scrollCatchup * ((this->y() + this->h() - (PADDING*2)) - (this->focused()->y() + this->focused()->h())) * (dt/1000.0)));
+                this->setScrollPos(this->scrollPos() - (this->scrollCatchup * ((this->y() + this->h() - (PADDING*2)) - (this->focused()->y() + this->focused()->h())) * (dt/1000.0)));
             }
         }
     }

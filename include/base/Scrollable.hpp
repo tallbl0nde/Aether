@@ -46,18 +46,11 @@ namespace Aether {
             /** @brief Start of touch Y coord (used to touch element instead of scroll briefly) */
             int touchY;
             /** @brief Maximum Y offset in pixels */
-            unsigned int maxScrollPos;
+            unsigned int maxScrollPos_;
             /** @brief Amount to "catchup" by */
             float scrollCatchup;
             /** @brief Offset (y) in pixels */
-            unsigned int scrollPos;
-
-            /**
-             * @brief Sets scrollPos. Set to min/max if outside valid range
-             *
-             * @param pos new scroll position
-             */
-            void setScrollPos(int pos);
+            unsigned int scrollPos_;
 
             void addElementAt(Element * e, size_t i);
 
@@ -136,6 +129,29 @@ namespace Aether {
              * @param b true if element is scrollable, false otherwise
              */
             void setCanScroll(bool b);
+
+            /**
+             * @brief Returns the maximum value permitted for scrollPos (i.e. the limit).
+             * @note It cannot be set as it is done so by the object when items are changed
+             *
+             * @return int specifying maximum scroll position allowed
+             */
+            int maxScrollPos();
+
+            /**
+             * @brief Returns current scroll position of list (0 indicates at the top)
+             *
+             * @return int specifying scroll position
+             */
+            int scrollPos();
+
+            /**
+             * @brief Sets scrollPos. Set to min/max if outside valid range
+             * @note This should only need to be used in rare-ish cases (such as jumping to the top of a list after pressing a button)
+             *
+             * @param pos new scroll position
+             */
+            void setScrollPos(int pos);
 
             /**
              * @brief Add the given element to the list

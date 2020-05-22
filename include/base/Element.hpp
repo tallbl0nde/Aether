@@ -50,7 +50,7 @@ namespace Aether {
             /** @brief Indicator on whether the touch is "active" (i.e. hide highlighting) or not */
             static bool isTouch;
             /** @brief Pointer to parent element, if there is one */
-            Element * parent;
+            Element * parent_;
             /** @brief Vector of child elements (used to call their methods) */
             std::vector<Element *> children;
             /** @brief Children element which is highlighted/focused (to regain focus on activation) */
@@ -162,6 +162,13 @@ namespace Aether {
              * @param h new height of element
              */
             virtual void setXYWH(int x, int y, int w, int h);
+
+            /**
+             * @brief Returns the parent element of this element
+             *
+             * @return parent element
+             */
+            Element * parent();
 
             /**
              * @brief Set the parent element of this element

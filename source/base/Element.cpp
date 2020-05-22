@@ -15,7 +15,7 @@ namespace Aether {
     Element::Element(int x, int y, int w, int h) {
         this->setXYWH(x, y, w, h);
 
-        this->parent = nullptr;
+        this->parent_ = nullptr;
         this->hidden_ = false;
         this->callback_ = nullptr;
         this->hasSelectable_ = false;
@@ -84,8 +84,12 @@ namespace Aether {
         this->setWH(w, h);
     }
 
+    Element * Element::parent() {
+        return this->parent_;
+    }
+
     void Element::setParent(Element * p) {
-        this->parent = p;
+        this->parent_ = p;
     }
 
     void Element::addElement(Element * e) {
@@ -148,8 +152,8 @@ namespace Aether {
 
     void Element::setSelected(bool b) {
         this->selected_ = b;
-        if (this->parent != nullptr) {
-            this->parent->setHasSelected(b);
+        if (this->parent_ != nullptr) {
+            this->parent_->setHasSelected(b);
         }
     }
 
@@ -176,8 +180,8 @@ namespace Aether {
 
     void Element::setHighlighted(bool b) {
         this->highlighted_ = b;
-        if (this->parent != nullptr) {
-            this->parent->setHasHighlighted(b);
+        if (this->parent_ != nullptr) {
+            this->parent_->setHasHighlighted(b);
         }
         if (!b) {
             this->setSelected(false);
@@ -265,8 +269,8 @@ namespace Aether {
 
     void Element::setHasHighlighted(bool b) {
         this->hasHighlighted_ = b;
-        if (this->parent != nullptr) {
-            this->parent->setHasHighlighted(b);
+        if (this->parent_ != nullptr) {
+            this->parent_->setHasHighlighted(b);
         }
     }
 
@@ -276,8 +280,8 @@ namespace Aether {
 
     void Element::setHasSelectable(bool b) {
         this->hasSelectable_ = b;
-        if (this->parent != nullptr) {
-            this->parent->setHasSelectable(b);
+        if (this->parent_ != nullptr) {
+            this->parent_->setHasSelectable(b);
         }
     }
 
@@ -287,8 +291,8 @@ namespace Aether {
 
     void Element::setHasSelected(bool b) {
         this->hasSelected_ = b;
-        if (this->parent != nullptr) {
-            this->parent->setHasSelected(b);
+        if (this->parent_ != nullptr) {
+            this->parent_->setHasSelected(b);
         }
     }
 
@@ -346,9 +350,25 @@ namespace Aether {
         }
         this->focused_ = e;
 
-        if (e != nullptr) {
-            e->setActive();
+        if (e == nullptr) {
+            return;
         }
+        e->setInactive();
+
+        // Climb up the tree until we find the root
+        Element * last = e;
+        Element * next = e->parent();
+        while (next != nullptr) {
+            // Stop if not focussed
+            if (next->focused() != last) {
+                return;
+            }
+            last = next;
+            next = next->parent();
+        }
+
+        // If we've reached the root then we need to set it active
+        e->setActive();
     }
 
     void Element::setFocussed(Element * e) {
@@ -364,9 +384,9 @@ namespace Aether {
     }
 
     Element::~Element() {
-        if (this->parent != nullptr) {
-            if (this->parent->focused() == this) {
-                this->parent->setFocused(nullptr);
+        if (this->parent_ != nullptr) {
+            if (this->parent_->focused() == this) {
+                this->parent_->setFocused(nullptr);
             }
         }
         this->removeAllElements();
@@ -376,22 +396,21 @@ namespace Aether {
         Element * next = e;
 
         // First get root element (screen)
-        while (e->parent->parent != nullptr) {
-            e = e->parent;
+        while (e->parent_->parent_ != nullptr) {
+            e = e->parent_;
         }
 
         // Set inactive
         e->setInactive();
 
         // Set element active
-        next->setActive();
-        next->parent->setFocused(next);
+        next->parent_->setFocused(next);
 
         // Set focused up the tree
         e = next;
-        while (e->parent->parent != nullptr) {
-            e->parent->setFocused(e);
-            e = e->parent;
+        while (e->parent_->parent_ != nullptr) {
+            e->parent_->setFocused(e);
+            e = e->parent_;
         }
     }
 };

@@ -131,7 +131,7 @@ namespace Aether {
 
         // Set this element focused if arrows touched (they're the only children that can handle events)
         if (Container::handleEvent(e)) {
-            this->parent->setFocused(this);
+            this->parent()->setFocused(this);
             b = true;
         }
 
