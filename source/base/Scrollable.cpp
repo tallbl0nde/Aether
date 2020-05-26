@@ -230,11 +230,38 @@ namespace Aether {
     }
 
     bool Scrollable::removeElement(Element * e) {
-        bool b = Container::removeElement(e);
-        if (b) {
+        std::vector<Element *>::iterator it = std::find(this->children.begin(), this->children.end(), e);
+        // If the element was found loop over remaining elements and delete
+        if (it != this->children.end()) {
+            // Store height of element to delete
+            int h = e->h();
+            long i = std::distance(this->children.begin(), it);
+
+            // If element is focussed change focus to a surrounding element if possible
+            if (this->focussed() == this->children[i]) {
+                if (i+1 < this->children.size()) {
+                    this->setFocussed(this->children[i+1]);
+                } else if (i-1 >= 0) {
+                    this->setFocussed(this->children[i-1]);
+                } else {
+                    this->setFocussed(nullptr);
+                }
+            }
+
+            // Delete here (don't use Container:: to avoid repeated find)
+            delete this->children[i];
+            this->children.erase(this->children.begin() + i);
+
+            // Recalculate y values
+            for (size_t j = i; j < this->children.size(); j++) {
+                this->children[j]->setY(this->children[j]->y() - h);
+            }
+
+            // Update max pos
             this->updateMaxScrollPos();
+            return true;
         }
-        return b;
+        return false;
     }
 
     void Scrollable::removeAllElements() {

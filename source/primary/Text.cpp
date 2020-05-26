@@ -8,6 +8,7 @@
 namespace Aether {
     Text::Text(int x, int y, std::string s, unsigned int f, FontStyle l, RenderType r) : BaseText(x, y, s, f, l, r) {
         this->scroll_ = false;
+        this->scrollSpeed_ = DEFAULT_SCROLL_SPEED;
 
         // Now check if we need to render immediately
         if (this->renderType == RenderType::OnCreate) {
@@ -52,7 +53,6 @@ namespace Aether {
         this->scroll_ = s;
         this->scrollPauseTime = -DEFAULT_SCROLL_PAUSE;
         this->setMask(0, 0, this->w(), this->texH());
-        this->scrollSpeed_ = DEFAULT_SCROLL_SPEED;
     }
 
     int Text::scrollSpeed() {
@@ -96,7 +96,7 @@ namespace Aether {
                             this->scrollPauseTime = 0;
                         }
                     } else {
-                        this->setMask(xPos + DEFAULT_SCROLL_SPEED*(dt/1000.0), 0, this->w(), this->texH());
+                        this->setMask(xPos + this->scrollSpeed_*(dt/1000.0), 0, this->w(), this->texH());
                     }
                 }
             }
