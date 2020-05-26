@@ -1,5 +1,5 @@
-#include "Texture.hpp"
-#include "ThreadPool.hpp"
+#include "Aether/base/Texture.hpp"
+#include "Aether/ThreadPool.hpp"
 
 namespace Aether {
     Texture::Texture(int x, int y, RenderType t) : Element(x, y) {

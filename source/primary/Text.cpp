@@ -1,4 +1,4 @@
-#include "Text.hpp"
+#include "Aether/primary/Text.hpp"
 
 // Time to pause after text scroll
 #define DEFAULT_SCROLL_PAUSE 700

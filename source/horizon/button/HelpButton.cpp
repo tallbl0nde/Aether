@@ -1,4 +1,4 @@
-#include "HelpButton.hpp"
+#include "Aether/horizon/button/HelpButton.hpp"
 
 namespace Aether {
     HelpButton::HelpButton(int x, int y, int d, std::function<void()> f) : Element(x, y, d, d) {

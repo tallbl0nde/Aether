@@ -1,6 +1,6 @@
-#include "Display.hpp"
-#include "ThreadPool.hpp"
-#include "utils/Utils.hpp"
+#include "Aether/Display.hpp"
+#include "Aether/ThreadPool.hpp"
+#include "Aether/utils/Utils.hpp"
 
 // Delay (in ms) to pause after button held
 #define HOLD_DELAY 400

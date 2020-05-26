@@ -1,7 +1,7 @@
 #include <future>
 #include <mutex>
 #include <queue>
-#include "ThreadPool.hpp"
+#include "Aether/ThreadPool.hpp"
 #include <vector>
 
 // Maximum number of threads running at once

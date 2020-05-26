@@ -1,4 +1,4 @@
-#include "RoundProgressBar.hpp"
+#include "Aether/horizon/progress/RoundProgressBar.hpp"
 
 namespace Aether {
     RoundProgressBar::RoundProgressBar(int x, int y, int w, int h) : BaseProgress(x, y, w, h) {

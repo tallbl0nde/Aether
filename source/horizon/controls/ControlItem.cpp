@@ -1,6 +1,6 @@
 #include <algorithm>
-#include "ControlItem.hpp"
-#include "utils/Utils.hpp"
+#include "Aether/horizon/controls/ControlItem.hpp"
+#include "Aether/utils/Utils.hpp"
 
 // Font sizes
 #define HINT_FONT_SIZE 22
