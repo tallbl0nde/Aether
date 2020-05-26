@@ -1,7 +1,7 @@
 #ifndef AETHER_EVENT_HPP
 #define AETHER_EVENT_HPP
 
-#include "utils/Types.hpp"
+#include "Aether/utils/Types.hpp"
 
 namespace Aether {
     /**

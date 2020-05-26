@@ -1,7 +1,7 @@
 #ifndef AETHER_OVERLAY_HPP
 #define AETHER_OVERLAY_HPP
 
-#include "Screen.hpp"
+#include "Aether/Screen.hpp"
 
 namespace Aether {
     /**
