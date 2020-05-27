@@ -3,7 +3,7 @@ My attempt at creating a Horizon-esque UI library for homebrew. While there's no
 
 Documentation can be found [here](https://tallbl0nde.github.io/Aether/)!
 
-A massive thanks to @eXhumer for preparing the documentation :)
+A massive thanks to [eXhumer](https://www,github.com/eXhumer/) for preparing the documentation :)
 
 ## Building
 You'll need the following packages installed through (dkp-)pacman in order for Aether to compile:
@@ -33,4 +33,9 @@ LIBS    := -lAether -lnx <your libs here> `sdl2-config --libs` -lSDL2_ttf `freet
 LIBDIRS := <your libdirs here> $(CURDIR)/Aether
 ```
 ### 3. Done!
-**Note:** This will setup Aether to clone and compile in the root (top) directory in your project's repository. I'll leave it up to you to figure out how to set it up somewhere else :P
+**Note:** This will setup Aether to clone and compile in the root (top) directory in your project's repository.
+
+To move the submodule to a different directory (for example, we will move Aether to `libs` in the root of project's directory), run the following command
+```
+git mv Aether/ libs/
+```
