@@ -35,7 +35,11 @@ LIBDIRS := <your libdirs here> $(CURDIR)/Aether
 ### 3. Done!
 **Note:** This will setup Aether to clone and compile in the root (top) directory in your project's repository.
 
-To move the submodule to a different directory (for example, we will move Aether to `libs` in the root of project's directory), run the following command
+To move the submodule to a different directory (for example, we will move Aether to `libs` in the root of project's directory), run the following command:
 ```
 git mv Aether/ libs/
+```
+Then adjust your Makefile accordingly:
+```
+LIBDIRS := <your libdirs here> $(CURDIR)/libs/Aether
 ```
