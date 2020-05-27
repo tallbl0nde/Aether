@@ -1,4 +1,4 @@
-#include "Screen.hpp"
+#include "Aether/Screen.hpp"
 
 // Size of highlight border
 #define HIGHLIGHT_SIZE 5

@@ -17,8 +17,11 @@ include $(DEVKITPRO)/libnx/switch_rules
 #---------------------------------------------------------------------------------
 BUILD		:=	build
 TARGET		:=  Aether
-SOURCES		:=	source source/base source/experimental/base source/experimental/primary source/horizon source/horizon/button source/horizon/controls source/horizon/input source/horizon/list source/horizon/menu source/horizon/overlays source/horizon/progress source/primary source/utils
-INCLUDES	:=	include include/base include/experimental/base include/experimental/primary include/horizon include/horizon/button include/horizon/controls include/horizon/input include/horizon/list include/horizon/menu include/horizon/overlays include/horizon/progress include/primary include/utils
+SOURCES		:=	source source/base source/horizon source/horizon/button\
+				source/horizon/controls source/horizon/input source/horizon/list\
+				source/horizon/menu source/horizon/overlays source/horizon/progress\
+				source/primary source/utils
+INCLUDES	:=	include
 
 #---------------------------------------------------------------------------------
 # options for code generation
@@ -37,7 +40,8 @@ CXXFLAGS	:= $(CFLAGS) -fno-rtti -fno-exceptions -std=gnu++17
 ASFLAGS	:=	-g $(ARCH)
 LDFLAGS	=	-specs=${DEVKITPRO}/libnx/switch.specs -g $(ARCH) -Wl,-r,-Map,$(notdir $*.map)
 
-LIBS	:=  -lstdc++fs -lnx `sdl2-config --libs` -lSDL2_ttf `freetype-config --libs` -lSDL2_gfx -lSDL2_image -lpng -ljpeg -lwebp
+LIBS	:=  -lstdc++fs -lnx `sdl2-config --libs` -lSDL2_ttf `freetype-config --libs`\
+			-lSDL2_gfx -lSDL2_image -lpng -ljpeg -lwebp
 
 #---------------------------------------------------------------------------------
 # list of directories containing libraries, this must be the top level containing

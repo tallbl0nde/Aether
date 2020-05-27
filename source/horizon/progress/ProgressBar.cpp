@@ -1,4 +1,4 @@
-#include "ProgressBar.hpp"
+#include "Aether/horizon/progress/ProgressBar.hpp"
 
 namespace Aether {
     ProgressBar::ProgressBar(int x, int y, int w) : BaseProgress(x, y, w, 16) {

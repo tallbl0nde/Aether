@@ -1,4 +1,4 @@
-#include "MessageBox.hpp"
+#include "Aether/horizon/overlays/MessageBox.hpp"
 
 // Default dimensions
 #define WIDTH 770

@@ -1,4 +1,4 @@
-#include "Image.hpp"
+#include "Aether/primary/Image.hpp"
 
 namespace Aether {
     Image::Image(int x, int y, std::string p, int xF, int yF, RenderType t) : Texture(x, y, t) {

@@ -1,4 +1,4 @@
-#include "MenuSeparator.hpp"
+#include "Aether/horizon/menu/MenuSeparator.hpp"
 
 // Pixels to pad above/below line
 #define PADDING 14

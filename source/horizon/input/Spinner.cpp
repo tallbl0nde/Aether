@@ -1,4 +1,4 @@
-#include "Spinner.hpp"
+#include "Aether/horizon/input/Spinner.hpp"
 
 // Default size + dimensions
 #define ARROW_FONT_SIZE 30

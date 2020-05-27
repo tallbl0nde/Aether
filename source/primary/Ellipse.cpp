@@ -1,4 +1,4 @@
-#include "Ellipse.hpp"
+#include "Aether/primary/Ellipse.hpp"
 
 namespace Aether {
     Ellipse::Ellipse(int x, int y, unsigned int xd, unsigned int yd) : Texture(x, y, RenderType::OnCreate) {

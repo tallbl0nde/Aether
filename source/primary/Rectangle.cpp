@@ -1,4 +1,4 @@
-#include "Rectangle.hpp"
+#include "Aether/primary/Rectangle.hpp"
 
 namespace Aether {
     Rectangle::Rectangle(int x, int y, int w, int h, unsigned int r) : Texture(x, y, RenderType::OnCreate) {

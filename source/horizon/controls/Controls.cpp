@@ -1,4 +1,4 @@
-#include "Controls.hpp"
+#include "Aether/horizon/controls/Controls.hpp"
 
 namespace Aether {
     Controls::Controls(int x, int y, int w, int h) : Container(x, y, w, h) {

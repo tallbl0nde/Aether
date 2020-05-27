@@ -1,4 +1,4 @@
-#include "MenuOption.hpp"
+#include "Aether/horizon/menu/MenuOption.hpp"
 
 // Default dimensions
 #define DEFAULT_WIDTH 300
