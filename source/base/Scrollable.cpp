@@ -61,25 +61,23 @@ namespace Aether {
     }
 
     void Scrollable::stopScrolling() {
-        if (this->isScrolling) {
-            // Move highlight to top element if not visible
-            if (this->hasSelectable()) {
-                if (!(this->focused()->y() >= this->y() && this->focused()->y() + this->focused()->h() <= this->y() + this->h())) {
-                    for (size_t i = 0; i < this->children.size(); i++) {
-                        if (this->children[i]->y() > this->y() && this->children[i]->selectable()) {
-                            this->setFocused(this->children[i]);
-                            if (this->parent()->focused() == this) {
-                                this->focused()->setActive();
-                            }
-                            break;
+        // Move highlight to top element if not visible
+        if (this->hasSelectable() && this->focused() != nullptr) {
+            if (!(this->focused()->y() >= this->y() && this->focused()->y() + this->focused()->h() <= this->y() + this->h())) {
+                for (size_t i = 0; i < this->children.size(); i++) {
+                    if (this->children[i]->y() > this->y() && this->children[i]->selectable()) {
+                        this->setFocused(this->children[i]);
+                        if (this->parent()->focused() == this) {
+                            this->focused()->setActive();
                         }
+                        break;
                     }
                 }
             }
-
-            this->scrollVelocity = 0;
-            this->isScrolling = false;
         }
+
+        this->scrollVelocity = 0;
+        this->isScrolling = false;
     }
 
     void Scrollable::setW(int w) {
