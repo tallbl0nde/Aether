@@ -18,17 +18,18 @@ namespace Aether {
         public:
             /**
              * @brief Construct a new List object. The scrollbar is shown by default.
-             * 
+             *
              * @param x x-coordinate of start position offset
              * @param y y-coordinate of start position offset
              * @param w width of list
              * @param h height of list
+             * @param p type of padding to use (see \ref ::Padding)
              */
-            List(int x, int y, int w, int h);
+            List(int x, int y, int w, int h, Padding p = Padding::Default);
 
             /**
              * @brief Attempts to handle event
-             * 
+             *
              * @param e event to attempt handle
              * @return true if event was handled
              * @return false otherwise
@@ -37,7 +38,7 @@ namespace Aether {
 
             /**
              * @brief Updates info as necessary
-             * 
+             *
              * @param dt change in time
              */
             void update(uint32_t dt);

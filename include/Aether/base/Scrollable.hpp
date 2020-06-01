@@ -13,6 +13,8 @@ namespace Aether {
      */
     class Scrollable : public Container {
         private:
+            /** @brief Whether to have padding */
+            Padding paddingType;
             /** @brief Texture to render to */
             SDL_Texture * renderTex;
             /** @brief Scroll bar texture */
@@ -23,9 +25,9 @@ namespace Aether {
             bool showScrollBar_;
 
             /**
-             * @brief Sums up height of children and sets maximum scroll value
+             * @brief Returns amount of padding for one side based on padding type
              */
-            void updateMaxScrollPos();
+            int paddingAmount();
 
             /**
              * @brief Stops scrolling and sets first selectable element as active
@@ -54,6 +56,11 @@ namespace Aether {
 
             void addElementAt(Element * e, size_t i);
 
+            /**
+             * @brief Sums up height of children and sets maximum scroll value
+             */
+            void updateMaxScrollPos();
+
         public:
             /**
              * @brief Construct a new Scrollable object
@@ -62,8 +69,9 @@ namespace Aether {
              * @param y y-coordinate of scrollable element
              * @param w width of scrollable element
              * @param h height of scrollable element
+             * @param p type of padding to use (see \ref ::Padding)
              */
-            Scrollable(int x, int y, int w, int h);
+            Scrollable(int x, int y, int w, int h, Padding p = Padding::Default);
 
             /**
              * @brief Get amount to "catchup" by

@@ -18,10 +18,11 @@
 namespace Aether {
     SDL_Texture * Scrollable::scrollBar = nullptr;
 
-    Scrollable::Scrollable(int x, int y, int w, int h) : Container(x, y, w, h) {
+    Scrollable::Scrollable(int x, int y, int w, int h, Padding p) : Container(x, y, w, h) {
         this->canScroll_ = true;
         this->isScrolling = false;
         this->isTouched = false;
+        this->paddingType = p;
         this->scrollCatchup = DEFAULT_CATCHUP;
         this->scrollDampening = DEFAULT_DAMPENING;
         this->scrollVelocity = 0;
@@ -34,6 +35,22 @@ namespace Aether {
         this->scrollBarColour = Colour{255, 255, 255, 255};
         this->touchY = std::numeric_limits<int>::min();
         this->renderTex = SDLHelper::createTexture(w, h);
+    }
+
+    int Scrollable::paddingAmount() {
+        switch (this->paddingType) {
+            case Padding::Default:
+                return SIDE_PADDING;
+                break;
+
+            case Padding::FitScrollbar:
+                return 15;
+                break;
+
+            case Padding::None:
+                return 5;   // Need some padding to handle highlight
+                break;
+        }
     }
 
     void Scrollable::updateMaxScrollPos() {
@@ -87,7 +104,7 @@ namespace Aether {
         SDLHelper::destroyTexture(this->renderTex);
         this->renderTex = SDLHelper::createTexture(this->w(), this->h());
         for (size_t i = 0; i < this->children.size(); i++) {
-            this->children[i]->setW(this->w() - 2*SIDE_PADDING);
+            this->children[i]->setW(this->w() - 2*this->paddingAmount());
         }
     }
 
@@ -169,7 +186,7 @@ namespace Aether {
 
     void Scrollable::addElementAt(Element * e, size_t i) {
         // Position element at correct position
-        e->setX(this->x() + SIDE_PADDING);
+        e->setX(this->x() + this->paddingAmount());
         if (i == 0) {
             if (this->children.empty()) {
                 e->setY(this->y() + PADDING);
@@ -180,7 +197,7 @@ namespace Aether {
             Element * last = this->children[i - 1];
             e->setY(last->y() + last->h());
         }
-        e->setW(this->w() - 2*SIDE_PADDING);
+        e->setW(this->w() - 2*this->paddingAmount());
 
         Container::addElementAt(e, i);
 

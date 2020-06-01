@@ -34,11 +34,20 @@ namespace Aether {
         RSTICK_UP,      /**< Button Right Stick Up */
         RSTICK_RIGHT,   /**< Button Right Stick Right */
         RSTICK_DOWN,    /**< Button Right Stick Down */
-        SL_LEFT,
-        SR_LEFT,
-        SL_RIGHT,
-        SR_RIGHT,
+        SL_LEFT,        /**< Left Joycon SL Button */
+        SR_LEFT,        /**< Left Joycon SR Button */
+        SL_RIGHT,       /**< Right Joycon SL Button */
+        SR_RIGHT,       /**< Right Joycon SR Button */
         NO_BUTTON       /**< Dummy button used for symbolising no button */
+    };
+
+    /**
+     * @brief Enum class for amount of padding in a scrollable
+     */
+    enum class Padding {
+        Default,            /**< Default amount of padding (~5% of list width either side of item) */
+        FitScrollbar,       /**< No padding except to fit the scrollbar */
+        None           /**< No padding whatsoever (item width = list width) */
     };
 
     /**

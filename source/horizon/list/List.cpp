@@ -5,7 +5,7 @@
 #define PADDING 40
 
 namespace Aether {
-    List::List(int x, int y, int w, int h) : Scrollable(x, y, w, h) {
+    List::List(int x, int y, int w, int h, Padding p) : Scrollable(x, y, w, h, p) {
         this->setShowScrollBar(true);
         this->setCatchup(13.5);
         this->heldButton = Button::NO_BUTTON;
