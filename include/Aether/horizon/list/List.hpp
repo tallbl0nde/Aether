@@ -14,6 +14,8 @@ namespace Aether {
             Button heldButton;
             /** @brief Indicator on whether list is being scrolled */
             bool scroll;
+            /** @brief Whether to wrap around */
+            bool wrapAround_;
 
         public:
             /**
@@ -26,6 +28,21 @@ namespace Aether {
              * @param p type of padding to use (see \ref ::Padding)
              */
             List(int x, int y, int w, int h, Padding p = Padding::Default);
+
+            /**
+             * @brief Returns whether the list is configured to wrap around
+             *
+             * @return true if it is
+             * @return false otherwise
+             */
+            bool wrapAround();
+
+            /**
+             * @brief Set whether the list 'wraps around' from top to bottom and vice versa
+             *
+             * @param b true to wrap around, false to not
+             */
+            void setWrapAround(bool b);
 
             /**
              * @brief Attempts to handle event

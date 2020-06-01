@@ -10,6 +10,15 @@ namespace Aether {
         this->setCatchup(13.5);
         this->heldButton = Button::NO_BUTTON;
         this->scroll = false;
+        this->wrapAround_ = false;
+    }
+
+    bool List::wrapAround() {
+        return this->wrapAround_;
+    }
+
+    void List::setWrapAround(bool b) {
+        this->wrapAround_ = b;
     }
 
     bool List::handleEvent(InputEvent * e) {
@@ -18,17 +27,55 @@ namespace Aether {
 
         // If button event isn't handled...
         if (!res && this->canScroll_) {
-            if ((e->button() == Button::DPAD_DOWN && this->scrollPos() < this->maxScrollPos()) || (e->button() == Button::DPAD_UP && this->scrollPos() > 0)) {
-                if (e->type() == EventType::ButtonPressed) {
-                    this->heldButton = e->button();
-                    this->scroll = true;
-                    return true;
+            if (e->type() == EventType::ButtonPressed) {
+                if (e->button() == Button::DPAD_DOWN) {
+                    // Wrap around if needed
+                    if (this->wrapAround_ && e->id() != FAKE_ID) {
+                        for (size_t i = 0; i < this->children.size(); i++) {
+                            if (this->children[i]->selectable()) {
+                                this->setFocused(this->children[i]);
+                                break;
+                            }
+                        }
+                        this->setScrollPos(0);
+                        return true;
+
+                    // Scroll down until at the bottom
+                    } else if (this->scrollPos() < this->maxScrollPos()) {
+                        this->heldButton = e->button();
+                        this->scroll = true;
+                        return true;
+                    }
                 }
 
-                if (e->type() == EventType::ButtonReleased && e->button() == this->heldButton && e->id() != FAKE_ID) {
+                if (e->button() == Button::DPAD_UP) {
+                    // Scroll up until at the top
+                    if (this->wrapAround_ && e->id() != FAKE_ID) {
+                        for (size_t i = this->children.size(); i > 0; i--) {
+                            if (this->children[i-1]->selectable()) {
+                                this->setFocused(this->children[i-1]);
+                                break;
+                            }
+                        }
+                        this->setScrollPos(this->maxScrollPos());
+                        return true;
+
+                    // Otherwise wrap around if needed
+                    } else if (this->scrollPos() > 0) {
+                        this->heldButton = e->button();
+                        this->scroll = true;
+                        return true;
+                    }
+                }
+
+            } else if (e->type() == EventType::ButtonReleased) {
+                // Remove held button on release
+                if (e->button() == this->heldButton && e->id() != FAKE_ID) {
                     this->heldButton = Button::NO_BUTTON;
                     return true;
                 }
+
+            // Stop scrolling if not a relevant event
             } else {
                 this->scroll = false;
             }
