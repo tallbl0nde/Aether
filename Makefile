@@ -1,131 +1,113 @@
-#---------------------------------------------------------------------------------
-.SUFFIXES:
-#---------------------------------------------------------------------------------
-
-ifeq ($(strip $(DEVKITPRO)),)
-$(error "Please set DEVKITPRO in your environment. export DEVKITPRO=<path to>/devkitpro")
+ifndef DEVKITPRO
+$(error DEVKITPRO is not present in your environment. This can be fixed by sourcing switchvars.sh from /opt/devkitpro/)
 endif
 
-include $(DEVKITPRO)/devkitA64/base_rules
-include $(DEVKITPRO)/libnx/switch_rules
+include $(DEVKITPRO)/devkitA64/base_tools
 
-#---------------------------------------------------------------------------------
-# TARGET is the name of the output
-# SOURCES is a list of directories containing source code
-# DATA is a list of directories containing data files
-# INCLUDES is a list of directories containing header files
-#---------------------------------------------------------------------------------
-BUILD		:=	build
-TARGET		:=  Aether
-SOURCES		:=	source source/base source/horizon source/horizon/button\
-				source/horizon/controls source/horizon/input source/horizon/list\
-				source/horizon/menu source/horizon/overlays source/horizon/progress\
-				source/primary source/utils
-INCLUDES	:=	include
+BUILD	:=	build
+TARGET	:=  Aether
+SOURCE	:=	source
+INCLUDE	:=	include
 
-#---------------------------------------------------------------------------------
-# options for code generation
-#---------------------------------------------------------------------------------
-ARCH	:=	-march=armv8-a -mtune=cortex-a57 -mtp=soft -fPIC -ftls-model=local-exec
+DOCS_CONFIG	:=	Doxyfile
 
-CFLAGS	:=	-g -w -D__SWITCH__ \
-			-ffunction-sections \
-			-fdata-sections \
-			$(ARCH) \
-
-CFLAGS	+=	$(INCLUDE)
-
-CXXFLAGS	:= $(CFLAGS) -fno-rtti -fno-exceptions -std=gnu++17
-
-ASFLAGS	:=	-g $(ARCH)
-LDFLAGS	=	-specs=${DEVKITPRO}/libnx/switch.specs -g $(ARCH) -Wl,-r,-Map,$(notdir $*.map)
-
-LIBS	:=  -lstdc++fs -lnx `sdl2-config --libs` -lSDL2_ttf `freetype-config --libs`\
-			-lSDL2_gfx -lSDL2_image -lpng -ljpeg -lwebp
-
-#---------------------------------------------------------------------------------
-# list of directories containing libraries, this must be the top level containing
-# include and lib
-#---------------------------------------------------------------------------------
-LIBDIRS	:= $(PORTLIBS) $(LIBNX)
-
-#---------------------------------------------------------------------------------
-# no real need to edit anything past this point unless you need to add additional
-# rules for different file extensions
-#---------------------------------------------------------------------------------
-ifneq ($(BUILD),$(notdir $(CURDIR)))
-#---------------------------------------------------------------------------------
-
-export VPATH	:=	$(foreach dir,$(SOURCES),$(CURDIR)/$(dir)) \
-			$(foreach dir,$(DATA),$(CURDIR)/$(dir))
-
-CFILES		:=	$(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.c)))
-CPPFILES	:=	$(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.cpp)))
-SFILES		:=	$(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.s)))
-BINFILES	:=	$(foreach dir,$(DATA),$(notdir $(wildcard $(dir)/*.*)))
-
-#---------------------------------------------------------------------------------
-# use CXX for linking C++ projects, CC for standard C
-#---------------------------------------------------------------------------------
-ifeq ($(strip $(CPPFILES)),)
-#---------------------------------------------------------------------------------
-	export LD	:=	$(CC)
-#---------------------------------------------------------------------------------
-else
-#---------------------------------------------------------------------------------
-	export LD	:=	$(CXX)
-#---------------------------------------------------------------------------------
-endif
-#---------------------------------------------------------------------------------
-export OUTPUT       := $(CURDIR)/lib/lib$(TARGET).a
-export DEPSDIR      := $(CURDIR)/$(BUILD)
-export OFILES_BIN	:=	$(addsuffix .o,$(BINFILES))
-export OFILES_SRC	:=	$(CPPFILES:.cpp=.o) $(CFILES:.c=.o) $(SFILES:.s=.o)
-export OFILES 	:=	$(OFILES_BIN) $(OFILES_SRC)
-export HFILES	:=	$(addsuffix .h,$(subst .,_,$(BINFILES)))
-
-export INCLUDE	:=	$(foreach dir,$(INCLUDES),-I$(CURDIR)/$(dir)) \
-			$(foreach dir,$(LIBDIRS),-I$(dir)/include) \
-			-I$(CURDIR)/$(BUILD)
-
-.PHONY: $(BUILD) clean all
-
-#---------------------------------------------------------------------------------
-all: $(BUILD)
-
-$(BUILD):
-	@[ -d $@ ] || mkdir -p $@
-	@mkdir -p $(CURDIR)/lib
-	@$(MAKE) --no-print-directory -C $(BUILD) -f $(CURDIR)/Makefile
-
-#---------------------------------------------------------------------------------
-clean:
-	@echo Cleaning build files...
-	@rm -fr $(CURDIR)/lib
-	@rm -fr $(BUILD) $(OUTPUT).a
-	@echo Done!
-
-#---------------------------------------------------------------------------------
-else
-
-DEPENDS	:=	$(OFILES:.o=.d)
-
-#---------------------------------------------------------------------------------
-# main targets
-#---------------------------------------------------------------------------------
-$(OUTPUT)	:	$(OFILES)
-
-$(OFILES_SRC)	: $(HFILES)
-
-#---------------------------------------------------------------------------------
-%_bin.h %.bin.o	:	%.bin
-#---------------------------------------------------------------------------------
-	@echo $(notdir $<)
-	@$(bin2o)
-
+OUTPUT		:=	lib/lib$(TARGET).a
+ARCH		:=	-march=armv8-a -mtune=cortex-a57 -mtp=soft -fPIC -ftls-model=local-exec
+DEFINES		:=	-D__SWITCH__
+LIBDIRS		:=	$(PORTLIBS) $(LIBNX)
+INCLUDE		:=	$(foreach dir,$(LIBDIRS),-I$(dir)/include) -I$(INCLUDE)
+CFLAGS		:=	-w -O3 -ffunction-sections -fdata-sections $(shell sdl2-config --cflags)\
+				$(shell freetype-config --cflags) $(ARCH) $(INCLUDE) $(DEFINES)
+CXXFLAGS	:=	$(CFLAGS) -fno-rtti -fno-exceptions -std=gnu++17
+LIBS		:=	-lstdc++fs -lnx $(shell sdl2-config --libs) -lSDL2_ttf -lSDL2_gfx -lSDL2_image\
+				$(shell freetype-config --libs) -lpng -ljpeg -lwebp
+CFILES		:=	$(wildcard $(SOURCE)/*.c) $(wildcard $(SOURCE)/*/*.c)
+CPPFILES	:=	$(wildcard $(SOURCE)/*.cpp) $(wildcard $(SOURCE)/*/*.cpp)
+OBJSDIR		:=	$(BUILD)/objs
+DEPSDIR		:=	$(BUILD)/deps
+OFILES		:=	$(foreach CPPFILE,$(CPPFILES),$(patsubst $(SOURCE)/%.cpp,$(OBJSDIR)/%.o,$(CPPFILE)))\
+				$(foreach CFILE,$(CFILES),$(patsubst $(SOURCE)/%.c,$(OBJSDIR)/%.o,$(CFILE)))
+DEPENDS		:=	$(foreach OFILE,$(OFILES),$(patsubst $(OBJSDIR)/%.o,$(DEPSDIR)/%.d,$(OFILE)))
 
 -include $(DEPENDS)
+.PHONY: $(BUILD) library install uninstall docs clean cleandocs
 
-#---------------------------------------------------------------------------------------
-endif
-#---------------------------------------------------------------------------------------
+library : $(OUTPUT)
+install : library
+$(OUTPUT) : $(OFILES)
+$(OFILES) : $(OBJSDIR) $(DEPSDIR)
+$(OBJSDIR) : $(BUILD)
+$(DEPSDIR) : $(BUILD)
+
+$(BUILD):
+	@echo Creating build directory if it doesn\'t exist...
+	@[ -d $@ ] || mkdir -p $@
+	@echo Creating output lib directory if it doesn\'t exist...
+	@[ -d $(CURDIR)/lib ] || mkdir -p $(CURDIR)/lib
+
+$(OBJSDIR):
+	@echo Creating object directories if it doesn\'t exist...
+	@[ -d $@ ] || mkdir -p $@
+	@[ -d $@/base ] || mkdir -p $@/base
+	@[ -d $@/horizon ] || mkdir -p $@/horizon
+	@[ -d $@/primary ] || mkdir -p $@/primary
+	@[ -d $@/utils ] || mkdir -p $@/utils
+
+$(DEPSDIR):
+	@echo Creating object dependent directories if it doesn\'t exist...
+	@[ -d $@ ] || mkdir -p $@
+	@[ -d $@/base ] || mkdir -p $@/base
+	@[ -d $@/horizon ] || mkdir -p $@/horizon
+	@[ -d $@/primary ] || mkdir -p $@/primary
+	@[ -d $@/utils ] || mkdir -p $@/utils
+
+clean:
+	@echo -n Cleaning build files...
+	@rm -fr $(OUTPUT) $(OBJSDIR)/*.o $(DEPSDIR)/*.d $(OBJSDIR)/*/*.o $(DEPSDIR)/*/*.d
+	@echo Done!
+
+cleandocs:
+	@echo -n Cleaning generated doc files...
+	@rm -fr docs/*
+	@echo Done!
+
+install:
+	@echo -n Installing Aether headers files...
+	@mkdir -p $(PORTLIBS_PREFIX)/include/Aether/
+	@cp -r $(INCLUDES)/Aether/* $(PORTLIBS_PREFIX)/include/Aether/
+	@echo Done!
+	@echo -n Installing Aether library files...
+	@mkdir -p $(PORTLIBS_PREFIX)/lib/
+	@cp $(OUTPUT) $(PORTLIBS_PREFIX)/lib/
+	@echo Done!
+
+uninstall:
+	@echo -n Un-installing Aether headers files if it is installed...
+	@rm -fr $(PORTLIBS_PREFIX)/include/Aether/
+	@echo Done!
+	@echo -n Un-installing Aether library files if it is installed...
+	@rm $(PORTLIBS_PREFIX)/lib/libAether.a
+	@echo Done!
+
+$(OUTPUT):
+	@rm -rf $(OUTPUT)
+	@echo -n Creating Aether library archive at $(OUTPUT)...
+	@$(AR) -rc $(OUTPUT) $(OFILES)
+	@echo Done!
+
+docs:
+	@echo Creating docs directory if it doesn't exist
+	@[ -d $@ ] || mkdir -p $@
+	@echo -n Generating docs
+	@doxygen $(DOCS_CONFIG)
+	@echo Done!
+
+$(OBJSDIR)/%.o: $(SOURCE)/%.cpp
+	@echo -n Creating object $@...
+	@$(CXX) -MMD -MP -MF $(DEPSDIR)/$*.d $(CXXFLAGS) -c $< -o $@ $(ERROR_FILTER)
+	@echo Done!
+
+$(OBJSDIR)/%.o: $(SOURCE)/%.c
+	@echo -n Creating object $@...
+	@$(CC) -MMD -MP -MF $(DEPSDIR)/$*.d $(CFLAGS) -c $< -o $@ $(ERROR_FILTER)
+	@echo Done!
