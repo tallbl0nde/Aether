@@ -49,7 +49,7 @@ DEPENDS		:=	$(foreach OFILE,$(OFILES),$(patsubst $(OBJSDIR)/%.o,$(DEPSDIR)/%.d,$
 #----------------------------------------------------------------------------------------------------------------------
 
 #----------------------------------------------------------------------------------------------------------------------
-# Defination of variables holding all sources files, object files and dependant file locations
+# Defination of variables holding all required sub-directories
 #----------------------------------------------------------------------------------------------------------------------
 SRCSUBDIRS	:=	$(wildcard $(SOURCE)/*/)
 OBJSSUBDIRS	:=	$(foreach SRCSUBDIR,$(SRCSUBDIRS),$(patsubst $(SOURCE)/%/,$(OBJSDIR)/%,$(SRCSUBDIR)))
