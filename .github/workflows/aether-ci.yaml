@@ -66,8 +66,13 @@ jobs:
     - name: Add new docs to git
       run: git add docs/
 
+    - name: Set git identity
+      run: |
+        git config user.name $REPO_USERNAME
+        git config user.email $REPO_EMAIL
+
     - name: Commit new docs
       run: git commit --message "Aether CI - Updated documentation generation"
 
     - name: Push latest docs
-      run: git push https://eXhumer:$PERSONAL_ACCESS_TOKEN@github.com/eXhumer/Aether.git
+      run: git push https://$REPO_USERNAME:$PERSONAL_ACCESS_TOKEN@github.com/$REPO_USERNAME/Aether.git
