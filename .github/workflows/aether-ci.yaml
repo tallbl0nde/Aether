@@ -70,9 +70,15 @@ jobs:
       run: |
         git config user.name $REPO_USERNAME
         git config user.email $REPO_EMAIL
+      env:
+        REPO_USERNAME: ${{ secrets.REPO_USERNAME }}
+        REPO_EMAIL: ${{ secrets.REPO_EMAIL }}
 
     - name: Commit new docs
       run: git commit --message "Aether CI - Updated documentation generation"
 
     - name: Push latest docs
       run: git push https://$REPO_USERNAME:$PERSONAL_ACCESS_TOKEN@github.com/$REPO_USERNAME/Aether.git
+      env:
+        REPO_USERNAME: ${{ secrets.REPO_USERNAME }}
+        PERSONAL_ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
