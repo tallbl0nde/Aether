@@ -1,0 +1,31 @@
+langauge: cpp
+os: linux
+dist: bionic
+compiler: gcc
+
+before_script:
+- wget https://github.com/devkitPro/pacman/releases/download/devkitpro-pacman-1.0.1/devkitpro-pacman.deb
+- sudo dpkg --install devkitpro-pacman.deb
+- sudo apt-get install doxygen --yes
+
+script:
+- git clone https://github.com/$REPO_USERNAME/Aether.git && cd Aether/
+- make library
+- make docs
+- git add docs/
+- git commit -m "$TRAVIS_COMMIT_MESSAGE"
+- git push https://$REPO_USERNAME:$PERSONAL_ACCESS_TOKEN@github.com/$REPO_USERNAME/Aether.git >/dev/null 2>&1
+
+after_script:
+- cd .. && rm -rf Aether/
+
+branches:
+  only:
+  - master
+
+env:
+  global:
+  - DEVKITPRO=/opt/devkitpro
+  - secure: "GhcsYdEI81ArP2BiB70lNdRLiqG0GYN3p5Q88ITZMJAlO4fp/0fGg6HU9LrxYUKMTN8CLhX+Q3n1Ic8ZTWvkJw4k2vGfhw83ITPgw9Thq/ndKQVqr8XDRvcYL5idx1CJGrQk8CeM6Tfcqf1HOH3+9PY6bisgd/NWgrfWyJ7Wh+puX8zacNa6rbkqEWP28Nnhzoc8sxKSUcGtH2U1krxt4OD6zINfnvl6k8QOsKn301yewgUG/8N6nTeMQQt2oalcutgIQ1Fd1YHt0gaPyVNfC2vBmacs7kjBIqK4EEhVK+wM2e4ZkEi+zBokZcosB1LaLJWwvb93uBKnGrb6sAZAPUGQcpea6id1f4vgWDjMBVsMls1m9ruf6+nlcnpgozo/v1w+90V7budPLxvbtXL94Rk+vOFijLHFhyqu/Mz47uIxcQiDPpH5szcjwpBy7e68MzB26kwsaKWLua8laF+GYp93nOycZCr4CBegESl8VtTYQFNyOzmIj/3di0LzyU4mgSJ1GsYpoUDjVc9jUKDguDeJ3uUJhvpOMezhYTmnPepVsy1Kpmcocm2ekxjtZIotQvgLsk2Hq1WgSFLHcFeIVWfP46JaMwL01AJIvqTz2v2KQGzdU5+C3GaE2rBa34V7enFp9FqMtm4jPrPd7ZsT2s9SsNIYk4lMWYSHfRC+/J4="
+  - secure: "udXCcWdpD+F0Wa54AFE6GkseAAOXtdR7Y4Vc8gTBGJShLwfwBsO/vypLpv2E4/g5eU4caDHD4VwV4wv5YAO7EVeub/KOY59GizcQlGcV1JwYprRnuvFHRcYDxfG5iqWEaEYVr/ADWcnYUZsl9myPvQv51oj3k2S4uDQna6cZg1MQBCtc5j/t+BL0+SoAjI4IqCH9k55WC8KojxbinEDhmalNNDFQAzfoCgCIzCK3WXvkc1RUsj9s/yICojzsGs2sp4kwUU88cyjIehZ07LrhfsfBhol98DFf0LplzvST2jLioRKB2Xz/KNd/bEu4hlCuU30wZMjH8YOU+tfsrZASGa6dWzz8tu5kg1CaZgM7OPzP44VXaDha6kiF9XQL5WRJku9NaElfE6cIpKZwthVwNCLZpRQqpH6QitR5jnrnaWLYxTfAkqe+BV/Dc2iAaaCpcRDWDPfnx32F9LnoPB5DAu0P5YJMEuN/mHbKM2PCIBxgMrkq7ZcX4DKCrHD+jyM2KVHO8NEPrYopKR+M7/KC3oUxErcRirwL4MXh6zbk+Se2xDVghibzdVk7DjRMiQAI8lYwZRfX+HkZdBIkvbpgYWFSA+bfbSXmCyO+d9m2JOgUGRUwC0rSfqWTJrZsNUdWw+YFJjuC4xrhnuVNaudn9zD0LSf2/3RjfduoEZTyESg="
+  - secure: "GQUFMfqP2PHkncvaZkQpVJYb6LbPPrgS9rYVT/uDJv6O4dEPguc+UYRYDdTca2hEpaQjiddaGcB0dPUY1G4vqWJocREC753r8OUq4RJ1MPrFO6mcgoQa8jvcKdvQnF1Dn89/FMx2ADP+tpXzH02DMeCiLEUZAW4eh4uU/R2+n8HxAeZmjvhTqhFf2sMer4aSCQ+HWwgYfOQAQo3OQHDgoduPeKEmPdxMbdBGRXdlLNMFdLYBSnmcixeUEGvVCjifAXMGJo3R8TWdOK/o9qb46hFDj32sEcUsr/Ug+Pv/PiNfi6hmDOTLyGej6W7Cs6/sApMmgkj4PmpxBpCCQgdLcUW1k+w/rhkzQjODThT3HrSRPvSlBETkDyAbP2PF2SUWbZ01JwH3PIy6+HVBP0C2PlPEhDyV0Gn2YAUoBjmS2J9/Tt7kdjfQcXfUn1dfG/BiY/BMBKLHokmw4Fz3M0YmmrqrOLMeKBxGM0a+38lB3nzZbTAEc8+jttSHX/6Kly7tH9Pc4/jzB0Pt2f3o5CMtiScF/ybMctYAdT+mHoTdON47wp1lLnuFQiDZGYLmV0LU1G5zPZ1jTpShbmu0wOKMQnVKSiOjCEtRQeVWdN3m2DQ7gxAuQaCiqnwkcDjZFvNBkZpER47AB08Fwu0gs2veffBQZSppXMdmCQNMDAeu6ww="
