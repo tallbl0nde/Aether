@@ -1,0 +1,35 @@
+name: Aether CI
+
+on:
+  push:
+    branches: [ master ]
+
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    name: Library Build Test
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout master branch
+      uses: actions/checkout@v2
+
+    - name: Download dkp-pacman
+      run: wget https://github.com/devkitPro/pacman/releases/download/devkitpro-pacman-1.0.1/devkitpro-pacman.deb
+
+    - name: Install dkp-pacman
+      run: sudo dpkg --install devkitpro-pacman.deb
+
+    - name: Update packages from dkp-pacman to latest
+      run: sudo dkp-pacman --sync --refresh --sysupgrade --noconfirm
+
+    - name: Install packages required for build from dkp-pacman
+      run: sudo dkp-pacman --sync --noconfirm switch-dev switch-portlibs switch-sdl2 switch-sdl2_gfx switch-sdl2_image switch-sdl2_ttf
+
+    - name: Make library
+      run: make --directory=$GITHUB_WORKSPACE --file=$GITHUB_WORKSPACE/Makefile library
+      env:
+        DEVKITPRO: /opt/devkitpro
