@@ -14,11 +14,7 @@ script:
 - git clone https://github.com/$REPO_USERNAME/Aether.git && cd Aether/
 - make library
 - make docs
-- if [ git diff docs/ --exit-code -eq 1 ]; then
--   git add docs/
--   git commit -m "Travis CI - Updated documentation generation"
--   git push https://$REPO_USERNAME:$PERSONAL_ACCESS_TOKEN@github.com/$REPO_USERNAME/Aether.git >/dev/null 2>&1
-- fi
+- [ git diff docs/ --exit-code -eq 1 ] && git add docs/ && git commit -m "${TRAVIS_COMMIT_MESSAGE}" && git push https://$REPO_USERNAME:$PERSONAL_ACCESS_TOKEN@github.com/$REPO_USERNAME/Aether.git >/dev/null 2>&1 || true
 
 after_script:
 - cd .. && rm -rf Aether/
