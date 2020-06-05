@@ -7,6 +7,8 @@ before_script:
 - wget https://github.com/devkitPro/pacman/releases/download/devkitpro-pacman-1.0.1/devkitpro-pacman.deb
 - sudo dpkg --install devkitpro-pacman.deb
 - sudo apt-get install doxygen --yes
+- sudo dkp-pacman --sync --refresh --sysupgrade --noconfirm
+- sudo dkp-pacman --sync --noconfirm switch-dev switch-portlibs switch-sdl2 switch-sdl2_gfx switch-sdl2_image switch-sdl2_ttf
 
 script:
 - git clone https://github.com/$REPO_USERNAME/Aether.git && cd Aether/
