@@ -51,7 +51,7 @@ DEPENDS		:=	$(foreach OFILE,$(OFILES),$(patsubst $(OBJSDIR)/%.o,$(DEPSDIR)/%.d,$
 #----------------------------------------------------------------------------------------------------------------------
 # Defination of variables holding all required sub-directories
 #----------------------------------------------------------------------------------------------------------------------
-SRCSUBDIRS	:=	$(wildcard $(SOURCE)/*/)
+SRCSUBDIRS	:=	$(filter %/, $(wildcard $(SOURCE)/*/))
 OBJSSUBDIRS	:=	$(foreach SRCSUBDIR,$(SRCSUBDIRS),$(patsubst $(SOURCE)/%/,$(OBJSDIR)/%,$(SRCSUBDIR)))
 DEPSSUBDIRS	:=	$(foreach SRCSUBDIR,$(SRCSUBDIRS),$(patsubst $(SOURCE)/%/,$(DEPSDIR)/%,$(SRCSUBDIR)))
 #----------------------------------------------------------------------------------------------------------------------
@@ -183,7 +183,7 @@ $(OUTPUT):
 # Define rule recipe `docs`
 #----------------------------------------------------------------------------------------------------------------------
 docs:
-	@echo Creating docs directory if it doesn't exist
+	@echo Creating docs directory if it doesn\'t exist
 	@[ -d $@ ] || mkdir -p $@
 	@echo -n Generating docs
 	@doxygen $(DOCS_CONFIG)

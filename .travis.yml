@@ -1,0 +1,42 @@
+language: cpp
+os: linux
+dist: bionic
+compiler: gcc
+
+jobs:
+  include:
+    - stage: "Library and documentation build test"
+
+      before_install:
+      - wget https://github.com/devkitPro/pacman/releases/download/devkitpro-pacman-1.0.1/devkitpro-pacman.deb
+
+      install:
+      - sudo dpkg --install devkitpro-pacman.deb
+      - sudo apt-get install doxygen --yes
+      - sudo dkp-pacman --sync --refresh --sysupgrade --noconfirm
+      - sudo dkp-pacman --sync --noconfirm devkitA64 devkit-env libnx switch-sdl2 switch-sdl2_gfx switch-sdl2_image switch-sdl2_ttf switch-freetype
+
+      before_script:
+      - source /etc/profile.d/devkit-env.sh
+      - export PATH=${PATH}:${DEVKITPRO}/portlibs/switch/bin
+
+      script:
+      - make library
+      - make docs
+
+      # after_script:
+      # - git fetch origin;
+      # - |
+      #   git diff --quiet --exit-code docs/;
+      #   if [ $? -eq 1 ]; then
+      #     git checkout master;
+      #     git add docs/;
+      #     git config user.name "$REPO_USERNAME";
+      #     git config user.email "$REPO_EMAIL";
+      #     git commit --message "Travis CI - Added new documentation";
+      #     git push https://$REPO_USERNAME:$PERSONAL_ACCESS_TOKEN@github.com/$REPO_USERNAME/Aether.git;
+      #   fi
+
+branches:
+  only:
+  - master
