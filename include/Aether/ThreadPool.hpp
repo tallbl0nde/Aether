@@ -18,24 +18,22 @@ namespace Aether {
         void setMaxThreads(unsigned int t);
 
         /**
-         * @brief Remove any remaining queued tasks (called internally upon exit)
-         * @note This does not wait for running tasks to finish, call \ref waitUntilDone() for that!
+         * @brief Remove the task with matching ID (does nothing if invalid ID)
+         * @note Called internally - you shouldn't need to call it yourself!
+         *
+         * @param id id of task to remove
          */
-        void removeQueuedTasks();
-
-        /**
-         * @brief Block the calling thread until tasks are finished (called internally upon exit)
-         * @note This does not clear the queue - please call \ref removeQueuedTasks() first!
-         */
-        void waitUntilDone();
+        void removeTaskWithID(unsigned int id);
 
         /**
          * @brief Queue a task to be executed on another thread when available
          * @note Called internally - you shouldn't need to call it yourself!
          *
          * @param f function to queue
+         *
+         * @return id assigned to task
          */
-        void addTask(std::function<void()> f);
+        unsigned int addTask(std::function<void()> f);
 
         /**
          * @brief Block the calling thread until tasks are finished

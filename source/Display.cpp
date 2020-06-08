@@ -330,10 +330,6 @@ namespace Aether {
     }
 
     Display::~Display() {
-        // Clean up remaining tasks
-        ThreadPool::removeQueuedTasks();
-        ThreadPool::waitUntilDone();
-
         // Clean up SDL
         SDLHelper::destroyTexture(this->bgImg);
         SDLHelper::exitSDL();

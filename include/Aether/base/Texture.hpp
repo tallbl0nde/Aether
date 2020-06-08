@@ -38,6 +38,8 @@ namespace Aether {
 
             /** @brief Status of texture with respect to generation */
             std::atomic<ThreadedStatus> status;
+            /** @brief ID of task which renders surface */
+            unsigned int taskID;
 
             /** @brief Queues surface generation and sets status accordingly */
             void createSurface();

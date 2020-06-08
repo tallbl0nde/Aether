@@ -1,5 +1,6 @@
 #include "Aether/base/Texture.hpp"
 #include "Aether/ThreadPool.hpp"
+#include <limits>
 
 namespace Aether {
     Texture::Texture(int x, int y, RenderType t) : Element(x, y) {
@@ -7,6 +8,7 @@ namespace Aether {
         this->colour = Colour{255, 255, 255, 255};
         this->renderType = t;
         this->status = ThreadedStatus::Empty;
+        this->taskID = 0;       // This may overlap but it shouldn't matter
         this->surface = nullptr;
         this->texture = nullptr;
         this->texH_ = 0;
@@ -15,8 +17,8 @@ namespace Aether {
     }
 
     void Texture::createSurface() {
-        this->status == ThreadedStatus::Queued;
-        ThreadPool::addTask([this]() {
+        this->status = ThreadedStatus::Queued;
+        this->taskID = ThreadPool::addTask([this]() {
             this->generateSurface();
             this->status = ThreadedStatus::Surface;
         });
@@ -146,6 +148,9 @@ namespace Aether {
     }
 
     Texture::~Texture() {
+        if (this->status == ThreadedStatus::Queued) {
+            ThreadPool::removeTaskWithID(this->taskID);
+        }
         this->destroyTexture();
     }
 };
