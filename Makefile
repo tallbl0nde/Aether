@@ -1,3 +1,12 @@
+# This Makefile was adapted from the one shared
+# here: https://stackoverflow.com/a/27025822
+
+#----------------------------------------------------------------------------------------------------------------------
+# Default target is 'library'
+#----------------------------------------------------------------------------------------------------------------------
+.DEFAULT_GOAL := library
+#----------------------------------------------------------------------------------------------------------------------
+
 #----------------------------------------------------------------------------------------------------------------------
 # Check if DEVKITPRO exists in current environment
 #----------------------------------------------------------------------------------------------------------------------
@@ -13,124 +22,82 @@ include $(DEVKITPRO)/libnx/switch_rules
 #----------------------------------------------------------------------------------------------------------------------
 
 #----------------------------------------------------------------------------------------------------------------------
-# Defination of few variables holding various directories and files used during make
+# Definition of variables used throughout the make process
+# TARGET: Library name
+# BUILD: Directory to store build files
+# LIB: Directory to place final binary
+# OUTPUT: Path to output to
+# INCLUDE: Directory containing .hpp files
+# SOURCE: Directory containing .cpp files
+# DOCS_CONFIG: Path to doxygen config file
 #----------------------------------------------------------------------------------------------------------------------
 TARGET		:=  Aether
-OUTPUT		:=	lib/lib$(TARGET).a
 BUILD		:=	build
 LIB			:=	lib
-SOURCE		:=	source
+OUTPUT		:=	$(LIB)/lib$(TARGET).a
 INCLUDE		:=	include
-OBJSDIR		:=	$(BUILD)/objs
-DEPSDIR		:=	$(BUILD)/deps
+SOURCE		:=	source
 DOCS_CONFIG	:=	Doxyfile
 #----------------------------------------------------------------------------------------------------------------------
 
 #----------------------------------------------------------------------------------------------------------------------
-# Defination of code generation related variables
+# Definition of code generation related variables
 #----------------------------------------------------------------------------------------------------------------------
+OBJDIR		:=	$(BUILD)/objs
+DEPDIR		:=	$(BUILD)/deps
 ARCH		:=	-march=armv8-a -mtune=cortex-a57 -mtp=soft -fPIC -ftls-model=local-exec
 DEFINES		:=	-D__SWITCH__
 LIBDIRS		:=	$(PORTLIBS) $(LIBNX)
 INCLUDE		:=	$(foreach dir,$(LIBDIRS),-I$(dir)/include) -I$(INCLUDE)
 CFLAGS		:=	-w -O3 -ffunction-sections -fdata-sections $(shell sdl2-config --cflags)\
-				$(shell freetype-config --cflags) $(ARCH) $(INCLUDE) $(DEFINES)
+				$(ARCH) $(INCLUDE) $(DEFINES)
 CXXFLAGS	:=	$(CFLAGS) -fno-rtti -fno-exceptions -std=gnu++17
 #----------------------------------------------------------------------------------------------------------------------
 
 #----------------------------------------------------------------------------------------------------------------------
-# Defination of variables holding all sources files, object files and dependant file locations
+# Definition of variables which store file locations
 #----------------------------------------------------------------------------------------------------------------------
-CFILES		:=	$(wildcard $(SOURCE)/*.c) $(wildcard $(SOURCE)/*/*.c)
-CPPFILES	:=	$(wildcard $(SOURCE)/*.cpp) $(wildcard $(SOURCE)/*/*.cpp)
-OFILES		:=	$(foreach CPPFILE,$(CPPFILES),$(patsubst $(SOURCE)/%.cpp,$(OBJSDIR)/%.o,$(CPPFILE)))\
-				$(foreach CFILE,$(CFILES),$(patsubst $(SOURCE)/%.c,$(OBJSDIR)/%.o,$(CFILE)))
-DEPENDS		:=	$(foreach OFILE,$(OFILES),$(patsubst $(OBJSDIR)/%.o,$(DEPSDIR)/%.d,$(OFILE)))
-#----------------------------------------------------------------------------------------------------------------------
-
-#----------------------------------------------------------------------------------------------------------------------
-# Defination of variables holding all required sub-directories
-#----------------------------------------------------------------------------------------------------------------------
-SRCSUBDIRS	:=	$(filter %/, $(wildcard $(SOURCE)/*/))
-OBJSSUBDIRS	:=	$(foreach SRCSUBDIR,$(SRCSUBDIRS),$(patsubst $(SOURCE)/%/,$(OBJSDIR)/%,$(SRCSUBDIR)))
-DEPSSUBDIRS	:=	$(foreach SRCSUBDIR,$(SRCSUBDIRS),$(patsubst $(SOURCE)/%/,$(DEPSDIR)/%,$(SRCSUBDIR)))
+CPPFILES 	:= $(shell find $(SOURCE)/ -name "*.cpp")
+OBJS     	:= $(CPPFILES:$(SOURCE)/%.cpp=$(OBJDIR)/%.o)
+DEPS     	:= $(CPPFILES:$(SOURCE)/%.cpp=$(DEPDIR)/%.d)
+TREE     	:= $(sort $(patsubst %/,%,$(dir $(OBJS))))
 #----------------------------------------------------------------------------------------------------------------------
 
 #----------------------------------------------------------------------------------------------------------------------
-# Include dependant files if they already exist, nothing if they don't
+# Include dependent files if they already exist
 #----------------------------------------------------------------------------------------------------------------------
--include $(DEPENDS)
+ifeq "$(MAKECMDGOALS)" ""
+-include $(DEPS)
+endif
 #----------------------------------------------------------------------------------------------------------------------
 
 #----------------------------------------------------------------------------------------------------------------------
 # Define few virtual make targets
 #----------------------------------------------------------------------------------------------------------------------
-.PHONY: $(BUILD) library install uninstall docs clean cleandocs
+.PHONY: library install uninstall docs clean cleandocs
 #----------------------------------------------------------------------------------------------------------------------
 
 #----------------------------------------------------------------------------------------------------------------------
 # Define target rule pre-requisites
 #----------------------------------------------------------------------------------------------------------------------
-library : $(LIB) $(OUTPUT)
+library : $(OUTPUT)
+
+.SECONDEXPANSION:
+$(OBJDIR)/%.o: $(SOURCE)/%.cpp | $$(@D)
+	@echo -n Compiling $*.o...
+	@$(CXX) -MMD -MP -MF $(@:$(OBJDIR)/%.o=$(DEPDIR)/%.d) $(CXXFLAGS) -o $@ -c $<
+	@echo Done!
+
 install : library
-$(OUTPUT) : $(OFILES)
-$(OFILES) : $(OBJSDIR) $(OBJSSUBDIRS) $(DEPSDIR) $(DEPSSUBDIRS)
-$(OBJSDIR) : $(BUILD)
-$(DEPSDIR) : $(BUILD)
+$(OUTPUT) : $(OBJS)
 #----------------------------------------------------------------------------------------------------------------------
 
-#----------------------------------------------------------------------------------------------------------------------
-# Define rule recipe `$(BUILD)`
-#----------------------------------------------------------------------------------------------------------------------
-$(BUILD):
-	@echo Creating build directory \($@\) if it doesn\'t exist...
-	@[ -d $@ ] || mkdir -p $@
-
-#----------------------------------------------------------------------------------------------------------------------
-# Define rule recipe `$(LIB)`
-#----------------------------------------------------------------------------------------------------------------------
-$(LIB):
-	@echo Creating output lib directory \($@\) if it doesn\'t exist...
-	@[ -d $@ ] || mkdir -p $@
-#----------------------------------------------------------------------------------------------------------------------
-
-#----------------------------------------------------------------------------------------------------------------------
-# Define rule recipe `$(OBJSDIR)`
-#----------------------------------------------------------------------------------------------------------------------
-$(OBJSDIR):
-	@echo Creating object directory \($@\) if it doesn\'t exist...
-	@[ -d $@ ] || mkdir -p $@
-#----------------------------------------------------------------------------------------------------------------------
-
-#----------------------------------------------------------------------------------------------------------------------
-# Define rule recipe `$(OBJSSUBDIRS)`
-#----------------------------------------------------------------------------------------------------------------------
-$(OBJSSUBDIRS):
-	@echo Creating object sub-directory \($@\) if it doesn\'t exist...
-	@[ -d $@ ] || mkdir -p $@
-#----------------------------------------------------------------------------------------------------------------------
-
-#----------------------------------------------------------------------------------------------------------------------
-# Define rule recipe `$(DEPSDIR)`
-#----------------------------------------------------------------------------------------------------------------------
-$(DEPSDIR):
-	@echo Creating object dependent directory \($@\) if it doesn\'t exist...
-	@[ -d $@ ] || mkdir -p $@
-#----------------------------------------------------------------------------------------------------------------------
-
-#----------------------------------------------------------------------------------------------------------------------
-# Define rule recipe `$(DEPSSUBDIRS)`
-#----------------------------------------------------------------------------------------------------------------------
-$(DEPSSUBDIRS):
-	@echo Creating object dependent sub-directory \($@\) if it doesn\'t exist...
-	@[ -d $@ ] || mkdir -p $@
-#----------------------------------------------------------------------------------------------------------------------
 #----------------------------------------------------------------------------------------------------------------------
 # Define rule recipe `clean`
 #----------------------------------------------------------------------------------------------------------------------
 clean:
 	@echo -n Cleaning build files...
-	@rm -fr $(OUTPUT) $(OBJSDIR)/*.o $(DEPSDIR)/*.d $(OBJSDIR)/*/*.o $(DEPSDIR)/*/*.d
+	@rm -rf $(BUILD) $(LIB)
 	@echo Done!
 #----------------------------------------------------------------------------------------------------------------------
 
@@ -138,8 +105,8 @@ clean:
 # Define rule recipe `cleandocs`
 #----------------------------------------------------------------------------------------------------------------------
 cleandocs:
-	@echo -n Cleaning generated doc files...
-	@rm -fr docs/*
+	@echo -n Cleaning generated docs...
+	@rm -rf docs
 	@echo Done!
 #----------------------------------------------------------------------------------------------------------------------
 
@@ -147,11 +114,11 @@ cleandocs:
 # Define rule recipe `install`
 #----------------------------------------------------------------------------------------------------------------------
 install:
-	@echo -n Installing Aether headers files...
+	@echo -n Installing Aether headers...
 	@mkdir -p $(PORTLIBS_PREFIX)/include/Aether/
 	@cp -r $(INCLUDES)/Aether/* $(PORTLIBS_PREFIX)/include/Aether/
 	@echo Done!
-	@echo -n Installing Aether library files...
+	@echo -n Installing Aether library file...
 	@mkdir -p $(PORTLIBS_PREFIX)/lib/
 	@cp $(OUTPUT) $(PORTLIBS_PREFIX)/lib/
 	@echo Done!
@@ -161,10 +128,10 @@ install:
 # Define rule recipe `uninstall`
 #----------------------------------------------------------------------------------------------------------------------
 uninstall:
-	@echo -n Un-installing Aether headers files if it is installed...
-	@rm -fr $(PORTLIBS_PREFIX)/include/Aether/
+	@echo -n Removing Aether headers if present...
+	@rm -rf $(PORTLIBS_PREFIX)/include/Aether/
 	@echo Done!
-	@echo -n Un-installing Aether library files if it is installed...
+	@echo -n Removing Aether library archive if present...
 	@rm $(PORTLIBS_PREFIX)/lib/libAether.a
 	@echo Done!
 #----------------------------------------------------------------------------------------------------------------------
@@ -173,9 +140,10 @@ uninstall:
 # Define rule recipe `$(OUTPUT)`
 #----------------------------------------------------------------------------------------------------------------------
 $(OUTPUT):
+	@[ -d $(LIB) ] || mkdir -p $(LIB)
 	@rm -rf $(OUTPUT)
 	@echo -n Creating Aether library archive at $(OUTPUT)...
-	@$(AR) -rc $(OUTPUT) $(OFILES)
+	@$(AR) -rc $(OUTPUT) $(OBJS)
 	@echo Done!
 #----------------------------------------------------------------------------------------------------------------------
 
@@ -183,27 +151,15 @@ $(OUTPUT):
 # Define rule recipe `docs`
 #----------------------------------------------------------------------------------------------------------------------
 docs:
-	@echo Creating docs directory if it doesn\'t exist
 	@[ -d $@ ] || mkdir -p $@
-	@echo -n Generating docs
+	@echo -n Generating docs...
 	@doxygen $(DOCS_CONFIG)
 	@echo Done!
 #----------------------------------------------------------------------------------------------------------------------
 
 #----------------------------------------------------------------------------------------------------------------------
-# Define rule recipe to create objects from CPP Files
+# Define rule recipe `$(TREE)` (creates directories for .o and .d files)
 #----------------------------------------------------------------------------------------------------------------------
-$(OBJSDIR)/%.o: $(SOURCE)/%.cpp
-	@echo -n Creating object $@...
-	@$(CXX) -MMD -MP -MF $(DEPSDIR)/$*.d $(CXXFLAGS) -c $< -o $@ $(ERROR_FILTER)
-	@echo Done!
-#----------------------------------------------------------------------------------------------------------------------
-
-#----------------------------------------------------------------------------------------------------------------------
-# Define rule recipe to create objects from C Files
-#----------------------------------------------------------------------------------------------------------------------
-$(OBJSDIR)/%.o: $(SOURCE)/%.c
-	@echo -n Creating object $@...
-	@$(CC) -MMD -MP -MF $(DEPSDIR)/$*.d $(CFLAGS) -c $< -o $@ $(ERROR_FILTER)
-	@echo Done!
-#----------------------------------------------------------------------------------------------------------------------
+$(TREE): %:
+	@mkdir -p $@
+	@mkdir -p $(@:$(OBJDIR)%=$(DEPDIR)%)
