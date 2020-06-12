@@ -252,25 +252,32 @@ namespace Aether {
         if (it != this->children.end()) {
             // Store height of element to delete
             int h = e->h();
-            long i = std::distance(this->children.begin(), it);
+            long d = std::distance(this->children.begin(), it);
 
             // If element is focussed change focus to a surrounding element if possible
-            if (this->focussed() == this->children[i]) {
-                if (i+1 < this->children.size()) {
-                    this->setFocussed(this->children[i+1]);
-                } else if (i-1 >= 0) {
-                    this->setFocussed(this->children[i-1]);
-                } else {
-                    this->setFocussed(nullptr);
+            if (this->focussed() == this->children[d]) {
+                this->setFocussed(nullptr);
+                for (size_t i = 1; i < this->children.size()-d; i++) {
+                    if (d-i < this->children.size()) {
+                        if (this->children[d-i]->selectable()) {
+                            this->setFocussed(this->children[d-i]);
+                            break;
+                        }
+                    } else if (d+i < this->children.size()) {
+                        if (this->children[d+i]->selectable()) {
+                            this->setFocussed(this->children[d+i]);
+                            break;
+                        }
+                    }
                 }
             }
 
             // Delete here (don't use Container:: to avoid repeated find)
-            delete this->children[i];
-            this->children.erase(this->children.begin() + i);
+            delete this->children[d];
+            this->children.erase(this->children.begin() + d);
 
             // Recalculate y values
-            for (size_t j = i; j < this->children.size(); j++) {
+            for (size_t j = d; j < this->children.size(); j++) {
                 this->children[j]->setY(this->children[j]->y() - h);
             }
 
@@ -292,17 +299,23 @@ namespace Aether {
         std::vector<Element *>::iterator it = std::find(this->children.begin(), this->children.end(), e);
         // If the element was found loop over remaining elements and delete
         if (it != this->children.end()) {
-            size_t i = std::distance(this->children.begin(), it);
-            i++;
-            while (i < this->children.size()) {
-                // If an element is focussed change focus to the 'after' element
-                if (this->focussed() == this->children[i]) {
-                    this->setFocussed(e);
+            size_t d = std::distance(this->children.begin(), it);
+            d++;
+            while (d < this->children.size()) {
+                // If an element being removed is focussed change focus to a selectable element
+                if (this->focussed() == this->children[d]) {
+                    this->setFocussed(nullptr);
+                    for (size_t i = d+1; i > 0; i--) {
+                        if (this->children[i-1]->selectable()) {
+                            this->setFocussed(this->children[i-1]);
+                            break;
+                        }
+                    }
                 }
 
                 // We don't call Element::removeElement to avoid the repeated finds
-                delete this->children[i];
-                this->children.erase(this->children.begin() + i);
+                delete this->children[d];
+                this->children.erase(this->children.begin() + d);
             }
 
             // Update scrolling vars
@@ -319,24 +332,30 @@ namespace Aether {
         std::vector<Element *>::iterator it = std::find(this->children.begin(), this->children.end(), e);
         // If the element was found loop over remaining elements and delete
         if (it != this->children.end()) {
-            long i = std::distance(this->children.begin(), it) - 1;
-            if (i == -1) {
+            long d = std::distance(this->children.begin(), it) - 1;
+            if (d == -1) {
                 // No need to iterate over everything if nothing to remove
                 return true;
             }
 
             int decH = 0;
-            while (i >= 0) {
-                // If an element is focussed change focus to the 'before' element
-                if (this->focussed() == this->children[i]) {
-                    this->setFocussed(e);
+            while (d >= 0) {
+                // If an element being removed is focussed change focus to a selectable element
+                if (this->focussed() == this->children[d]) {
+                    this->setFocussed(nullptr);
+                    for (size_t i = d; i < this->children.size(); i++) {
+                        if (this->children[i]->selectable()) {
+                            this->setFocussed(this->children[i]);
+                            break;
+                        }
+                    }
                 }
 
                 // We don't call Element::removeElement to avoid the repeated finds
-                decH += this->children[i]->h();
-                delete this->children[i];
-                this->children.erase(this->children.begin() + i);
-                i--;
+                decH += this->children[d]->h();
+                delete this->children[d];
+                this->children.erase(this->children.begin() + d);
+                d--;
             }
 
             // Recalculate y values
