@@ -40,7 +40,10 @@ namespace Aether {
 
             void addElement(Element * e);
             bool handleEvent(InputEvent * e);
+            bool removeElement(Element * e);
             void removeAllElements();
+            bool returnElement(Element * e);
+            void returnAllElements();
 
             /**
              * @brief Determine which element to move to

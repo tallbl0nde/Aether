@@ -374,6 +374,54 @@ namespace Aether {
         return false;
     }
 
+    bool Scrollable::returnElement(Element * e) {
+        std::vector<Element *>::iterator it = std::find(this->children.begin(), this->children.end(), e);
+        // If the element was found loop over remaining elements and delete
+        if (it != this->children.end()) {
+            // Store height of element to delete
+            int h = e->h();
+            long d = std::distance(this->children.begin(), it);
+
+            // If element is focussed change focus to a surrounding element if possible
+            if (this->focussed() == this->children[d]) {
+                this->setFocussed(nullptr);
+                for (size_t i = 1; i < this->children.size()-d; i++) {
+                    if (d-i < this->children.size()) {
+                        if (this->children[d-i]->selectable()) {
+                            this->setFocussed(this->children[d-i]);
+                            break;
+                        }
+                    } else if (d+i < this->children.size()) {
+                        if (this->children[d+i]->selectable()) {
+                            this->setFocussed(this->children[d+i]);
+                            break;
+                        }
+                    }
+                }
+            }
+
+            // Repeated find here...
+            Container::returnElement(e);
+
+            // Recalculate y values
+            for (size_t j = d; j < this->children.size(); j++) {
+                this->children[j]->setY(this->children[j]->y() - h);
+            }
+
+            // Update max pos
+            this->updateMaxScrollPos();
+            return true;
+        }
+        return false;
+    }
+
+    void Scrollable::returnAllElements() {
+        this->stopScrolling();
+        Container::returnAllElements();
+        this->setScrollPos(0);
+        this->updateMaxScrollPos();
+    }
+
     bool Scrollable::handleEvent(InputEvent * e) {
         switch (e->type()) {
             case EventType::TouchPressed:

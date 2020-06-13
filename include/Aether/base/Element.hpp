@@ -185,18 +185,34 @@ namespace Aether {
             virtual void addElement(Element * e);
 
             /**
-             * @brief Attempt to remove child element
+             * @brief Attempt to delete given child element
+             * @note This calls the element destructor if it is found
              *
-             * @param e children to delete
+             * @param e child to delete
              * @return true if deleted successfully (i.e. was a child)
              * @return false if not a child of element
              */
             virtual bool removeElement(Element * e);
 
             /**
-             * @brief Remove all children elementst
+             * @brief Deletes all children elements
              */
             virtual void removeAllElements();
+
+            /**
+             * @brief Attempt to remove the given child element
+             * @note This does not call the element's destructor, hence it can be reused
+             *
+             * @param e child to remove
+             * @return true if removed successfully (i.e. was a child)
+             * @return false if not a child of element
+             */
+            virtual bool returnElement(Element * e);
+
+            /**
+             * @brief Removes (but does not delete) all children elements
+             */
+            virtual void returnAllElements();
 
             /**
              * @brief Check if current element is visible on-screen

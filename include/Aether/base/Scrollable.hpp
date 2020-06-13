@@ -196,7 +196,7 @@ namespace Aether {
             bool addElementBefore(Element * e, Element * b);
 
             /**
-             * @brief Removes any elements succeeding the given element
+             * @brief Deletes any elements succeeding the given element
              *
              * @param e element to start from
              *
@@ -206,7 +206,7 @@ namespace Aether {
             bool removeElementsAfter(Element * e);
 
             /**
-             * @brief Removes any elements preceding the given element
+             * @brief Deletes any elements preceding the given element
              *
              * @param e element to start from
              *
@@ -220,6 +220,8 @@ namespace Aether {
 
             bool removeElement(Element * e);
             void removeAllElements();
+            bool returnElement(Element * e);
+            void returnAllElements();
 
             bool handleEvent(InputEvent * e);
             void update(uint32_t dt);

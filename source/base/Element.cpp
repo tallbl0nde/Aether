@@ -124,10 +124,27 @@ namespace Aether {
     }
 
     void Element::removeAllElements() {
-        while (this->children.size() > 0) {
-            delete this->children[0];
-            this->children.erase(this->children.begin());
+        for (size_t i = 0; i < this->children.size(); i++) {
+            delete this->children[i];
         }
+        this->children.clear();
+    }
+
+    bool Element::returnElement(Element * e) {
+        std::vector<Element *>::iterator it = std::find(this->children.begin(), this->children.end(), e);
+        if (it != this->children.end()) {
+            this->children.erase(it);
+            e->setParent(nullptr);
+            return true;
+        }
+        return false;
+    }
+
+    void Element::returnAllElements() {
+        for (size_t i = 0; i < this->children.size(); i++) {
+            this->children[i]->setParent(nullptr);
+        }
+        this->children.clear();
     }
 
     bool Element::isVisible() {

@@ -25,8 +25,18 @@ namespace Aether {
 
         switch (e->type()) {
             case EventType::ButtonPressed:
+                // If nothing is focussed try to focus something
                 if (this->focused() == nullptr) {
-                    return false;
+                    bool found = false;
+                    for (size_t i = 0; i < this->children.size(); i++) {
+                        if (this->children[i]->selectable()) {
+                            this->setFocused(this->children[i]);
+                            found = true;
+                            break;
+                        }
+                    }
+
+                    return found;
                 }
                 // Default behaviour is to pass to focused
                 if (this->focused()->handleEvent(e)) {
@@ -97,9 +107,38 @@ namespace Aether {
         return false;
     }
 
+    bool Container::removeElement(Element * e) {
+        // Check if element is a child and focussed and then delete
+        // This is a repeated find unfortunately
+        std::vector<Element *>::iterator it = std::find(this->children.begin(), this->children.end(), e);
+        if (it != this->children.end()) {
+            if (this->focussed() == e) {
+                this->setFocussed(nullptr);
+            }
+            return Element::removeElement(e);
+        }
+
+        return false;
+    }
+
     void Container::removeAllElements() {
         this->setFocused(nullptr);
         Element::removeAllElements();
+    }
+
+    bool Container::returnElement(Element * e) {
+        if (Element::returnElement(e)) {
+            if (this->focussed() == e) {
+                this->setFocussed(nullptr);
+            }
+            return true;
+        }
+        return false;
+    }
+
+    void Container::returnAllElements() {
+        this->setFocussed(nullptr);
+        Element::returnAllElements();
     }
 
     void Container::setActive() {
