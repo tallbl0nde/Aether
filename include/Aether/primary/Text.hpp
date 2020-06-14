@@ -15,8 +15,10 @@ namespace Aether {
             bool scroll_;
             /** @brief Pixels to scroll per second */
             int scrollSpeed_;
-            /** @brief Time since scroll finished (in ms) (only used internally) */
+            /** @brief Time since scroll finished (in ms) (used internally) */
             int scrollPauseTime;
+            /** @brief Time to wait after scrolling to the end (in ms) */
+            unsigned int scrollWaitTime_;
 
             /** @brief Generate a text surface */
             void generateSurface();
@@ -48,6 +50,20 @@ namespace Aether {
              * @param s true if text is scrollable, false otherwise
              */
             void setScroll(bool s);
+
+            /**
+             * @brief Get the time to pause after scrolling to the end
+             *
+             * @return time to pause (in ms) after finished scrolling
+             */
+            int scrollWaitTime();
+
+            /**
+             * @brief Set the time to pause after scrolling to the end
+             *
+             * @param t time to pause (in ms)
+             */
+            void setScrollWaitTime(unsigned int t);
 
             /**
              * @brief Get the scroll speed for text
