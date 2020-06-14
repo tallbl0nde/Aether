@@ -13,6 +13,8 @@ namespace Aether {
         private:
             /** @brief Indicator on whether the text is scrollable */
             bool scroll_;
+            /** @brief Texture x-offset used for scrolling */
+            float scrollPosition;
             /** @brief Pixels to scroll per second */
             int scrollSpeed_;
             /** @brief Time since scroll finished (in ms) (used internally) */

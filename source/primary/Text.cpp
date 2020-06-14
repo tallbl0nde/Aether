@@ -53,6 +53,7 @@ namespace Aether {
     void Text::setScroll(bool s) {
         this->scroll_ = s;
         this->scrollPauseTime = -this->scrollWaitTime_;
+        this->scrollPosition = 0;
         this->setMask(0, 0, this->w(), this->texH());
     }
 
@@ -88,24 +89,28 @@ namespace Aether {
         // Check if need to scroll and do so
         if (this->scroll()) {
             if (this->texW() > this->w()) {
-                int tmp, xPos;
-                this->getMask(&xPos, &tmp, &tmp, &tmp);
-                if (xPos >= (this->texW() - this->w())) {
-                    xPos = this->texW() - this->w();
+                if (this->scrollPosition >= (this->texW() - this->w())) {
+                    // If we're past the end and we've waited, go back to the start
                     if (this->scrollPauseTime > this->scrollWaitTime_) {
                         this->setMask(0, 0, this->w(), this->texH());
                         this->scrollPauseTime = -this->scrollWaitTime_;
+                        this->scrollPosition = 0;
+
+                    // Otherwise keep waiting
                     } else {
                         this->scrollPauseTime += dt;
                     }
+
                 } else {
+                    // Don't scroll until we've waited long enough
                     if (this->scrollPauseTime < 0) {
                         this->scrollPauseTime += dt;
-                        if (this->scrollPauseTime > 0) {
-                            this->scrollPauseTime = 0;
-                        }
+
+                    // Otherwise we can scroll :)
                     } else {
-                        this->setMask(xPos + this->scrollSpeed_*(dt/1000.0), 0, this->w(), this->texH());
+                        float tmp = this->scrollSpeed_*(dt/1000.0);
+                        this->scrollPosition += (tmp < 1 ? tmp : (int)tmp);     // Little workaround to allow text to scroll smoothly (not accurate sadly :/)
+                        this->setMask((int)this->scrollPosition, 0, this->w(), this->texH());
                     }
                 }
             }
