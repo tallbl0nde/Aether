@@ -45,8 +45,8 @@ jobs:
           git diff --quiet --exit-code docs/;
           if [ $? -eq 1 ]; then
             git add docs/;
-            git config user.name ${{ secrets.REPO_USERNAME }};
-            git config user.email ${{ secrets.REPO_EMAIL }};
+            git config user.name "Github Actions";
+            git config user.email "$GITHUB_ACTOR@users.noreply.github.com";
             git commit --message "GitHub Actions - Update documentation";
           fi
       shell: bash --noprofile --norc {0}

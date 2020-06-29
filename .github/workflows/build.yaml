@@ -37,4 +37,4 @@ jobs:
       run: |
           source /etc/profile.d/devkit-env.sh
           export PATH=${PATH}:${DEVKITPRO}/portlibs/switch/bin
-          make --directory=$GITHUB_WORKSPACE --file=$GITHUB_WORKSPACE/Makefile library
+          make --directory=$GITHUB_WORKSPACE --file=$GITHUB_WORKSPACE/Makefile -j$(nproc) library
