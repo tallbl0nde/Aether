@@ -1,10 +1,7 @@
-name: GitHub Actions Aether CI
+name: Update Docs
 
 on:
   push:
-    branches: [ master ]
-
-  pull_request:
     branches: [ master ]
 
 defaults:
@@ -12,35 +9,8 @@ defaults:
     shell: bash
 
 jobs:
-  lib-build-test:
-    name: Library Build Test
-
-    runs-on: ubuntu-latest
-
-    steps:
-    - name: Checkout master branch
-      uses: actions/checkout@v2
-
-    - name: Download dkp-pacman
-      run: wget https://github.com/devkitPro/pacman/releases/download/devkitpro-pacman-1.0.1/devkitpro-pacman.deb
-
-    - name: Install dkp-pacman
-      run: sudo dpkg --install devkitpro-pacman.deb
-
-    - name: Update packages from dkp-pacman to latest
-      run: sudo dkp-pacman --sync --refresh --sysupgrade --noconfirm
-
-    - name: Install packages required for build from dkp-pacman
-      run: sudo dkp-pacman --sync --noconfirm devkitA64 devkit-env libnx switch-sdl2 switch-sdl2_gfx switch-sdl2_image switch-sdl2_ttf switch-freetype
-
-    - name: Make library
-      run: |
-          source /etc/profile.d/devkit-env.sh
-          export PATH=${PATH}:${DEVKITPRO}/portlibs/switch/bin
-          make --directory=$GITHUB_WORKSPACE --file=$GITHUB_WORKSPACE/Makefile library
-
   gen-deploy-docs:
-    name: Library Documentation Generation & Deploy
+    name: Documentation Generation & Deployment
 
     runs-on: ubuntu-latest
 
@@ -77,10 +47,10 @@ jobs:
             git add docs/;
             git config user.name ${{ secrets.REPO_USERNAME }};
             git config user.email ${{ secrets.REPO_EMAIL }};
-            git commit --message "GitHub Actions CI - Added new documentation";
+            git commit --message "GitHub Actions - Update documentation";
           fi
       shell: bash --noprofile --norc {0}
-      
+
     - name: Push changes
       uses: ad-m/github-push-action@v0.6.0
       with:

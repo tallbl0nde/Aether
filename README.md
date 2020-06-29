@@ -1,4 +1,4 @@
-# Aether [![Build Status](https://travis-ci.com/eXhumer/Aether.svg?branch=master)](https://travis-ci.com/tallbl0nde/Aether)
+# Aether ![Build Status](https://github.com/tallbl0nde/Aether/workflows/Build/badge.svg)
 
 My attempt at creating a Horizon-esque UI library for homebrew. While there's no examples just yet, I recommend looking at [NX-Activity-Log](https://github.com/tallbl0nde/NX-Activity-Log) for an example of implementation as it relies on this library for it's UI.
 
@@ -67,6 +67,6 @@ Then, change the `LIBDIRS` line you added in step 2 to the following:
 LIBDIRS += libs/Aether
 ```
 ## Credits
-[eXhumer](https://www.github.com/eXhumer/) - Initial documentation addition, auto build testing all new commit (with both GitHub Actions & Travis CI) & auto documentation generation (with GitHub Actions)
+[eXhumer](https://www.github.com/eXhumer/) - Initial documentation & automatic build testing along with documentation generation (with GitHub Actions)
 
 [rtrussell](https://www.github.com/rtrussell) - SDL2_gfx extensions
