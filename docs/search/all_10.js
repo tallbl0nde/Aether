@@ -1,9 +1,9 @@
 var searchData=
 [
   ['texh',['texH',['../classAether_1_1Texture.html#a38cf36edeb973cc249ee97171a655494',1,'Aether::Texture']]],
-  ['text',['Text',['../classAether_1_1Text.html',1,'Aether::Text'],['../structAether_1_1Theme__T.html#acf256c10f7a26471918571d2c8b8d12a',1,'Aether::Theme_T::text()'],['../classAether_1_1ListButton.html#ad0e2e19a0334378fb79bf478581057ad',1,'Aether::ListButton::text()'],['../classAether_1_1Text.html#a2d4ccdbf4c6e0dd8b453457bafe69af6',1,'Aether::Text::Text()']]],
+  ['text',['Text',['../classAether_1_1Text.html',1,'Aether::Text'],['../classAether_1_1Text.html#a2d4ccdbf4c6e0dd8b453457bafe69af6',1,'Aether::Text::Text()'],['../structAether_1_1Theme__T.html#acf256c10f7a26471918571d2c8b8d12a',1,'Aether::Theme_T::text()'],['../classAether_1_1ListButton.html#ad0e2e19a0334378fb79bf478581057ad',1,'Aether::ListButton::text()']]],
   ['textblock',['TextBlock',['../classAether_1_1TextBlock.html',1,'Aether::TextBlock'],['../classAether_1_1TextBlock.html#a00b3576652b822b811a39fd62c2fc91e',1,'Aether::TextBlock::TextBlock()']]],
-  ['texture',['Texture',['../classAether_1_1Texture.html',1,'Aether::Texture'],['../classAether_1_1Texture.html#a39e8e6fdbed4a87003253bf8ba6a5dc8',1,'Aether::Texture::texture()'],['../classAether_1_1Texture.html#afd0faad4974085483c56cd1666c8dbe2',1,'Aether::Texture::Texture(int x, int y, RenderType t)']]],
+  ['texture',['Texture',['../classAether_1_1Texture.html',1,'Aether::Texture'],['../classAether_1_1Texture.html#afd0faad4974085483c56cd1666c8dbe2',1,'Aether::Texture::Texture(int x, int y, RenderType t)'],['../classAether_1_1Texture.html#a39e8e6fdbed4a87003253bf8ba6a5dc8',1,'Aether::Texture::texture()']]],
   ['textureready',['textureReady',['../classAether_1_1Texture.html#aaba24d611774aaa4105436059ff4a891',1,'Aether::Texture']]],
   ['texw',['texW',['../classAether_1_1Texture.html#a9fe78c574a12bf0d6f8d9400e9371fac',1,'Aether::Texture']]],
   ['theme_5ft',['Theme_T',['../structAether_1_1Theme__T.html',1,'Aether']]],

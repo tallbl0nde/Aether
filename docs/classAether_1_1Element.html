@@ -153,12 +153,19 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:ac111fd688d029bcf53ce9ec8435d6831"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds new element a child.  <a href="#ac111fd688d029bcf53ce9ec8435d6831">More...</a><br /></td></tr>
 <tr class="separator:ac111fd688d029bcf53ce9ec8435d6831"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7a9fb442cd5353b71fc6c6dceb123717"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAether_1_1Element.html#a7a9fb442cd5353b71fc6c6dceb123717">removeElement</a> (<a class="el" href="classAether_1_1Element.html">Element</a> *e)</td></tr>
-<tr class="memdesc:a7a9fb442cd5353b71fc6c6dceb123717"><td class="mdescLeft">&#160;</td><td class="mdescRight">Attempt to remove child element.  <a href="#a7a9fb442cd5353b71fc6c6dceb123717">More...</a><br /></td></tr>
+<tr class="memdesc:a7a9fb442cd5353b71fc6c6dceb123717"><td class="mdescLeft">&#160;</td><td class="mdescRight">Attempt to delete given child element.  <a href="#a7a9fb442cd5353b71fc6c6dceb123717">More...</a><br /></td></tr>
 <tr class="separator:a7a9fb442cd5353b71fc6c6dceb123717"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad5888fdb87ebed404d8432bb8f6cfb8e"><td class="memItemLeft" align="right" valign="top"><a id="ad5888fdb87ebed404d8432bb8f6cfb8e"></a>
 virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAether_1_1Element.html#ad5888fdb87ebed404d8432bb8f6cfb8e">removeAllElements</a> ()</td></tr>
-<tr class="memdesc:ad5888fdb87ebed404d8432bb8f6cfb8e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Remove all children elementst. <br /></td></tr>
+<tr class="memdesc:ad5888fdb87ebed404d8432bb8f6cfb8e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Deletes all children elements. <br /></td></tr>
 <tr class="separator:ad5888fdb87ebed404d8432bb8f6cfb8e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a30315d39ac1b14b755e95bb7ba56d88c"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAether_1_1Element.html#a30315d39ac1b14b755e95bb7ba56d88c">returnElement</a> (<a class="el" href="classAether_1_1Element.html">Element</a> *e)</td></tr>
+<tr class="memdesc:a30315d39ac1b14b755e95bb7ba56d88c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Attempt to remove the given child element.  <a href="#a30315d39ac1b14b755e95bb7ba56d88c">More...</a><br /></td></tr>
+<tr class="separator:a30315d39ac1b14b755e95bb7ba56d88c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adaff844b4e25c279ee15784b6a221f8f"><td class="memItemLeft" align="right" valign="top"><a id="adaff844b4e25c279ee15784b6a221f8f"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAether_1_1Element.html#adaff844b4e25c279ee15784b6a221f8f">returnAllElements</a> ()</td></tr>
+<tr class="memdesc:adaff844b4e25c279ee15784b6a221f8f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes (but does not delete) all children elements. <br /></td></tr>
+<tr class="separator:adaff844b4e25c279ee15784b6a221f8f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3e2ace400d3eff4e18962c9e7f5eebf5"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAether_1_1Element.html#a3e2ace400d3eff4e18962c9e7f5eebf5">isVisible</a> ()</td></tr>
 <tr class="memdesc:a3e2ace400d3eff4e18962c9e7f5eebf5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if current element is visible on-screen.  <a href="#a3e2ace400d3eff4e18962c9e7f5eebf5">More...</a><br /></td></tr>
 <tr class="separator:a3e2ace400d3eff4e18962c9e7f5eebf5"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -244,15 +251,18 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hr
 <tr class="separator:abb5070152fd03253d9a8e8e9adf64129"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7ffedea5f8bf1f20ee14e3a93a4a74ed"><td class="memItemLeft" align="right" valign="top"><a id="a7ffedea5f8bf1f20ee14e3a93a4a74ed"></a>
 virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAether_1_1Element.html#a7ffedea5f8bf1f20ee14e3a93a4a74ed">render</a> ()</td></tr>
-<tr class="memdesc:a7ffedea5f8bf1f20ee14e3a93a4a74ed"><td class="mdescLeft">&#160;</td><td class="mdescRight">Render child elements. <br /></td></tr>
+<tr class="memdesc:a7ffedea5f8bf1f20ee14e3a93a4a74ed"><td class="mdescLeft">&#160;</td><td class="mdescRight">Render child elements + highlights. <br /></td></tr>
 <tr class="separator:a7ffedea5f8bf1f20ee14e3a93a4a74ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0fb99a1081df2031651440504b5926cf"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAether_1_1Element.html#a0fb99a1081df2031651440504b5926cf">renderHighlighted</a> ()</td></tr>
-<tr class="memdesc:a0fb99a1081df2031651440504b5926cf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Renders the highlight border + background.  <a href="#a0fb99a1081df2031651440504b5926cf">More...</a><br /></td></tr>
-<tr class="separator:a0fb99a1081df2031651440504b5926cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2edfac9cfde9df782cab545340b26628"><td class="memItemLeft" align="right" valign="top"><a id="a2edfac9cfde9df782cab545340b26628"></a>
-virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAether_1_1Element.html#a2edfac9cfde9df782cab545340b26628">renderSelected</a> ()</td></tr>
-<tr class="memdesc:a2edfac9cfde9df782cab545340b26628"><td class="mdescLeft">&#160;</td><td class="mdescRight">Renders the selected overlay. <br /></td></tr>
-<tr class="separator:a2edfac9cfde9df782cab545340b26628"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abf12e000bf7efadf72ba7b4674ca5a62"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAether_1_1Element.html#abf12e000bf7efadf72ba7b4674ca5a62">renderHighlightBG</a> ()</td></tr>
+<tr class="memdesc:abf12e000bf7efadf72ba7b4674ca5a62"><td class="mdescLeft">&#160;</td><td class="mdescRight">Renders the highlight background.  <a href="#abf12e000bf7efadf72ba7b4674ca5a62">More...</a><br /></td></tr>
+<tr class="separator:abf12e000bf7efadf72ba7b4674ca5a62"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8b066ee92dafb1fe8696cb0a129411eb"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAether_1_1Element.html#a8b066ee92dafb1fe8696cb0a129411eb">renderHighlight</a> ()</td></tr>
+<tr class="memdesc:a8b066ee92dafb1fe8696cb0a129411eb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Renders the highlight border.  <a href="#a8b066ee92dafb1fe8696cb0a129411eb">More...</a><br /></td></tr>
+<tr class="separator:a8b066ee92dafb1fe8696cb0a129411eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a065d882189cbe7961541d1b71d6cc559"><td class="memItemLeft" align="right" valign="top"><a id="a065d882189cbe7961541d1b71d6cc559"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAether_1_1Element.html#a065d882189cbe7961541d1b71d6cc559">renderSelection</a> ()</td></tr>
+<tr class="memdesc:a065d882189cbe7961541d1b71d6cc559"><td class="mdescLeft">&#160;</td><td class="mdescRight">Renders the selection overlay. <br /></td></tr>
+<tr class="separator:a065d882189cbe7961541d1b71d6cc559"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7d407b1de51d4c0fe799a9cced7e0534"><td class="memItemLeft" align="right" valign="top"><a id="a7d407b1de51d4c0fe799a9cced7e0534"></a>
 virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAether_1_1Element.html#a7d407b1de51d4c0fe799a9cced7e0534">~Element</a> ()</td></tr>
 <tr class="memdesc:a7d407b1de51d4c0fe799a9cced7e0534"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destroy the <a class="el" href="classAether_1_1Element.html" title="Element is the base class to be inherited to form all other types of elements. ">Element</a> object. <br /></td></tr>
@@ -743,10 +753,11 @@ false if element is not visible </dd></dl>
 </table>
 </div><div class="memdoc">
 
-<p>Attempt to remove child element. </p>
+<p>Attempt to delete given child element. </p>
+<dl class="section note"><dt>Note</dt><dd>This calls the element destructor if it is found</dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">e</td><td>children to delete </td></tr>
+    <tr><td class="paramname">e</td><td>child to delete </td></tr>
   </table>
   </dd>
 </dl>
@@ -754,12 +765,12 @@ false if element is not visible </dd></dl>
 <dd>
 false if not a child of element </dd></dl>
 
-<p>Reimplemented in <a class="el" href="classAether_1_1Scrollable.html#ae53fdbbd7b981b51f1f16977ce205ff7">Aether::Scrollable</a>.</p>
+<p>Reimplemented in <a class="el" href="classAether_1_1Scrollable.html#ae53fdbbd7b981b51f1f16977ce205ff7">Aether::Scrollable</a>, and <a class="el" href="classAether_1_1Container.html#ab41aad5185849628e292d7003bd9ff08">Aether::Container</a>.</p>
 
 </div>
 </div>
-<a id="a0fb99a1081df2031651440504b5926cf"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0fb99a1081df2031651440504b5926cf">&#9670;&nbsp;</a></span>renderHighlighted()</h2>
+<a id="a8b066ee92dafb1fe8696cb0a129411eb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8b066ee92dafb1fe8696cb0a129411eb">&#9670;&nbsp;</a></span>renderHighlight()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -768,7 +779,7 @@ false if not a child of element </dd></dl>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual void Aether::Element::renderHighlighted </td>
+          <td class="memname">virtual void Aether::Element::renderHighlight </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -781,10 +792,80 @@ false if not a child of element </dd></dl>
 </table>
 </div><div class="memdoc">
 
-<p>Renders the highlight border + background. </p>
-<p>Default highlighted shapes are rectangles. </p>
+<p>Renders the highlight border. </p>
+<p>Default highlight shape is a rounded rectangle. </p>
 
-<p>Reimplemented in <a class="el" href="classAether_1_1BorderButton.html#a71f5b1b962a2841c901f75e060f62787">Aether::BorderButton</a>, <a class="el" href="classAether_1_1FilledButton.html#a3148fa025098daf891eb36608ded70f1">Aether::FilledButton</a>, <a class="el" href="classAether_1_1Ellipse.html#a42cd402eec065e732d9217f4b41da8b1">Aether::Ellipse</a>, and <a class="el" href="classAether_1_1HelpButton.html#af63974610c4d0452b06bd7330727d0bd">Aether::HelpButton</a>.</p>
+<p>Reimplemented in <a class="el" href="classAether_1_1BorderButton.html#af9eebbf9832e0679386770730466906d">Aether::BorderButton</a>, <a class="el" href="classAether_1_1FilledButton.html#ab0110209946383135881f6821a9f37c6">Aether::FilledButton</a>, <a class="el" href="classAether_1_1Ellipse.html#af12813e98bbbae603704bb0419c54f8b">Aether::Ellipse</a>, and <a class="el" href="classAether_1_1HelpButton.html#a586ff787ed42ce539a047a24d825d088">Aether::HelpButton</a>.</p>
+
+</div>
+</div>
+<a id="abf12e000bf7efadf72ba7b4674ca5a62"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abf12e000bf7efadf72ba7b4674ca5a62">&#9670;&nbsp;</a></span>renderHighlightBG()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void Aether::Element::renderHighlightBG </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Renders the highlight background. </p>
+<p>Default highlight shape is a rectangle. </p>
+
+<p>Reimplemented in <a class="el" href="classAether_1_1BorderButton.html#ad50353f3bb287645184d5c155b8e09e3">Aether::BorderButton</a>, <a class="el" href="classAether_1_1FilledButton.html#a8de420d205786c62fd367e37cf9e0cbb">Aether::FilledButton</a>, <a class="el" href="classAether_1_1Ellipse.html#a95290f21ce4c7f8b31c22de639f060fc">Aether::Ellipse</a>, and <a class="el" href="classAether_1_1HelpButton.html#ab6d544741ac86f67797cea5e53946b1e">Aether::HelpButton</a>.</p>
+
+</div>
+</div>
+<a id="a30315d39ac1b14b755e95bb7ba56d88c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a30315d39ac1b14b755e95bb7ba56d88c">&#9670;&nbsp;</a></span>returnElement()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual bool Aether::Element::returnElement </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classAether_1_1Element.html">Element</a> *&#160;</td>
+          <td class="paramname"><em>e</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Attempt to remove the given child element. </p>
+<dl class="section note"><dt>Note</dt><dd>This does not call the element's destructor, hence it can be reused</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">e</td><td>child to remove </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true if removed successfully (i.e. was a child) </dd>
+<dd>
+false if not a child of element </dd></dl>
+
+<p>Reimplemented in <a class="el" href="classAether_1_1Scrollable.html#a6deeafd8caae468f6584e84a5cb230c7">Aether::Scrollable</a>, and <a class="el" href="classAether_1_1Container.html#a659cecb34d66441ee2d678c8bcdea6af">Aether::Container</a>.</p>
 
 </div>
 </div>
@@ -1214,7 +1295,7 @@ false if current element is not selected </dd></dl>
   </dd>
 </dl>
 
-<p>Reimplemented in <a class="el" href="classAether_1_1Scrollable.html#a8074444a03b02697428697c864c99aac">Aether::Scrollable</a>, <a class="el" href="classAether_1_1ListOption.html#a40dc0bf83fe955fe5dc7d6307f9ba47b">Aether::ListOption</a>, <a class="el" href="classAether_1_1ListButton.html#a32b1edce785bc1f852ad3164a6205f0e">Aether::ListButton</a>, <a class="el" href="classAether_1_1Text.html#ae3a8b90fe4dcc97494d0565db129a672">Aether::Text</a>, <a class="el" href="classAether_1_1ListHeadingHelp.html#a31b92362ea7b5e98fedba6b27cac65c1">Aether::ListHeadingHelp</a>, <a class="el" href="classAether_1_1Controls.html#af9f2ec1395fca8f2a7a96b66ac11c585">Aether::Controls</a>, <a class="el" href="classAether_1_1BorderButton.html#a1be612e8f8645c6d98d6d6572a4f82cf">Aether::BorderButton</a>, <a class="el" href="classAether_1_1FilledButton.html#a35d1ce59010d0d743cc6faa7ee487416">Aether::FilledButton</a>, <a class="el" href="classAether_1_1RoundProgressBar.html#ad2a4b6aa3a8d53cdd0055a5a552d6cd2">Aether::RoundProgressBar</a>, <a class="el" href="classAether_1_1ProgressBar.html#ad54c0ccd848af5a3fa3a8af09c1edad1">Aether::ProgressBar</a>, <a class="el" href="classAether_1_1ListComment.html#a3c88a2ab3fd5e4ab92fe14e0d1a778ba">Aether::ListComment</a>, <a class="el" href="classAether_1_1MenuOption.html#a739c062721152c2324eda9c75cfcaaa5">Aether::MenuOption</a>, and <a class="el" href="classAether_1_1MenuSeparator.html#ab0cce2ba827fa5bce94dfd4a33ef7989">Aether::MenuSeparator</a>.</p>
+<p>Reimplemented in <a class="el" href="classAether_1_1Scrollable.html#a8074444a03b02697428697c864c99aac">Aether::Scrollable</a>, <a class="el" href="classAether_1_1ListOption.html#a40dc0bf83fe955fe5dc7d6307f9ba47b">Aether::ListOption</a>, <a class="el" href="classAether_1_1Text.html#ae3a8b90fe4dcc97494d0565db129a672">Aether::Text</a>, <a class="el" href="classAether_1_1ListButton.html#a32b1edce785bc1f852ad3164a6205f0e">Aether::ListButton</a>, <a class="el" href="classAether_1_1ListHeadingHelp.html#a31b92362ea7b5e98fedba6b27cac65c1">Aether::ListHeadingHelp</a>, <a class="el" href="classAether_1_1Controls.html#af9f2ec1395fca8f2a7a96b66ac11c585">Aether::Controls</a>, <a class="el" href="classAether_1_1BorderButton.html#a1be612e8f8645c6d98d6d6572a4f82cf">Aether::BorderButton</a>, <a class="el" href="classAether_1_1FilledButton.html#a35d1ce59010d0d743cc6faa7ee487416">Aether::FilledButton</a>, <a class="el" href="classAether_1_1RoundProgressBar.html#ad2a4b6aa3a8d53cdd0055a5a552d6cd2">Aether::RoundProgressBar</a>, <a class="el" href="classAether_1_1ProgressBar.html#ad54c0ccd848af5a3fa3a8af09c1edad1">Aether::ProgressBar</a>, <a class="el" href="classAether_1_1ListComment.html#a3c88a2ab3fd5e4ab92fe14e0d1a778ba">Aether::ListComment</a>, <a class="el" href="classAether_1_1MenuOption.html#a739c062721152c2324eda9c75cfcaaa5">Aether::MenuOption</a>, and <a class="el" href="classAether_1_1MenuSeparator.html#ab0cce2ba827fa5bce94dfd4a33ef7989">Aether::MenuSeparator</a>.</p>
 
 </div>
 </div>
@@ -1493,7 +1574,7 @@ false if current element is not touch responsive </dd></dl>
   </dd>
 </dl>
 
-<p>Reimplemented in <a class="el" href="classAether_1_1Scrollable.html#a61d44b03b7a9ba7b60d9ffadfc5ac315">Aether::Scrollable</a>, <a class="el" href="classAether_1_1Texture.html#a8208110a54f061ad786dbbba7318a525">Aether::Texture</a>, <a class="el" href="classAether_1_1Spinner.html#affce8b6b43a5ca627c9c540787d84285">Aether::Spinner</a>, <a class="el" href="classAether_1_1Text.html#a9d069e6bb9bce6276004ef64f74e1360">Aether::Text</a>, <a class="el" href="classAether_1_1List.html#ab01c05d97da27a5c513401b59aea171b">Aether::List</a>, <a class="el" href="classAether_1_1Animation.html#a40dc623999d0f69b5e26eeeea4832e2c">Aether::Animation</a>, and <a class="el" href="classAether_1_1Menu.html#a0c93883147d103257d446f7d03f353b2">Aether::Menu</a>.</p>
+<p>Reimplemented in <a class="el" href="classAether_1_1Scrollable.html#a61d44b03b7a9ba7b60d9ffadfc5ac315">Aether::Scrollable</a>, <a class="el" href="classAether_1_1Texture.html#a8208110a54f061ad786dbbba7318a525">Aether::Texture</a>, <a class="el" href="classAether_1_1Text.html#a9d069e6bb9bce6276004ef64f74e1360">Aether::Text</a>, <a class="el" href="classAether_1_1Spinner.html#affce8b6b43a5ca627c9c540787d84285">Aether::Spinner</a>, <a class="el" href="classAether_1_1List.html#ab01c05d97da27a5c513401b59aea171b">Aether::List</a>, <a class="el" href="classAether_1_1Animation.html#a40dc623999d0f69b5e26eeeea4832e2c">Aether::Animation</a>, and <a class="el" href="classAether_1_1Menu.html#a0c93883147d103257d446f7d03f353b2">Aether::Menu</a>.</p>
 
 </div>
 </div>
