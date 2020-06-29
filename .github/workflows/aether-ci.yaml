@@ -69,19 +69,18 @@ jobs:
           export PATH=${PATH}:${DEVKITPRO}/portlibs/switch/bin
           make --directory=$GITHUB_WORKSPACE --file=$GITHUB_WORKSPACE/Makefile docs
 
-    - name: Check if there are any changes for docs
+    - name: Commit any changes
       run: |
           git fetch origin;
           git diff --quiet --exit-code docs/;
           if [ $? -eq 1 ]; then
             git add docs/;
-            git config user.name $REPO_USERNAME;
-            git config user.email $REPO_EMAIL;
+            git config user.name ${{ secrets.REPO_USERNAME }};
+            git config user.email ${{ secrets.REPO_EMAIL }};
             git commit --message "GitHub Actions CI - Added new documentation";
-            git push https://$REPO_USERNAME:$PERSONAL_ACCESS_TOKEN@github.com/$REPO_USERNAME/Aether.git;
           fi
-      shell: bash --noprofile --norc {0}
-      env:
-        REPO_USERNAME: ${{ secrets.REPO_USERNAME }}
-        REPO_EMAIL: ${{ secrets.REPO_EMAIL }}
-        PERSONAL_ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+      
+    - name: Push changes
+      uses: ad-m/github-push-action@v0.6.0
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
