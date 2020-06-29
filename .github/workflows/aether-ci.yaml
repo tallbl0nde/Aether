@@ -79,6 +79,7 @@ jobs:
             git config user.email ${{ secrets.REPO_EMAIL }};
             git commit --message "GitHub Actions CI - Added new documentation";
           fi
+      shell: bash --noprofile --norc {0}
       
     - name: Push changes
       uses: ad-m/github-push-action@v0.6.0
