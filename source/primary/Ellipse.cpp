@@ -9,7 +9,7 @@ namespace Aether {
 
     void Ellipse::generateSurface() {
         // This is safe - see Texture::regenerate()
-        this->texture = SDLHelper::renderEllipse(this->xDiameter_, this->yDiameter_);
+        this->texture = SDLHelper::renderFilledEllipse(this->xDiameter_/2, this->yDiameter_/2);
     }
 
     unsigned int Ellipse::xDiameter() {
@@ -31,17 +31,14 @@ namespace Aether {
     }
 
     void Ellipse::renderHighlighted() {
-        int midX = this->x() + this->w()/2;
-        int midY = this->y() + this->h()/2;
-
         // Draw background
-        SDLHelper::drawEllipse(this->hiBG, midX, midY, this->w(), this->h());
+        SDLHelper::drawFilledEllipse(this->hiBG, this->x() + this->w()/2, this->y() + this->h()/2, this->w()/2, this->h()/2);
 
         // Draw outline
-        SDLHelper::drawEllipse(this->hiBorder, midX, midY, this->w() + 2*this->hiSize, this->h() + 2*this->hiSize);
+        SDLHelper::drawEllipse(this->hiBorder, this->x() + this->w()/2, this->y() + this->h()/2, this->w()/2, this->h()/2, this->hiSize);
     }
 
     void Ellipse::renderSelected() {
-        SDLHelper::drawEllipse(this->hiSel, this->x() + this->w()/2, this->y() + this->h()/2, this->w(), this->h());
+        SDLHelper::drawFilledEllipse(this->hiSel, this->x() + this->w()/2, this->y() + this->h()/2, this->w()/2, this->h()/2);
     }
 };

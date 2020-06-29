@@ -166,15 +166,27 @@ namespace SDLHelper {
     void draw();
 
     /**
-     * @brief Draw an ellipse with given diameters
+     * @brief Draw an ellipse outline with given parameters
      *
-     * @param c color to draw with
-     * @param x x-coordinate of drawing start position
-     * @param y y-coordinate of drawing start position
-     * @param w x-diamater of eclipse
-     * @param h y-diamater of eclipse
+     * @param c color
+     * @param x center x-coordinate
+     * @param y center y-coordinate
+     * @param rx x radius
+     * @param ry y radius
+     & @param t outline thickness
      */
-    void drawEllipse(SDL_Color c, int x, int y, unsigned int w, unsigned int h);
+    void drawEllipse(SDL_Color c, int x, int y, unsigned int rx, unsigned int ry, unsigned int t);
+
+    /**
+     * @brief Draw a filled ellipse with given parameters
+     *
+     * @param c color
+     * @param x center x-coordinate
+     * @param y center y-coordinate
+     * @param rx x radius
+     * @param ry y radius
+     */
+    void drawFilledEllipse(SDL_Color c, int x, int y, unsigned int rx, unsigned int ry);
 
     /**
      * @brief Draw a filled rectangle with the given dimensions
@@ -311,13 +323,22 @@ namespace SDLHelper {
     SDL_Surface * renderTextWrappedS(std::string str, int font_size, uint32_t max_w, int style = TTF_STYLE_NORMAL);
 
     /**
-     * @brief Renders an eclipse
+     * @brief Render an ellipse outline with given parameters
      *
-     * @param xd x-diamater of eclipse
-     * @param yd y-diamater of eclipse
+     * @param rx x radius
+     * @param ry y radius
+     * @param t outline thickness
+     */
+    SDL_Texture * renderEllipse(unsigned int rx, unsigned int ry, unsigned int t);
+
+    /**
+     * @brief Render a filled ellipse
+     *
+     * @param rx x radius
+     * @param ry y radius
      * @return pointer to rendered texture
      */
-    SDL_Texture * renderEllipse(unsigned int xd, unsigned int yd);
+    SDL_Texture * renderFilledEllipse(unsigned int rx, unsigned int ry);
 
     /**
      * @brief Renders a filled corner rectangle

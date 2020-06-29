@@ -1,5 +1,6 @@
 #include <atomic>
 #include <mutex>
+#include <Aether/utils/SDL2_gfx_ext.hpp>
 #include "Aether/utils/SDLHelper.hpp"
 #include <SDL2/SDL2_gfxPrimitives.h>
 #include <SDL2/SDL2_rotozoom.h>
@@ -265,9 +266,15 @@ namespace SDLHelper {
         SDL_RenderPresent(renderer);
     }
 
-    void drawEllipse(SDL_Color c, int x, int y, unsigned int w, unsigned int h) {
-        filledEllipseRGBA(renderer, x + offsetX, y + offsetY, w/2, h/2, c.r, c.g, c.b, c.a);
-        aaellipseRGBA(renderer, x + offsetX, y + offsetY, w/2, h/2, c.r, c.g, c.b, c.a);
+    void drawEllipse(SDL_Color c, int x, int y, unsigned int rx, unsigned int ry, unsigned int t) {
+        // Drawing in quadrants is faster than the full 360 degrees
+        for (unsigned short i = 0; i < 4; i++) {
+            aaArcRGBA(renderer, x + offsetX, y + offsetY, rx + t/2, ry + t/2, i*90, (i+1)*90 + 1, t, c.r, c.g, c.b, c.a);
+        }
+    }
+
+    void drawFilledEllipse(SDL_Color c, int x, int y, unsigned int rx, unsigned int ry) {
+        aaFilledEllipseRGBA(renderer, x + offsetX, y + offsetY, rx, ry, c.r, c.g, c.b, c.a);
     }
 
     void drawFilledRect(SDL_Color c, int x, int y, int w, int h) {
@@ -277,14 +284,30 @@ namespace SDLHelper {
     }
 
     void drawFilledRoundRect(SDL_Color c, int x, int y, int w, int h, unsigned int r) {
-        roundedBoxRGBA(renderer, offsetX + (x + w - 2), offsetY + y, offsetX + x, offsetY + (y + h - 2), r, c.r, c.g, c.b, c.a);
-        SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
+        // Starting with top left corner, moving clockwise
+        aaFilledPieRGBA(renderer, x + offsetX + r, y + offsetY + r, r, r, 180, 270, 0, c.r, c.g, c.b, c.a);
+        aaFilledPieRGBA(renderer, x + offsetX + w - r, y + offsetY + r, r, r, 270, 360, 0, c.r, c.g, c.b, c.a);
+        aaFilledPieRGBA(renderer, x + offsetX + w - r, y + offsetY + h - r, r, r, 0, 90, 0, c.r, c.g, c.b, c.a);
+        aaFilledPieRGBA(renderer, x + offsetX + r, y + offsetY + h - r, r, r, 90, 180, 0, c.r, c.g, c.b, c.a);
+
+        // Fill in with rectangles (left to right)
+        drawFilledRect(c, x, y + r, r, h - 2*r);
+        drawFilledRect(c, x + r, y, w - 2*r, h);
+        drawFilledRect(c, x + w - r, y + r, r, h - 2*r);
     }
 
     void drawRoundRect(SDL_Color c, int x, int y, int w, int h, unsigned int r, unsigned int b) {
-        for (unsigned int i = 0; i < b; i++) {
-            roundedRectangleRGBA(renderer, (x + offsetX + w) - i, y + offsetY + i, offsetX + x + i, (offsetY + y + h) - i, r, c.r, c.g, c.b, c.a);
-        }
+        // Starting with top left corner, moving clockwise
+        aaArcRGBA(renderer, x + offsetX + r, y + offsetY + r, r - b/2.0, r - b/2.0, 180, 270, b, c.r, c.g, c.b, c.a);
+        aaArcRGBA(renderer, x + offsetX + w - r, y + offsetY + r, r - b/2.0, r - b/2.0, 270, 360, b, c.r, c.g, c.b, c.a);
+        aaArcRGBA(renderer, x + offsetX + w - r, y + offsetY + h - r, r - b/2.0, r - b/2.0, 0, 90, b, c.r, c.g, c.b, c.a);
+        aaArcRGBA(renderer, x + offsetX + r, y + offsetY + h - r, r - b/2.0, r - b/2.0, 90, 180, b, c.r, c.g, c.b, c.a);
+
+        // Join with lines (starting at top, clockwise)
+        thickLineRGBA(renderer, x + offsetX + r, y + offsetY + b/2.0, x + offsetX + w - r, y + offsetY + b/2.0, b, c.r, c.g, c.b, c.a);
+        thickLineRGBA(renderer, x + offsetX + w - b/2.0, y + offsetY + r, x + offsetX + w - b/2.0, y + offsetY + h - r, b, c.r, c.g, c.b, c.a);
+        thickLineRGBA(renderer, x + offsetX + r, y + offsetY + h - b/2.0, x + offsetX + w - r, y + offsetY + h - b/2.0, b, c.r, c.g, c.b, c.a);
+        thickLineRGBA(renderer, x + offsetX + b/2.0, y + offsetY + r, x + offsetX + b/2.0, y + offsetY + h - r, b, c.r, c.g, c.b, c.a);
         SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
     }
 
@@ -653,10 +676,19 @@ namespace SDLHelper {
     }
 
     // -= TEXTURES =-
-    SDL_Texture * renderEllipse(unsigned int xd, unsigned int yd) {
-        SDL_Texture * tex = createTexture(xd + 4, yd + 4);
+    SDL_Texture * renderEllipse(unsigned int rx, unsigned int ry, unsigned int t) {
+        SDL_Texture * tex = createTexture(2*rx, 2*ry);
         renderToTexture(tex);
-        drawEllipse(SDL_Color{255, 255, 255, 255}, xd/2 + 2, yd/2 + 2, xd, yd);
+        drawEllipse(SDL_Color{255, 255, 255, 255}, rx, ry, rx, ry, t);
+        renderToScreen();
+        return tex;
+
+    }
+
+    SDL_Texture * renderFilledEllipse(unsigned int rx, unsigned int ry) {
+        SDL_Texture * tex = createTexture(2*rx, 2*ry);
+        renderToTexture(tex);
+        drawFilledEllipse(SDL_Color{255, 255, 255, 255}, rx, ry, rx, ry);
         renderToScreen();
         return tex;
     }

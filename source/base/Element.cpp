@@ -4,6 +4,8 @@
 
 // Border size of highlight
 #define HIGHLIGHT_SIZE 6
+// Corner radius of highlight
+#define HIGHLIGHT_RAD 4
 
 namespace Aether {
     Colour Element::hiBG = Colour{255, 255, 255, 255};
@@ -346,7 +348,7 @@ namespace Aether {
         SDLHelper::drawFilledRect(this->hiBG, this->x(), this->y(), this->w(), this->h());
 
         // Draw outline
-        SDLHelper::drawRect(this->hiBorder, this->x() - this->hiSize, this->y() - this->hiSize, this->w() + 2*this->hiSize, this->h() + 2*this->hiSize, this->hiSize);
+        SDLHelper::drawRoundRect(this->hiBorder, this->x() - this->hiSize, this->y() - this->hiSize, this->w() + 2*this->hiSize, this->h() + 2*this->hiSize, HIGHLIGHT_RAD, this->hiSize);
     }
 
     void Element::renderSelected() {

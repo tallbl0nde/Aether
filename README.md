@@ -67,4 +67,6 @@ Then, change the `LIBDIRS` line you added in step 2 to the following:
 LIBDIRS += libs/Aether
 ```
 ## Credits
-[eXhumer](https://www,github.com/eXhumer/) - Initial documentation addition, auto build testing all new commit (with both GitHub Actions & Travis CI) & auto documentation generation (with GitHub Actions)
+[eXhumer](https://www.github.com/eXhumer/) - Initial documentation addition, auto build testing all new commit (with both GitHub Actions & Travis CI) & auto documentation generation (with GitHub Actions)
+
+[rtrussell](https://www.github.com/rtrussell) - SDL2_gfx extensions

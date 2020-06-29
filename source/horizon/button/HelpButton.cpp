@@ -8,15 +8,15 @@ namespace Aether {
     }
 
     void HelpButton::renderHighlighted() {
-        // Draw outline
-        SDLHelper::drawEllipse(this->hiBorder, this->x() + this->w()/2, this->y() + this->h()/2, this->w() + 2*this->hiSize, this->h() + 2*this->hiSize);
-
         // Draw background
-        SDLHelper::drawEllipse(this->hiBG, this->x() + this->w()/2, this->y() + this->h()/2, this->w(), this->h());
+        SDLHelper::drawFilledEllipse(this->hiBG, this->x() + this->w()/2, this->y() + this->h()/2, this->w()/2, this->h()/2);
+
+        // Draw outline
+        SDLHelper::drawEllipse(this->hiBorder, this->x() + this->w()/2, this->y() + this->h()/2, this->w()/2, this->h()/2, this->hiSize);
     }
 
     void HelpButton::renderSelected() {
-        SDLHelper::drawEllipse(this->hiSel, this->x() + this->w()/2, this->y() + this->h()/2, this->w(), this->h());
+        SDLHelper::drawFilledEllipse(this->hiSel, this->x() + this->w()/2, this->y() + this->h()/2, this->w()/2, this->h()/2);
     }
 
     Colour HelpButton::getColour() {
