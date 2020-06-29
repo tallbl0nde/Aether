@@ -60,14 +60,19 @@ namespace Aether {
             void setYDiameter(unsigned int yd);
 
             /**
-             * @brief Draw elliptical highlight instead of rectangle
+             * @brief Render highlight background (elliptical)
              */
-            void renderHighlighted();
+            void renderHighlightBG();
 
             /**
-             * @brief Draw elliptical selected instead of rectangle
+             * @brief Render highlight border (elliptical)
              */
-            void renderSelected();
+            void renderHighlight();
+
+            /**
+             * @brief Render selection layer (elliptical)
+             */
+            void renderSelection();
     };
 };
 

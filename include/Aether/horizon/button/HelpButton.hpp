@@ -16,7 +16,7 @@ namespace Aether {
         public:
             /**
              * @brief Creates the texture
-             * 
+             *
              * @param x x-coordinate of start position offset
              * @param y y-coordinate of start position offset
              * @param d diamater of round button
@@ -26,27 +26,32 @@ namespace Aether {
 
             /**
              * @brief Get the colour of the question mark
-             * 
-             * @return colour 
+             *
+             * @return colour
              */
             Colour getColour();
 
             /**
              * @brief Set the colour of the question mark
-             * 
+             *
              * @param c new colour
              */
             void setColour(Colour c);
 
             /**
-             * @brief Renders the button with the round circle highlighted
+             * @brief Render highlight background
              */
-            void renderHighlighted();
+            void renderHighlightBG();
 
             /**
-             * @brief Renders the button with the round circle selected
+             * @brief Render highlight border
              */
-            void renderSelected();
+            void renderHighlight();
+
+            /**
+             * @brief Render selection layer
+             */
+            void renderSelection();
     };
 };
 

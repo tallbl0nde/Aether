@@ -20,7 +20,7 @@ namespace Aether {
         public:
             /**
              * @brief Construct a new Border Button object
-             * 
+             *
              * @param x x-coordinate of the start position offset
              * @param y y-coordinate of the start position offset
              * @param w width of the button
@@ -34,42 +34,42 @@ namespace Aether {
 
             /**
              * @brief Get the colour of the border
-             * 
-             * @return border colour 
+             *
+             * @return border colour
              */
             Colour getBorderColour();
 
             /**
              * @brief Set the colour of the border
-             * 
+             *
              * @param c new border colour
              */
             void setBorderColour(Colour c);
 
             /**
              * @brief Get the colour of the text
-             * 
+             *
              * @return text colour
              */
             Colour getTextColour();
 
             /**
              * @brief Set the colour of the text
-             * 
+             *
              * @param c new text colour
              */
             void setTextColour(Colour c);
 
             /**
              * @brief Get the text for the button
-             * 
+             *
              * @return button text
              */
             std::string getString();
 
             /**
              * @brief Set the text for the button
-             * 
+             *
              * @param s new button text
              */
             void setString(std::string s);
@@ -91,19 +91,19 @@ namespace Aether {
             void setH(int h);
 
             /**
-             * @brief Renders the button normally
+             * @brief Render highlight background
              */
-            void render();
+            void renderHighlightBG();
 
             /**
-             * @brief Renders the button as highlighted
+             * @brief Render highlight border
              */
-            void renderHighlighted();
+            void renderHighlight();
 
             /**
-             * @brief Renders the button as selected
+             * @brief Render selection layer
              */
-            void renderSelected();
+            void renderSelection();
     };
 };
 

@@ -320,38 +320,43 @@ namespace Aether {
         if (!this->isVisible()) {
             return;
         }
-
         SDL_BlendMode bld = SDLHelper::getBlendMode();
+
+        // Render highlight background if highlighted
         if (this->highlighted() && !this->isTouch) {
             SDLHelper::setBlendMode(SDL_BLENDMODE_BLEND);
-            this->renderHighlighted();
+            this->renderHighlightBG();
         }
 
+        // Render children next
         if (this->selected()) {
             SDLHelper::setBlendMode(SDL_BLENDMODE_BLEND);
         }
-
-        // Draw children
         for (size_t i = 0; i < this->children.size(); i++) {
             this->children[i]->render();
         }
         SDLHelper::setBlendMode(bld);
 
+        // Render selected/held layer
         if (this->selected()) {
-            // SDLHelper::setBlendMode(SDL_BLENDMODE_BLEND);
-            this->renderSelected();
+            this->renderSelection();
+        }
+
+        // Finally render highlight border if needed
+        if (this->highlighted() && !this->isTouch) {
+            this->renderHighlight();
         }
     }
 
-    void Element::renderHighlighted() {
-        // Draw background
+    void Element::renderHighlightBG() {
         SDLHelper::drawFilledRect(this->hiBG, this->x(), this->y(), this->w(), this->h());
+    }
 
-        // Draw outline
+    void Element::renderHighlight() {
         SDLHelper::drawRoundRect(this->hiBorder, this->x() - this->hiSize, this->y() - this->hiSize, this->w() + 2*this->hiSize, this->h() + 2*this->hiSize, HIGHLIGHT_RAD, this->hiSize);
     }
 
-    void Element::renderSelected() {
+    void Element::renderSelection() {
         SDLHelper::drawFilledRect(this->hiSel, this->x(), this->y(), this->w(), this->h());
     }
 

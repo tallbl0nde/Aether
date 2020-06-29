@@ -54,21 +54,15 @@ namespace Aether {
         this->text->setY(this->y() + this->h()/2 - this->text->h()/2);
     }
 
-    void BorderButton::render() {
-        Element::render();
-
-        // Now render highlight over the top
-        if (this->highlighted() && !this->isTouch) {
-            SDLHelper::drawRoundRect(this->hiBorder, this->x() - this->hiSize + this->box->border(), this->y() - this->hiSize + this->box->border(), this->w() + 2*(this->hiSize - this->box->border()), this->h() + 2*(this->hiSize - this->box->border()), CORNER_RAD + 2, this->hiSize);
-        }
-    }
-
-    void BorderButton::renderHighlighted() {
-        // Draw background
+    void BorderButton::renderHighlightBG() {
         SDLHelper::drawFilledRoundRect(this->hiBG, this->x(), this->y(), this->w(), this->h(), CORNER_RAD + 2);
     }
 
-    void BorderButton::renderSelected() {
+    void BorderButton::renderHighlight() {
+        SDLHelper::drawRoundRect(this->hiBorder, this->x() - this->hiSize + this->box->border(), this->y() - this->hiSize + this->box->border(), this->w() + 2*(this->hiSize - this->box->border()), this->h() + 2*(this->hiSize - this->box->border()), CORNER_RAD + 2, this->hiSize);
+    }
+
+    void BorderButton::renderSelection() {
         SDLHelper::drawFilledRoundRect(this->hiSel, this->x(), this->y(), this->w(), this->h(), CORNER_RAD + 2);
     }
 };

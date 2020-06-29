@@ -7,15 +7,15 @@ namespace Aether {
         this->setCallback(f);
     }
 
-    void HelpButton::renderHighlighted() {
-        // Draw background
+    void HelpButton::renderHighlightBG() {
         SDLHelper::drawFilledEllipse(this->hiBG, this->x() + this->w()/2, this->y() + this->h()/2, this->w()/2, this->h()/2);
+    }
 
-        // Draw outline
+    void HelpButton::renderHighlight() {
         SDLHelper::drawEllipse(this->hiBorder, this->x() + this->w()/2, this->y() + this->h()/2, this->w()/2, this->h()/2, this->hiSize);
     }
 
-    void HelpButton::renderSelected() {
+    void HelpButton::renderSelection() {
         SDLHelper::drawFilledEllipse(this->hiSel, this->x() + this->w()/2, this->y() + this->h()/2, this->w()/2, this->h()/2);
     }
 

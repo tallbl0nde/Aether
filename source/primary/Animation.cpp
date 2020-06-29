@@ -30,21 +30,31 @@ namespace Aether {
         if (!this->isVisible()) {
             return;
         }
-
         SDL_BlendMode bld = SDLHelper::getBlendMode();
-        SDLHelper::setBlendMode(SDL_BLENDMODE_BLEND);
+
+        // Render highlight background if highlighted
         if (this->highlighted() && !this->isTouch) {
-            this->renderHighlighted();
+            SDLHelper::setBlendMode(SDL_BLENDMODE_BLEND);
+            this->renderHighlightBG();
         }
 
-        // Draw active child
+        // Render active child
+        if (this->selected()) {
+            SDLHelper::setBlendMode(SDL_BLENDMODE_BLEND);
+        }
         if (this->idx < this->children.size()) {
             this->children[this->idx]->render();
         }
         SDLHelper::setBlendMode(bld);
 
+        // Render selected/held layer
         if (this->selected()) {
-            this->renderSelected();
+            this->renderSelection();
+        }
+
+        // Finally render highlight border if needed
+        if (this->highlighted() && !this->isTouch) {
+            this->renderHighlight();
         }
     }
 

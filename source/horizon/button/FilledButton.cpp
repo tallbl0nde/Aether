@@ -54,15 +54,15 @@ namespace Aether {
         this->text->setY(this->y() + this->h()/2 - this->text->h()/2);
     }
 
-    void FilledButton::renderHighlighted() {
-        // Draw background
+    void FilledButton::renderHighlightBG() {
         SDLHelper::drawFilledRoundRect(this->hiBG, this->x(), this->y(), this->w(), this->h(), CORNER_RAD + 2);
+    }
 
-        // Draw outline
+    void FilledButton::renderHighlight() {
         SDLHelper::drawRoundRect(this->hiBorder, this->x() - this->hiSize - 2, this->y() - this->hiSize - 2, this->w() + 2*this->hiSize + 2, this->h() + 2*this->hiSize + 2, CORNER_RAD + 2, this->hiSize);
     }
 
-    void FilledButton::renderSelected() {
-
+    void FilledButton::renderSelection() {
+        // Nothing
     }
 };

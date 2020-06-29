@@ -47,6 +47,7 @@ namespace Aether {
             static Colour hiSel;
             /** @brief Size of highlight border */
             static unsigned int hiSize;
+
             /** @brief Indicator on whether the touch is "active" (i.e. hide highlighting) or not */
             static bool isTouch;
             /** @brief Pointer to parent element, if there is one */
@@ -415,21 +416,28 @@ namespace Aether {
             virtual void update(uint32_t dt);
 
             /**
-             * @brief Render child elements
+             * @brief Render child elements + highlights
              */
             virtual void render();
 
             /**
-             * @brief Renders the highlight border + background
+             * @brief Renders the highlight background
              *
-             * Default highlighted shapes are rectangles.
+             * Default highlight shape is a rectangle.
              */
-            virtual void renderHighlighted();
+            virtual void renderHighlightBG();
 
             /**
-             * @brief Renders the selected overlay
+             * @brief Renders the highlight border
+             *
+             * Default highlight shape is a rounded rectangle.
              */
-            virtual void renderSelected();
+            virtual void renderHighlight();
+
+            /**
+             * @brief Renders the selection overlay
+             */
+            virtual void renderSelection();
 
             /**
              * @brief Destroy the Element object
