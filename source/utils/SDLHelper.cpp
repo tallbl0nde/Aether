@@ -1,6 +1,6 @@
 #include <atomic>
 #include <mutex>
-#include <Aether/utils/SDL2_gfx_ext.hpp>
+#include "Aether/utils/SDL2_gfx_ext.hpp"
 #include "Aether/utils/SDLHelper.hpp"
 #include <SDL2/SDL2_gfxPrimitives.h>
 #include <SDL2/SDL2_rotozoom.h>

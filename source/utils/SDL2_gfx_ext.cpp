@@ -3,7 +3,6 @@
 // were written by 'rtrussell' on GitHub (under Zlib license). You can find the original
 // source here: https://github.com/rtrussell/BBCSDL/blob/master/src/SDL2_gfxPrimitives.c
 #include "Aether/utils/SDL2_gfx_ext.hpp"
-#include "../../../../../Common/include/Log.hpp"
 #include <SDL2/SDL2_gfxPrimitives.h>
 // ======================================================================================= //
 
