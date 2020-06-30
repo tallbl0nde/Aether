@@ -15,7 +15,7 @@ namespace Aether {
             /** @brief Whether to have padding */
             Padding paddingType;
             /** @brief Scroll bar texture */
-            static SDL_Texture * scrollBar;
+            SDL_Texture * scrollBar;
             /** @brief Colour to tint scroll bar */
             Colour scrollBarColour;
             /** @brief Whether to show the scroll bar */

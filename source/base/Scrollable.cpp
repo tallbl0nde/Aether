@@ -6,18 +6,20 @@
 #define DEFAULT_DAMPENING 20
 // Maximum scrollVelocity
 #define MAX_VELOCITY 70
+
 // Padding for very top and very bottom elements
 #define PADDING 40
 // Padding either side of items (to allow for scroll bar)
 #define SIDE_PADDING 50
-// Height of scroll bar
-#define SCROLLBAR_SIZE 100
 // Amount touch can deviate (in px) before scrolling
 #define TOUCH_RADIUS 30
 
-namespace Aether {
-    SDL_Texture * Scrollable::scrollBar = nullptr;
+// Minimum height of scroll bar
+#define MIN_SCROLLBAR_SIZE 100
+// Width of scroll bar
+#define SCROLLBAR_WIDTH 5
 
+namespace Aether {
     Scrollable::Scrollable(int x, int y, int w, int h, Padding p) : Container(x, y, w, h) {
         this->canScroll_ = true;
         this->isScrolling = false;
@@ -28,11 +30,9 @@ namespace Aether {
         this->scrollVelocity = 0;
         this->scrollPos_ = 0;
         this->maxScrollPos_ = 0;
-        this->showScrollBar_ = true;
-        if (this->scrollBar == nullptr) {
-            this->scrollBar = SDLHelper::renderFilledRect(5, SCROLLBAR_SIZE);
-        }
+        this->scrollBar = nullptr;
         this->scrollBarColour = Colour{255, 255, 255, 255};
+        this->showScrollBar_ = true;
         this->touchY = std::numeric_limits<int>::min();
     }
 
@@ -74,6 +74,10 @@ namespace Aether {
 
         // Subtract this element's height as it wasn't accounted for earlier
         this->maxScrollPos_ -= this->h();
+
+        // Delete scroll bar due to new height
+        SDLHelper::destroyTexture(this->scrollBar);
+        this->scrollBar = nullptr;
     }
 
     void Scrollable::stopScrolling() {
@@ -517,6 +521,15 @@ namespace Aether {
                 this->stopScrolling();
             }
         }
+
+        // Recreate scroll bar texture if needed
+        if (this->scrollBar == nullptr) {
+            int size = (0.8*this->h()) * (this->h()/(double)(this->h() + this->maxScrollPos_/3));
+            if (size < MIN_SCROLLBAR_SIZE) {
+                size = MIN_SCROLLBAR_SIZE;
+            }
+            this->scrollBar = SDLHelper::renderFilledRoundRect(SCROLLBAR_WIDTH, size, SCROLLBAR_WIDTH/2);
+        }
     }
 
     void Scrollable::render() {
@@ -530,14 +543,15 @@ namespace Aether {
         SDLHelper::resetClip();
 
         // Draw scroll bar
-        if (this->maxScrollPos_ != 0 && this->showScrollBar_) {
-            int yPos = this->y() + PADDING/2 + (((float)this->scrollPos_ / this->maxScrollPos_) * (this->h() - SCROLLBAR_SIZE - PADDING));
-            SDLHelper::drawTexture(this->scrollBar, this->scrollBarColour, this->x() + this->w() - 5, yPos);
+        if (this->maxScrollPos_ != 0 && this->showScrollBar_ && this->scrollBar != nullptr) {
+            int w, h;
+            SDLHelper::getDimensions(this->scrollBar, &w, &h);
+            int yPos = this->y() + PADDING/2 + (((float)this->scrollPos_ / this->maxScrollPos_) * (this->h() - h - PADDING));
+            SDLHelper::drawTexture(this->scrollBar, this->scrollBarColour, this->x() + this->w() - w, yPos);
         }
     }
 
     Scrollable::~Scrollable() {
-        // I should do this but it's static /shrug
-        // SDLHelper::destroyTexture(this->scrollBar);
+        SDLHelper::destroyTexture(this->scrollBar);
     }
 };

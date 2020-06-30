@@ -29,7 +29,7 @@ namespace Aether {
                 if (this->focused() == nullptr) {
                     bool found = false;
                     for (size_t i = 0; i < this->children.size(); i++) {
-                        if (this->children[i]->selectable()) {
+                        if (this->children[i]->selectable() && this->children[i]->isVisible()) {
                             this->setFocused(this->children[i]);
                             found = true;
                             break;
