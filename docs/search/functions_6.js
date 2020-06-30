@@ -7,6 +7,7 @@ var searchData=
   ['getbodysize',['getBodySize',['../classAether_1_1MessageBox.html#aca6d4b4c770710e87351db8da87a2cc7',1,'Aether::MessageBox']]],
   ['getbordercolour',['getBorderColour',['../classAether_1_1BorderButton.html#a4cdf35e5b6c6507e24886a2a7f4c5fbb',1,'Aether::BorderButton']]],
   ['getcirclecolour',['getCircleColour',['../classAether_1_1Tick.html#a134631edf0477cbff79b518f99e56532',1,'Aether::Tick']]],
+  ['getclip',['getClip',['../namespaceSDLHelper.html#a39e6074f2ef56513200976f1cb503552',1,'SDLHelper']]],
   ['getcolour',['getColour',['../classAether_1_1Texture.html#a2fd3d51ad6c8c37a4b657e53bb307f87',1,'Aether::Texture::getColour()'],['../classAether_1_1HelpButton.html#a58fa12fe86420b6f8035760206bd6a79',1,'Aether::HelpButton::getColour()'],['../classAether_1_1ControlItem.html#abe2b2fd05c5e3f30807ecbcad3c4780d',1,'Aether::ControlItem::getColour()'],['../classAether_1_1Controls.html#a3b8019176972486089bd86c10e16f2ab',1,'Aether::Controls::getColour()'],['../classAether_1_1ProgressBar.html#aeed554d715b1c116bc3197acb0ab9e14',1,'Aether::ProgressBar::getColour()']]],
   ['getdimensions',['getDimensions',['../namespaceSDLHelper.html#a90a78b52d871476fb359057935b0b9bb',1,'SDLHelper']]],
   ['getfillcolour',['getFillColour',['../classAether_1_1FilledButton.html#a137a70c9aa4b1335bacf080c06edc7cb',1,'Aether::FilledButton']]],
