@@ -113,6 +113,33 @@ namespace SDLHelper {
     void setOffset(int x, int y);
 
     /**
+     * @brief Get the clip rectangle
+     *
+     * @param x1 pointer to write x value of top left corner to
+     * @param y1 pointer to write y value of top left corner to
+     * @param x2 pointer to write x value of bottom right corner to
+     * @param y2 pointer to write y value of bottom right corner to
+     */
+    void getClip(int * x1, int * y1, int * x2, int * y2);
+
+    /**
+     * @brief Reset the clip area
+     */
+    void resetClip();
+
+    /**
+     * @brief Set clip area
+     *
+     * @param x1 x value of top left corner
+     * @param y1 y value of top left corner
+     * @param x2 x value of bottom right corner
+     * @param y2 y value of bottom right corner
+     *
+     * @return true on success, false otherwise
+     */
+    bool setClip(int x1, int y1, int x2, int y2);
+
+    /**
      * @brief Emptys the font cache
      */
     void emptyFontCache();
@@ -149,13 +176,6 @@ namespace SDLHelper {
      * @param b blend mode to set to
      */
     void setBlendMode(SDL_BlendMode b);
-
-    /**
-     * @brief Set the blend mode of draw operations (i.e. render to screen ops)
-     *
-     * @param b blend mode to set to
-     */
-    void setRendererBlendMode(SDL_BlendMode b);
 
     // === DRAWING FUNCTIONS ===
     // -> Draw directly to the screen/renderer

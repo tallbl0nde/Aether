@@ -320,22 +320,16 @@ namespace Aether {
         if (!this->isVisible()) {
             return;
         }
-        SDL_BlendMode bld = SDLHelper::getBlendMode();
 
         // Render highlight background if highlighted
         if (this->highlighted() && !this->isTouch) {
-            SDLHelper::setBlendMode(SDL_BLENDMODE_BLEND);
             this->renderHighlightBG();
         }
 
         // Render children next
-        if (this->selected()) {
-            SDLHelper::setBlendMode(SDL_BLENDMODE_BLEND);
-        }
         for (size_t i = 0; i < this->children.size(); i++) {
             this->children[i]->render();
         }
-        SDLHelper::setBlendMode(bld);
 
         // Render selected/held layer
         if (this->selected()) {

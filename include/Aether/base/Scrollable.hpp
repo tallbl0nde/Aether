@@ -6,8 +6,7 @@
 namespace Aether {
     /**
      * @brief A scrollable element arranges all of it's children as a list.
-     * It's children are rendered onto a separate texture which allows them
-     * to be 'cut off' outside the dimensions of the scrollable object.
+     * It's children are rendered and 'cut off' outside the dimensions of the scrollable object.
      * Note that added elements will have their width changed to match the list!
      * Also note that elements are placed directly below the previous element (in terms of y-coords)!
      */
@@ -15,8 +14,6 @@ namespace Aether {
         private:
             /** @brief Whether to have padding */
             Padding paddingType;
-            /** @brief Texture to render to */
-            SDL_Texture * renderTex;
             /** @brief Scroll bar texture */
             static SDL_Texture * scrollBar;
             /** @brief Colour to tint scroll bar */

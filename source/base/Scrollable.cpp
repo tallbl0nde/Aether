@@ -34,7 +34,6 @@ namespace Aether {
         }
         this->scrollBarColour = Colour{255, 255, 255, 255};
         this->touchY = std::numeric_limits<int>::min();
-        this->renderTex = SDLHelper::createTexture(w, h);
     }
 
     int Scrollable::paddingAmount() {
@@ -101,8 +100,6 @@ namespace Aether {
 
     void Scrollable::setW(int w) {
         Container::setW(w);
-        SDLHelper::destroyTexture(this->renderTex);
-        this->renderTex = SDLHelper::createTexture(this->w(), this->h());
         for (size_t i = 0; i < this->children.size(); i++) {
             this->children[i]->setW(this->w() - 2*this->paddingAmount());
         }
@@ -110,8 +107,6 @@ namespace Aether {
 
     void Scrollable::setH(int h) {
         Container::setH(h);
-        SDLHelper::destroyTexture(this->renderTex);
-        this->renderTex = SDLHelper::createTexture(this->w(), this->h());
         this->updateMaxScrollPos();
     }
 
@@ -525,20 +520,14 @@ namespace Aether {
     }
 
     void Scrollable::render() {
-        SDLHelper::renderToTexture(this->renderTex);
-        SDL_BlendMode bld = SDLHelper::getBlendMode();
-        SDLHelper::setBlendMode(SDL_BLENDMODE_NONE);
-        SDLHelper::setOffset(-this->x(), -this->y());
+        // Set clip rectangle to match scrollable position + size
+        SDLHelper::setClip(this->x(), this->y(), this->x() + this->w(), this->y() + this->h());
 
+        // Render children
         Container::render();
 
-        // Reset all rendering calls to screen
-        SDLHelper::setOffset(0, 0);
-        SDLHelper::setBlendMode(bld);
-        SDLHelper::renderToScreen();
-
-        // Render texture
-        SDLHelper::drawTexture(this->renderTex, Colour{255, 255, 255, 255}, this->x(), this->y(), this->w(), this->h());
+        // Remove clip rectangle
+        SDLHelper::resetClip();
 
         // Draw scroll bar
         if (this->maxScrollPos_ != 0 && this->showScrollBar_) {
@@ -550,6 +539,5 @@ namespace Aether {
     Scrollable::~Scrollable() {
         // I should do this but it's static /shrug
         // SDLHelper::destroyTexture(this->scrollBar);
-        SDLHelper::destroyTexture(this->renderTex);
     }
 };

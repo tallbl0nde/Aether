@@ -216,6 +216,29 @@ namespace SDLHelper {
         offsetY = y;
     }
 
+    void getClip(int * x1, int * y1, int * x2, int * y2) {
+        SDL_Rect r;
+        SDL_RenderGetClipRect(renderer, &r);
+        *x1 = r.x;
+        *y1 = r.y;
+        *x2 = r.x + r.w;
+        *y2 = r.y + r.h;
+    }
+
+    void resetClip() {
+        SDL_RenderSetClipRect(renderer, NULL);
+    }
+
+    bool setClip(int x1, int y1, int x2, int y2) {
+        // Do nothing if the points are not in the correct order
+        if (x1 == x2 || y1 == y2 || x2 < x1 || y2 < y1) {
+            return false;
+        }
+
+        SDL_Rect r{x1, y1, x2-x1, y2-y1};
+        return (SDL_RenderSetClipRect(renderer, &r) == 0);
+    }
+
     void emptyFontCache() {
         std::lock_guard<std::mutex> mtx(fontCacheMutex);
         for (int i = 0; i < PlSharedFontType_Total; i++) {
@@ -254,10 +277,6 @@ namespace SDLHelper {
 
     void setBlendMode(SDL_BlendMode b) {
         tex_blend_mode = b;
-    }
-
-    void setRendererBlendMode(SDL_BlendMode b) {
-        SDL_SetRenderDrawBlendMode(renderer, b);
     }
 
     // === DRAWING FUNCTIONS ===
