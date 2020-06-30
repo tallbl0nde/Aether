@@ -421,12 +421,9 @@ namespace Aether {
         // Set inactive
         e->setInactive();
 
-        // Set element active
-        next->parent_->setFocused(next);
-
         // Set focused up the tree
         e = next;
-        while (e->parent_->parent_ != nullptr) {
+        while (e->parent_ != nullptr) {
             e->parent_->setFocused(e);
             e = e->parent_;
         }

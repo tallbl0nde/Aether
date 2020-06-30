@@ -96,8 +96,9 @@ namespace Aether {
             case EventType::TouchPressed:
             case EventType::TouchMoved:
             case EventType::TouchReleased:
-                for (size_t i = 0; i < this->children.size(); i++) {
-                    if (this->children[i]->handleEvent(e)) {
+                // Check from top to bottom
+                for (size_t i = this->children.size(); i > 0; i--) {
+                    if (this->children[i-1]->handleEvent(e)) {
                         return true;
                     }
                 }
