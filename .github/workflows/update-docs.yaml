@@ -13,25 +13,14 @@ jobs:
     name: Documentation Generation & Deployment
 
     runs-on: ubuntu-latest
+    container: devkitpro/devkita64:latest
 
     steps:
     - name: Checkout master branch
       uses: actions/checkout@v2
 
-    - name: Download dkp-pacman
-      run: wget https://github.com/devkitPro/pacman/releases/download/v1.0.1/devkitpro-pacman.deb
-
     - name: Install doxygen
       run: sudo apt-get install doxygen --yes
-
-    - name: Install dkp-pacman
-      run: sudo dpkg --install devkitpro-pacman.deb
-
-    - name: Update packages from dkp-pacman to latest
-      run: sudo dkp-pacman --sync --refresh --sysupgrade --noconfirm
-
-    - name: Install packages required for build from dkp-pacman
-      run: sudo dkp-pacman --sync --noconfirm switch-dev switch-portlibs switch-sdl2 switch-sdl2_gfx switch-sdl2_image switch-sdl2_ttf
 
     - name: Make docs
       run: |
