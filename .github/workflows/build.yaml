@@ -3,9 +3,12 @@ name: Build
 on:
   push:
     branches: [ master ]
-
+    paths-ignore:
+      - 'README.md'
   pull_request:
     branches: [ master ]
+    paths-ignore:
+      - 'README.md'
 
 defaults:
   run:
@@ -16,22 +19,11 @@ jobs:
     name: Library Build
 
     runs-on: ubuntu-latest
+    container: devkitpro/devkita64:latest
 
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
-
-    - name: Download dkp-pacman
-      run: wget https://github.com/devkitPro/pacman/releases/download/v1.0.1/devkitpro-pacman.deb
-
-    - name: Install dkp-pacman
-      run: sudo dpkg --install devkitpro-pacman.deb
-
-    - name: Update packages from dkp-pacman to latest
-      run: sudo dkp-pacman --sync --refresh --sysupgrade --noconfirm
-
-    - name: Install packages required for build from dkp-pacman
-      run: sudo dkp-pacman --sync --noconfirm devkitA64 devkit-env libnx switch-sdl2 switch-sdl2_gfx switch-sdl2_image switch-sdl2_ttf switch-freetype
 
     - name: Make library
       run: |
