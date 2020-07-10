@@ -17,7 +17,7 @@ jobs:
 
     steps:
     - name: Checkout master branch
-      uses: actions/checkout@v2
+      run: git clone --recursive https://github.com/tallbl0nde/Aether.git $GITHUB_WORKSPACE
 
     - name: Install doxygen
       run: sudo apt-get install doxygen --yes
@@ -30,6 +30,7 @@ jobs:
 
     - name: Commit any changes
       run: |
+          cd $GITHUB_WORKSPACE
           git fetch origin;
           git diff --quiet --exit-code docs/;
           if [ $? -eq 1 ]; then
