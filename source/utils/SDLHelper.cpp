@@ -33,6 +33,8 @@ static int offsetY;
 static SDL_BlendMode tex_blend_mode;
 // Mutex for concurrent access to fontCache
 static std::mutex fontCacheMutex;
+// Mutex for concurrent access to SDL_image
+static std::mutex imageMutex;
 
 // === STATUS ===
 // Counters
@@ -406,7 +408,10 @@ namespace SDLHelper {
     }
 
     SDL_Surface * renderImageS(std::string path, int xF, int yF) {
+        std::unique_lock<std::mutex> mtx(imageMutex);
         SDL_Surface * tmp = IMG_Load(path.c_str());
+        mtx.unlock();
+
         SDL_Surface * tmp2 = SDL_ConvertSurfaceFormat(tmp, SDL_PIXELFORMAT_RGBA32, 0);
         SDL_FreeSurface(tmp);
         if (xF != 1 || yF != 1) {
@@ -425,7 +430,10 @@ namespace SDLHelper {
     }
 
     SDL_Surface * renderImageS(u8 * ptr, size_t size, int xF, int yF) {
+        std::unique_lock<std::mutex> mtx(imageMutex);
         SDL_Surface * tmp = IMG_Load_RW(SDL_RWFromMem(ptr, size), 1);
+        mtx.unlock();
+
         SDL_Surface * tmp2 = SDL_ConvertSurfaceFormat(tmp, SDL_PIXELFORMAT_RGBA32, 0);
         SDL_FreeSurface(tmp);
         if (xF != 1 || yF != 1) {
