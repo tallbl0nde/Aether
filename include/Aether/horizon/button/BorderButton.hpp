@@ -27,7 +27,7 @@ namespace Aether {
              * @param h height of the buttpn
              * @param b border size
              * @param t text in button
-             * @param s button size
+             * @param s text size
              * @param f callback on button press
              */
             BorderButton(int x, int y, int w, int h, unsigned int b, std::string t, unsigned int s, std::function<void()> f);

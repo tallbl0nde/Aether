@@ -55,11 +55,11 @@ namespace Aether {
     }
 
     void FilledButton::renderHighlightBG() {
-        SDLHelper::drawFilledRoundRect(this->hiBG, this->x(), this->y(), this->w(), this->h(), CORNER_RAD + 2);
+        SDLHelper::drawFilledRoundRect(this->hiBG, this->x(), this->y(), this->w(), this->h(), this->rect->cornerRadius() + 5);
     }
 
     void FilledButton::renderHighlight() {
-        SDLHelper::drawRoundRect(this->hiBorder, this->x() - this->hiSize - 2, this->y() - this->hiSize - 2, this->w() + 2*this->hiSize + 2, this->h() + 2*this->hiSize + 2, CORNER_RAD + 2, this->hiSize);
+        SDLHelper::drawRoundRect(this->hiBorder, this->x() - this->hiSize - 2, this->y() - this->hiSize - 2, this->w() + 2*this->hiSize + 4, this->h() + 2*this->hiSize + 4, this->rect->cornerRadius() + 5, this->hiSize);
     }
 
     void FilledButton::renderSelection() {

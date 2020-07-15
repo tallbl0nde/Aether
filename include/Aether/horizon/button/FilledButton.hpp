@@ -27,7 +27,7 @@ namespace Aether {
              * @param w width of button
              * @param h height of button
              * @param t button text
-             * @param s button size
+             * @param s font size
              * @param f callback function when button is pressed
              */
             FilledButton(int x, int y, int w, int h, std::string t, unsigned int s, std::function<void()> f);
