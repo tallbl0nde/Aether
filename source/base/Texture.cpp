@@ -27,17 +27,16 @@ namespace Aether {
     void Texture::convertSurface() {
         if (this->surface != nullptr) {
             this->texture = SDLHelper::convertSurfaceToTexture(this->surface);
-
             this->surface = nullptr;
         }
 
-        SDLHelper::getDimensions(this->texture, &this->texW_, &this->texH_);
-        this->setW(this->texW_);
-        this->setH(this->texH_);
-        this->setMask(0, 0, this->texW_, this->texH_);
         if (this->texture != nullptr) {
-            this->status = ThreadedStatus::Texture;
+            SDLHelper::getDimensions(this->texture, &this->texW_, &this->texH_);
+            this->setW(this->texW_);
+            this->setH(this->texH_);
+            this->setMask(0, 0, this->texW_, this->texH_);
         }
+        this->status = ThreadedStatus::Texture;
     }
 
     void Texture::regenerate() {

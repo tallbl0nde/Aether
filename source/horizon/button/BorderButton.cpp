@@ -39,7 +39,7 @@ namespace Aether {
         if (this->text->texW() > this->w()) {
             this->text->setW(this->w());
         }
-        this->text->setX(this->x() + this->w()/2 - this->text->w()/2);
+        this->text->setXY(this->x() + this->w()/2 - this->text->w()/2, this->y() + this->h()/2 - this->text->h()/2);
     }
 
     void BorderButton::setW(int w) {
