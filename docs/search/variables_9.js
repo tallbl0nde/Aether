@@ -4,7 +4,9 @@ var searchData=
   ['scrolldampening',['scrollDampening',['../classAether_1_1Scrollable.html#a474cb943d095ac4922d09c4f63661c8e',1,'Aether::Scrollable']]],
   ['scrollpos_5f',['scrollPos_',['../classAether_1_1Scrollable.html#abf3f2a240388a29fb8b4746ac5cdd0d3',1,'Aether::Scrollable']]],
   ['scrollvelocity',['scrollVelocity',['../classAether_1_1Scrollable.html#aaf5ba9f67dcf199a4d41c2bdefbed060',1,'Aether::Scrollable']]],
+  ['selcolour',['selColour',['../classAether_1_1Element.html#a134e8613b250bc6b35e385d59cd5a2c4',1,'Aether::Element']]],
   ['selected',['selected',['../structAether_1_1Theme__T.html#a2bc4b0699d7e7ef3e6a34ac01e1e22da',1,'Aether::Theme_T']]],
+  ['seltex',['selTex',['../classAether_1_1Element.html#ac997de0904fdf3fba9554791c14e82c8',1,'Aether::Element']]],
   ['string_5f',['string_',['../classAether_1_1BaseText.html#a3a091d85b5529560a17cad91a3aa83eb',1,'Aether::BaseText']]],
   ['surface',['surface',['../classAether_1_1Texture.html#abc5cc7e6f6c2e0cc03d76a2b551d9e62',1,'Aether::Texture']]]
 ];
