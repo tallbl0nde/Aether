@@ -122,8 +122,8 @@ namespace Aether {
     }
 
     void Display::setHighlightColours(Colour bg, Colour sel) {
-        this->hiBG = bg;
-        this->hiSel = sel;
+        this->hiBGColour = bg;
+        this->selColour = sel;
     }
 
     void Display::setHighlightAnimation(std::function<Colour(uint32_t)> f) {
@@ -272,7 +272,7 @@ namespace Aether {
         }
 
         // Update highlight border colour
-        this->hiBorder = this->hiAnim(dtClock.last_tick);
+        this->hiBorderColour = this->hiAnim(dtClock.last_tick);
 
         // Render screen
         this->screen->render();
@@ -330,6 +330,14 @@ namespace Aether {
     }
 
     Display::~Display() {
+        // As this is an element we can delete the cached highlight textures
+        SDLHelper::destroyTexture(this->hiBGTex);
+        SDLHelper::destroyTexture(this->hiBorderTex);
+        SDLHelper::destroyTexture(this->selTex);
+        this->hiBGTex = nullptr;
+        this->hiBorderTex = nullptr;
+        this->selTex = nullptr;
+
         // Clean up SDL
         SDLHelper::destroyTexture(this->bgImg);
         SDLHelper::exitSDL();

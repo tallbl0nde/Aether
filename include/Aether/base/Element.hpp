@@ -38,15 +38,31 @@ namespace Aether {
             /** @brief Indicator on whether element is touch responsive */
             bool touchable_;
 
+            /** @brief Element which "owns" the cached highlight textures */
+            static Element * hiOwner;
+            /** @brief Element which "owns" the cached selection texture */
+            static Element * selOwner;
+
         protected:
-            /** @brief Background color if element is highlighted */
-            static Colour hiBG;
-            /** @brief Border color if element is highlighted */
-            static Colour hiBorder;
-            /** @brief Selected color if element is highlighted */
-            static Colour hiSel;
+            /** @brief Background colour if element is highlighted */
+            static Colour hiBGColour;
+            /** @brief Border colour if element is highlighted */
+            static Colour hiBorderColour;
+            /** @brief Selected colour if element is highlighted */
+            static Colour selColour;
             /** @brief Size of highlight border */
             static unsigned int hiSize;
+            /** @brief Highlight background texture */
+            static SDL_Texture * hiBGTex;
+            /** @brief Highlight border texture */
+            static SDL_Texture * hiBorderTex;
+            /** @brief Selection texture */
+            static SDL_Texture * selTex;
+
+            /** @brief Renders cached highlight textures */
+            void renderHighlightTextures();
+            /** @brief Renders cached selection texture */
+            void renderSelectionTexture();
 
             /** @brief Indicator on whether the touch is "active" (i.e. hide highlighting) or not */
             static bool isTouch;
@@ -422,22 +438,27 @@ namespace Aether {
 
             /**
              * @brief Renders the highlight background
+             * @note The texture will be positioned centred in the middle of the element
              *
-             * Default highlight shape is a rectangle.
+             * @return Rendered texture to show when highlighted
              */
-            virtual void renderHighlightBG();
+            virtual SDL_Texture * renderHighlightBG();
 
             /**
              * @brief Renders the highlight border
+             * @note The texture will be positioned centred in the middle of the element
              *
-             * Default highlight shape is a rounded rectangle.
+             * @return Rendered texture to show when highlighted
              */
-            virtual void renderHighlight();
+            virtual SDL_Texture * renderHighlight();
 
             /**
              * @brief Renders the selection overlay
+             * @note The texture will be positioned centred in the middle of the element
+             *
+             * @return Rendered texture to show when selected
              */
-            virtual void renderSelection();
+            virtual SDL_Texture * renderSelection();
 
             /**
              * @brief Destroy the Element object

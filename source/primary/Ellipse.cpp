@@ -30,15 +30,15 @@ namespace Aether {
         this->regenerate();
     }
 
-    void Ellipse::renderHighlightBG() {
-        SDLHelper::drawFilledEllipse(this->hiBG, this->x() + this->w()/2, this->y() + this->h()/2, this->w()/2, this->h()/2);
+    SDL_Texture * Ellipse::renderHighlightBG() {
+        return SDLHelper::renderFilledEllipse(this->w()/2, this->h()/2);
     }
 
-    void Ellipse::renderHighlight() {
-        SDLHelper::drawEllipse(this->hiBorder, this->x() + this->w()/2, this->y() + this->h()/2, this->w()/2, this->h()/2, this->hiSize);
+    SDL_Texture * Ellipse::renderHighlight() {
+        return SDLHelper::renderEllipse(this->w()/2, this->h()/2, this->hiSize);
     }
 
-    void Ellipse::renderSelection() {
-        SDLHelper::drawFilledEllipse(this->hiSel, this->x() + this->w()/2, this->y() + this->h()/2, this->w()/2, this->h()/2);
+    SDL_Texture * Ellipse::renderSelection() {
+        return SDLHelper::renderFilledEllipse(this->w()/2, this->h()/2);
     }
 };

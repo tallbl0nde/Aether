@@ -8,10 +8,15 @@
 #define HIGHLIGHT_RAD 4
 
 namespace Aether {
-    Colour Element::hiBG = Colour{255, 255, 255, 255};
-    Colour Element::hiBorder = Colour{255, 255, 255, 255};
-    Colour Element::hiSel = Colour{255, 255, 255, 255};
+    Colour Element::hiBGColour = Colour{255, 255, 255, 255};
+    Colour Element::hiBorderColour = Colour{255, 255, 255, 255};
+    Colour Element::selColour = Colour{255, 255, 255, 255};
     unsigned int Element::hiSize = HIGHLIGHT_SIZE;
+    SDL_Texture * Element::hiBGTex = nullptr;
+    SDL_Texture * Element::hiBorderTex = nullptr;
+    SDL_Texture * Element::selTex = nullptr;
+    Element * Element::hiOwner = nullptr;
+    Element * Element::selOwner = nullptr;
     bool Element::isTouch = false;
 
     Element::Element(int x, int y, int w, int h) {
@@ -29,6 +34,32 @@ namespace Aether {
         this->touchable_ = false;
 
         this->focused_ = nullptr;
+    }
+
+    void Element::renderHighlightTextures() {
+        // Don't recreate unless focus changed
+        if (this->hiOwner == this) {
+            return;
+        }
+
+        SDLHelper::destroyTexture(this->hiBorderTex);
+        this->hiBorderTex = this->renderHighlight();
+        SDLHelper::destroyTexture(this->hiBGTex);
+        this->hiBGTex = this->renderHighlightBG();
+
+        this->hiOwner = this;
+    }
+
+    void Element::renderSelectionTexture() {
+        // Don't recreate unless focus changed
+        if (this->selOwner == this) {
+            return;
+        }
+
+        SDLHelper::destroyTexture(this->selTex);
+        this->selTex = this->renderSelection();
+
+        this->selOwner = this;
     }
 
     int Element::x() {
@@ -322,8 +353,11 @@ namespace Aether {
         }
 
         // Render highlight background if highlighted
+        int w, h;
         if (this->highlighted() && !this->isTouch) {
-            this->renderHighlightBG();
+            this->renderHighlightTextures();
+            SDLHelper::getDimensions(this->hiBGTex, &w, &h);
+            SDLHelper::drawTexture(this->hiBGTex, this->hiBGColour, this->x_ + (this->w_ - w)/2, this->y_ + (this->h_ - h)/2);
         }
 
         // Render children next
@@ -333,25 +367,28 @@ namespace Aether {
 
         // Render selected/held layer
         if (this->selected()) {
-            this->renderSelection();
+            this->renderSelectionTexture();
+            SDLHelper::getDimensions(this->selTex, &w, &h);
+            SDLHelper::drawTexture(this->selTex, this->selColour, this->x_ + (this->w_ - w)/2, this->y_ + (this->h_ - h)/2);
         }
 
         // Finally render highlight border if needed
         if (this->highlighted() && !this->isTouch) {
-            this->renderHighlight();
+            SDLHelper::getDimensions(this->hiBorderTex, &w, &h);
+            SDLHelper::drawTexture(this->hiBorderTex, this->hiBorderColour, this->x_ + (this->w_ - w)/2, this->y_ + (this->h_ - h)/2);
         }
     }
 
-    void Element::renderHighlightBG() {
-        SDLHelper::drawFilledRect(this->hiBG, this->x(), this->y(), this->w(), this->h());
+    SDL_Texture * Element::renderHighlightBG() {
+        return SDLHelper::renderFilledRect(this->w(), this->h());
     }
 
-    void Element::renderHighlight() {
-        SDLHelper::drawRoundRect(this->hiBorder, this->x() - this->hiSize, this->y() - this->hiSize, this->w() + 2*this->hiSize, this->h() + 2*this->hiSize, HIGHLIGHT_RAD, this->hiSize);
+    SDL_Texture * Element::renderHighlight() {
+        return SDLHelper::renderRoundRect(this->w() + 2*this->hiSize, this->h() + 2*this->hiSize, HIGHLIGHT_RAD, this->hiSize);
     }
 
-    void Element::renderSelection() {
-        SDLHelper::drawFilledRect(this->hiSel, this->x(), this->y(), this->w(), this->h());
+    SDL_Texture * Element::renderSelection() {
+        return SDLHelper::renderFilledRect(this->w(), this->h());
     }
 
     void Element::setActive() {
@@ -408,6 +445,15 @@ namespace Aether {
             }
         }
         this->removeAllElements();
+
+        // Covers an edge case where an element could get the same address as the deleted element
+        // and thus would cause the highlight to not be regenerated
+        if (this->hiOwner == this) {
+            this->hiOwner = nullptr;
+        }
+        if (this->selOwner == this) {
+            this->selOwner = nullptr;
+        }
     }
 
     void moveHighlight(Element * e) {

@@ -93,17 +93,17 @@ namespace Aether {
             /**
              * @brief Render highlight background
              */
-            void renderHighlightBG();
+            SDL_Texture * renderHighlightBG();
 
             /**
              * @brief Render highlight border
              */
-            void renderHighlight();
+            SDL_Texture * renderHighlight();
 
             /**
              * @brief Render selection layer
              */
-            void renderSelection();
+            SDL_Texture * renderSelection();
     };
 };
 

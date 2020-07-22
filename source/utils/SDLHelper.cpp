@@ -704,9 +704,9 @@ namespace SDLHelper {
 
     // -= TEXTURES =-
     SDL_Texture * renderEllipse(unsigned int rx, unsigned int ry, unsigned int t) {
-        SDL_Texture * tex = createTexture(2*rx, 2*ry);
+        SDL_Texture * tex = createTexture(2*(rx+t), 2*(ry+t));
         renderToTexture(tex);
-        drawEllipse(SDL_Color{255, 255, 255, 255}, rx, ry, rx, ry, t);
+        drawEllipse(SDL_Color{255, 255, 255, 255}, rx+t, ry+t, rx, ry, t);
         renderToScreen();
         return tex;
 

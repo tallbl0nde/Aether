@@ -7,16 +7,16 @@ namespace Aether {
         this->setCallback(f);
     }
 
-    void HelpButton::renderHighlightBG() {
-        SDLHelper::drawFilledEllipse(this->hiBG, this->x() + this->w()/2, this->y() + this->h()/2, this->w()/2, this->h()/2);
+    SDL_Texture * HelpButton::renderHighlightBG() {
+        return SDLHelper::renderFilledEllipse(this->w()/2, this->h()/2);
     }
 
-    void HelpButton::renderHighlight() {
-        SDLHelper::drawEllipse(this->hiBorder, this->x() + this->w()/2, this->y() + this->h()/2, this->w()/2, this->h()/2, this->hiSize);
+    SDL_Texture * HelpButton::renderHighlight() {
+        return SDLHelper::renderEllipse(this->w()/2, this->h()/2, this->hiSize);
     }
 
-    void HelpButton::renderSelection() {
-        SDLHelper::drawFilledEllipse(this->hiSel, this->x() + this->w()/2, this->y() + this->h()/2, this->w()/2, this->h()/2);
+    SDL_Texture * HelpButton::renderSelection() {
+        return SDLHelper::renderFilledEllipse(this->w()/2, this->h()/2);
     }
 
     Colour HelpButton::getColour() {
