@@ -13,6 +13,11 @@ namespace Aether {
         this->wrapAround_ = false;
     }
 
+    void List::setInactive() {
+        this->scroll = false;
+        Scrollable::setInactive();
+    }
+
     bool List::wrapAround() {
         return this->wrapAround_;
     }

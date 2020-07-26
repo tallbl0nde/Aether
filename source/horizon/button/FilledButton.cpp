@@ -6,8 +6,8 @@
 namespace Aether {
     FilledButton::FilledButton(int x, int y, int w, int h, std::string t, unsigned int s, std::function<void()> f) : Element(x, y, w, h) {
         this->rect = new Rectangle(this->x(), this->y(), this->w(), this->h(), CORNER_RAD);
-        this->text = new Text(this->x() + this->w()/2, this->y() + this->h()/2, t, s);
-        this->text->setXY(this->text->x() - this->text->w()/2, this->text->y() - this->text->h()/2);
+        this->text = new Text(this->x() + this->w()/2, this->y() + this->h()/2, "", s);
+        this->setString(t);
         this->text->setScroll(true);
         this->addElement(this->rect);
         this->addElement(this->text);
@@ -36,10 +36,10 @@ namespace Aether {
 
     void FilledButton::setString(std::string s) {
         this->text->setString(s);
+        this->text->setXY(this->rect->x() + (this->rect->w() - this->text->w())/2, this->rect->y() + (this->rect->h() - this->text->h())/2);
         if (this->text->texW() > this->w()) {
             this->text->setW(this->w());
         }
-        this->text->setX(this->x() + this->w()/2 - this->text->w()/2);
     }
 
     void FilledButton::setW(int w) {

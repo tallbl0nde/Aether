@@ -30,6 +30,11 @@ namespace Aether {
             List(int x, int y, int w, int h, Padding p = Padding::Default);
 
             /**
+             * @brief A list needs to stop scrolling when it is set inactive
+             */
+            void setInactive();
+
+            /**
              * @brief Returns whether the list is configured to wrap around
              *
              * @return true if it is
