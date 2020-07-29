@@ -1,9 +1,10 @@
 var searchData=
 [
-  ['hibg',['hiBG',['../classAether_1_1Element.html#a02e8726d3906b9e3cbf5c6adde3c3c67',1,'Aether::Element']]],
-  ['hiborder',['hiBorder',['../classAether_1_1Element.html#a800c8dfdb2bedc6be378a0e017f1bdfb',1,'Aether::Element']]],
+  ['hibgcolour',['hiBGColour',['../classAether_1_1Element.html#a64dc4282a1e4f4a4fc54c0cc3da5cce7',1,'Aether::Element']]],
+  ['hibgtex',['hiBGTex',['../classAether_1_1Element.html#a249b9b336177a7533ef0e926d3e3ac7e',1,'Aether::Element']]],
+  ['hibordercolour',['hiBorderColour',['../classAether_1_1Element.html#a5335a44958ce4a618f906cd1661e59b5',1,'Aether::Element']]],
+  ['hibordertex',['hiBorderTex',['../classAether_1_1Element.html#a56dd359584009aae678654d9c45abc4f',1,'Aether::Element']]],
   ['highlightbg',['highlightBG',['../structAether_1_1Theme__T.html#a15e4f826b990fc60c1cf8b42fb1ad82a',1,'Aether::Theme_T']]],
   ['highlightfunc',['highlightFunc',['../structAether_1_1Theme__T.html#aef1bb858a9dd6a9bd3cf0b4f96c0e318',1,'Aether::Theme_T']]],
-  ['hisel',['hiSel',['../classAether_1_1Element.html#ac8f5e984d0300da5ea36cf0a0f7d3f26',1,'Aether::Element']]],
   ['hisize',['hiSize',['../classAether_1_1Element.html#acec48810c147b9bb278e0d5135058103',1,'Aether::Element']]]
 ];
