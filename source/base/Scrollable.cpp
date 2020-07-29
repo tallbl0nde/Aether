@@ -211,7 +211,7 @@ namespace Aether {
     bool Scrollable::addElementAfter(Element * e, Element * a) {
         // Handle nullptr
         if (a == nullptr) {
-            Container::addElementAt(e, 0);
+            this->addElementAt(e, 0);
             return true;
         }
 
@@ -256,15 +256,15 @@ namespace Aether {
             // If element is focussed change focus to a surrounding element if possible
             if (this->focussed() == this->children[d]) {
                 this->setFocussed(nullptr);
-                for (size_t i = 1; i < this->children.size()-d; i++) {
-                    if (d-i < this->children.size()) {
-                        if (this->children[d-i]->selectable()) {
-                            this->setFocussed(this->children[d-i]);
-                            break;
-                        }
-                    } else if (d+i < this->children.size()) {
+                for (size_t i = 1; i < this->children.size(); i++) {
+                    if (d+i < this->children.size()) {
                         if (this->children[d+i]->selectable()) {
                             this->setFocussed(this->children[d+i]);
+                            break;
+                        }
+                    } else if (d-i < this->children.size()) {
+                        if (this->children[d-i]->selectable()) {
+                            this->setFocussed(this->children[d-i]);
                             break;
                         }
                     }
@@ -282,6 +282,7 @@ namespace Aether {
 
             // Update max pos
             this->updateMaxScrollPos();
+            this->setScrollPos(this->scrollPos_);
             return true;
         }
         return false;
@@ -384,15 +385,15 @@ namespace Aether {
             // If element is focussed change focus to a surrounding element if possible
             if (this->focussed() == this->children[d]) {
                 this->setFocussed(nullptr);
-                for (size_t i = 1; i < this->children.size()-d; i++) {
-                    if (d-i < this->children.size()) {
-                        if (this->children[d-i]->selectable()) {
-                            this->setFocussed(this->children[d-i]);
-                            break;
-                        }
-                    } else if (d+i < this->children.size()) {
+                for (size_t i = 1; i < this->children.size(); i++) {
+                    if (d+i < this->children.size()) {
                         if (this->children[d+i]->selectable()) {
                             this->setFocussed(this->children[d+i]);
+                            break;
+                        }
+                    } else if (d-i < this->children.size()) {
+                        if (this->children[d-i]->selectable()) {
+                            this->setFocussed(this->children[d-i]);
                             break;
                         }
                     }
