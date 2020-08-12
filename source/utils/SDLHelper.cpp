@@ -5,6 +5,7 @@
 #include <SDL2/SDL2_gfxPrimitives.h>
 #include <SDL2/SDL2_rotozoom.h>
 #include <SDL2/SDL_image.h>
+#include <stack>
 #include <unordered_map>
 #include <vector>
 
@@ -13,6 +14,8 @@
 static SDL_Renderer * renderer;
 // SDL Window instance
 static SDL_Window * window;
+// Stack of clipping rectangles
+static std::stack<SDL_Rect> clipStack;
 
 // === FONT RENDERING ===
 // Height of a line for wrapped text (multiple of line height)
@@ -228,17 +231,50 @@ namespace SDLHelper {
     }
 
     void resetClip() {
-        SDL_RenderSetClipRect(renderer, NULL);
+        // If we've only got one clip rectangle reset clip
+        if (clipStack.size() <= 1) {
+            SDL_RenderSetClipRect(renderer, NULL);
+            if (!clipStack.empty()) {
+                clipStack.pop();
+            }
+
+        // Otherwise set to last rectangle
+        } else {
+            clipStack.pop();
+            SDL_Rect r = clipStack.top();
+            SDL_RenderSetClipRect(renderer, &r);
+        }
     }
 
     bool setClip(int x1, int y1, int x2, int y2) {
         // Do nothing if the points are not in the correct order
         if (x1 == x2 || y1 == y2 || x2 < x1 || y2 < y1) {
+            clipStack.push(SDL_Rect{0, 0, 1280, 720});
             return false;
         }
 
-        SDL_Rect r{x1, y1, x2-x1, y2-y1};
-        return (SDL_RenderSetClipRect(renderer, &r) == 0);
+        // Limit to within current clipping rectangle
+        SDL_Rect r;
+        if (!clipStack.empty()) {
+            SDL_RenderGetClipRect(renderer, &r);
+            int rx2 = r.x + r.w;
+            int ry2 = r.y + r.h;
+            r.x = (x1 < r.x ? r.x : x1);
+            r.y = (y1 < r.y ? r.y : y1);
+            rx2 = (x2 > rx2 ? rx2 : x2);
+            ry2 = (y2 > ry2 ? ry2 : y2);
+            r.w = rx2-r.x;
+            r.h = ry2-r.y;
+        } else {
+            r = SDL_Rect{x1, y1, x2-x1, y2-y1};
+        }
+
+        // Set clip
+        int rc = SDL_RenderSetClipRect(renderer, &r);
+        if (rc == 0) {
+            clipStack.push(r);
+        }
+        return (rc == 0);
     }
 
     void emptyFontCache() {

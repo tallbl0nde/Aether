@@ -451,6 +451,11 @@ namespace Aether {
                 break;
 
             case EventType::TouchMoved:
+                // Do nothing if a child handles it
+                if (Container::handleEvent(e)) {
+                    return true;
+                }
+
                 if (this->isTouched) {
                     // Check touchY and change from tap to swipe if outside threshold
                     if (this->touchY != std::numeric_limits<int>::min()) {
@@ -474,7 +479,6 @@ namespace Aether {
                             }
                         }
                     }
-
                     return true;
                 }
                 break;
