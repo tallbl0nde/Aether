@@ -44,7 +44,7 @@ namespace Aether {
         public:
             /**
              * @brief Construct a new Popup List object
-             * 
+             *
              * @param s title string
              */
             PopupList(std::string s);
@@ -59,15 +59,22 @@ namespace Aether {
             void addEntry(std::string s, std::function<void()> f, bool t = false);
 
             /**
+             * @brief Set the title label
+             *
+             * @param s new label
+             */
+            void setTitleLabel(std::string s);
+
+            /**
              * @brief Set the back button label
-             * 
+             *
              * @param s new label
              */
             void setBackLabel(std::string s);
 
             /**
              * @brief Set the OK button label
-             * 
+             *
              * @param s new label
              */
             void setOKLabel(std::string s);
@@ -79,77 +86,77 @@ namespace Aether {
 
             /**
              * @brief Get the background colour
-             * 
-             * @return background colour 
+             *
+             * @return background colour
              */
             Colour getBackgroundColour();
 
             /**
              * @brief Set the background colour
-             * 
+             *
              * @param c new colour
              */
             void setBackgroundColour(Colour c);
 
             /**
              * @brief Get the text colour
-             * 
-             * @return text colour 
+             *
+             * @return text colour
              */
             Colour getTextColour();
 
             /**
              * @brief Set the text colour
-             * 
+             *
              * @param c new colour
              */
             void setTextColour(Colour c);
 
             /**
              * @brief Get the line colour
-             * 
-             * @return line colour 
+             *
+             * @return line colour
              */
             Colour getLineColour();
 
             /**
              * @brief Set the line colour
-             * 
+             *
              * @param c new colour
              */
             void setLineColour(Colour c);
 
             /**
              * @brief Get the highlight colour
-             * 
-             * @return highlight colour 
+             *
+             * @return highlight colour
              */
             Colour getHighlightColour();
 
             /**
              * @brief Set the highlight colour
-             * 
+             *
              * @param c new colour
              */
             void setHighlightColour(Colour c);
 
             /**
              * @brief Get the list line colour
-             * 
+             *
              * @return list line colour
              */
             Colour getListLineColour();
 
             /**
              * @brief Set the list line colour
-             * 
+             *
              * @param c new colour
              */
             void setListLineColour(Colour c);
 
             /**
              * @brief Set the all colours
-             * 
+             *
              * @param bg new background colour
              * @param hi new highlight colour
              * @param li new line colour

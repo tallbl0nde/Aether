@@ -86,6 +86,11 @@ namespace Aether {
         this->list->setH(80);
     }
 
+    void PopupList::setTitleLabel(std::string s) {
+        this->title->setString(s);
+        this->title->setY(this->title->y() - this->title->h()/2);
+    }
+
     void PopupList::setBackLabel(std::string s) {
         this->labelBack = s;
         this->removeElement(this->ctrl);
