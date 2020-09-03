@@ -35,7 +35,9 @@ var searchData=
   ['resetclip',['resetClip',['../namespaceSDLHelper.html#a162aea6f9cbf4b384e2bdae98f8e3cf7',1,'SDLHelper']]],
   ['resume',['resume',['../classAether_1_1Animation.html#a3a15cd6e83bbbbd7d3fc9bf4e3539e5a',1,'Aether::Animation']]],
   ['returnallelements',['returnAllElements',['../classAether_1_1Container.html#ab63021f0874e9da2dba8104ce286ec75',1,'Aether::Container::returnAllElements()'],['../classAether_1_1Element.html#adaff844b4e25c279ee15784b6a221f8f',1,'Aether::Element::returnAllElements()'],['../classAether_1_1Scrollable.html#a6a7a9aacceaf49d42a244f4ef3e256b1',1,'Aether::Scrollable::returnAllElements()']]],
+  ['returnallitems',['returnAllItems',['../classAether_1_1Controls.html#aa99ec375c0581608ac36685a01631eb3',1,'Aether::Controls']]],
   ['returnelement',['returnElement',['../classAether_1_1Container.html#a659cecb34d66441ee2d678c8bcdea6af',1,'Aether::Container::returnElement()'],['../classAether_1_1Element.html#a30315d39ac1b14b755e95bb7ba56d88c',1,'Aether::Element::returnElement()'],['../classAether_1_1Scrollable.html#a6deeafd8caae468f6584e84a5cb230c7',1,'Aether::Scrollable::returnElement()']]],
+  ['returnitem',['returnItem',['../classAether_1_1Controls.html#a703d5dcb5c2b7081137f7d683bd92e3a',1,'Aether::Controls']]],
   ['reuse',['reuse',['../classAether_1_1Overlay.html#af24c5e15f8e60a99f637b40afe847cac',1,'Aether::Overlay']]],
   ['roundprogressbar',['RoundProgressBar',['../classAether_1_1RoundProgressBar.html#acfcefac094796abc19d36aef97db3452',1,'Aether::RoundProgressBar']]]
 ];
