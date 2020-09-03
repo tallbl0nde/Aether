@@ -8,7 +8,7 @@ namespace Aether {
     /**
      * @brief "Controls" contains the control scheme found at the bottom of a screen.
      * It can be positioned anywhere though.
-     * 
+     *
      * @note x/y should be the top left-most point,
      * and the w/h should be set to the desired size.
      * Items are automatically right aligned.
@@ -18,8 +18,6 @@ namespace Aether {
         private:
             /** @brief Colour to draw controls in */
             Colour colour;
-            /** @brief Pointer to elements in order to access class-specific methods */
-            std::vector<ControlItem *> items;
 
             /**
              * @brief Called to position all control items
@@ -27,15 +25,17 @@ namespace Aether {
             void repositionElements();
 
             // Prevent interfering with elements directly
-            using Element::addElement;
-            using Element::removeElement;
-            using Element::removeAllElements;
+            using Container::addElement;
+            using Container::removeElement;
+            using Container::removeAllElements;
+            using Container::returnElement;
+            using Container::returnAllElements;
 
         public:
             /**
              * @brief Construct a new Controls object.
              * Controls are automatically positioned in place unless specified.
-             * 
+             *
              * @param x x-coordinate of start position offset (default 45)
              * @param y y-coordinate of start position offset (default 647)
              * @param w width of control (default 1190)
@@ -45,14 +45,14 @@ namespace Aether {
 
             /**
              * @brief Add new control item
-             * 
+             *
              * @param i pointer to control item
              */
             void addItem(ControlItem * i);
 
             /**
              * @brief Remove new control item
-             * 
+             *
              * @param i pointer to control item
              * @return true if item successfully removed
              * @return false otherwise
@@ -60,61 +60,59 @@ namespace Aether {
             bool removeItem(ControlItem * i);
 
             /**
-             * @brief Remove all control items
+             * @brief Remove all items
              */
             void removeAllItems();
 
             /**
+             * @brief Attempt to remove the given item (without deleting)
+             *
+             * @param i item to remove
+             * @return true if removed successfully (i.e. was a child)
+             * @return false if not a child of element
+             */
+            bool returnItem(ControlItem * i);
+
+            /**
+             * @brief Remove (but do not delete) all added items
+             */
+            void returnAllItems();
+            /**
+
              * @brief Set new x-coordinate of start position offset
-             * @note repositionElements() is called when value changes
              * @param x new x-coordinate of start position offset
              */
             void setX(int x);
 
             /**
              * @brief Set new y-coordinate of start position offset
-             * @note repositionElements() is called when value changes
              * @param y new y-coordinate of start position offset
              */
             void setY(int y);
 
             /**
              * @brief Set new width for control
-             * @note repositionElements() is called when value changes
              * @param w new width
              */
             void setW(int w);
 
             /**
              * @brief Set new height for control
-             * @note repositionElements() is called when value changes
              * @param h new height
              */
             void setH(int h);
 
             /**
              * @brief Get the colour of controls
-             * @note repositionElements
-             * @return control colour 
+             * @return control colour
              */
             Colour getColour();
 
             /**
              * @brief Set the colour of controls
-             * 
              * @param c new colour
              */
             void setColour(Colour c);
-
-            /**
-             * @brief Set the colour of controls
-             * 
-             * @param r red value of colour
-             * @param g green value of colour
-             * @param b blue value of colour
-             * @param a alpha value of colour
-             */
-            void setColour(uint8_t r, uint8_t g, uint8_t b, uint8_t a);
     };
 };
 
