@@ -19,10 +19,11 @@ static std::stack<SDL_Rect> clipStack;
 
 // === FONT RENDERING ===
 // Height of a line for wrapped text (multiple of line height)
-#define FONT_SPACING 1.15
+#define INITIAL_FONT_SPACING 1.15
+static double fontSpacing;
 // Stores data about Nintendo fonts
 static PlFontData fontData[PlSharedFontType_Total];
-// Caches font sizes (note index 0 is used when a custom font is set)
+// Caches font sizes (note index 0, 1 is used when a custom font is set)
 static std::unordered_map<int, TTF_Font *> fontCache[PlSharedFontType_Total];
 // Set true if a custom font is used
 static bool customFont;
@@ -120,6 +121,7 @@ namespace SDLHelper {
 
         // Load fonts
         customFont = false;
+        fontSpacing = INITIAL_FONT_SPACING;
         Result rc = plInitialize(PlServiceType_User);
         if (!R_SUCCEEDED(rc)) {
             return false;
@@ -296,6 +298,10 @@ namespace SDLHelper {
         }
 
         emptyFontCache();
+    }
+
+    void setFontSpacing(double h) {
+        fontSpacing = h;
     }
 
     void renderToScreen() {
@@ -496,6 +502,9 @@ namespace SDLHelper {
             if (fontCache[0].find(font_size) == fontCache[0].end()) {
                 fontCache[0][font_size] = TTF_OpenFont(customFontPath.c_str(), font_size);
             }
+            if (fontCache[1].find(font_size) == fontCache[1].end()) {
+                fontCache[1][font_size] = TTF_OpenFontRW(SDL_RWFromMem(fontData[PlSharedFontType_NintendoExt].address, fontData[PlSharedFontType_NintendoExt].size), 1, font_size);
+            }
         } else {
             for (int i = 0; i < PlSharedFontType_Total; i++) {
                 if (fontCache[i].find(font_size) == fontCache[i].end()) {
@@ -504,63 +513,54 @@ namespace SDLHelper {
             }
         }
 
-        // Simply render and convert if custom font
+        // Need to examine multiple fonts
         SDL_Surface * surf;
-        if (customFont) {
-            if (TTF_GetFontStyle(fontCache[0][font_size]) != style) {
-                TTF_SetFontStyle(fontCache[0][font_size], style);
+        // Have a vector of surfaces for each character
+        std::vector<SDL_Surface *> surfs;
+
+        // Iterate over each character in string
+        unsigned int width = 0;
+        unsigned int height = 0;
+        unsigned int pos = 0;
+        while (pos < str.length()) {
+            unsigned int posCopy = pos;
+            uint16_t ch = getUTF8Char(str, pos);
+            // Break if pos isn't changed (meaning no character could be extracted)
+            if (pos == posCopy) {
+                break;
             }
-            surf = TTF_RenderUTF8_Blended(fontCache[0][font_size], str.c_str(), SDL_Color{255, 255, 255, 255});
 
-        // Need to examine multiple fonts when using Nintendo's
-        } else {
-            // Have a vector of surfaces for each character
-            std::vector<SDL_Surface *> surfs;
-
-            // Iterate over each character in string
-            unsigned int width = 0;
-            unsigned int height = 0;
-            unsigned int pos = 0;
-            while (pos < str.length()) {
-                unsigned int posCopy = pos;
-                uint16_t ch = getUTF8Char(str, pos);
-                // Break if pos isn't changed (meaning no character could be extracted)
-                if (pos == posCopy) {
+            // Find which font contains current glyph
+            int fontIndex = 0;
+            for (int i = 0; i < (customFont ? 2 : PlSharedFontType_Total); i++) {
+                if (TTF_GlyphIsProvided(fontCache[i][font_size], ch)) {
+                    fontIndex = i;
                     break;
                 }
-
-                // Find which font contains current glyph
-                int fontIndex = 0;
-                for (int i = 0; i < PlSharedFontType_Total; i++) {
-                    if (TTF_GlyphIsProvided(fontCache[i][font_size], ch)) {
-                        fontIndex = i;
-                        break;
-                    }
-                }
-
-                // Draw character and insert surface into array
-                if (TTF_GetFontStyle(fontCache[fontIndex][font_size]) != style) {
-                    TTF_SetFontStyle(fontCache[fontIndex][font_size], style);
-                }
-                SDL_Surface * tmp = TTF_RenderGlyph_Blended(fontCache[fontIndex][font_size], ch, SDL_Color{255, 255, 255, 255});
-                width += tmp->w;
-                height = (tmp->h > height ? tmp->h : height);
-                surfs.push_back(tmp);
             }
 
-            // Unlock mutex now that access to the cache is no longer needed
-            mtx.unlock();
-
-            // Render characters to larger surface
-            unsigned int x = 0;
-            surf = SDL_CreateRGBSurfaceWithFormat(0, width, height, 32, SDL_PIXELFORMAT_RGBA32);
-            SDL_FillRect(surf, NULL, SDL_MapRGBA(surf->format, 255, 255, 255, 0));
-            for (size_t j = 0; j < surfs.size(); j++) {
-                SDL_Rect r = SDL_Rect{x, 0, surfs[j]->w, surfs[j]->h};
-                SDL_BlitSurface(surfs[j], NULL, surf, &r);
-                x += surfs[j]->w;
-                SDL_FreeSurface(surfs[j]);
+            // Draw character and insert surface into array
+            if (TTF_GetFontStyle(fontCache[fontIndex][font_size]) != style) {
+                TTF_SetFontStyle(fontCache[fontIndex][font_size], style);
             }
+            SDL_Surface * tmp = TTF_RenderGlyph_Blended(fontCache[fontIndex][font_size], ch, SDL_Color{255, 255, 255, 255});
+            width += tmp->w;
+            height = (tmp->h > height ? tmp->h : height);
+            surfs.push_back(tmp);
+        }
+
+        // Unlock mutex now that access to the cache is no longer needed
+        mtx.unlock();
+
+        // Render characters to larger surface
+        unsigned int x = 0;
+        surf = SDL_CreateRGBSurfaceWithFormat(0, width, height, 32, SDL_PIXELFORMAT_RGBA32);
+        SDL_FillRect(surf, NULL, SDL_MapRGBA(surf->format, 255, 255, 255, 0));
+        for (size_t j = 0; j < surfs.size(); j++) {
+            SDL_Rect r = SDL_Rect{x, 0, surfs[j]->w, surfs[j]->h};
+            SDL_BlitSurface(surfs[j], NULL, surf, &r);
+            x += surfs[j]->w;
+            SDL_FreeSurface(surfs[j]);
         }
 
         // Increment counters
@@ -581,6 +581,9 @@ namespace SDLHelper {
             if (fontCache[0].find(font_size) == fontCache[0].end()) {
                 fontCache[0][font_size] = TTF_OpenFont(customFontPath.c_str(), font_size);
             }
+            if (fontCache[1].find(font_size) == fontCache[1].end()) {
+                fontCache[1][font_size] = TTF_OpenFontRW(SDL_RWFromMem(fontData[PlSharedFontType_NintendoExt].address, fontData[PlSharedFontType_NintendoExt].size), 1, font_size);
+            }
         } else {
             for (int i = 0; i < PlSharedFontType_Total; i++) {
                 if (fontCache[i].find(font_size) == fontCache[i].end()) {
@@ -589,143 +592,134 @@ namespace SDLHelper {
             }
         }
 
-        // Simply render and convert if custom font
+        // Need to examine multiple fonts
         SDL_Surface * surf;
-        if (customFont) {
-            if (TTF_GetFontStyle(fontCache[0][font_size]) != style) {
-                TTF_SetFontStyle(fontCache[0][font_size], style);
-            }
-            surf = TTF_RenderUTF8_Blended_Wrapped(fontCache[0][font_size], str.c_str(), SDL_Color{255, 255, 255, 255}, max_w);
+        std::vector<std::string> lines;         // Vector of characters forming line and max height of chars
+        unsigned int maxLineH = 0;              // Maximum height of one line (all lines will use this height)
+        unsigned int wordWidth = 0;             // Width of current word
+        std::string word;                       // Characters forming word
 
-        // Need to examine multiple fonts when using Nintendo's
-        } else {
-            std::vector<std::string> lines;         // Vector of characters forming line and max height of chars
-            unsigned int maxLineH = 0;              // Maximum height of one line (all lines will use this height)
-            unsigned int wordWidth = 0;             // Width of current word
-            std::string word;                       // Characters forming word
+        // Iterate over all characters in string
+        unsigned int pos = 0;
+        while (pos < str.length()) {
+            int charSize = 0;                   // Number of chars forming unicode character
+            unsigned int lastCharW = 0;         // Width of last character
+            std::string line;                   // Characters forming a line
+            unsigned int lineHeight = 0;        // Height of current line
+            unsigned int lineWidth = 0;         // Width of line so far
 
-            // Iterate over all characters in string
-            unsigned int pos = 0;
-            while (pos < str.length()) {
-                int charSize = 0;                   // Number of chars forming unicode character
-                unsigned int lastCharW = 0;         // Width of last character
-                std::string line;                   // Characters forming a line
-                unsigned int lineHeight = 0;        // Height of current line
-                unsigned int lineWidth = 0;         // Width of line so far
-
-                // Keep appending characters (and words) to line until we hit the edge
-                while (lineWidth + wordWidth < max_w) {
-                    // Stop if at the end
-                    if (pos >= str.length()) {
-                        line += word;
-                        lineWidth += wordWidth;
-                        word = "";
-                        wordWidth = 0;
-                        break;
-                    }
-
-                    // Break if end of line
-                    bool b = false;
-                    if (str[pos] == '\r') {
-                        b = true;
-                        pos++;
-                    }
-                    if (str[pos] == '\n') {
-                        b = true;
-                        pos++;
-                    }
-                    if (b) {
-                        line += word;
-                        lineWidth += wordWidth;
-                        word = "";
-                        wordWidth = 0;
-                        break;
-                    }
-
-                    // Get next char
-                    unsigned int oldPos = pos;
-                    uint16_t ch = getUTF8Char(str, pos);
-                    charSize = pos - oldPos;
-                    if (charSize == 0) {
-                        // Character couldn't be found
-                        break;
-                    }
-
-                    // Find which font contains current glyph
-                    int fontIndex = 0;
-                    for (int i = 0; i < PlSharedFontType_Total; i++) {
-                        if (TTF_GlyphIsProvided(fontCache[i][font_size], ch)) {
-                            fontIndex = i;
-                            break;
-                        }
-                    }
-
-                    // Get dimensions of glyph and update variables
-                    int adv;
-                    TTF_GlyphMetrics(fontCache[fontIndex][font_size], ch, NULL, NULL, NULL, NULL, &adv);
-                    lastCharW = adv;
-                    wordWidth += adv;
-                    int h = TTF_FontLineSkip(fontCache[fontIndex][font_size]) - TTF_FontDescent(fontCache[fontIndex][font_size]);
-                    lineHeight = (h > lineHeight ? h : lineHeight);
-                    word += str.substr(oldPos, charSize);
-
-                    // Add word to line if space
-                    if ((char)ch == ' ') {
-                        line += word;
-                        lineWidth += wordWidth;
-                        word = "";
-                        wordWidth = 0;
-                    }
-                }
-
-                // Add word so far if line is empty
-                if (line.length() == 0 && word.length() > 0) {
-                    line += word.substr(0, word.length() - charSize);
+            // Keep appending characters (and words) to line until we hit the edge
+            while (lineWidth + wordWidth < max_w) {
+                // Stop if at the end
+                if (pos >= str.length()) {
+                    line += word;
                     lineWidth += wordWidth;
-                    lineWidth -= lastCharW;
-                    word = word.substr(word.length() - charSize, charSize);
-                    wordWidth = lastCharW;
+                    word = "";
+                    wordWidth = 0;
+                    break;
                 }
 
-                // Update height and add line
-                maxLineH = (lineHeight > maxLineH ? lineHeight : maxLineH);
-                lines.push_back(line);
-                line = "";
-            }
+                // Break if end of line
+                bool b = false;
+                if (str[pos] == '\r') {
+                    b = true;
+                    pos++;
+                }
+                if (str[pos] == '\n') {
+                    b = true;
+                    pos++;
+                }
+                if (b) {
+                    line += word;
+                    lineWidth += wordWidth;
+                    word = "";
+                    wordWidth = 0;
+                    break;
+                }
 
-            // Now that we have dimensions, etc... render onto a surface
-            surf = SDL_CreateRGBSurfaceWithFormat(0, max_w, lines.size() * (maxLineH * FONT_SPACING), 32, SDL_PIXELFORMAT_RGBA32);
-            SDL_FillRect(surf, NULL, SDL_MapRGBA(surf->format, 255, 255, 255, 0));
-            for (size_t i = 0; i < lines.size(); i++) {
-                int x = 0;
-                unsigned int pos = 0;
-                while (pos < lines[i].length()) {
-                    unsigned int oldPos = pos;
-                    uint16_t ch = getUTF8Char(lines[i], pos);
-                    if (pos == oldPos) {
-                        // Character couldn't be found
+                // Get next char
+                unsigned int oldPos = pos;
+                uint16_t ch = getUTF8Char(str, pos);
+                charSize = pos - oldPos;
+                if (charSize == 0) {
+                    // Character couldn't be found
+                    break;
+                }
+
+                // Find which font contains current glyph
+                int fontIndex = 0;
+                for (int i = 0; i < PlSharedFontType_Total; i++) {
+                    if (TTF_GlyphIsProvided(fontCache[i][font_size], ch)) {
+                        fontIndex = i;
                         break;
                     }
-
-                    // Find which font contains current glyph
-                    int fontIndex = 0;
-                    for (int i = 0; i < PlSharedFontType_Total; i++) {
-                        if (TTF_GlyphIsProvided(fontCache[i][font_size], ch)) {
-                            fontIndex = i;
-                            break;
-                        }
-                    }
-
-                    // Draw character and blit onto surface
-                    if (TTF_GetFontStyle(fontCache[fontIndex][font_size]) != style) {
-                        TTF_SetFontStyle(fontCache[fontIndex][font_size], style);
-                    }
-                    SDL_Surface * tmp = TTF_RenderGlyph_Blended(fontCache[fontIndex][font_size], ch, SDL_Color{255, 255, 255, 255});
-                    SDL_Rect r = SDL_Rect{x, i * (maxLineH * FONT_SPACING), tmp->w, tmp->h};
-                    x += tmp->w;
-                    SDL_BlitSurface(tmp, NULL, surf, &r);
-                    SDL_FreeSurface(tmp);
                 }
+
+                // Get dimensions of glyph and update variables
+                int adv;
+                TTF_GlyphMetrics(fontCache[fontIndex][font_size], ch, NULL, NULL, NULL, NULL, &adv);
+                lastCharW = adv;
+                wordWidth += adv;
+                int h = TTF_FontLineSkip(fontCache[fontIndex][font_size]) - TTF_FontDescent(fontCache[fontIndex][font_size]);
+                lineHeight = (h > lineHeight ? h : lineHeight);
+                word += str.substr(oldPos, charSize);
+
+                // Add word to line if space
+                if ((char)ch == ' ') {
+                    line += word;
+                    lineWidth += wordWidth;
+                    word = "";
+                    wordWidth = 0;
+                }
+            }
+
+            // Add word so far if line is empty
+            if (line.length() == 0 && word.length() > 0) {
+                line += word.substr(0, word.length() - charSize);
+                lineWidth += wordWidth;
+                lineWidth -= lastCharW;
+                word = word.substr(word.length() - charSize, charSize);
+                wordWidth = lastCharW;
+            }
+
+            // Update height and add line
+            maxLineH = (lineHeight > maxLineH ? lineHeight : maxLineH);
+            lines.push_back(line);
+            line = "";
+        }
+
+        // Now that we have dimensions, etc... render onto a surface
+        surf = SDL_CreateRGBSurfaceWithFormat(0, max_w, lines.size() * (maxLineH * fontSpacing), 32, SDL_PIXELFORMAT_RGBA32);
+        SDL_FillRect(surf, NULL, SDL_MapRGBA(surf->format, 255, 255, 255, 0));
+        for (size_t i = 0; i < lines.size(); i++) {
+            int x = 0;
+            unsigned int pos = 0;
+            while (pos < lines[i].length()) {
+                unsigned int oldPos = pos;
+                uint16_t ch = getUTF8Char(lines[i], pos);
+                if (pos == oldPos) {
+                    // Character couldn't be found
+                    break;
+                }
+
+                // Find which font contains current glyph
+                int fontIndex = 0;
+                for (int i = 0; i < PlSharedFontType_Total; i++) {
+                    if (TTF_GlyphIsProvided(fontCache[i][font_size], ch)) {
+                        fontIndex = i;
+                        break;
+                    }
+                }
+
+                // Draw character and blit onto surface
+                if (TTF_GetFontStyle(fontCache[fontIndex][font_size]) != style) {
+                    TTF_SetFontStyle(fontCache[fontIndex][font_size], style);
+                }
+                SDL_Surface * tmp = TTF_RenderGlyph_Blended(fontCache[fontIndex][font_size], ch, SDL_Color{255, 255, 255, 255});
+                SDL_Rect r = SDL_Rect{x, i * (maxLineH * fontSpacing), tmp->w, tmp->h};
+                x += tmp->w;
+                SDL_BlitSurface(tmp, NULL, surf, &r);
+                SDL_FreeSurface(tmp);
             }
         }
 

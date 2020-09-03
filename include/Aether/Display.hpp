@@ -120,6 +120,13 @@ namespace Aether {
             void setFont(std::string p);
 
             /**
+             * @brief Set font spacing
+             *
+             * @param h height of one line in terms of font size (e.g. 1.15)
+             */
+            void setFontSpacing(double h);
+
+            /**
              * @brief Getter function for hold delay
              *
              * @return Time between repeated button events (in ms)

@@ -152,6 +152,13 @@ namespace SDLHelper {
     void setFont(std::string p);
 
     /**
+     * @brief Set height of a text line in terms of font size (normal values are 1 - 1.5+), defaults to 1.15
+     *
+     * @param h height of one line of text
+     */
+    void setFontSpacing(double h);
+
+    /**
      * @brief Reset renderer to screen
      */
     void renderToScreen();

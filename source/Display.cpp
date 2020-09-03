@@ -84,6 +84,10 @@ namespace Aether {
         SDLHelper::setFont(p);
     }
 
+    void Display::setFontSpacing(double h) {
+        SDLHelper::setFontSpacing(h);
+    }
+
     void Display::addOverlay(Overlay * o) {
         o->reuse();
         this->overlays.push_back(o);
