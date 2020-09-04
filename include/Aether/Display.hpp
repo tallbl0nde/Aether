@@ -2,6 +2,7 @@
 #define AETHER_DISPLAY_HPP
 
 #include "Aether/Overlay.hpp"
+#include <queue>
 #include <stack>
 
 namespace Aether {
@@ -13,12 +14,12 @@ namespace Aether {
      */
     class Display : public Element {
         /**
-         * @brief Enum class containing all stack operations
+         * @brief Enum class containing all screen operations
          */
-        enum class StackOp {
-            Push, /**< Stack Push Operation */
-            Pop, /**< Stack Pop Operation */
-            None /**< No Stack Operation */
+        enum class ScreenOp {
+            Push,       /**< Push screen on stack*/
+            Pop,        /**< Pop screen from stack */
+            Set         /**< Set screen as active */
         };
 
         private:
@@ -42,12 +43,10 @@ namespace Aether {
             std::vector<Overlay *> overlays;
             /** @brief Pointer to current screen to draw */
             Screen * screen;
-            /** @brief Pointer to screen to change to after loop */
-            Screen * nextScreen;
-            /** @brief Stack of screens */
+            /** @brief Stack of screens (used when pushing/popping) */
             std::stack<Screen *> screenStack;
-            /** @brief Indicator if stack operation was performed */
-            StackOp stackOp;
+            /** @brief Queue of operations to perform on screens in next loop (Screen can be nullptr if not needed) */
+            std::queue< std::pair<ScreenOp, Screen *> > screenOps;
             /** @brief Indicator on whether display is fading */
             bool fading;
             /** @brief The current alpha value for display fade */

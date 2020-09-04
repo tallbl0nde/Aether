@@ -41,8 +41,6 @@ namespace Aether {
         };
 
         this->screen = nullptr;
-        this->nextScreen = nullptr;
-        this->stackOp = StackOp::None;
 
         // Initialize SDL (loop set to false if an error)
         this->loop_ = SDLHelper::initSDL();
@@ -105,24 +103,15 @@ namespace Aether {
     }
 
     void Display::setScreen(Screen * s) {
-        this->nextScreen = s;
-        if (this->stackOp != StackOp::Push) {
-            this->stackOp = StackOp::None;
-        }
+        this->screenOps.push(std::make_pair(ScreenOp::Set, s));
     }
 
     void Display::pushScreen() {
-        this->screenStack.push(this->screen);
-        this->nextScreen = nullptr;
-        this->stackOp = StackOp::Push;
+        this->screenOps.push(std::make_pair(ScreenOp::Push, nullptr));
     }
 
     void Display::popScreen() {
-        if (!this->screenStack.empty()) {
-            this->setScreen(this->screenStack.top());
-            this->screenStack.pop();
-            this->stackOp = StackOp::Pop;
-        }
+        this->screenOps.push(std::make_pair(ScreenOp::Pop, nullptr));
     }
 
     void Display::setHighlightColours(Colour bg, Colour sel) {
@@ -159,20 +148,40 @@ namespace Aether {
             dtClock.init = true;
         }
 
-        // Change screen if need be
-        if (this->nextScreen != nullptr || this->stackOp == StackOp::Push) {
-            if (this->screen != nullptr && this->stackOp != StackOp::Push) {
-                this->screen->onUnload();
-            }
-            this->screen = this->nextScreen;
-            if (this->screen != nullptr && this->stackOp != StackOp::Pop) {
-                this->screen->onLoad();
-            }
-            this->nextScreen = nullptr;
-        }
+        // Perform all requested screen operations
+        while (!this->screenOps.empty()) {
+            std::pair<ScreenOp, Screen *> item = this->screenOps.front();
+            switch (item.first) {
+                // Push screen on stack
+                case ScreenOp::Push:
+                    this->screenStack.push(this->screen);
+                    this->screen = nullptr;
+                    break;
 
-        // Reset stack operation
-        this->stackOp = StackOp::None;
+                // Pop screen from stack
+                case ScreenOp::Pop:
+                    if (!this->screenStack.empty()) {
+                        if (this->screen != nullptr) {
+                            this->screen->onUnload();
+                        }
+                        this->screen = this->screenStack.top();
+                        this->screenStack.pop();
+                    }
+                    break;
+
+                // Set screen stored in queue
+                case ScreenOp::Set:
+                    if (this->screen != nullptr) {
+                        this->screen->onUnload();
+                    }
+                    this->screen = item.second;
+                    if (this->screen != nullptr) {
+                        this->screen->onLoad();
+                    }
+                    break;
+            }
+            this->screenOps.pop();
+        }
 
         // Quit loop if no screen is present
         if (this->screen == nullptr) {
