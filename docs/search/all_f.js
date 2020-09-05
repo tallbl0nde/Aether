@@ -50,6 +50,7 @@ var searchData=
   ['setfocussed',['setFocussed',['../classAether_1_1Element.html#af31a2daab034d8f70b5d9f8a284c5f23',1,'Aether::Element']]],
   ['setfont',['setFont',['../classAether_1_1Display.html#ab8ec040341e019fd8f6dbb86aada3feb',1,'Aether::Display::setFont()'],['../namespaceSDLHelper.html#aec98d510b29eff24ffbfd3df639abf79',1,'SDLHelper::setFont()']]],
   ['setfontsize',['setFontSize',['../classAether_1_1BaseText.html#a6b0a1560ad33107eb8213db9efc3e863',1,'Aether::BaseText::setFontSize()'],['../classAether_1_1ListButton.html#a250c135f6f5cd00eac9514516787ca6e',1,'Aether::ListButton::setFontSize()'],['../classAether_1_1ListOption.html#a561fdb1550b8336d939adb46287b5712',1,'Aether::ListOption::setFontSize()'],['../classAether_1_1Text.html#ac3ba1b92a40489050671b17c94185f4d',1,'Aether::Text::setFontSize()']]],
+  ['setfontspacing',['setFontSpacing',['../classAether_1_1Display.html#aa9a19fbbff4febe05db1791881a5728d',1,'Aether::Display::setFontSpacing()'],['../namespaceSDLHelper.html#ab3013dbed4fa42edb541df875539c106',1,'SDLHelper::setFontSpacing()']]],
   ['setforegroundcolour',['setForegroundColour',['../classAether_1_1RoundProgressBar.html#aed158e8f311d26bd717b9f2a233de955',1,'Aether::RoundProgressBar']]],
   ['setframeelement',['setFrameElement',['../classAether_1_1Animation.html#a4fb90081b7f5a65456c658c7d3b8a5cb',1,'Aether::Animation']]],
   ['setframeindex',['setFrameIndex',['../classAether_1_1Animation.html#a7d7aeecf629d1d68f2a8b41eeb8ddf29',1,'Aether::Animation']]],
