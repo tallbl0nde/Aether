@@ -1,7 +1,7 @@
 var searchData=
 [
   ['texh',['texH',['../classAether_1_1Texture.html#a38cf36edeb973cc249ee97171a655494',1,'Aether::Texture']]],
-  ['text',['Text',['../classAether_1_1Text.html#a2d4ccdbf4c6e0dd8b453457bafe69af6',1,'Aether::Text::Text()'],['../classAether_1_1ListButton.html#ad0e2e19a0334378fb79bf478581057ad',1,'Aether::ListButton::text()']]],
+  ['text',['text',['../classAether_1_1ListButton.html#ad0e2e19a0334378fb79bf478581057ad',1,'Aether::ListButton::text()'],['../classAether_1_1Text.html#a2d4ccdbf4c6e0dd8b453457bafe69af6',1,'Aether::Text::Text()']]],
   ['textblock',['TextBlock',['../classAether_1_1TextBlock.html#a00b3576652b822b811a39fd62c2fc91e',1,'Aether::TextBlock']]],
   ['texture',['Texture',['../classAether_1_1Texture.html#afd0faad4974085483c56cd1666c8dbe2',1,'Aether::Texture']]],
   ['textureready',['textureReady',['../classAether_1_1Texture.html#aaba24d611774aaa4105436059ff4a891',1,'Aether::Texture']]],
