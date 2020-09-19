@@ -14,8 +14,16 @@ namespace Aether {
             Button heldButton;
             /** @brief Indicator on whether list is being scrolled */
             bool scroll;
+            bool waitUntilVisible;
             /** @brief Whether to wrap around */
             bool wrapAround_;
+
+            /**
+             * @brief Returns whether a selectable element is visible
+             *
+             * @return true if so, false otherwise
+             */
+            bool hasVisibleItem();
 
         public:
             /**

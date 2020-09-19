@@ -10,11 +10,22 @@ namespace Aether {
         this->setCatchup(13.5);
         this->heldButton = Button::NO_BUTTON;
         this->scroll = false;
+        this->waitUntilVisible = false;
         this->wrapAround_ = false;
     }
 
+    bool List::hasVisibleItem() {
+        for (Element * e : this->children) {
+            if (e->selectable() || e->hasSelectable()) {
+                if (e->y() >= this->y() + PADDING && e->y() <= this->y() + this->h() - (PADDING*2)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     void List::setInactive() {
-        this->scroll = false;
         Scrollable::setInactive();
     }
 
@@ -28,7 +39,10 @@ namespace Aether {
 
     bool List::handleEvent(InputEvent * e) {
         // Store result of event
-        bool res = Scrollable::handleEvent(e);
+        bool res = false;
+        if (!this->waitUntilVisible) {
+            res = Scrollable::handleEvent(e);
+        }
 
         // If button event isn't handled...
         if (!res && this->canScroll_) {
@@ -48,7 +62,9 @@ namespace Aether {
                     // Scroll down until at the bottom
                     } else if (this->scrollPos() < this->maxScrollPos()) {
                         this->heldButton = e->button();
-                        this->scroll = true;
+                        if (!this->waitUntilVisible) {
+                            this->scroll = true;
+                        }
                         return true;
                     }
                 }
@@ -68,7 +84,9 @@ namespace Aether {
                     // Otherwise wrap around if needed
                     } else if (this->scrollPos() > 0) {
                         this->heldButton = e->button();
-                        this->scroll = true;
+                        if (!this->waitUntilVisible) {
+                            this->scroll = true;
+                        }
                         return true;
                     }
                 }
@@ -82,6 +100,7 @@ namespace Aether {
 
             // Stop scrolling if not a relevant event
             } else {
+                this->waitUntilVisible = false;
                 this->scroll = false;
             }
         }
@@ -93,14 +112,25 @@ namespace Aether {
         Scrollable::update(dt);
 
         // Allow "manual" scrolling at top and bottom
-        if (this->scroll) {
+        if (this->scroll || this->waitUntilVisible) {
             if (this->heldButton == Button::DPAD_DOWN) {
                 this->setScrollPos(this->scrollPos() + (500 * (dt/1000.0)));
-                return;
+
             } else if (this->heldButton == Button::DPAD_UP) {
                 this->setScrollPos(this->scrollPos() - (500 * (dt/1000.0)));
-                return;
+
+            } else if (this->heldButton == Button::NO_BUTTON) {
+                this->waitUntilVisible = true;
+                this->scroll = false;
             }
+
+            // Allow "manual" scrolling until an item is visible again
+            if (this->waitUntilVisible) {
+                if (this->hasVisibleItem()) {
+                    this->waitUntilVisible = false;
+                }
+            }
+            return;
         }
 
         // If focused element is not completely inside list scroll to it
