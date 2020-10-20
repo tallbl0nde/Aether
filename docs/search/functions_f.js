@@ -86,7 +86,7 @@ var searchData=
   ['setscrollwaittime',['setScrollWaitTime',['../classAether_1_1Text.html#a342127534a82e552641ef19d10dd89ea',1,'Aether::Text']]],
   ['setsecondhint',['setSecondHint',['../classAether_1_1DateTime.html#aa34fdc561247f1ce7b647be4606e9bcd',1,'Aether::DateTime']]],
   ['setselectable',['setSelectable',['../classAether_1_1Element.html#abda5696cebd106e61be0c6512245018f',1,'Aether::Element']]],
-  ['setselected',['setSelected',['../classAether_1_1Element.html#a44ee076b78186386355f861aa9651501',1,'Aether::Element']]],
+  ['setselected',['setSelected',['../classAether_1_1Element.html#a41436cdf4461432f2e54f4d60514dd5f',1,'Aether::Element']]],
   ['setseparatorcolour',['setSeparatorColour',['../classAether_1_1DateTime.html#a69dfb8b5e6260f0399fa68104f4e57ef',1,'Aether::DateTime']]],
   ['setshowfps',['setShowFPS',['../classAether_1_1Display.html#aeef0cf79da44482b6d65f73fbc509874',1,'Aether::Display']]],
   ['setshowscrollbar',['setShowScrollBar',['../classAether_1_1Scrollable.html#ac0d6b5b898fc4a423c6861b20a496dcb',1,'Aether::Scrollable']]],
