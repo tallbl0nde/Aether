@@ -267,7 +267,7 @@ namespace Aether {
              *
              * @param b state to change selected status to
              */
-            void setSelected(bool b);
+            virtual void setSelected(bool b);
 
             /**
              * @brief Check if current element is selectable

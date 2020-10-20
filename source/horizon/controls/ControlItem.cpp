@@ -11,42 +11,10 @@
 // Gap between icon + hint
 #define TEXT_GAP 13
 
-// "Map" of buttons to unicode characters
-const std::string buttonChar[] = {
-    "\uE0E0", // A
-    "\uE0E1", // B
-    "\uE0E2", // X
-    "\uE0E3", // Y
-    "\uE0F7", // LSTICK
-    "\uE0F8", // RSTICK
-    "\uE0E4", // L
-    "\uE0E5", // R
-    "\uE0E6", // ZL
-    "\uE0E7", // ZR
-    "\uE0EF", // PLUS
-    "\uE0F0", // MINUS
-    "\uE0ED", // DPAD_LEFT
-    "\uE0EB", // DPAD_UP
-    "\uE0EE", // DPAD_RIGHT
-    "\uE0EC", // DPAD_DOWN
-    "", // LSTICK_LEFT
-    "", // LSTICK_UP
-    "", // LSTICK_RIGHT
-    "", // LSTICK_DOWN
-    "", // RSTICK_LEFT
-    "", // RSTICK_UP
-    "", // RSTICK_RIGHT
-    "", // RSTICK_DOWN
-    "\uE0E8", // SL_LEFT
-    "\uE0E9", // SR_LEFT
-    "\uE0E8", // SL_RIGHT
-    "\uE0E9"  // SR_RIGHT
-};
-
 namespace Aether {
     ControlItem::ControlItem(Button k, std::string s) : Element() {
         // Create and add elements
-        this->icon = new Text(PADDING, 0, buttonChar[k], ICON_FONT_SIZE);
+        this->icon = new Text(PADDING, 0, Utils::buttonToCharacter(k), ICON_FONT_SIZE);
         this->hint = new Text(0, 0, s, HINT_FONT_SIZE);
         this->addElement(this->icon);
         this->addElement(this->hint);
