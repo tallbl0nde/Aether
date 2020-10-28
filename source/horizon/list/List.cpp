@@ -27,6 +27,8 @@ namespace Aether {
 
     void List::setInactive() {
         Scrollable::setInactive();
+        this->scroll = false;
+        this->waitUntilVisible = false;
     }
 
     bool List::wrapAround() {
