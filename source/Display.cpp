@@ -352,6 +352,7 @@ namespace Aether {
         this->selTex = nullptr;
 
         // Clean up SDL
+        ThreadPool::finalize();
         SDLHelper::destroyTexture(this->bgImg);
         SDLHelper::exitSDL();
     }

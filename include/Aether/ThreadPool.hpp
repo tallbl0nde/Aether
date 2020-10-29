@@ -40,6 +40,12 @@ namespace Aether {
          * @note Called internally - you shouldn't need to call it yourself!
          */
         void process();
+
+        /**
+         * @brief Finalize any threads still running within the thread pool
+         * @note Called internally - you shouldn't need to call it yourself!
+         */
+        void finalize();
     };
 };
 

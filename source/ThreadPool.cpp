@@ -84,4 +84,12 @@ namespace Aether::ThreadPool {
             queue.erase(queue.begin());
         }
     }
+
+    void finalize() {
+        std::scoped_lock<std::mutex> tMtx(tMutex);
+        while (!threads.empty()) {
+            threads[0].future.get();
+            threads.erase(threads.begin());
+        }
+    }
 };
