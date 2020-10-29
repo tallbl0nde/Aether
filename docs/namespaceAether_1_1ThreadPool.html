@@ -87,6 +87,9 @@ Functions</h2></td></tr>
 <tr class="memitem:a13801688130d54d24fab62763ec6cf8d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAether_1_1ThreadPool.html#a13801688130d54d24fab62763ec6cf8d">process</a> ()</td></tr>
 <tr class="memdesc:a13801688130d54d24fab62763ec6cf8d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Block the calling thread until tasks are finished.  <a href="#a13801688130d54d24fab62763ec6cf8d">More...</a><br /></td></tr>
 <tr class="separator:a13801688130d54d24fab62763ec6cf8d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a689e71f854e876b17c1db107574f5db5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAether_1_1ThreadPool.html#a689e71f854e876b17c1db107574f5db5">finalize</a> ()</td></tr>
+<tr class="memdesc:a689e71f854e876b17c1db107574f5db5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Finalize any threads still running within the thread pool.  <a href="#a689e71f854e876b17c1db107574f5db5">More...</a><br /></td></tr>
+<tr class="separator:a689e71f854e876b17c1db107574f5db5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>A Thread Pool implementation which processes queued tasks on other threads. It is designed for multi-threaded texture generation - please do not use it for your own tasks! </p>
@@ -116,6 +119,26 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>id assigned to task </dd></dl>
+
+</div>
+</div>
+<a id="a689e71f854e876b17c1db107574f5db5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a689e71f854e876b17c1db107574f5db5">&#9670;&nbsp;</a></span>finalize()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Aether::ThreadPool::finalize </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Finalize any threads still running within the thread pool. </p>
+<dl class="section note"><dt>Note</dt><dd>Called internally - you shouldn't need to call it yourself! </dd></dl>
 
 </div>
 </div>
