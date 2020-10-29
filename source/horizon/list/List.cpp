@@ -136,7 +136,7 @@ namespace Aether {
         }
 
         // If focused element is not completely inside list scroll to it
-        if (!this->isScrolling && !this->isTouched && !this->isTouch && this->maxScrollPos() != 0 && this->focused() != nullptr) {
+        if (this->canScroll_ && !this->isScrolling && !this->isTouched && !this->isTouch && this->maxScrollPos() != 0 && this->focused() != nullptr) {
             // Check if above
             if (this->focused()->y() < this->y() + PADDING) {
                 this->setScrollPos(this->scrollPos() + (this->scrollCatchup * (this->focused()->y() - (this->y() + PADDING)) * (dt/1000.0)));

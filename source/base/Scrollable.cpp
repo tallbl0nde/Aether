@@ -43,7 +43,7 @@ namespace Aether {
                 break;
 
             case Padding::FitScrollbar:
-                return 15;
+                return 20;
                 break;
 
             case Padding::None:
