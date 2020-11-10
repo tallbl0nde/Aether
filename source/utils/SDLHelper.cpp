@@ -1,13 +1,12 @@
 #include <atomic>
 #include <mutex>
+#include "Aether/utils/FontCache.hpp"
 #include "Aether/utils/SDL2_gfx_ext.hpp"
 #include "Aether/utils/SDLHelper.hpp"
 #include <SDL2/SDL2_gfxPrimitives.h>
 #include <SDL2/SDL2_rotozoom.h>
 #include <SDL2/SDL_image.h>
 #include <stack>
-#include <unordered_map>
-#include <vector>
 
 // === SDL RENDERING ===
 // SDL Renderer instance
@@ -21,13 +20,8 @@ static std::stack<SDL_Rect> clipStack;
 // Height of a line for wrapped text (multiple of line height)
 #define INITIAL_FONT_SPACING 1.15
 static double fontSpacing;
-// Stores data about Nintendo fonts
-static PlFontData fontData[PlSharedFontType_Total];
-// Caches font sizes (note index 0, 1 is used when a custom font is set)
-static std::unordered_map<int, TTF_Font *> fontCache[PlSharedFontType_Total];
-// Set true if a custom font is used
-static bool customFont;
-static std::string customFontPath;
+// Font cache object
+static Aether::FontCache * fontCache;
 
 // === MISCELLANEOUS ===
 // Offset position
@@ -35,10 +29,10 @@ static int offsetX;
 static int offsetY;
 // Set to current blend mode
 static SDL_BlendMode tex_blend_mode;
-// Mutex for concurrent access to fontCache
-static std::mutex fontCacheMutex;
 // Mutex for concurrent access to SDL_image
 static std::mutex imageMutex;
+// Mutex for concurrent access to SDL_ttf
+static std::mutex ttfMutex;
 
 // === STATUS ===
 // Counters
@@ -120,21 +114,18 @@ namespace SDLHelper {
         offsetY = 0;
 
         // Load fonts
-        customFont = false;
         fontSpacing = INITIAL_FONT_SPACING;
         Result rc = plInitialize(PlServiceType_User);
         if (!R_SUCCEEDED(rc)) {
             return false;
         }
-        for (int i = 0; i < PlSharedFontType_Total; i++) {
-            plGetSharedFontByType(&fontData[i], (PlSharedFontType)i);
-        }
+        fontCache = new Aether::FontCache();
         return true;
     }
 
     void exitSDL() {
         // Delete created fonts
-        emptyFontCache();
+        delete fontCache;
         plExit();
 
         SDL_DestroyRenderer(renderer);
@@ -279,25 +270,8 @@ namespace SDLHelper {
         return (rc == 0);
     }
 
-    void emptyFontCache() {
-        std::lock_guard<std::mutex> mtx(fontCacheMutex);
-        for (int i = 0; i < PlSharedFontType_Total; i++) {
-            for (auto it = fontCache[i].begin(); it != fontCache[i].end(); it++) {
-                TTF_CloseFont(it->second);
-            }
-            fontCache[i].clear();
-        }
-    }
-
     void setFont(std::string p) {
-        if (p == "") {
-            customFont = false;
-        } else {
-            customFontPath = p;
-            customFont = true;
-        }
-
-        emptyFontCache();
+        fontCache->setCustomFont(p);
     }
 
     void setFontSpacing(double h) {
@@ -494,28 +468,8 @@ namespace SDLHelper {
     }
 
     SDL_Surface * renderTextS(std::string str, int font_size, int style) {
-        // Lock cache mutex
-        std::unique_lock<std::mutex> mtx(fontCacheMutex);
-
-        // Create font for given size if not already cached
-        if (customFont) {
-            if (fontCache[0].find(font_size) == fontCache[0].end()) {
-                fontCache[0][font_size] = TTF_OpenFont(customFontPath.c_str(), font_size);
-            }
-            if (fontCache[1].find(font_size) == fontCache[1].end()) {
-                fontCache[1][font_size] = TTF_OpenFontRW(SDL_RWFromMem(fontData[PlSharedFontType_NintendoExt].address, fontData[PlSharedFontType_NintendoExt].size), 1, font_size);
-            }
-        } else {
-            for (int i = 0; i < PlSharedFontType_Total; i++) {
-                if (fontCache[i].find(font_size) == fontCache[i].end()) {
-                    fontCache[i][font_size] = TTF_OpenFontRW(SDL_RWFromMem(fontData[i].address, fontData[i].size), 1, font_size);
-                }
-            }
-        }
-
-        // Need to examine multiple fonts
-        SDL_Surface * surf;
         // Have a vector of surfaces for each character
+        SDL_Surface * surf;
         std::vector<SDL_Surface *> surfs;
 
         // Iterate over each character in string
@@ -531,26 +485,18 @@ namespace SDLHelper {
             }
 
             // Find which font contains current glyph
-            int fontIndex = 0;
-            for (int i = 0; i < (customFont ? 2 : PlSharedFontType_Total); i++) {
-                if (TTF_GlyphIsProvided(fontCache[i][font_size], ch)) {
-                    fontIndex = i;
-                    break;
-                }
-            }
+            std::scoped_lock<std::mutex> mtx(ttfMutex);
+            TTF_Font * font = fontCache->getFontWithGlyph(ch, font_size);
 
             // Draw character and insert surface into array
-            if (TTF_GetFontStyle(fontCache[fontIndex][font_size]) != style) {
-                TTF_SetFontStyle(fontCache[fontIndex][font_size], style);
+            if (TTF_GetFontStyle(font) != style) {
+                TTF_SetFontStyle(font, style);
             }
-            SDL_Surface * tmp = TTF_RenderGlyph_Blended(fontCache[fontIndex][font_size], ch, SDL_Color{255, 255, 255, 255});
+            SDL_Surface * tmp = TTF_RenderGlyph_Blended(font, ch, SDL_Color{255, 255, 255, 255});
             width += tmp->w;
             height = (tmp->h > height ? tmp->h : height);
             surfs.push_back(tmp);
         }
-
-        // Unlock mutex now that access to the cache is no longer needed
-        mtx.unlock();
 
         // Render characters to larger surface
         unsigned int x = 0;
@@ -573,26 +519,6 @@ namespace SDLHelper {
     }
 
     SDL_Surface * renderTextWrappedS(std::string str, int font_size, uint32_t max_w, int style) {
-        // Lock cache mutex
-        std::lock_guard<std::mutex> mtx(fontCacheMutex);
-
-        // Create font for given size if not already cached
-        if (customFont) {
-            if (fontCache[0].find(font_size) == fontCache[0].end()) {
-                fontCache[0][font_size] = TTF_OpenFont(customFontPath.c_str(), font_size);
-            }
-            if (fontCache[1].find(font_size) == fontCache[1].end()) {
-                fontCache[1][font_size] = TTF_OpenFontRW(SDL_RWFromMem(fontData[PlSharedFontType_NintendoExt].address, fontData[PlSharedFontType_NintendoExt].size), 1, font_size);
-            }
-        } else {
-            for (int i = 0; i < PlSharedFontType_Total; i++) {
-                if (fontCache[i].find(font_size) == fontCache[i].end()) {
-                    fontCache[i][font_size] = TTF_OpenFontRW(SDL_RWFromMem(fontData[i].address, fontData[i].size), 1, font_size);
-                }
-            }
-        }
-
-        // Need to examine multiple fonts
         SDL_Surface * surf;
         std::vector<std::string> lines;         // Vector of characters forming line and max height of chars
         unsigned int maxLineH = 0;              // Maximum height of one line (all lines will use this height)
@@ -647,20 +573,15 @@ namespace SDLHelper {
                 }
 
                 // Find which font contains current glyph
-                int fontIndex = 0;
-                for (int i = 0; i < PlSharedFontType_Total; i++) {
-                    if (TTF_GlyphIsProvided(fontCache[i][font_size], ch)) {
-                        fontIndex = i;
-                        break;
-                    }
-                }
+                std::scoped_lock<std::mutex> mtx(ttfMutex);
+                TTF_Font * font = fontCache->getFontWithGlyph(ch, font_size);
 
                 // Get dimensions of glyph and update variables
                 int adv;
-                TTF_GlyphMetrics(fontCache[fontIndex][font_size], ch, NULL, NULL, NULL, NULL, &adv);
+                TTF_GlyphMetrics(font, ch, NULL, NULL, NULL, NULL, &adv);
                 lastCharW = adv;
                 wordWidth += adv;
-                int h = TTF_FontLineSkip(fontCache[fontIndex][font_size]) - TTF_FontDescent(fontCache[fontIndex][font_size]);
+                int h = TTF_FontLineSkip(font) - TTF_FontDescent(font);
                 lineHeight = (h > lineHeight ? h : lineHeight);
                 word += str.substr(oldPos, charSize);
 
@@ -703,19 +624,14 @@ namespace SDLHelper {
                 }
 
                 // Find which font contains current glyph
-                int fontIndex = 0;
-                for (int i = 0; i < PlSharedFontType_Total; i++) {
-                    if (TTF_GlyphIsProvided(fontCache[i][font_size], ch)) {
-                        fontIndex = i;
-                        break;
-                    }
-                }
+                std::scoped_lock<std::mutex> mtx(ttfMutex);
+                TTF_Font * font = fontCache->getFontWithGlyph(ch, font_size);
 
                 // Draw character and blit onto surface
-                if (TTF_GetFontStyle(fontCache[fontIndex][font_size]) != style) {
-                    TTF_SetFontStyle(fontCache[fontIndex][font_size], style);
+                if (TTF_GetFontStyle(font) != style) {
+                    TTF_SetFontStyle(font, style);
                 }
-                SDL_Surface * tmp = TTF_RenderGlyph_Blended(fontCache[fontIndex][font_size], ch, SDL_Color{255, 255, 255, 255});
+                SDL_Surface * tmp = TTF_RenderGlyph_Blended(font, ch, SDL_Color{255, 255, 255, 255});
                 SDL_Rect r = SDL_Rect{x, i * (maxLineH * fontSpacing), tmp->w, tmp->h};
                 x += tmp->w;
                 SDL_BlitSurface(tmp, NULL, surf, &r);
