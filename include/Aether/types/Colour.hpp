@@ -34,28 +34,28 @@ namespace Aether {
              *
              * @return Red component of colour
              */
-            unsigned char r();
+            unsigned char r() const;
 
             /**
              * @brief Return the green component
              *
              * @return Green component of colour
              */
-            unsigned char g();
+            unsigned char g() const;
 
             /**
              * @brief Return the blue component
              *
              * @return Blue component of colour
              */
-            unsigned char b();
+            unsigned char b() const;
 
             /**
              * @brief Return the alpha component
              *
              * @return Alpha component of colour
              */
-            unsigned char a();
+            unsigned char a() const;
 
             /**
              * @brief Set the red component of the colour
@@ -96,7 +96,7 @@ namespace Aether {
              * @param b Blue component
              * @param a Alpha component
              */
-            void setColour(const unsigned char r, const unsigned char g, const unsigned char b, const unsigned char a)
+            void setColour(const unsigned char r, const unsigned char g, const unsigned char b, const unsigned char a);
     };
 };
 

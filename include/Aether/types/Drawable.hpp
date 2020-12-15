@@ -2,6 +2,7 @@
 #define AETHER_DRAWABLE_HPP
 
 #include "Aether/types/Colour.hpp"
+#include "Aether/Renderer.hpp"
 
 // Forward declare types as we only need a pointer here
 namespace Aether {
@@ -32,12 +33,13 @@ namespace Aether {
             /**
              * @brief Union of types that can be stored
              */
-            union data {
+            union Data {
                 SDL_Surface * surface;      /**< Pointer to SDL 'surface' */
                 SDL_Texture * texture;      /**< Pointer to SDL 'texture' */
-            };
+            } data;
 
             Colour colour_;                 /** @brief Colour to tint with */
+            Renderer * renderer;            /** @brief Renderer object */
             Type type_;                     /** @brief Type of stored data */
 
             unsigned int width_;            /** @brief Width of image (in pixels) */
@@ -63,7 +65,7 @@ namespace Aether {
              * @param width Width of given surface (in pixels)
              * @param height Height of given surface (in pixels)
              */
-            Drawable(const Renderer * renderer, const SDL_Surface * surf, const unsigned int width, const unsigned int height);
+            Drawable(Renderer * renderer, SDL_Surface * surf, const unsigned int width, const unsigned int height);
 
             /**
              * @brief Create a Drawable from a texture
@@ -73,14 +75,14 @@ namespace Aether {
              * @param width Width of given texture (in pixels)
              * @param height Height of given texture (in pixels)
              */
-            Drawable(const Renderer * renderer, const SDL_Texture * tex, const unsigned int width, const unsigned int height);
+            Drawable(Renderer * renderer, SDL_Texture * tex, const unsigned int width, const unsigned int height);
 
             /**
              * @brief Set colour to tint Drawable with when rendered
              *
              * @param colour Colour to tint with
              */
-            void setColour(const Colour colour);
+            void setColour(const Colour & colour);
 
             /**
              * @brief Set the mask (area to draw)
@@ -90,7 +92,7 @@ namespace Aether {
              * @param width Width of mask
              * @param height Height of mask
              */
-            void setMask(const int x, const int y, const unsigned int width, const unsigned int height)
+            void setMask(const int x, const int y, const unsigned int width, const unsigned int height);
 
             /**
              * @brief Render the Drawable on screen at the given coordinates
@@ -136,11 +138,6 @@ namespace Aether {
              * @brief Destructor ensures contained data is deleted appropriately
              */
             ~Drawable();
-
-            // Allow access to private members of renderer
-            friend SDL_Texture * Renderer::convertSurfaceToTexture(const SDL_Surface * surf);
-            friend void Renderer::destroySurface(const SDL_Surface * surf);
-            friend void Renderer::destroyTexture(const SDL_Texture * tex);
     };
 };
 

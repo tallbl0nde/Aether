@@ -1,4 +1,5 @@
 #include "Aether/types/Drawable.hpp"
+#include "Aether/Renderer.hpp"
 
 namespace Aether {
     Drawable::Drawable() {
@@ -10,25 +11,27 @@ namespace Aether {
         this->setMask(0, 0, 0, 0);
     }
 
-    Drawable::Drawable(const Renderer * renderer, const SDL_Surface * surf, const unsigned int width, const unsigned int height) {
+    Drawable::Drawable(Renderer * renderer, SDL_Surface * surf, const unsigned int width, const unsigned int height) {
         this->data.surface = surf;
         this->colour_ = Colour(255, 255, 255, 255);
         this->type_ = Type::Surface;
         this->width_ = width;
         this->height_ = height;
+        this->renderer = renderer;
         this->setMask(0, 0, width, height);
     }
 
-    Drawable::Drawable(const Renderer * renderer, const SDL_Texture * tex, const unsigned int width, const unsigned int height) {
+    Drawable::Drawable(Renderer * renderer, SDL_Texture * tex, const unsigned int width, const unsigned int height) {
         this->data.texture = tex;
         this->colour_ = Colour(255, 255, 255, 255);
         this->type_ = Type::Texture;
         this->width_ = width;
         this->height_ = height;
+        this->renderer = renderer;
         this->setMask(0, 0, width, height);
     }
 
-    void Drawable::setColour(const Colour colour) {
+    void Drawable::setColour(const Colour & colour) {
         this->colour_ = colour;
     }
 
@@ -65,7 +68,7 @@ namespace Aether {
         return (this->type_ == Type::Texture);
     }
 
-    Type Drawable::type() {
+    Drawable::Type Drawable::type() {
         return this->type_;
     }
 

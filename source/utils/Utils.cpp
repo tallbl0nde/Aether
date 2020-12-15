@@ -88,6 +88,39 @@ namespace Aether::Utils {
         return std::filesystem::exists(path);
     }
 
+    uint16_t getUTF8Char(const std::string & str, unsigned int & pos) {
+        uint16_t c = 0;
+
+        // One byte
+        if ((str.length() - pos) >= 1) {
+            if ((str[0 + pos] & 0b10000000) == 0) {
+                c = str[0 + pos];
+                pos += 1;
+            }
+        }
+
+        // Two bytes
+        if (c == 0 && (str.length() - pos) >= 2) {
+            if ((str[0 + pos] & 0b11100000) == 0b11000000) {
+                c = (str[0 + pos] & 0b00011111) << 6;
+                c = (c | (str[1 + pos] & 0b00111111));
+                pos += 2;
+            }
+        }
+
+        // Three bytes
+        if (c == 0 & (str.length() - pos) >= 3) {
+            if ((str[0 + pos] & 0b11110000) == 0b11100000) {
+                c = (str[0 + pos] & 0b00001111) << 12;
+                c = (c | ((str[1 + pos] & 0b00111111) << 6));
+                c = (c | (str[2 + pos] & 0b00111111));
+                pos += 3;
+            }
+        }
+
+        return c;
+    }
+
     Button SDLtoButton(uint8_t k) {
         return (Button)k;
     }

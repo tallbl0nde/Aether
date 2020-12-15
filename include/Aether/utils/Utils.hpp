@@ -1,8 +1,9 @@
 #ifndef AETHER_UTILS_HPP
 #define AETHER_UTILS_HPP
 
-#include <string>
 #include "Aether/utils/Types.hpp"
+#include <cstddef>
+#include <string>
 
 /** @brief Fake controller ID for held events */
 const short int FAKE_ID = 99;
@@ -24,6 +25,16 @@ namespace Aether::Utils {
      * @return false if doesn't file exists
      */
     bool fileExists(std::string path);
+
+    /**
+     * @brief Extracts one UTF8 character from the passed string
+     *
+     * @param str String to examine
+     * @param pos Position of first character/byte to examine. Updated to the index of
+     * the first character/byte after the returned character.
+     * @return UTF8 character at required position, or zero otherwise.
+     */
+    uint16_t getUTF8Char(const std::string & str, unsigned int & pos);
 
     /**
      * @brief Returns a button equivalent for SDL button value

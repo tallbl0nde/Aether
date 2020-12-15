@@ -32,6 +32,14 @@ namespace Aether {
 
         public:
             /**
+             * @brief Default constructor initializes a cache of size 100 and no callback.
+             */
+            LRUCache() {
+                this->callback = nullptr;
+                this->maxSize = 100;
+            }
+
+            /**
              * @brief Create a LRU Cache with the given size.
              *
              * @param size Maximum number of elements to cache.
@@ -119,8 +127,8 @@ namespace Aether {
              */
             ~LRUCache() {
                 if (this->callback != nullptr) {
-                    for (const KeyValuePair pair : this->items) {
-                        this->callback(pair->first, pair->second);
+                    for (const KeyValuePair & pair : this->items) {
+                        this->callback(pair.first, pair.second);
                     }
                 }
             }
