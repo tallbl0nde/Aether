@@ -1,9 +1,8 @@
 #include "Aether/base/BaseText.hpp"
 
 namespace Aether {
-    BaseText::BaseText(int x, int y, std::string s, unsigned int f, FontStyle l, RenderType t) : Texture(x, y, t) {
+    BaseText::BaseText(int x, int y, std::string s, unsigned int f, RenderType t) : Texture(x, y, t) {
         this->fontSize_ = f;
-        this->fontStyle = l;
         this->string_ = s;
     }
 

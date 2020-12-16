@@ -6,7 +6,7 @@
 #define DEFAULT_SCROLL_SPEED 120
 
 namespace Aether {
-    Text::Text(int x, int y, std::string s, unsigned int f, FontStyle l, RenderType r) : BaseText(x, y, s, f, l, r) {
+    Text::Text(int x, int y, std::string s, unsigned int f, RenderType r) : BaseText(x, y, s, f, r) {
         this->scroll_ = false;
         this->scrollSpeed_ = DEFAULT_SCROLL_SPEED;
         this->scrollWaitTime_ = DEFAULT_SCROLL_PAUSE;
@@ -21,29 +21,7 @@ namespace Aether {
     }
 
     void Text::generateSurface() {
-        int style;
-        switch (this->fontStyle) {
-            case FontStyle::Regular:
-                style = TTF_STYLE_NORMAL;
-                break;
-
-            case FontStyle::Bold:
-                style = TTF_STYLE_BOLD;
-                break;
-
-            case FontStyle::Italic:
-                style = TTF_STYLE_ITALIC;
-                break;
-
-            case FontStyle::Underline:
-                style = TTF_STYLE_UNDERLINE;
-                break;
-
-            case FontStyle::Strikethrough:
-                style = TTF_STYLE_STRIKETHROUGH;
-                break;
-        }
-        this->surface = SDLHelper::renderTextS(this->string_, this->fontSize_, style);
+        this->drawable = this->renderer->renderTextSurface(this->string_, this->fontSize_);
     }
 
     bool Text::scroll() {

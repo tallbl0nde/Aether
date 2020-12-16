@@ -1,6 +1,7 @@
 #ifndef AETHER_FONTCACHE_HPP
 #define AETHER_FONTCACHE_HPP
 
+#include "Aether/types/GlyphMetrics.hpp"
 #include "Aether/types/LRUCache.hpp"
 #include <cstddef>
 #include <mutex>
@@ -98,6 +99,15 @@ namespace Aether {
              * @return Surface containing the rendered character.
              */
             SDL_Surface * getGlyph(const uint16_t ch, const unsigned int fontSize);
+
+            /**
+             * @brief Get the \ref GlyphMetrics for the character at the passed font size
+             *
+             * @param ch UTf-8 character code
+             * @param fontSize Font size to get metrics for
+             * @return \ref GlyphMetrics containing metrics of glyph
+             */
+            GlyphMetrics getMetrics(const uint16_t ch, const unsigned int fontSize);
 
             /**
              * @brief Cleans up all allocated resources

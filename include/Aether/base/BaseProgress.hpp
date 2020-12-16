@@ -20,7 +20,7 @@ namespace Aether {
         public:
             /**
              * @brief Construct a new Base Progress object
-             * 
+             *
              * @param x x-coordinate of start position offset
              * @param y y-coordinate of start position offset
              * @param w width of progressbar
@@ -30,16 +30,16 @@ namespace Aether {
 
             /**
              * @brief Get the value of progress bar
-             * 
+             *
              * @return value of progress bar
              */
             float value();
 
             /**
              * @brief Set the value of progress bar
-             * @note Value of progress bar from 0.0 to 100.0. 
+             * @note Value of progress bar from 0.0 to 100.0.
              * @note Any less/greater will be rounded down/up
-             * 
+             *
              * @param v new value of progress bar
              */
             virtual void setValue(float v);

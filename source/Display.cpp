@@ -25,7 +25,7 @@ struct Clock {
 static struct Clock dtClock;
 
 namespace Aether {
-    Display::Display() : Element(0, 0, 1280, 720) {
+    Display::Display(const std::string & name, const unsigned int width, const unsigned int height, const Renderer::LogHandler & log) : Element(0, 0, width, height) {
         this->setParent(nullptr);
 
         this->bgImg = nullptr;
@@ -37,13 +37,15 @@ namespace Aether {
         this->holdDelay_ = MOVE_DELAY;
 
         this->hiAnim = [](uint32_t t){
-            return Colour{255, 255, 255, 255};
+            return Colour(255, 255, 255, 255);
         };
 
         this->screen = nullptr;
 
         // Initialize SDL (loop set to false if an error)
-        this->loop_ = SDLHelper::initSDL();
+        this->renderer = new Renderer();
+        this->renderer->setLogHandler(log);
+        this->loop_ = renderer->initialize(name, width, height);
         this->fps_ = false;
     }
 
@@ -52,13 +54,13 @@ namespace Aether {
     }
 
     void Display::setBackgroundColour(uint8_t r, uint8_t g, uint8_t b) {
-        this->bg.r = r;
-        this->bg.g = g;
-        this->bg.b = b;
-        this->bg.a = 255;
+        this->bg.setR(r);
+        this->bg.setG(g);
+        this->bg.setB(b);
+        this->bg.setA(255);
 
         // Remove image from background
-        SDLHelper::destroyTexture(this->bgImg);
+        delete this->bgImg;
         this->bgImg = nullptr;
     }
 
@@ -69,21 +71,22 @@ namespace Aether {
         }
 
         // Create texture from image
-        SDLHelper::destroyTexture(this->bgImg);
-        this->bgImg = SDLHelper::renderImage(path);
-        this->bg = Colour{0, 0, 0, 255};
-        if (this->bgImg == nullptr) {
+        delete this->bgImg;
+        this->bgImg = this->renderer->renderImageSurface(path);
+        this->bgImg->convertToTexture();
+        this->bg = Colour(0, 0, 0, 255);
+        if (this->bgImg->type() == Drawable::Type::None) {
             return false;
         }
         return true;
     }
 
     void Display::setFont(std::string p) {
-        SDLHelper::setFont(p);
+        this->renderer->setFont(p);
     }
 
     void Display::setFontSpacing(double h) {
-        SDLHelper::setFontSpacing(h);
+        this->renderer->setFontSpacing(h);
     }
 
     void Display::addOverlay(Overlay * o) {
@@ -192,6 +195,12 @@ namespace Aether {
         SDL_Event e;
         while (SDL_PollEvent(&e)) {
             switch (e.type) {
+                case SDL_WINDOWEVENT:
+                    if (e.window.event == SDL_WINDOWEVENT_CLOSE) {
+                        this->exit();
+                    }
+                    break;
+
                 case SDL_JOYBUTTONUP:
                 case SDL_JOYBUTTONDOWN:
                 case SDL_FINGERDOWN:
@@ -279,9 +288,9 @@ namespace Aether {
         }
 
         // Clear screen/draw background
-        SDLHelper::clearScreen(this->bg);
+        this->renderer->fillWindow(this->bg);
         if (this->bgImg) {
-            SDLHelper::drawTexture(this->bgImg, Colour{255, 255, 255, 255}, 0, 0, 1280, 720);
+            this->bgImg->render(0, 0, this->renderer->windowWidth(), this->renderer->windowHeight());
         }
 
         // Update highlight border colour
@@ -298,7 +307,7 @@ namespace Aether {
         // Handle/render fade in/out
         if (this->fading) {
             if (this->fadeIn) {
-                SDLHelper::drawFilledRect(Colour{0, 0, 0, this->fadeAlpha}, 0, 0, 1280, 720);
+                this->renderer->fillWindow(Colour(0, 0, 0, this->fadeAlpha));
                 this->fadeAlpha -= 800*(dtClock.delta/1000.0);
                 if (this->fadeAlpha < 0) {
                     this->fadeAlpha = 0;
@@ -307,7 +316,7 @@ namespace Aether {
                 }
             } else {
                 if (this->fadeOut) {
-                    SDLHelper::drawFilledRect(Colour{0, 0, 0, this->fadeAlpha}, 0, 0, 1280, 720);
+                    this->renderer->fillWindow(Colour(0, 0, 0, this->fadeAlpha));
                     this->fadeAlpha += 800*(dtClock.delta/1000.0);
                     if (this->fadeAlpha > 255) {
                         this->fadeAlpha = 255;
@@ -319,13 +328,14 @@ namespace Aether {
 
         // Draw FPS
         if (this->fps_) {
-            std::string ss = "FPS: " + std::to_string((int)(1.0/(dtClock.delta/1000.0))) + " (" + std::to_string(dtClock.delta) + " ms) -- ~Mem: " + std::to_string(SDLHelper::memoryUsage()/1024) + " kB -- T/S: " + std::to_string(SDLHelper::numTextures()) + "/" + std::to_string(SDLHelper::numSurfaces());
-            SDL_Texture * tt = SDLHelper::renderText(ss, 20);
-            SDLHelper::drawTexture(tt, SDL_Color{0, 150, 150, 255}, 5, 695);
-            SDLHelper::destroyTexture(tt);
+            std::string ss = "FPS: " + std::to_string((int)(1.0/(dtClock.delta/1000.0))) + " (" + std::to_string(dtClock.delta) + " ms) -- ~Mem: " + std::to_string(this->renderer->memoryUsage()/1024) + " kB -- T/S: " + std::to_string(this->renderer->textureCount()) + "/" + std::to_string(this->renderer->surfaceCount());
+            Drawable * tt = this->renderer->renderTextSurface(ss, 20);
+            tt->setColour(Colour(0, 150, 150, 255));
+            tt->render(5, 695);
+            delete tt;
         }
 
-        SDLHelper::draw();
+        this->renderer->present();
 
         // Update ThreadPool
         ThreadPool::process();
@@ -344,16 +354,17 @@ namespace Aether {
 
     Display::~Display() {
         // As this is an element we can delete the cached highlight textures
-        SDLHelper::destroyTexture(this->hiBGTex);
-        SDLHelper::destroyTexture(this->hiBorderTex);
-        SDLHelper::destroyTexture(this->selTex);
+        delete this->hiBGTex;
+        delete this->hiBorderTex;
+        delete this->selTex;
         this->hiBGTex = nullptr;
         this->hiBorderTex = nullptr;
         this->selTex = nullptr;
 
         // Clean up SDL
         ThreadPool::finalize();
-        SDLHelper::destroyTexture(this->bgImg);
-        SDLHelper::exitSDL();
+        delete this->bgImg;
+        this->renderer->cleanup();
+        delete this->renderer;
     }
 };

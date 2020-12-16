@@ -58,15 +58,15 @@ namespace Aether {
         this->text->setY(this->y() + (this->h() - this->text->h())/2);
     }
 
-    SDL_Texture * BorderButton::renderHighlightBG() {
-        return SDLHelper::renderFilledRoundRect(this->w(), this->h(), CORNER_RAD + 2);
+    Drawable * BorderButton::renderHighlightBG() {
+        return this->renderer->renderFilledRoundRectTexture(this->w(), this->h(), CORNER_RAD + 2);
     }
 
-    SDL_Texture * BorderButton::renderHighlight() {
-        return SDLHelper::renderRoundRect(this->w() + 2*(this->hiSize - this->box->border()), this->h() + 2*(this->hiSize - this->box->border()), CORNER_RAD + 2, this->hiSize);
+    Drawable * BorderButton::renderHighlight() {
+        return this->renderer->renderRoundRectTexture(this->w() + 2*(this->hiSize - this->box->border()), this->h() + 2*(this->hiSize - this->box->border()), CORNER_RAD + 2, this->hiSize);
     }
 
-    SDL_Texture * BorderButton::renderSelection() {
-        return SDLHelper::renderFilledRoundRect(this->w(), this->h(), CORNER_RAD + 2);
+    Drawable * BorderButton::renderSelection() {
+        return this->renderer->renderFilledRoundRectTexture(this->w(), this->h(), CORNER_RAD + 2);
     }
 };

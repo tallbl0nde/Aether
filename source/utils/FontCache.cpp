@@ -17,8 +17,10 @@ static constexpr unsigned int maxFontObjects = 30;
 // use more than a few MB ever
 static constexpr unsigned int maxSurfaces = 200;
 
+#ifdef __SWITCH__
 // Inherit proper struct
 struct PlFontData_ : public PlFontData{};
+#endif
 
 namespace Aether {
     FontCache::FontCache(Renderer * renderer) {
@@ -135,6 +137,53 @@ namespace Aether {
         }
 
         return surf;
+    }
+
+    GlyphMetrics FontCache::getMetrics(const uint16_t ch, const unsigned int fontSize) {
+        // Find a font containing the character at the specified size,
+        // creating a new object if needed
+        if (!this->customFontPath.empty()) {
+            // Create TTF_Font * if not in cache
+            size_t customFontIdx = this->fontCache.size()-1;
+            if (!this->fontCache[customFontIdx]->hasKey(fontSize)) {
+                this->fontCache[customFontIdx]->addData(fontSize, TTF_OpenFont(this->customFontPath.c_str(), fontSize));
+            }
+
+            // Ensure the glyph is present
+            TTF_Font * font = this->fontCache[customFontIdx]->getData(fontSize);
+            if (TTF_GlyphIsProvided(font, ch)) {
+                int advance;
+                int height;
+                TTF_GlyphMetrics(font, ch, nullptr, nullptr, nullptr, nullptr, &advance);
+                height = TTF_FontLineSkip(font);
+
+                return GlyphMetrics(ch, advance, height - TTF_FontDescent(font), height);
+            }
+        }
+
+        #ifdef __SWITCH__
+            // Otherwise if no custom font or glyph not in font, iterate over Nintendo's fonts
+            for (int i = 0; i < PlSharedFontType_Total; i++) {
+                // Create TTF_Font * if not in cache
+                if (!this->fontCache[i]->hasKey(fontSize)) {
+                    this->fontCache[i]->addData(fontSize, TTF_OpenFontRW(SDL_RWFromMem(this->ninFontData[i].address, this->ninFontData[i].size), 1, fontSize));
+                }
+
+                // Ensure the glyph is present before proceeding
+                TTF_Font * font = this->fontCache[i]->getData(fontSize);
+                if (TTF_GlyphIsProvided(font, ch)) {
+                    int advance;
+                    int height;
+                    TTF_GlyphMetrics(font, ch, nullptr, nullptr, nullptr, nullptr, &advance);
+                    height = TTF_FontLineSkip(font);
+
+                    return GlyphMetrics(ch, advance, height - TTF_FontDescent(font), height);
+                }
+            }
+        #endif
+
+        // Return default metrics object if not found
+        return GlyphMetrics();
     }
 
     FontCache::~FontCache() {

@@ -9,7 +9,7 @@ namespace Aether {
 
     void Ellipse::generateSurface() {
         // This is safe - see Texture::regenerate()
-        this->texture = SDLHelper::renderFilledEllipse(this->xDiameter_/2, this->yDiameter_/2);
+        this->drawable = this->renderer->renderFilledEllipseTexture(this->xDiameter_/2, this->yDiameter_/2);
     }
 
     unsigned int Ellipse::xDiameter() {
@@ -30,15 +30,15 @@ namespace Aether {
         this->regenerate();
     }
 
-    SDL_Texture * Ellipse::renderHighlightBG() {
-        return SDLHelper::renderFilledEllipse(this->w()/2, this->h()/2);
+    Drawable * Ellipse::renderHighlightBG() {
+        return this->renderer->renderFilledEllipseTexture(this->w()/2, this->h()/2);
     }
 
-    SDL_Texture * Ellipse::renderHighlight() {
-        return SDLHelper::renderEllipse(this->w()/2, this->h()/2, this->hiSize);
+    Drawable * Ellipse::renderHighlight() {
+        return this->renderer->renderEllipseTexture(this->w()/2, this->h()/2, this->hiSize);
     }
 
-    SDL_Texture * Ellipse::renderSelection() {
-        return SDLHelper::renderFilledEllipse(this->w()/2, this->h()/2);
+    Drawable * Ellipse::renderSelection() {
+        return this->renderer->renderFilledEllipseTexture(this->w()/2, this->h()/2);
     }
 };

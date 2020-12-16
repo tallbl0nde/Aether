@@ -5,6 +5,11 @@
 #include <queue>
 #include <stack>
 
+// Forward declare the typedef
+namespace {
+    typedef std::function<void(const std::string, const bool)> LogHandler;
+};
+
 namespace Aether {
     /**
      * @brief A display represents a root element.
@@ -30,7 +35,7 @@ namespace Aether {
             /** @brief Colour to clear screen with */
             Colour bg;
             /** @brief Texture (image) to clear screen with */
-            SDL_Texture * bgImg;
+            Drawable * bgImg;
             /** @brief Highlight animation funtion to use */
             std::function<Colour(uint32_t)> hiAnim;
             /** @brief Button that is being held, if any */
@@ -65,11 +70,16 @@ namespace Aether {
 
         public:
             /**
-             * @brief Construct a new Display object
+             * @brief Instantiates an Aether instance. There should only ever be one Display
+             * instantiated at once (ideally once for the entire program).
+             * @note The construction parameters are ignored on some platforms.
              *
-             * Initializes SDL with Vsync on
+             * @param name Name to give window (optional)
+             * @param width Width of window (optional)
+             * @param height Height of window (optional)
+             * @param log Callback function to handle log messages (optional)
              */
-            Display();
+            Display(const std::string & name, const unsigned int width, const unsigned int height, const LogHandler & log);
 
             /**
              * @brief Toggle whether FPS should be showed

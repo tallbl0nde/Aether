@@ -62,17 +62,17 @@ namespace Aether {
             /**
              * @brief Render highlight background (elliptical)
              */
-            SDL_Texture * renderHighlightBG();
+            Drawable * renderHighlightBG();
 
             /**
              * @brief Render highlight border (elliptical)
              */
-            SDL_Texture * renderHighlight();
+            Drawable * renderHighlight();
 
             /**
              * @brief Render selection layer (elliptical)
              */
-            SDL_Texture * renderSelection();
+            Drawable * renderSelection();
     };
 };
 

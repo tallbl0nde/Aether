@@ -11,9 +11,9 @@ namespace Aether {
     void Box::generateSurface() {
         // This is safe - see Texture::regenerate()
         if (this->cornerRadius_ > 0) {
-            this->texture = SDLHelper::renderRoundRect(this->w(), this->h(), this->cornerRadius_, this->border());
+            this->drawable = this->renderer->renderRoundRectTexture(this->w(), this->h(), this->cornerRadius_, this->border());
         } else {
-            this->texture = SDLHelper::renderRect(this->w(), this->h(), this->border());
+            this->drawable = this->renderer->renderRectTexture(this->w(), this->h(), this->border());
         }
     }
 

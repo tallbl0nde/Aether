@@ -26,10 +26,9 @@ namespace Aether {
              * @param s block string
              * @param f font size
              * @param w wrap width (in pixels)
-             * @param l font style to use for block
              * @param t \ref ::RenderType to use for texture generation
              */
-            TextBlock(int x, int y, std::string s, unsigned int f, unsigned int w, FontStyle l = FontStyle::Regular, RenderType t = RenderType::OnCreate);
+            TextBlock(int x, int y, std::string s, unsigned int f, unsigned int w, RenderType t = RenderType::OnCreate);
 
             /**
              * @brief Get block wrap width

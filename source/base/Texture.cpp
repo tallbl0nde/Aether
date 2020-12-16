@@ -5,15 +5,11 @@
 namespace Aether {
     Texture::Texture(int x, int y, RenderType t) : Element(x, y) {
         // Initialize everything
-        this->colour = Colour{255, 255, 255, 255};
+        this->colour = Colour(255, 255, 255, 255);
+        this->drawable = new Drawable();
         this->renderType = t;
         this->status = ThreadedStatus::Empty;
         this->taskID = 0;       // This may overlap but it shouldn't matter
-        this->surface = nullptr;
-        this->texture = nullptr;
-        this->texH_ = 0;
-        this->texW_ = 0;
-        this->setMask(0, 0, 0, 0);
     }
 
     void Texture::createSurface() {
@@ -25,17 +21,9 @@ namespace Aether {
     }
 
     void Texture::convertSurface() {
-        if (this->surface != nullptr) {
-            this->texture = SDLHelper::convertSurfaceToTexture(this->surface);
-            this->surface = nullptr;
-        }
-
-        if (this->texture != nullptr) {
-            SDLHelper::getDimensions(this->texture, &this->texW_, &this->texH_);
-            this->setW(this->texW_);
-            this->setH(this->texH_);
-            this->setMask(0, 0, this->texW_, this->texH_);
-        }
+        this->drawable.load()->convertToTexture();
+        this->setW(this->drawable.load()->width());
+        this->setH(this->drawable.load()->height());
         this->status = ThreadedStatus::Texture;
     }
 
@@ -53,11 +41,11 @@ namespace Aether {
     }
 
     int Texture::texW() {
-        return this->texW_;
+        return this->drawable.load()->width();
     }
 
     int Texture::texH() {
-        return this->texH_;
+        return this->drawable.load()->height();
     }
 
     Colour Texture::getColour() {
@@ -66,49 +54,21 @@ namespace Aether {
 
     void Texture::setColour(Colour c) {
         this->colour = c;
+        this->drawable.load()->setColour(c);
     }
 
     void Texture::setColour(uint8_t r, uint8_t g, uint8_t b, uint8_t a) {
-        this->setColour(Colour{r, g, b, a});
-    }
-
-    void Texture::getMask(int * dx, int * dy, int * dw, int * dh) {
-        *dx = this->maskX;
-        *dy = this->maskY;
-        *dw = this->maskW;
-        *dh = this->maskH;
+        this->setColour(Colour(r, g, b, a));
     }
 
     void Texture::setMask(int dx, int dy, int dw, int dh) {
-        this->maskX = dx;
-        this->maskY = dy;
-        this->maskW = dw;
-        this->maskH = dh;
+        this->drawable.load()->setMask(dx, dy, dw, dh);
     }
 
     void Texture::destroyTexture() {
-        ThreadedStatus st = this->status;
-
-        // Delete texture if present
-        if (st == ThreadedStatus::Texture) {
-            if (this->texture != nullptr) {
-                SDLHelper::destroyTexture(this->texture);
-            }
-            this->texture = nullptr;
-            this->texW_ = 0;
-            this->texH_ = 0;
-            this->status = ThreadedStatus::Empty;
-
-        // Otherwise delete surface if it hasn't been converted yet
-        } else if (st == ThreadedStatus::Surface) {
-            if (this->surface != nullptr) {
-                SDLHelper::freeSurface(this->surface);
-                this->surface = nullptr;
-                this->texW_ = 0;
-                this->texH_ = 0;
-            }
-            this->status = ThreadedStatus::Empty;
-        }
+        delete this->drawable;
+        this->drawable = new Drawable();
+        this->status = ThreadedStatus::Empty;
     }
 
     bool Texture::startRendering() {
@@ -142,7 +102,8 @@ namespace Aether {
             return;
         }
 
-        SDLHelper::drawTexture(this->texture, this->colour, this->x(), this->y(), this->w(), this->h(), this->maskX, this->maskY, this->maskW, this->maskH);
+        this->drawable.load()->setColour(this->colour);
+        this->drawable.load()->render(this->x(), this->y(), this->w(), this->h());
         Element::render();
     }
 
@@ -150,6 +111,6 @@ namespace Aether {
         if (this->status == ThreadedStatus::Queued) {
             ThreadPool::removeTaskWithID(this->taskID);
         }
-        this->destroyTexture();
+        delete this->drawable;
     }
 };

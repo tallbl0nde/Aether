@@ -33,10 +33,9 @@ namespace Aether {
              * @param y y-coordinate of start position offset
              * @param s text string
              * @param f font size
-             * @param l font style
              * @param t \ref ::RenderType to use for texture generation
              */
-            Text(int x, int y, std::string s, unsigned int f, FontStyle l = FontStyle::Regular, RenderType t = RenderType::OnCreate);
+            Text(int x, int y, std::string s, unsigned int f, RenderType t = RenderType::OnCreate);
 
             /**
              * @brief Indicator on whether the text is scrollable

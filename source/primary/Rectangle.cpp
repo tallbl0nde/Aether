@@ -10,9 +10,9 @@ namespace Aether {
     void Rectangle::generateSurface() {
         // This is safe - see Texture::regenerate()
         if (this->cornerRadius_ > 0) {
-            this->texture = SDLHelper::renderFilledRoundRect(this->w(), this->h(), this->cornerRadius_);
+            this->drawable = this->renderer->renderFilledRoundRectTexture(this->w(), this->h(), this->cornerRadius_);
         } else {
-            this->texture = SDLHelper::renderFilledRect(this->w(), this->h());
+            this->drawable = this->renderer->renderFilledRectTexture(this->w(), this->h());
         }
     }
 

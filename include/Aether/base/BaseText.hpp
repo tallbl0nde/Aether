@@ -2,19 +2,9 @@
 #define AETHER_BASETEXT_HPP
 
 #include "Aether/base/Texture.hpp"
+#include <string>
 
 namespace Aether {
-    /**
-     * @brief Enum class with all available text font styles
-     */
-    enum class FontStyle {
-        Regular,        /**< Regular Font */
-        Bold,           /**< Bold Font */
-        Italic,         /**< Italic Font */
-        Underline,      /**< Underlined Font */
-        Strikethrough   /**< Strikethrough Font */
-    };
-
     /**
      * @brief BaseText is an abstract class storing relevant information to render
      * a text element.
@@ -25,8 +15,6 @@ namespace Aether {
             std::string string_;
             /** @brief Font size used for rendered text */
             unsigned int fontSize_;
-            /** @brief Font style (stored for redrawing) */
-            std::atomic<FontStyle> fontStyle;
 
         public:
             /**
@@ -36,10 +24,9 @@ namespace Aether {
              * @param y y-coordinate of start position offset
              * @param s string to render
              * @param f font size (in pixels)
-             * @param l font style
              * @param t \ref ::RenderType to use for rendering
              */
-            BaseText(int x, int y, std::string s, unsigned int f, FontStyle l, RenderType t);
+            BaseText(int x, int y, std::string s, unsigned int f, RenderType t);
 
             /**
              * @brief Get the rendered string

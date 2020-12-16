@@ -23,19 +23,6 @@ namespace Aether {
         };
 
         private:
-            /** @brief Width of texture */
-            int texW_;
-            /** @brief Height of texture */
-            int texH_;
-            /** @brief x-coordinate of mask offset start position */
-            int maskX;
-            /** @brief y-coordinate of mask offset start position */
-            int maskY;
-            /** @brief width of mask */
-            int maskW;
-            /** @brief height of mask */
-            int maskH;
-
             /** @brief Status of texture with respect to generation */
             std::atomic<ThreadedStatus> status;
             /** @brief ID of task which renders surface */
@@ -52,11 +39,8 @@ namespace Aether {
             /** @brief Colour to tint the texture with when drawn */
             Colour colour;
 
-            /** @brief Pointer to rendered surface that is waiting to be converted to a texture */
-            std::atomic<SDL_Surface *> surface;
-
-            /** @brief Pointer to texture to be drawn */
-            std::atomic<SDL_Texture *> texture;
+            /** @brief Pointer to rendered surface/texture */
+            std::atomic<Drawable *> drawable;
 
             /**
              * @brief Function which must generate the appropriate surface

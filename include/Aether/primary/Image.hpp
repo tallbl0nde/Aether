@@ -33,19 +33,13 @@ namespace Aether {
              * @brief Pointer to image data
              * @note Undefined value if created with a file path!
              */
-            u8 * ptr;
+            unsigned char * ptr;
 
             /**
              * @brief Size of data pointed to by ptr
              * @note Undefined value if created with a file path!
              */
             size_t size;
-
-            /** @brief x scaling factor */
-            int xF;
-
-            /** @brief y scaling factor */
-            int yF;
 
             /** @brief Creates the image as a surface */
             void generateSurface();
@@ -58,11 +52,9 @@ namespace Aether {
              * @param x x-coordinate of start position offset
              * @param y y-coordinate of start position offset
              * @param p path to image file
-             * @param xF x scaling factor
-             * @param yF y scaling factor
              * @param t \ref ::RenderType to use for texture generation
              */
-            Image(int x, int y, std::string p, int xF = 1, int yF = 1, RenderType t = RenderType::OnCreate);
+            Image(int x, int y, std::string p, RenderType t = RenderType::OnCreate);
 
             /**
              * @brief Construct a new Image object
@@ -71,11 +63,9 @@ namespace Aether {
              * @param y y-coordinate of start position offset
              * @param p pointer to image data start
              * @param s image data size
-             * @param xF x scaling factor
-             * @param yF y scaling factor
              * @param t \ref ::RenderType to use for texture generation
              */
-            Image(int x, int y, u8 * p, size_t s, int xF = 1, int yF = 1, RenderType t = RenderType::OnCreate);
+            Image(int x, int y, unsigned char * p, size_t s, RenderType t = RenderType::OnCreate);
     };
 };
 

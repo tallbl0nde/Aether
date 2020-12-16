@@ -1,6 +1,7 @@
 #ifndef AETHER_ELEMENT_HPP
 #define AETHER_ELEMENT_HPP
 
+#include "Aether/types/Drawable.hpp"
 #include "Aether/InputEvent.hpp"
 #include <vector>
 
@@ -53,11 +54,13 @@ namespace Aether {
             /** @brief Size of highlight border */
             static unsigned int hiSize;
             /** @brief Highlight background texture */
-            static SDL_Texture * hiBGTex;
+            static Drawable * hiBGTex;
             /** @brief Highlight border texture */
-            static SDL_Texture * hiBorderTex;
+            static Drawable * hiBorderTex;
             /** @brief Selection texture */
-            static SDL_Texture * selTex;
+            static Drawable * selTex;
+
+            static Renderer * renderer;
 
             /** @brief Renders cached highlight textures */
             void renderHighlightTextures();
@@ -442,7 +445,7 @@ namespace Aether {
              *
              * @return Rendered texture to show when highlighted
              */
-            virtual SDL_Texture * renderHighlightBG();
+            virtual Drawable * renderHighlightBG();
 
             /**
              * @brief Renders the highlight border
@@ -450,7 +453,7 @@ namespace Aether {
              *
              * @return Rendered texture to show when highlighted
              */
-            virtual SDL_Texture * renderHighlight();
+            virtual Drawable * renderHighlight();
 
             /**
              * @brief Renders the selection overlay
@@ -458,7 +461,7 @@ namespace Aether {
              *
              * @return Rendered texture to show when selected
              */
-            virtual SDL_Texture * renderSelection();
+            virtual Drawable * renderSelection();
 
             /**
              * @brief Destroy the Element object
