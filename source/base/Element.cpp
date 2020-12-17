@@ -12,9 +12,9 @@ namespace Aether {
     Colour Element::hiBorderColour = Colour(255, 255, 255, 255);
     Colour Element::selColour = Colour(255, 255, 255, 255);
     unsigned int Element::hiSize = HIGHLIGHT_SIZE;
-    Drawable * Element::hiBGTex = new Drawable();
-    Drawable * Element::hiBorderTex = new Drawable();
-    Drawable * Element::selTex = new Drawable();
+    Drawable * Element::hiBGTex = nullptr;
+    Drawable * Element::hiBorderTex = nullptr;
+    Drawable * Element::selTex = nullptr;
     Renderer * Element::renderer = nullptr;
     Element * Element::hiOwner = nullptr;
     Element * Element::selOwner = nullptr;

@@ -125,14 +125,14 @@ namespace Aether {
              *
              * @return Width of Drawable in pixels, 0 if no data stored
              */
-            unsigned int width();
+            int width();
 
             /**
              * @brief Returns the height of the Drawable in pixels
              *
              * @return Height of Drawable in pixels, 0 if no data stored
              */
-            unsigned int height();
+            int height();
 
             /**
              * @brief Destructor ensures contained data is deleted appropriately

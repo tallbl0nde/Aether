@@ -8,6 +8,7 @@ namespace Aether {
         this->type_ = Type::None;
         this->width_ = 0;
         this->height_ = 0;
+        this->renderer = nullptr;
         this->setMask(0, 0, 0, 0);
     }
 
@@ -72,12 +73,12 @@ namespace Aether {
         return this->type_;
     }
 
-    unsigned int Drawable::width() {
-        return this->width_;
+    int Drawable::width() {
+        return static_cast<int>(this->width_);
     }
 
-    unsigned int Drawable::height() {
-        return this->height_;
+    int Drawable::height() {
+        return static_cast<int>(this->height_);
     }
 
     Drawable::~Drawable() {

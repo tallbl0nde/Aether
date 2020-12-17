@@ -42,6 +42,7 @@ namespace Aether {
         #else
             this->fontCache.resize(1, nullptr);
         #endif
+        this->surfaceCache = nullptr;
         this->empty();
     }
 
@@ -63,7 +64,7 @@ namespace Aether {
 
     void FontCache::setCustomFont(const std::string & path) {
         // Ensure file exists
-        if (!Utils::fileExists(path) && !path.empty()) {
+        if (!path.empty() && !Utils::fileExists(path)) {
             return;
         }
 
@@ -74,7 +75,7 @@ namespace Aether {
 
     SDL_Surface * FontCache::getGlyph(const uint16_t ch, const unsigned int fontSize) {
         // Surface to return
-        SDL_Surface * surf;
+        SDL_Surface * surf = nullptr;
 
         // Check custom font first
         if (!this->customFontPath.empty()) {
@@ -99,12 +100,12 @@ namespace Aether {
             }
         }
 
-        // Don't check internal fonts if we have a glyph already
-        if (surf != nullptr) {
-            return surf;
-        }
-
         #ifdef __SWITCH__
+            // Don't check internal fonts if we have a glyph already
+            if (surf != nullptr) {
+                return surf;
+            }
+
             // Otherwise if no custom font or glyph not in font, iterate over Nintendo's fonts
             for (int i = 0; i < PlSharedFontType_Total; i++) {
                 // Create TTF_Font * if not in cache
@@ -131,9 +132,16 @@ namespace Aether {
         #endif
 
         // Otherwise return a default index in order to draw box
-        // This will cause a render every time but we don't expect many of these :P
-        if (surf == nullptr) {
-            surf = TTF_RenderGlyph_Blended(this->fontCache[this->fontCache.size() - 1]->getData(fontSize), ch, {255, 255, 255, 255});
+        // If there is no font created, this will have no effect and thus a nullptr is returned
+        if (surf == nullptr && this->fontCache[this->fontCache.size() - 1]->hasKey(fontSize)) {
+            SurfaceKey key = SurfaceKey(this->fontCache.size() - 1, fontSize, ch);
+            if (this->surfaceCache->hasKey(key)) {
+                surf = this->surfaceCache->getData(key);
+
+            } else {
+                surf = TTF_RenderGlyph_Blended(this->fontCache[this->fontCache.size() - 1]->getData(fontSize), ch, {255, 255, 255, 255});
+                this->surfaceCache->addData(key, surf);
+            }
         }
 
         return surf;

@@ -191,6 +191,12 @@ namespace Aether {
             return false;
         }
 
+        int flags = IMG_INIT_JPG | IMG_INIT_PNG;
+        if ((IMG_Init(flags) & flags) != flags) {
+            this->logMessage("Couldn't initialize SDL_image", true);
+            return false;
+        }
+
         // Create the window
         #ifdef __SWITCH__
         this->window = SDL_CreateWindow(name.empty() ? "Aether" : name.c_str(), 0, 0, 1280, 720, 0);
@@ -249,6 +255,7 @@ namespace Aether {
             this->window = nullptr;
         }
 
+        IMG_Quit();
         SDL_Quit();
         this->logMessage("Cleaned up", false);
     }
@@ -351,6 +358,11 @@ namespace Aether {
     }
 
     void Renderer::setFont(const std::string & path) {
+        if (this->fontCache == nullptr) {
+            this->logMessage("Can't set font as renderer isn't initialized", true);
+            return;
+        }
+
         this->fontCache->setCustomFont(path);
     }
 
@@ -454,6 +466,14 @@ namespace Aether {
             {
                 std::scoped_lock<std::mutex> mtx(this->ttfMtx);
                 surf = this->fontCache->getGlyph(ch, size);
+                if (surf == nullptr) {
+                    // Hard abort if no character returned
+                    this->logMessage("Couldn't get surface for glyph, is a font set?", true);
+                    for (SDL_Surface * s : surfs) {
+                        SDL_FreeSurface(s);
+                    }
+                    return new Drawable();
+                }
 
                 tmp = SDL_CreateRGBSurfaceWithFormat(0, surf->w, surf->h, 32, SDL_PIXELFORMAT_RGBA32);
                 if (tmp == nullptr) {
@@ -627,6 +647,11 @@ namespace Aether {
                 // Get glyph for character and blit onto surface
                 std::scoped_lock<std::mutex> mtx(this->ttfMtx);
                 SDL_Surface * glyph = this->fontCache->getGlyph(ch, size);
+                if (glyph == nullptr) {
+                    this->logMessage("Couldn't get surface for glyph, is a font set?", true);
+                    SDL_FreeSurface(surf);
+                    return new Drawable();
+                }
 
                 SDL_Rect r = SDL_Rect{x, i * (maxLineH * fontSpacing), glyph->w, glyph->h};
                 x += glyph->w;
@@ -814,6 +839,16 @@ namespace Aether {
     }
 
     Renderer::~Renderer() {
+        // Check the renderer was cleaned up
+        if (this->renderer != nullptr) {
+            this->logMessage("Aether wasn't correctly cleaned up", true);
+        }
 
+        // Check for memory leaks
+        if (this->memoryUsage_ != 0) {
+            this->logMessage(std::string("Aether seems to have leaked approximately ") + std::to_string(this->memoryUsage_/1024) + std::string(" KB of memory"), true);
+            this->logMessage(std::string("Leaked surfaces: ") + std::to_string(this->surfaceCount_), true);
+            this->logMessage(std::string("Leaked textures: ") + std::to_string(this->textureCount_), true);
+        }
     }
 };

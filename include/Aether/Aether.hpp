@@ -7,7 +7,7 @@
  */
 
 // Include all relevant hpp's
-#include "Aether/Display.hpp"
+#include "Aether/types/Colour.hpp"
 #include "Aether/horizon/button/FilledButton.hpp"
 #include "Aether/horizon/list/ListComment.hpp"
 #include "Aether/horizon/list/ListHeading.hpp"
@@ -27,5 +27,6 @@
 #include "Aether/primary/Image.hpp"
 #include "Aether/ThreadPool.hpp"
 #include "Aether/utils/Theme.hpp"
+#include "Aether/Window.hpp"
 
 #endif

@@ -5,12 +5,20 @@
 #include "Aether/InputEvent.hpp"
 #include <vector>
 
+// Forward declare the Window class
+namespace Aether {
+    class Window;
+};
+
 namespace Aether {
     /**
      * @brief Element is the base class to be inherited
      * to form all other types of elements
      */
     class Element {
+        // Allow Window to access the private members (i.e. statics)
+        friend Window;
+
         private:
             /** @brief Horizontal position of element */
             int x_;
