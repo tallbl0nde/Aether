@@ -1,177 +1,151 @@
 #ifndef AETHER_TEXTURE_HPP
 #define AETHER_TEXTURE_HPP
 
-#include <atomic>
 #include "Aether/base/Element.hpp"
+#include <atomic>
 
 namespace Aether {
     /**
-     * @brief A Texture is an element consisting of an SDL_Texture.
-     * It stores the width and height of the texture and the
-     * colour it's tinted with.
-     * @note Colour defaults to white
+     * @brief Supported "on create" texture rendering options.
+     */
+    enum class Render {
+        Sync,           /**< Render texture synchronously (i.e. as soon as created) */
+        Async,          /**< Render texture asynchronously on another thread */
+    };
+
+    /**
+     * @brief A Texture is an element that stores a texture to render
+     * in the window. It can't be instantiated alone as it's essentially
+     * a 'container' element, but is inherited by classes such as \ref Text
+     * and \ref Image which generate the texture. This class provides common
+     * getter methods and handles rendering texture asynchronously.
      */
     class Texture : public Element {
-        /**
-         * @brief Enum class for status of texture generation
-         */
-        enum class ThreadedStatus {
-            Empty,		/**< No texture/surface stored or rendering */
-            Queued,		/**< Surface generation is queued or rendering */
-            Surface,	/**< Surface has ben rendered and can be converted to a texture */
-            Texture		/**< Texture has been rendered and the element can be displayed */
-        };
-
         private:
-            /** @brief Status of texture with respect to generation */
-            std::atomic<ThreadedStatus> status;
-            /** @brief ID of task which renders surface */
-            unsigned int taskID;
+            /**
+             * @brief Possible statuses for the texture
+             * to be in when rendering asynchronously.
+             */
+            enum class AsyncStatus {
+                Waiting,                            /**< Waiting for start signal/rendered synchronously */
+                Rendering,                          /**< Task has been queued/is being executed */
+                NeedsConvert,                       /**< Task is finished, need to convert to texture */
+                Done                                /**< Everything is done; the texture can be shown */
+            };
 
-            /** @brief Queues surface generation and sets status accordingly */
-            void createSurface();
+            int asyncID;                            /** @brief ID of async task */
+            std::atomic<AsyncStatus> status;        /** @brief Current status of texture */
+
+            Colour colour_;                         /** @brief Colour to tint texture with */
+            Drawable * drawable;                    /** @brief The texture to draw on screen */
+            Drawable * tmpDrawable;                 /** @brief Pointer temporarily storing rendered drawable */
+
+            /**
+             * @brief Small helper to set up a new drawable.
+             */
+            void setupDrawable();
 
         protected:
-            /** @brief \ref ::RenderType which indicates how/when to generate texture */
-            RenderType renderType;
-
-        protected:
-            /** @brief Colour to tint the texture with when drawn */
-            Colour colour;
-
-            /** @brief Pointer to rendered surface/texture */
-            std::atomic<Drawable *> drawable;
-
             /**
-             * @brief Function which must generate the appropriate surface
-             * @note Called in another thread!
+             * @brief Method provided by children defining how to render the texture.
              */
-            virtual void generateSurface() = 0;
-
-            /**
-             * @brief Converts surface to texture and sets variables to match
-             */
-            void convertSurface();
-
-            /**
-             * @brief Regenerate the texture based on render type.
-             * Calls a combination of available functions based on said type.
-             */
-            void regenerate();
+            virtual Drawable * renderDrawable() = 0;
 
         public:
             /**
-             * @brief Construct a new Texture object
-             * @note Width and height will be set when a texture is created
+             * @brief Constructs a new texture element. Position defaults to (0, 0).
              *
-             * @param x x-coordinate of start position offset
-             * @param y y-coordinate of start position offset
-             * @param t \ref ::RenderType indicating when to generate texture
+             * @param x Top-left x coordinate
+             * @param y Top-left y coordinate
              */
-            Texture(int x, int y, RenderType t);
+            Texture(const int x = 0, const int y = 0);
 
             /**
-             * @brief Get texture width
+             * @brief Returns the texture's tint colour.
              *
-             * @return texture width
+             * @return Colour texture is tinted with.
              */
-            int texW();
+            Colour colour();
 
             /**
-             * @brief Get texture height
+             * @brief Set the colour to tint the texture with.
              *
-             * @return texture height
+             * @param col Colour to tint with
              */
-            int texH();
+            void setColour(const Colour & col);
 
             /**
-             * @brief Get the colour of texture
+             * @brief Returns the width of the stored texture. Returns 0 if the texture
+             * is being rendered asynchronously and isn't finished.
              *
-             * @return colour of texture
+             * @return Stored texture's width in pixels.
              */
-            Colour getColour();
+            int textureWidth();
 
             /**
-             * @brief Set the colour of texture
+             * @brief Returns the height of the stored texture. Returns 0 if the texture
+             * is being rendered asynchronously and isn't finished.
              *
-             * @param c new colour of texture
+             * @return Stored texture's height in pixels.
              */
-            void setColour(Colour c);
+            int textureHeight();
 
             /**
-             * @brief Set the colour of texture
+             * @brief Set the mask area for the texture. Pixels outside of this area
+             * are not drawn.
+             * @note This must be called after the texture is ready (see \ref ready()), and is lost
+             * whenever the texture is changed.
              *
-             * @param r Red value of colour
-             * @param g Green value of colour
-             * @param b Blue value of colour
-             * @param a Alpha value of colour
+             * @param x Top-left x coordinate of mask
+             * @param y Top-left y coordinate of mask
+             * @param w Mask width
+             * @param h Mask height
              */
-            void setColour(uint8_t r, uint8_t g, uint8_t b, uint8_t a);
+            void setMask(const int x, const int y, const unsigned int w, const unsigned int h);
 
             /**
-             * @brief Set pointed values to values of mask
+             * @brief Destroy the stored texture, freeing memory. Safe to call even if no texture is stored.
+             * @note This will block if the texture isn't finished rendering.
+             */
+            void destroy();
+
+            /**
+             * @brief Returns whether the texture is finished rendering and ready to be shown.
              *
-             * @param dx pointer to mask offset x-coordinate
-             * @param dy pointer to mask offset y-coordinate
-             * @param dw pointer to mask width
-             * @param dh pointer to mask height
+             * @return Whether the texture can be rendered on the next frame.
              */
-            void getMask(int * dx, int * dy, int * dw, int * dh);
+            bool ready();
 
             /**
-             * @brief Set the mask values for the texture
+             * @brief Immediately render the texture synchronously. This has no
+             * effect if a texture is currently stored, or a task is already queued. To
+             * recreate the texture, call \ref destroy() first.
+             */
+            void renderSync();
+
+            /**
+             * @brief Request to start rendering the texture asynchronously. This has no
+             * effect if a texture is currently stored, or a task is already queued. To
+             * recreate the texture, call \ref destroy() first.
+             */
+            void renderAsync();
+
+            /**
+             * @brief Called internally. Overrides Element's update method to handle
+             * the asynchronous rendering operations.
              *
-             * @param dx mask offset x-coordinate
-             * @param dy mask offset y-coordinate
-             * @param dw mask width
-             * @param dh mask height
+             * @param dt Delta time since last frame in ms
              */
-            void setMask(int dx, int dy, int dw, int dh);
+            void update(unsigned int dt);
 
             /**
-             * @brief Delete the rendered texture/surface
-             */
-            void destroyTexture();
-
-            /**
-             * @brief Start rendering texture in the background
-             * @note This function does nothing if the element was created with \ref ::RenderType::OnCreate
-             *
-             * @return true if queued successfully
-             * @return false if already queued
-             */
-            bool startRendering();
-
-            /**
-             * @brief Returns whether the surface is finished generating
-             * @note This function returns false if the element was created with \ref ::RenderType::OnCreate
-             *
-             * @return true if the surface is ready
-             * @return false otherwise
-             */
-            bool surfaceReady();
-
-            /**
-             * @brief Returns whether a texture is ready to be drawn
-             *
-             * @return true if the texture is ready
-             * @return false otherwise
-             */
-            bool textureReady();
-
-            /**
-             * @brief Extends the update method to check if there is a surface that needs converting
-             */
-            void update(uint32_t);
-
-            /**
-             * @brief Render the texture
+             * @brief Called internally. Overrides Element's render method to actually
+             * show the stored texture.
              */
             void render();
 
             /**
-             * @brief Destroy the Texture object.
-             * Also, destroys stored texture.
+             * @brief Destroys the texture, freeing all allocated memory.
              */
             ~Texture();
     };
