@@ -21,12 +21,14 @@ namespace Aether {
 
     void Rectangle::setCornerRadius(unsigned int r) {
         this->cornerRadius_ = r;
+        this->destroy();
         this->renderSync();
     }
 
     void Rectangle::setRectSize(int w, int h) {
         Texture::setW(w);
         Texture::setH(h);
+        this->destroy();
         this->renderSync();
     }
 };

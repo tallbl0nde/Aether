@@ -22,12 +22,14 @@ namespace Aether {
 
     void Box::setThickness(const unsigned int thick) {
         this->border_ = thick;
+        this->destroy();
         this->renderSync();
     }
 
     void Box::setBoxSize(const int w, const int h) {
         Texture::setW(w);
         Texture::setH(h);
+        this->destroy();
         this->renderSync();
     }
 
@@ -37,6 +39,7 @@ namespace Aether {
 
     void Box::setCornerRadius(const unsigned int radius) {
         this->cornerRadius_ = radius;
+        this->destroy();
         this->renderSync();
     }
 };

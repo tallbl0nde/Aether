@@ -718,8 +718,8 @@ int aaFilledPieRGBA(SDL_Renderer * renderer, float cx, float cy, float rx, float
 
 	// Calculate number of vertices on perimeter
 	nverts = (end - start) * sqrt(rx * ry) / M_PI ;
-	if (nverts < 2)
-		nverts = 2 ;
+	if (nverts < 6)
+		nverts = 6 ;
 	if (nverts > 180)
 		nverts = 180 ;
 

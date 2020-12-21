@@ -87,11 +87,11 @@ namespace Aether {
                 break;
 
             case Type::Surface:
-                this->renderer->destroySurface(this->data.surface);
+                this->renderer->destroySurface(this->data.surface, true);
                 break;
 
             case Type::Texture:
-                this->renderer->destroyTexture(this->data.texture);
+                this->renderer->destroyTexture(this->data.texture, true);
                 break;
         }
     }

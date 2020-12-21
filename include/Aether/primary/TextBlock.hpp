@@ -31,6 +31,18 @@ namespace Aether {
             TextBlock(const int x, const int y, const std::string & str, const unsigned int size, const unsigned int wrap, const Render type = Render::Sync);
 
             /**
+             * @brief Returns the dimensions of the given string if it were to be rendered, without
+             * performing any slow rendering.
+             *
+             * @param str String to measure
+             * @param size Font size to measure text with
+             * @param width Maximum width of one line
+             * @return Pair of dimensions, with the first value being
+             * the width and second being the height.
+             */
+            static std::pair<int, int> getDimensions(const std::string & str, const unsigned int size, const unsigned int width);
+
+            /**
              * @brief Returns the maximum width allowed for a line
              *
              * @return Max line width in pixels

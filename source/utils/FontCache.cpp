@@ -58,7 +58,7 @@ namespace Aether {
 
         delete this->surfaceCache;
         this->surfaceCache = new LRUCache<SurfaceKey, SDL_Surface *>(maxSurfaces, [this](const SurfaceKey key, const SDL_Surface * surf) {
-            this->renderer->destroySurface(const_cast<SDL_Surface *>(surf));
+            this->renderer->destroySurface(const_cast<SDL_Surface *>(surf), false);
         });
     }
 

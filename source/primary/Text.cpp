@@ -25,8 +25,16 @@ namespace Aether {
         }
     }
 
+    std::pair<int, int> Text::getDimensions(const std::string & str, const unsigned int size) {
+        return Text::renderer->calculateTextDimensions(str, size);
+    }
+
     Drawable * Text::renderDrawable() {
-        return this->renderer->renderTextSurface(this->string_, this->fontSize_);
+        if (this->string_.empty()) {
+            return new Drawable();
+        } else {
+            return this->renderer->renderTextSurface(this->string_, this->fontSize_);
+        }
     }
 
     bool Text::canScroll() {

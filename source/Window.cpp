@@ -173,7 +173,7 @@ namespace Aether {
         size_t fps = static_cast<size_t>(1.0/(delta/1000.0));
 
         // Form the string first
-        std::string text = "FPS: " + std::to_string(fps) + "(" + std::to_string(static_cast<int>(delta)) + " ms)\n";
+        std::string text = "FPS: " + std::to_string(fps) + " (" + std::to_string(static_cast<int>(delta)) + " ms)\n";
         text += "Mem: " + std::to_string(Element::renderer->memoryUsage()/1024) + " KB\n";
         text += "Surf: " + std::to_string(Element::renderer->surfaceCount()) + "\n";
         text += "Tex: " + std::to_string(Element::renderer->textureCount());
@@ -242,6 +242,7 @@ namespace Aether {
             if (!this->overlays[i]->shouldClose()) {
                 this->overlays[i]->update(delta);
                 i++;
+                continue;
             }
 
             // Otherwise remove from the vector
@@ -422,7 +423,7 @@ namespace Aether {
         delete Element::hiBorderTex;
         delete Element::selTex;
         Element::hiBGTex = nullptr;
-        Element::hiBorderTex= nullptr;
+        Element::hiBorderTex = nullptr;
         Element::selTex = nullptr;
 
         // Stop running threads + clean up renderer

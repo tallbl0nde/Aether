@@ -16,12 +16,8 @@ namespace Aether {
         this->drawable->convertToTexture();
         this->drawable->setColour(this->colour_);
 
-        if (this->w() == 0) {
-            this->setW(this->drawable->width());
-        }
-        if (this->h() == 0) {
-            this->setH(this->drawable->height());
-        }
+        this->setW(this->drawable->width());
+        this->setH(this->drawable->height());
 
         if (this->callback != nullptr) {
             this->callback();

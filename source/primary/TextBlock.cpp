@@ -13,6 +13,11 @@ namespace Aether {
         }
     }
 
+    std::pair<int, int> TextBlock::getDimensions(const std::string & str, const unsigned int size, const unsigned int width) {
+        std::tuple<std::vector<std::string>, int, int> dims = TextBlock::renderer->calculateWrappedTextDimensions(str, size, width);
+        return std::pair<int, int>(std::get<1>(dims), std::get<2>(dims));
+    }
+
     Drawable * TextBlock::renderDrawable() {
         return this->renderer->renderWrappedTextSurface(this->string_, this->fontSize_, this->wrapWidth_);
     }
@@ -27,6 +32,7 @@ namespace Aether {
         }
 
         this->wrapWidth_ = wrap;
+        this->destroy();
         this->renderSync();
     }
 };

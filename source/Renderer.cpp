@@ -58,7 +58,7 @@ namespace Aether {
         this->surfaceCount_--;
 
         // Free passed surface regardless of outcome
-        SDL_FreeSurface(surf);
+        this->destroySurface(surf, false);
         return tex;
     }
 
@@ -84,7 +84,7 @@ namespace Aether {
         return tex;
     }
 
-    void Renderer::destroyTexture(SDL_Texture * tex) {
+    void Renderer::destroyTexture(SDL_Texture * tex, const bool stats) {
         // Sanity check
         if (tex == nullptr) {
             this->logMessage("Couldn't destroy texture: Null texture passed", false);
@@ -97,11 +97,13 @@ namespace Aether {
         SDL_DestroyTexture(tex);
 
         // Decrease monitoring variables
-        this->textureCount_--;
-        this->memoryUsage_ -= (w * h * 4);      // 4 bytes per pixel
+        if (stats) {
+            this->textureCount_--;
+            this->memoryUsage_ -= (w * h * 4);      // 4 bytes per pixel
+        }
     }
 
-    void Renderer::destroySurface(SDL_Surface * surf) {
+    void Renderer::destroySurface(SDL_Surface * surf, const bool stats) {
         // Sanity check
         if (surf == nullptr) {
             this->logMessage("Couldn't destroy surface: Null surface passed", false);
@@ -113,8 +115,10 @@ namespace Aether {
         SDL_FreeSurface(surf);
 
         // Update monitoring variables
-        this->surfaceCount_--;
-        this->memoryUsage_ -= mem;
+        if (stats) {
+            this->surfaceCount_--;
+            this->memoryUsage_ -= mem;
+        }
     }
 
     void Renderer::drawFilledRect(const Colour & col, const int x, const int y, const int width, const int height) {
@@ -245,6 +249,11 @@ namespace Aether {
         plExit();
         #endif
 
+        while (!this->clipStack.empty()) {
+            delete this->clipStack.top();
+            this->clipStack.pop();
+        }
+
         if (this->renderer != nullptr) {
             SDL_DestroyRenderer(this->renderer);
             this->renderer = nullptr;
@@ -309,11 +318,13 @@ namespace Aether {
         if (this->clipStack.size() <= 1) {
             SDL_RenderSetClipRect(this->renderer, nullptr);
             if (!this->clipStack.empty()) {
+                delete this->clipStack.top();
                 this->clipStack.pop();
             }
 
         // Otherwise set to last rectangle
         } else {
+            delete this->clipStack.top();
             this->clipStack.pop();
             SDL_Rect * r = this->clipStack.top();
             SDL_RenderSetClipRect(this->renderer, r);
@@ -370,86 +381,10 @@ namespace Aether {
         this->fontSpacing = amt;
     }
 
-    Drawable * Renderer::renderImageSurface(const std::string & path) {
-        SDL_Surface * surf = nullptr;
-        {
-            // Sanity check
-            std::scoped_lock<std::mutex> mtx(this->imgMtx);
-            if (this->renderer == nullptr || !Utils::fileExists(path)) {
-                this->logMessage(std::string("Couldn't render image to surface from file: ") + std::string(this->renderer == nullptr ? "Renderer isn't initialized" : "File doesn't exist"), true);
-                return new Drawable();
-            }
+    std::pair<int, int> Renderer::calculateTextDimensions(const std::string & str, const unsigned int size) {
+        int width = 0;
+        int height = 0;
 
-            // Read in image
-            surf = IMG_Load(path.c_str());
-            if (surf == nullptr) {
-                this->logMessage(std::string("Couldn't render image to surface: ") + std::string(IMG_GetError()), true);
-                return new Drawable();
-            }
-        }
-
-        // Convert pixel format
-        SDL_Surface * newSurf = SDL_ConvertSurfaceFormat(surf, SDL_PIXELFORMAT_RGBA32, 0);
-        SDL_FreeSurface(surf);
-        if (newSurf == nullptr) {
-            this->logMessage(std::string("Couldn't convert image surface: ") + std::string(SDL_GetError()), true);
-            return new Drawable();
-        }
-
-        // Increment monitoring variables
-        this->surfaceCount_++;
-        this->memoryUsage_ += (newSurf->pitch + newSurf->h);
-
-        return new Drawable(this, newSurf, newSurf->w, newSurf->h);
-    }
-
-    Drawable * Renderer::renderImageSurface(const std::vector<unsigned char> & data) {
-        // Sanity check
-        if (this->renderer == nullptr) {
-            this->logMessage("Couldn't render image to surface from memory: Renderer isn't initialized", true);
-            return new Drawable();
-        }
-
-        // Read in image
-        SDL_Surface * surf = nullptr;
-        {
-            std::scoped_lock<std::mutex> mtx(this->imgMtx);
-            surf = IMG_Load_RW(SDL_RWFromMem(const_cast<unsigned char *>(&data[0]), data.size()), 1);
-            if (surf == nullptr) {
-                this->logMessage(std::string("Couldn't render image to surface: ") + std::string(IMG_GetError()), true);
-                return new Drawable();
-            }
-        }
-
-        // Convert pixel format
-        SDL_Surface * newSurf = SDL_ConvertSurfaceFormat(surf, SDL_PIXELFORMAT_RGBA32, 0);
-        SDL_FreeSurface(surf);
-        if (newSurf == nullptr) {
-            this->logMessage(std::string("Couldn't convert image surface: ") + std::string(SDL_GetError()), true);
-            return new Drawable();
-        }
-
-        // Increment monitoring variables
-        this->surfaceCount_++;
-        this->memoryUsage_ += (newSurf->pitch + newSurf->h);
-
-        return new Drawable(this, newSurf, newSurf->w, newSurf->h);
-    }
-
-    Drawable * Renderer::renderTextSurface(const std::string str, const unsigned int size) {
-        // Sanity check
-        if (this->renderer == nullptr || size == 0) {
-            this->logMessage(std::string("Couldn't render text to surface: ") + std::string(size == 0 ? "Invalid size" : "Renderer isn't initialized"), true);
-            return new Drawable();
-        }
-
-        // Have a vector of surfaces for each character
-        SDL_Surface * surf;
-        std::vector<SDL_Surface *> surfs;
-
-        // Iterate over each character in string
-        unsigned int width = 0;
-        unsigned int height = 0;
         unsigned int pos = 0;
         while (pos < str.length()) {
             unsigned int posCopy = pos;
@@ -460,85 +395,39 @@ namespace Aether {
                 break;
             }
 
-            // Get a surface for the glyph and copy it to ensure it's not deleted
-            // by other threads or due to the cache being recycled
-            SDL_Surface * tmp;
+            // Get the metrics for the required character
+            GlyphMetrics metrics;
             {
                 std::scoped_lock<std::mutex> mtx(this->ttfMtx);
-                surf = this->fontCache->getGlyph(ch, size);
-                if (surf == nullptr) {
-                    // Hard abort if no character returned
-                    this->logMessage("Couldn't get surface for glyph, is a font set?", true);
-                    for (SDL_Surface * s : surfs) {
-                        SDL_FreeSurface(s);
-                    }
-                    return new Drawable();
+                metrics = this->fontCache->getMetrics(ch, size);
+                if (metrics.character() == 0) {
+                    this->logMessage("Couldn't get metrics for glyph, is a font set?", true);
+                    return std::pair<int, int>(0, 0);
                 }
-
-                tmp = SDL_CreateRGBSurfaceWithFormat(0, surf->w, surf->h, 32, SDL_PIXELFORMAT_RGBA32);
-                if (tmp == nullptr) {
-                    // Hard abort if an error occurs
-                    this->logMessage(std::string("Couldn't create duplicate surface for glyph, aborting: ") + std::string(SDL_GetError()), true);
-                    for (SDL_Surface * s : surfs) {
-                        SDL_FreeSurface(s);
-                    }
-                    return new Drawable();
-                }
-
-                // Otherwise blit (duplicate)
-                SDL_BlitSurface(surf, nullptr, tmp, nullptr);
             }
 
-            // Update dimensions of overall string
-            width += tmp->w;
-            height = (tmp->h > height ? tmp->h : height);
-            surfs.push_back(tmp);
-        }
-
-        // Create larger, final surface for entire string
-        unsigned int x = 0;
-        surf = SDL_CreateRGBSurfaceWithFormat(0, width, height, 32, SDL_PIXELFORMAT_RGBA32);
-        if (surf == nullptr) {
-            this->logMessage(std::string("Couldn't create surface for entire string: ") + std::string(SDL_GetError()), true);
-            for (SDL_Surface * s : surfs) {
-                SDL_FreeSurface(s);
+            // Update current measurements
+            if (metrics.height() > height) {
+                height = metrics.height();
             }
-            return new Drawable();
+            width += metrics.width();
         }
 
-        // Copy each individual character one by one
-        SDL_FillRect(surf, NULL, SDL_MapRGBA(surf->format, 255, 255, 255, 0));
-        for (size_t j = 0; j < surfs.size(); j++) {
-            SDL_Rect r = SDL_Rect{x, 0, surfs[j]->w, surfs[j]->h};
-            SDL_BlitSurface(surfs[j], NULL, surf, &r);
-            x += surfs[j]->w;
-            SDL_FreeSurface(surfs[j]);
-        }
-
-        // Increment monitoring variables
-        this->surfaceCount_++;
-        this->memoryUsage_ += (surf->pitch * surf->h);
-
-        return new Drawable(this, surf, surf->w, surf->h);
+        return std::pair<int, int>(width, height);
     }
 
-    Drawable * Renderer::renderWrappedTextSurface(const std::string str, const unsigned int size, const unsigned int width) {
-        // Sanity check
-        if (this->renderer == nullptr || size == 0 || width == 0) {
-            this->logMessage(std::string("Couldn't render wrapped text: ") + std::string(this->renderer == nullptr ? "Renderer isn't initialized" : "Invalid values"), true);
-            return new Drawable();
-        }
-
-        std::vector<std::string> lines;         // Vector of characters forming one
-        unsigned int maxLineH = 0;              // Maximum height of one line (all lines will use this height)
+    std::tuple<std::vector<std::string>, int, int> Renderer::calculateWrappedTextDimensions(const std::string & str, const unsigned int size, const unsigned int width) {
+        std::vector<std::string> lines;         // Vector of lines, where each line fits within the width
+        unsigned int maxLineWidth = 0;          // Maximum width of one line
+        unsigned int maxLineHeight = 0;         // Maximum height of one line (all lines will use this height)
+        std::string word;                       // Characters forming current word
         unsigned int wordWidth = 0;             // Width of current word
-        std::string word;                       // Characters forming word
 
         // Iterate over all characters in string
         unsigned int pos = 0;
         while (pos < str.length()) {
             int charSize = 0;                   // Number of chars forming unicode character
-            unsigned int lastCharW = 0;         // Width of last character
+            unsigned int lastCharWidth = 0;     // Width of last character
             std::string line;                   // Characters forming a line
             unsigned int lineHeight = 0;        // Height of current line
             unsigned int lineWidth = 0;         // Width of line so far
@@ -591,11 +480,11 @@ namespace Aether {
                 // Hard abort if we couldn't get the metrics
                 if (metrics.character() == 0) {
                     this->logMessage("Couldn't get metrics for character", true);
-                    return new Drawable();
+                    return std::make_tuple(std::vector<std::string>(), 0, 0);
                 }
 
                 // Update variables regarding positioning
-                lastCharW = metrics.width();
+                lastCharWidth = metrics.width();
                 wordWidth += metrics.width();
                 lineHeight = (metrics.height() > lineHeight ? metrics.height() : lineHeight);
                 word += str.substr(oldPos, charSize);
@@ -613,25 +502,164 @@ namespace Aether {
             if (line.length() == 0 && word.length() > 0) {
                 line += word.substr(0, word.length() - charSize);
                 lineWidth += wordWidth;
-                lineWidth -= lastCharW;
+                lineWidth -= lastCharWidth;
                 word = word.substr(word.length() - charSize, charSize);
-                wordWidth = lastCharW;
+                wordWidth = lastCharWidth;
             }
 
             // Update height and add line
-            maxLineH = (lineHeight > maxLineH ? lineHeight : maxLineH);
+            maxLineHeight = (lineHeight > maxLineHeight ? lineHeight : maxLineHeight);
+            maxLineWidth = (lineWidth > maxLineWidth ? lineWidth: maxLineWidth);
             lines.push_back(line);
             line = "";
         }
 
-        // Now that we have dimensions, etc... create the final surface
-        SDL_Surface * surf = SDL_CreateRGBSurfaceWithFormat(0, width, lines.size() * (maxLineH * fontSpacing), 32, SDL_PIXELFORMAT_RGBA32);
+        // Form tuple and return
+        return std::make_tuple(lines, maxLineWidth, lines.size() * (maxLineHeight * this->fontSpacing));
+    }
+
+    Drawable * Renderer::renderImageSurface(const std::string & path) {
+        SDL_Surface * surf = nullptr;
+        {
+            // Sanity check
+            std::scoped_lock<std::mutex> mtx(this->imgMtx);
+            if (this->renderer == nullptr || !Utils::fileExists(path)) {
+                this->logMessage(std::string("Couldn't render image to surface from file: ") + std::string(this->renderer == nullptr ? "Renderer isn't initialized" : "File doesn't exist"), true);
+                return new Drawable();
+            }
+
+            // Read in image
+            surf = IMG_Load(path.c_str());
+            if (surf == nullptr) {
+                this->logMessage(std::string("Couldn't render image to surface: ") + std::string(IMG_GetError()), true);
+                return new Drawable();
+            }
+        }
+
+        // Convert pixel format
+        SDL_Surface * newSurf = SDL_ConvertSurfaceFormat(surf, SDL_PIXELFORMAT_RGBA32, 0);
+        this->destroySurface(surf, false);
+        if (newSurf == nullptr) {
+            this->logMessage(std::string("Couldn't convert image surface: ") + std::string(SDL_GetError()), true);
+            return new Drawable();
+        }
+
+        // Increment monitoring variables
+        this->surfaceCount_++;
+        this->memoryUsage_ += (newSurf->pitch * newSurf->h);
+
+        return new Drawable(this, newSurf, newSurf->w, newSurf->h);
+    }
+
+    Drawable * Renderer::renderImageSurface(const std::vector<unsigned char> & data) {
+        // Sanity check
+        if (this->renderer == nullptr) {
+            this->logMessage("Couldn't render image to surface from memory: Renderer isn't initialized", true);
+            return new Drawable();
+        }
+
+        // Read in image
+        SDL_Surface * surf = nullptr;
+        {
+            std::scoped_lock<std::mutex> mtx(this->imgMtx);
+            surf = IMG_Load_RW(SDL_RWFromMem(const_cast<unsigned char *>(&data[0]), data.size()), 1);
+            if (surf == nullptr) {
+                this->logMessage(std::string("Couldn't render image to surface: ") + std::string(IMG_GetError()), true);
+                return new Drawable();
+            }
+        }
+
+        // Convert pixel format
+        SDL_Surface * newSurf = SDL_ConvertSurfaceFormat(surf, SDL_PIXELFORMAT_RGBA32, 0);
+        this->destroySurface(surf, false);
+        if (newSurf == nullptr) {
+            this->logMessage(std::string("Couldn't convert image surface: ") + std::string(SDL_GetError()), true);
+            return new Drawable();
+        }
+
+        // Increment monitoring variables
+        this->surfaceCount_++;
+        this->memoryUsage_ += (newSurf->pitch + newSurf->h);
+
+        return new Drawable(this, newSurf, newSurf->w, newSurf->h);
+    }
+
+    Drawable * Renderer::renderTextSurface(const std::string str, const unsigned int size) {
+        // Sanity check
+        if (this->renderer == nullptr || size == 0) {
+            this->logMessage(std::string("Couldn't render text to surface: ") + std::string(size == 0 ? "Invalid size" : "Renderer isn't initialized"), true);
+            return new Drawable();
+        }
+
+        // Get the overall required surface size and create
+        std::pair<int, int> dim = this->calculateTextDimensions(str, size);
+        if (dim.first == 0 || dim.second == 0) {
+            this->logMessage("Couldn't render text to surface: Invalid metrics returned", true);
+            return new Drawable();
+        }
+
+        // Iterate over each character in string and blit glyph
+        SDL_Surface * surf = SDL_CreateRGBSurfaceWithFormat(0, dim.first, dim.second, 32, SDL_PIXELFORMAT_RGBA32);
+        SDL_FillRect(surf, NULL, SDL_MapRGBA(surf->format, 255, 255, 255, 0));
+        unsigned int pos = 0;
+        unsigned int x = 0;
+
+        while (pos < str.length()) {
+            unsigned int posCopy = pos;
+            uint16_t ch = Utils::getUTF8Char(str, pos);
+
+            // Break if pos isn't changed (meaning no character could be extracted)
+            if (pos == posCopy) {
+                break;
+            }
+
+            // Get a surface for the glyph and blit
+            {
+                std::scoped_lock<std::mutex> mtx(this->ttfMtx);
+                SDL_Surface * tmp = this->fontCache->getGlyph(ch, size);
+                if (tmp == nullptr) {
+                    // Hard abort if no character returned
+                    this->logMessage("Couldn't get surface for glyph, is a font set?", true);
+                    this->destroySurface(surf, false);
+                    return new Drawable();
+                }
+
+                SDL_Rect r = SDL_Rect{x, 0, tmp->w, tmp->h};
+                SDL_BlitSurface(tmp, NULL, surf, &r);
+                x += tmp->w;
+            }
+        }
+
+        // Increment monitoring variables
+        this->surfaceCount_++;
+        this->memoryUsage_ += (surf->pitch * surf->h);
+
+        return new Drawable(this, surf, surf->w, surf->h);
+    }
+
+    Drawable * Renderer::renderWrappedTextSurface(const std::string str, const unsigned int size, const unsigned int width) {
+        // Sanity check
+        if (this->renderer == nullptr || size == 0 || width == 0) {
+            this->logMessage(std::string("Couldn't render wrapped text: ") + std::string(this->renderer == nullptr ? "Renderer isn't initialized" : "Invalid values"), true);
+            return new Drawable();
+        }
+
+        // Calculate required lines + dimensions
+        std::tuple<std::vector<std::string>, int, int> dims = this->calculateWrappedTextDimensions(str, size, width);
+        if (std::get<0>(dims).empty()) {
+            this->logMessage("Couldn't render wrapped text: invalid metrics", true);
+            return new Drawable();
+        }
+
+        // Create the surface
+        SDL_Surface * surf = SDL_CreateRGBSurfaceWithFormat(0, std::get<1>(dims), std::get<2>(dims), 32, SDL_PIXELFORMAT_RGBA32);
         if (surf == nullptr) {
             this->logMessage(std::string("Couldn't create surface for entire wrapped string: ") + std::string(SDL_GetError()), true);
             return new Drawable();
         }
 
         // Render each glyph onto the surface
+        std::vector<std::string> & lines = std::get<0>(dims);
         SDL_FillRect(surf, NULL, SDL_MapRGBA(surf->format, 255, 255, 255, 0));
         for (size_t i = 0; i < lines.size(); i++) {
             int x = 0;
@@ -649,11 +677,11 @@ namespace Aether {
                 SDL_Surface * glyph = this->fontCache->getGlyph(ch, size);
                 if (glyph == nullptr) {
                     this->logMessage("Couldn't get surface for glyph, is a font set?", true);
-                    SDL_FreeSurface(surf);
+                    this->destroySurface(surf, false);
                     return new Drawable();
                 }
 
-                SDL_Rect r = SDL_Rect{x, i * (maxLineH * fontSpacing), glyph->w, glyph->h};
+                SDL_Rect r = SDL_Rect{x, i * (std::get<2>(dims)/lines.size()), glyph->w, glyph->h};
                 x += glyph->w;
                 SDL_BlitSurface(glyph, NULL, surf, &r);
             }

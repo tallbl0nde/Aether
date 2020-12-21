@@ -16,6 +16,7 @@ namespace Aether {
         }
 
         this->string_ = str;
+        this->destroy();
         this->renderSync();
     }
 
@@ -29,6 +30,7 @@ namespace Aether {
         }
 
         this->fontSize_ = size;
+        this->destroy();
         this->renderSync();
     }
 };

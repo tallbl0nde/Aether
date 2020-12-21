@@ -17,6 +17,7 @@ namespace Aether {
 
     void Ellipse::setXDiameter(const unsigned int xd) {
         this->xDiameter_ = xd;
+        this->destroy();
         this->renderSync();
     }
 
@@ -26,6 +27,7 @@ namespace Aether {
 
     void Ellipse::setYDiameter(const unsigned int yd) {
         this->yDiameter_ = yd;
+        this->destroy();
         this->renderSync();
     }
 

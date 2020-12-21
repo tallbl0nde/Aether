@@ -43,7 +43,7 @@ namespace Aether {
             unsigned int windowHeight_;                      /** @brief Height of window */
 
             LogHandler logHandler;                           /** @brief Handler for log messages */
-            std::atomic<unsigned int> memoryUsage_;          /** @brief Number of bytes used by surfaces/textures */
+            std::atomic<unsigned long> memoryUsage_;         /** @brief Number of bytes used by surfaces/textures */
             std::atomic<unsigned int> surfaceCount_;         /** @brief Number of created surfaces */
             std::atomic<unsigned int> textureCount_;         /** @brief Number of created textures */
 
@@ -86,15 +86,17 @@ namespace Aether {
              * @brief Destroy the given texture. Does nothing if passed nullptr.
              *
              * @param tex Texture to destroy
+             * @param stats Whether to decrement usage stats
              */
-            void destroyTexture(SDL_Texture * tex);
+            void destroyTexture(SDL_Texture * tex, const bool stats);
 
             /**
              * @brief Destroy the given surface. Does nothing if passed nullptr.
              *
              * @param surf Surface to destroy
+             * @param stats Whether to decrement usage stats
              */
-            void destroySurface(SDL_Surface * surf);
+            void destroySurface(SDL_Surface * surf, const bool stats);
 
             /**
              * @brief Draw a filled rectangle to the framebuffer with the given position + dimensions.
@@ -247,6 +249,29 @@ namespace Aether {
              * @param amt Amount of spacing for each line of wrapped text
              */
             void setFontSpacing(const double amt);
+
+            /**
+             * @brief Return the dimensions of the given string if rendered using
+             * the current font and given font size.
+             *
+             * @param str String to measure
+             * @param size Font size to measure with
+             * @return Pair of dimensions, with the first value being
+             * the width and second being the height.
+             */
+            std::pair<int, int> calculateTextDimensions(const std::string & str, const unsigned int size);
+
+            /**
+             * @brief Return the dimensions of the given string if rendered using
+             * the current font and given font size, as a text block.
+             *
+             * @param str String to measure
+             * @param size Font size to measure with
+             * @param width Maximum width of one line
+             * @return Tuple of lines of characters, and dimensions, with the first dimension being
+             * the width and second being the height.
+             */
+            std::tuple<std::vector<std::string>, int, int> calculateWrappedTextDimensions(const std::string & str, const unsigned int size, const unsigned int width);
 
             /**
              * @brief Render the image at the specified path as a surface

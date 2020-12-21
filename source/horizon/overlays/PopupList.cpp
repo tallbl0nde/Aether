@@ -44,7 +44,10 @@ namespace Aether {
         // Create and add element to list
         ListButton * b = new ListButton(s, [f, this](){
             // Call callback
-            f();
+            if (f != nullptr) {
+                f();
+            }
+
             // Close
             this->close();
         });
