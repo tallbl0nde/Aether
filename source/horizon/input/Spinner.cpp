@@ -138,7 +138,7 @@ namespace Aether {
         return b;
     }
 
-    void Spinner::update(uint32_t dt) {
+    void Spinner::update(unsigned int dt) {
         Container::update(dt);
 
         // Set colours

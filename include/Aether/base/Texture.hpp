@@ -11,6 +11,7 @@ namespace Aether {
     enum class Render {
         Sync,           /**< Render texture synchronously (i.e. as soon as created) */
         Async,          /**< Render texture asynchronously on another thread */
+        Wait,           /**< Don't automatically render the texture */
     };
 
     /**
@@ -34,6 +35,7 @@ namespace Aether {
             };
 
             int asyncID;                            /** @brief ID of async task */
+            std::function<void()> callback;         /** @brief Callback to invoke when rendering is complete */
             std::atomic<AsyncStatus> status;        /** @brief Current status of texture */
 
             Colour colour_;                         /** @brief Colour to tint texture with */
@@ -59,6 +61,15 @@ namespace Aether {
              * @param y Top-left y coordinate
              */
             Texture(const int x = 0, const int y = 0);
+
+            /**
+             * @brief Set a callback to be invoked when rendering is complete. An example
+             * use for this is to resize/position based on the texture's size. Pass nullptr
+             * to remove.
+             *
+             * @param func Callback function
+             */
+            void setRenderCallback(const std::function<void()> func);
 
             /**
              * @brief Returns the texture's tint colour.

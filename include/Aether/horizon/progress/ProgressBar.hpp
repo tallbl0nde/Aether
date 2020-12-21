@@ -26,7 +26,7 @@ namespace Aether {
         public:
             /**
              * @brief Construct a new Progress Bar object
-             * 
+             *
              * @param x x-coordinate of start position offset
              * @param y y-coordinate of start position offset
              * @param w wdith of progress bar
@@ -37,7 +37,7 @@ namespace Aether {
              * @brief Set the value of the progress bar.
              * When value is changed, the mask of the
              * rectangle will also be changed.
-             * 
+             *
              * @param f New progress bar value
              */
             void setValue(float f);
@@ -45,7 +45,7 @@ namespace Aether {
             /**
              * @brief Set new width for the progress bar
              * Textures will be redrawn when dimensions are changed.
-             * 
+             *
              * @param w new width of progress bar
              */
             void setW(int w);
@@ -53,21 +53,21 @@ namespace Aether {
             /**
              * @brief Set new height for the progress bar
              * Textures will be redrawn when dimensions are changed.
-             * 
+             *
              * @param h new height of progress bar
              */
             void setH(int h);
 
             /**
              * @brief Get the colour of the progress bar
-             * 
+             *
              * @return progress bar colour
              */
-            Colour getColour();
+            Colour colour();
 
             /**
              * @brief Set the colour of the progress bar
-             * 
+             *
              * @param c new progress bar colour
              */
             void setColour(Colour c);

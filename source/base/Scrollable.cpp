@@ -505,7 +505,7 @@ namespace Aether {
         return false;
     }
 
-    void Scrollable::update(uint32_t dt) {
+    void Scrollable::update(unsigned int dt) {
         // Update all children first
         Container::update(dt);
 

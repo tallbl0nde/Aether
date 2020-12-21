@@ -8,7 +8,7 @@ namespace Aether {
      * @brief An animation is an element containing a list of textures which
      * are changed through to create the animation. Frames are managed by using
      * *Element calls.
-     * 
+     *
      * @note Removing an element will delete it!
      * @note Resizing this element does not resize the frames - it is up to you!
      */
@@ -26,7 +26,7 @@ namespace Aether {
         public:
             /**
              * @brief Construct a new Animation object
-             * 
+             *
              * @param x x-coordinate of start position offset
              * @param y y-coordinate of start position offset
              * @param w width of animation
@@ -36,10 +36,10 @@ namespace Aether {
 
             /**
              * @brief Updates handles switching between frames
-             * 
+             *
              * @param dt change in time
              */
-            void update(uint32_t dt);
+            void update(unsigned int dt);
 
             /**
              * @brief All children aren't rendered - only the current one
@@ -58,7 +58,7 @@ namespace Aether {
 
             /**
              * @brief Check if animation is paused
-             * 
+             *
              * @return true if animation is paused
              * @return false otherwise
              */
@@ -66,21 +66,21 @@ namespace Aether {
 
             /**
              * @brief Set time for each frame
-             * 
+             *
              * @param t time for each frame
              */
             void setAnimateSpeed(int t);
 
             /**
              * @brief Returns animation time
-             * 
+             *
              * @return animation time
              */
             unsigned int animateSpeed();
 
             /**
              * @brief Set current frame to element at given index
-             * 
+             *
              * @param i element index
              * @return true if within range
              * @return false otherwise
@@ -89,7 +89,7 @@ namespace Aether {
 
             /**
              * @brief Set current frame to given element
-             * 
+             *
              * @param e element to set to
              * @return true if element is not a part of the animation
              * @return false otherwise

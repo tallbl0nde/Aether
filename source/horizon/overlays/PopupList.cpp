@@ -58,7 +58,7 @@ namespace Aether {
             Tick * tick = new Tick(b->x() + b->w() - 16, b->y() + b->h()/2, 26);
             tick->setXY(tick->x() - tick->w(), tick->y() - tick->h()/2);
             tick->setCircleColour(this->hiColour);
-            tick->setTickColour(this->rect->getColour());
+            tick->setTickColour(this->rect->colour());
             b->addElement(tick);
         }
 
@@ -110,7 +110,7 @@ namespace Aether {
     }
 
     Colour PopupList::getBackgroundColour() {
-        return this->rect->getColour();
+        return this->rect->colour();
     }
 
     void PopupList::setBackgroundColour(Colour c) {
@@ -131,7 +131,7 @@ namespace Aether {
     }
 
     Colour PopupList::getLineColour() {
-        return this->top->getColour();
+        return this->top->colour();
     }
 
     void PopupList::setLineColour(Colour c) {

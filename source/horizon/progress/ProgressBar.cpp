@@ -18,8 +18,8 @@ namespace Aether {
         BaseProgress::setValue(f);
 
         if (old != this->value()) {
-            this->progressTex->setW(this->progressTex->texW() * (this->value()/100.0));
-            this->progressTex->setMask(0, 0, this->progressTex->texW() * (this->value()/100.0), this->progressTex->texH());
+            this->progressTex->setW(this->progressTex->textureWidth() * (this->value()/100.0));
+            this->progressTex->setMask(0, 0, this->progressTex->textureWidth() * (this->value()/100.0), this->progressTex->textureHeight());
         }
     }
 
@@ -33,8 +33,8 @@ namespace Aether {
         this->redrawBar();
     }
 
-    Colour ProgressBar::getColour() {
-        return this->boxTex->getColour();
+    Colour ProgressBar::colour() {
+        return this->boxTex->colour();
     }
 
     void ProgressBar::setColour(Colour c) {

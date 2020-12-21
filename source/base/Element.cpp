@@ -302,7 +302,7 @@ namespace Aether {
         return false;
     }
 
-    void Element::update(uint32_t dt) {
+    void Element::update(unsigned int dt) {
         // Do nothing if hidden or off-screen
         if (!this->isVisible()) {
             return;

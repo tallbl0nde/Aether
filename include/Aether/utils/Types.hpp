@@ -51,14 +51,6 @@ namespace Aether {
     };
 
     /**
-     * @brief Enum class for type of texture generation
-     */
-    enum class RenderType {
-        OnCreate,               /**< Render on construction of texture element (all regenerations due to value changes will be done immediately and on the main thread */
-        Deferred                /**< Do not render until explicitly started on another thread (value changes will not cause a regeneration - you must explicitly start it!) */
-    };
-
-    /**
      * @brief Struct for UI Theme
      */
     typedef struct {

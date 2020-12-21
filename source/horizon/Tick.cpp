@@ -21,7 +21,7 @@ namespace Aether {
     }
 
     Colour Tick::getCircleColour() {
-        return this->circle->getColour();
+        return this->circle->colour();
     }
 
     void Tick::setCircleColour(Colour c) {
@@ -29,7 +29,7 @@ namespace Aether {
     }
 
     Colour Tick::getTickColour() {
-        return this->tick->getColour();
+        return this->tick->colour();
     }
 
     void Tick::setTickColour(Colour c) {

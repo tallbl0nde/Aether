@@ -17,7 +17,7 @@ namespace Aether {
     }
 
     Colour ListComment::getTextColour() {
-        return this->text->getColour();
+        return this->text->colour();
     }
 
     void ListComment::setTextColour(Colour c) {

@@ -8,7 +8,7 @@ namespace Aether {
         this->paused = false;
     }
 
-    void Animation::update(uint32_t dt) {
+    void Animation::update(unsigned int dt) {
         // Update children
         Element::update(dt);
 

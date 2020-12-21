@@ -5,72 +5,71 @@
 
 namespace Aether {
     /**
-     * @brief An ellipse is a texture containing an ellipse.
-     * It can be used as both a circle and ellipse/oval.
-     * @note This element can not have the texture generation deferred yet!
+     * @brief Element for rendering an ellipse.
+     * @note This element can not be drawn asynchronously!
      */
     class Ellipse : public Texture {
         private:
-            /** @brief Horizontal diameter */
-            unsigned int xDiameter_;
-            /** @brief Vertical diameter */
-            unsigned int yDiameter_;
+            unsigned int xDiameter_;        /** @brief Horizontal diameter */
+            unsigned int yDiameter_;        /** @brief Vertical diameter */
 
-            /** @brief Generate an ellipse surface */
-            void generateSurface();
+            /**
+             * @brief Overrides Texture's method to render an ellipse.
+             */
+            Drawable * renderDrawable();
 
         public:
             /**
-             * @brief Construct a new Ellipse object.
-             * Shape will be circle if y-diameter is not specified
+             * @brief Constructs a new Ellipse element. Creates a circle if
+             * the vertical diameter is not specified.
              *
-             * @param x x-coordinate of start position offset
-             * @param y y-coordinate of start position offset
-             * @param xd x-diameter
-             * @param yd y-diameter
+             * @param x Top-left x coordinate
+             * @param y Top-left y coordinate
+             * @param xd Horizontal diameter in pixels
+             * @param yd Vertical diameter in pixels (optional)
              */
-            Ellipse(int x, int y, unsigned int xd, unsigned int yd = 0);
+            Ellipse(const int x, const int y, const unsigned int xd, const unsigned int yd = 0);
 
             /**
-             * @brief Get ellipse's x-diameter
+             * @brief Returns the ellipse's horizontal diameter
              *
-             * @return ellipse's x-diameter
+             * @return Horizontal diameter in pixels
              */
             unsigned int xDiameter();
 
             /**
-             * @brief Set ellipse's x-diameter
+             * @brief Set a new horizontal diameter
              *
-             * @param xd ellipse's new x-diameter
+             * @param xd New diameter in pixels
              */
-            void setXDiameter(unsigned int xd);
+            void setXDiameter(const unsigned int xd);
 
             /**
-             * @brief Get ellipse's y-diameter
+             * @brief Returns the ellipse's vertical diameter
              *
-             * @return ellipse's y-diameter
+             * @return Vertical diameter in pixels
              */
             unsigned int yDiameter();
 
             /**
-             * @brief Set ellipse's y-diameter
+             * @brief Set a new vertical diameter
              *
-             * @param yd ellipse's y-diameter
+             * @param yd New diameter in pixels
              */
-            void setYDiameter(unsigned int yd);
+            void setYDiameter(const unsigned int yd);
 
             /**
-             * @brief Render highlight background (elliptical)
+             * @brief Render matching elliptical highlight background
              */
             Drawable * renderHighlightBG();
 
             /**
-             * @brief Render highlight border (elliptical)
+             * @brief Render matching elliptical highlight border
              */
             Drawable * renderHighlight();
 
             /**
-             * @brief Render selection layer (elliptical)
+             * @brief Render matching elliptical selection layer
              */
             Drawable * renderSelection();
     };

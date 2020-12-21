@@ -25,10 +25,10 @@ namespace Aether {
 
     void ListOption::positionElements() {
         this->hint_->setX(this->x() + TEXT_PADDING);
-        this->hint_->setY(this->y() + (this->h() - this->hint_->texH())/2);
+        this->hint_->setY(this->y() + (this->h() - this->hint_->textureHeight())/2);
 
         this->value_->setX(this->x() + this->w() - TEXT_PADDING - this->value_->w());
-        this->value_->setY(this->y() + (this->h() - this->value_->texH())/2);
+        this->value_->setY(this->y() + (this->h() - this->value_->textureHeight())/2);
 
         this->topR->setW(this->w());
         this->bottomR->setY(this->y() + this->h());
@@ -36,7 +36,7 @@ namespace Aether {
     }
 
     Colour ListOption::getLineColour() {
-        return this->topR->getColour();
+        return this->topR->colour();
     }
 
     void ListOption::setLineColour(Colour c) {
@@ -45,7 +45,7 @@ namespace Aether {
     }
 
     Colour ListOption::getHintColour() {
-        return this->hint_->getColour();
+        return this->hint_->colour();
     }
 
     void ListOption::setHintColour(Colour c) {
@@ -53,7 +53,7 @@ namespace Aether {
     }
 
     Colour ListOption::getValueColour() {
-        return this->value_->getColour();
+        return this->value_->colour();
     }
 
     void ListOption::setValueColour(Colour c) {
@@ -86,9 +86,9 @@ namespace Aether {
 
     void ListOption::setFontSize(unsigned int s) {
         this->hint_->setFontSize(s);
-        this->hint_->setY(this->y() + (this->h() - this->hint_->texH())/2);
+        this->hint_->setY(this->y() + (this->h() - this->hint_->textureHeight())/2);
         this->value_->setFontSize(s);
-        this->value_->setY(this->y() + (this->h() - this->value_->texH())/2);
+        this->value_->setY(this->y() + (this->h() - this->value_->textureHeight())/2);
     }
 
     unsigned int ListOption::fontSize() {

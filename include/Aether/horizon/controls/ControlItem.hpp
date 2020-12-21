@@ -15,7 +15,7 @@ namespace Aether {
             /** @brief Texture for hint */
             Text * hint;
             /** @brief Colour for text */
-            Colour colour;
+            Colour colour_;
 
             // These functions can't be called
             using Element::addElement;
@@ -26,7 +26,7 @@ namespace Aether {
         public:
             /**
              * @brief Construct a new Control Item object
-             * 
+             *
              * @param k button associated with Control Item
              * @param s text hint
              */
@@ -34,27 +34,17 @@ namespace Aether {
 
             /**
              * @brief Get the text colour
-             * 
+             *
              * @return text colour
              */
-            Colour getColour();
+            Colour colour();
 
             /**
              * @brief Set the text colour
-             * 
+             *
              * @param c new text colour
              */
             void setColour(Colour c);
-
-            /**
-             * @brief Set the text colour
-             * 
-             * @param r red value of text colour
-             * @param g green value of text colour
-             * @param b blue value of text colour
-             * @param a alpha value of text colour
-             */
-            void setColour(uint8_t r, uint8_t g, uint8_t b, uint8_t a);
     };
 };
 

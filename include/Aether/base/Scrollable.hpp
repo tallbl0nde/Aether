@@ -221,7 +221,7 @@ namespace Aether {
             void returnAllElements();
 
             bool handleEvent(InputEvent * e);
-            void update(uint32_t dt);
+            void update(unsigned int dt);
             void render();
 
             /**

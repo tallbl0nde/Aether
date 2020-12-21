@@ -48,17 +48,13 @@ namespace Aether {
         this->setSelectable(false);
     }
 
-    Colour ControlItem::getColour() {
-        return this->colour;
+    Colour ControlItem::colour() {
+        return this->colour_;
     }
 
     void ControlItem::setColour(Colour c) {
-        this->colour = c;
+        this->colour_ = c;
         this->icon->setColour(c);
         this->hint->setColour(c);
-    }
-
-    void ControlItem::setColour(uint8_t r, uint8_t g, uint8_t b, uint8_t a) {
-        this->setColour(Colour{r, g, b, a});
     }
 };

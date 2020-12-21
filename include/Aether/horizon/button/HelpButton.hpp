@@ -29,7 +29,7 @@ namespace Aether {
              *
              * @return colour
              */
-            Colour getColour();
+            Colour colour();
 
             /**
              * @brief Set the colour of the question mark

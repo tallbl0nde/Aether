@@ -24,7 +24,7 @@ namespace Aether {
     }
 
     Colour ListButton::getLineColour() {
-        return this->topR->getColour();
+        return this->topR->colour();
     }
 
     void ListButton::setLineColour(Colour c) {
@@ -33,7 +33,7 @@ namespace Aether {
     }
 
     Colour ListButton::getTextColour() {
-        return this->text_->getColour();
+        return this->text_->colour();
     }
 
     void ListButton::setTextColour(Colour c) {

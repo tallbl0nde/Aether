@@ -3,113 +3,107 @@
 
 #include "Aether/base/BaseText.hpp"
 
+// Forward declare the timer class
+namespace Aether {
+    class Timer;
+};
+
 namespace Aether {
     /**
-     * @brief Text extends BaseText by implementing scrolling when the text overflows.
-     *
-     * It's for single-line text.
+     * @brief Element for rendering a single line of text. It can optionally scroll when overflowing.
      */
     class Text : public BaseText {
         private:
-            /** @brief Indicator on whether the text is scrollable */
-            bool scroll_;
-            /** @brief Texture x-offset used for scrolling */
-            float scrollPosition;
-            /** @brief Pixels to scroll per second */
-            int scrollSpeed_;
-            /** @brief Time since scroll finished (in ms) (used internally) */
-            int scrollPauseTime;
-            /** @brief Time to wait after scrolling to the end (in ms) */
-            unsigned int scrollWaitTime_;
+            /**
+             * @brief Collection of scrolling related variables.
+             */
+            struct ScrollVars {
+                bool allowed;           /** @brief Can the text scroll if it's overflowing? */
+                float position;         /** @brief Drawable x coordinate offset */
+                int speed;              /** @brief Pixels to scroll per second */
+                Timer * timer;          /** @brief Timer to track how long we've 'paused' for */
+                int waitInterval;       /** @brief How long to wait once we reach the end */
+            } scroll;
 
-            /** @brief Generate a text surface */
-            void generateSurface();
+            /**
+             * @brief Override in order to render a line of text.
+             */
+            Drawable * renderDrawable();
 
         public:
             /**
-             * @brief Construct a new Text object
+             * @brief Constructs a new Text element.
              *
-             * @param x x-coordinate of start position offset
-             * @param y y-coordinate of start position offset
-             * @param s text string
-             * @param f font size
-             * @param t \ref ::RenderType to use for texture generation
+             * @param x Top-left x coordinate
+             * @param y Top-left y coordinate
+             * @param str String to render
+             * @param size Font size to render with
+             * @param type Type of rendering to perform
              */
-            Text(int x, int y, std::string s, unsigned int f, RenderType t = RenderType::OnCreate);
+            Text(const int x, const int y, const std::string & str, const unsigned int size, const Render type = Render::Sync);
 
             /**
-             * @brief Indicator on whether the text is scrollable
+             * @brief Returns whether the text is allowed to scroll when needed.
              *
-             * @return true if it is scrollable
-             * @return false otherwise
+             * @return If the text can scroll.
              */
-            bool scroll();
+            bool canScroll();
 
             /**
-             * @brief Set whether the text is scrollable
+             * @brief Set whether the text will scroll when overflowing.
              *
-             * @param s true if text is scrollable, false otherwise
+             * @param scroll Whether the text can scroll
              */
-            void setScroll(bool s);
+            void setCanScroll(const bool scroll);
 
             /**
-             * @brief Get the time to pause after scrolling to the end
+             * @brief Set how long the text should 'pause' for when it finishes scrolling.
              *
-             * @return time to pause (in ms) after finished scrolling
+             * @param ms Time to pause (in ms)
              */
-            int scrollWaitTime();
+            void setScrollPause(const unsigned int ms);
 
             /**
-             * @brief Set the time to pause after scrolling to the end
+             * @brief Set the scroll speed of the text.
              *
-             * @param t time to pause (in ms)
+             * @param pps Pixels to scroll in one second.
              */
-            void setScrollWaitTime(unsigned int t);
+            void setScrollSpeed(const int pps);
 
             /**
-             * @brief Get the scroll speed for text
+             * @brief Set a new string. Will cause an immediate redraw.
              *
-             * @return scroll speed for text
+             * @param str New string to render
              */
-            int scrollSpeed();
-            /**
-             * @brief Set the scroll speed for text
-             *
-             * @param s new scroll speed for text
-             */
-            void setScrollSpeed(int s);
+            void setString(const std::string & str);
 
             /**
-             * @brief Set the font size for the text
+             * @brief Set the render font size for text
              *
-             * @param f new font size
+             * @param size Render font size (in pixels)
              */
-            void setFontSize(unsigned int f);
+            void setFontSize(const unsigned int size);
 
             /**
-             * @brief Set text
+             * @brief Called internally. Overrides Element's update in order to scroll
+             * the text if needed.
              *
-             * @param s new text to set
+             * @param dt Delta time since last frame in ms
              */
-            void setString(std::string s);
+            void update(unsigned int dt);
 
             /**
-             * @brief Updates the text.
+             * @brief Adjust the overall element's width. This will cause the text to
+             * clip if it doesn't fit and scrolling isn't enabled.
              *
-             * Update handles animating the scroll if necessary.
-             *
-             * @param dt change in time
+             * @param w New width
              */
-            void update(uint32_t dt);
+            void setW(const int w);
 
             /**
-             * @brief Adjusts the text width.
-             *
-             * Adjusting width may need to adjust amount of text shown.
-             *
-             * @param w new width
+             * @brief Destroys the Text element.
              */
-            void setW(int w);
+            ~Text();
     };
 };
 

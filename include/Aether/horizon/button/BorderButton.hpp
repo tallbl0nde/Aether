@@ -7,15 +7,13 @@
 
 namespace Aether {
     /**
-     * @brief A BorderButton is exactly that. The text/box are
-     * resized/repositioned to be centered on any resizes.
+     * @brief The BorderButton element looks similar to the unfilled
+     * buttons seen within Horizon.
      */
     class BorderButton : public Element {
         private:
-            /** @brief The box associated with the button */
-            Box * box;
-            /** @brief The text in the button */
-            Text * text;
+            Box * box;          /** @brief The box associated with the button */
+            Text * text;        /** @brief The text in the button */
 
         public:
             /**

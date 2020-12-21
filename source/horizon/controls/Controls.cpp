@@ -62,12 +62,12 @@ namespace Aether {
         this->repositionElements();
     }
 
-    Colour Controls::getColour() {
-        return this->colour;
+    Colour Controls::colour() {
+        return this->colour_;
     }
 
     void Controls::setColour(Colour c) {
-        this->colour = c;
+        this->colour_ = c;
         for (size_t i = 0; i < this->children.size(); i++) {
             // If used correctly, this should never cause an error
             static_cast<ControlItem *>(this->children[i])->setColour(c);

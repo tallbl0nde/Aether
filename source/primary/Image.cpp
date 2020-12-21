@@ -1,40 +1,51 @@
 #include "Aether/primary/Image.hpp"
 
 namespace Aether {
-    Image::Image(int x, int y, std::string p, RenderType t) : Texture(x, y, t) {
-        this->type = Type::Path;
-        this->path = p;
-
-        // Now check if we need to render immediately
-        if (this->renderType == RenderType::OnCreate) {
-            this->generateSurface();
-            this->convertSurface();
-        }
-    }
-
-    Image::Image(int x, int y, unsigned char * p, size_t s, RenderType t) : Texture(x, y, t) {
+    Image::Image(const int x, const int y, unsigned char * data, const size_t size, const Render type) : Texture(x, y) {
+        this->mem.ptr = data;
+        this->mem.size = size;
         this->type = Type::Pointer;
-        this->ptr = p;
-        this->size = s;
+        this->performRender(type);
+    }
 
-        // Now check if we need to render immediately
-        if (this->renderType == RenderType::OnCreate) {
-            this->generateSurface();
-            this->convertSurface();
+    Image::Image(const int x, const int y, const std::string & path, const Render type) : Texture(x, y) {
+        this->path = path;
+        this->type = Type::File;
+        this->performRender(type);
+    }
+
+    Image::Image(const int x, const int y, const std::vector<unsigned char> & data, const Render type) : Texture(x, y) {
+        this->copy = data;
+        this->type = Type::Vector;
+        this->performRender(type);
+    }
+
+    Drawable * Image::renderDrawable() {
+        switch (this->type) {
+            case Type::File:
+                return this->renderer->renderImageSurface(this->path);
+
+            case Type::Pointer: {
+                std::vector<unsigned char> buf;
+                buf.assign(this->mem.ptr, this->mem.ptr + this->mem.size);
+                return this->renderer->renderImageSurface(buf);
+            }
+
+            case Type::Vector:
+                return this->renderer->renderImageSurface(this->copy);
         }
     }
 
-    void Image::generateSurface() {
-        switch (this->type) {
-            case Type::Path:
-                this->drawable = this->renderer->renderImageSurface(this->path);
-                break;
+    void Image::performRender(const Render type) {
+        if (type == Render::Sync) {
+            this->renderSync();
 
-            case Type::Pointer:
-                std::vector<unsigned char> buf;
-                buf.assign(this->ptr, this->ptr + this->size);
-                this->drawable = this->renderer->renderImageSurface(buf);
-                break;
+        } else if (type == Render::Async) {
+            this->renderAsync();
         }
+    }
+
+    Image::~Image() {
+
     }
 };

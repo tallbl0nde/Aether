@@ -19,8 +19,8 @@ namespace Aether {
         return this->renderer->renderFilledEllipseTexture(this->w()/2, this->h()/2);
     }
 
-    Colour HelpButton::getColour() {
-        return this->text->getColour();
+    Colour HelpButton::colour() {
+        return this->text->colour();
     }
 
     void HelpButton::setColour(Colour c) {

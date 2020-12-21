@@ -17,7 +17,7 @@ namespace Aether {
     class Controls : public Container {
         private:
             /** @brief Colour to draw controls in */
-            Colour colour;
+            Colour colour_;
 
             /**
              * @brief Called to position all control items
@@ -106,7 +106,7 @@ namespace Aether {
              * @brief Get the colour of controls
              * @return control colour
              */
-            Colour getColour();
+            Colour colour();
 
             /**
              * @brief Set the colour of controls

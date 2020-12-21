@@ -440,7 +440,7 @@ namespace Aether {
              *
              * @param dt change in time
              */
-            virtual void update(uint32_t dt);
+            virtual void update(unsigned int dt);
 
             /**
              * @brief Render child elements + highlights

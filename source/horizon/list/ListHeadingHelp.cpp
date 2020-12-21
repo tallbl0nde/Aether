@@ -19,7 +19,7 @@ namespace Aether {
     }
 
     Colour ListHeadingHelp::getHelpColour() {
-        return this->help->getColour();
+        return this->help->colour();
     }
 
     void ListHeadingHelp::setHelpColour(Colour c) {

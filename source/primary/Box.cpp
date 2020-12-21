@@ -1,43 +1,42 @@
 #include "Aether/primary/Box.hpp"
 
 namespace Aether {
-    Box::Box(int x, int y, int w, int h, unsigned int b, unsigned int r) : Texture(x, y, RenderType::OnCreate) {
+    Box::Box(const int x, const int y, const int w, const int h, const unsigned int thick, const unsigned int radius) : Texture(x, y) {
         Texture::setW(w);
         Texture::setH(h);
-        this->cornerRadius_ = r;
-        this->setBorder(b);
+        this->cornerRadius_ = radius;
+        this->setThickness(thick);
     }
 
-    void Box::generateSurface() {
-        // This is safe - see Texture::regenerate()
+    Drawable * Box::renderDrawable() {
         if (this->cornerRadius_ > 0) {
-            this->drawable = this->renderer->renderRoundRectTexture(this->w(), this->h(), this->cornerRadius_, this->border());
+            return this->renderer->renderRoundRectTexture(this->w(), this->h(), this->cornerRadius_, this->border_);
         } else {
-            this->drawable = this->renderer->renderRectTexture(this->w(), this->h(), this->border());
+            return this->renderer->renderRectTexture(this->w(), this->h(), this->border_);
         }
     }
 
-    unsigned int Box::border() {
+    unsigned int Box::thickness() {
         return this->border_;
     }
 
-    void Box::setBorder(unsigned int b) {
-        this->border_ = b;
-        this->regenerate();
+    void Box::setThickness(const unsigned int thick) {
+        this->border_ = thick;
+        this->renderSync();
     }
 
-    void Box::setBoxSize(int w, int h) {
+    void Box::setBoxSize(const int w, const int h) {
         Texture::setW(w);
         Texture::setH(h);
-        this->regenerate();
+        this->renderSync();
     }
 
     unsigned int Box::cornerRadius() {
         return this->cornerRadius_;
     }
 
-    void Box::setCornerRadius(unsigned int r) {
-        this->cornerRadius_ = r;
-        this->regenerate();
+    void Box::setCornerRadius(const unsigned int radius) {
+        this->cornerRadius_ = radius;
+        this->renderSync();
     }
 };

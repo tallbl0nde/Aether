@@ -319,7 +319,7 @@ namespace Aether {
     }
 
     Colour DateTime::getBackgroundColour() {
-        return this->rect->getColour();
+        return this->rect->colour();
     }
 
     void DateTime::setBackgroundColour(Colour c) {
@@ -416,16 +416,16 @@ namespace Aether {
 
     Colour DateTime::getSeparatorColour() {
         if (this->div1 != nullptr) {
-            return this->div1->getColour();
+            return this->div1->colour();
         }
         if (this->div2 != nullptr) {
-            return this->div2->getColour();
+            return this->div2->colour();
         }
         if (this->col1 != nullptr) {
-            return this->col1->getColour();
+            return this->col1->colour();
         }
         if (this->col2 != nullptr) {
-            return this->col2->getColour();
+            return this->col2->colour();
         }
         return Colour{255, 255, 255, 255};
     }

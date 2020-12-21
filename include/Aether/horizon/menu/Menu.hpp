@@ -18,7 +18,7 @@ namespace Aether {
             /**
              * @brief Construct a new Menu object.
              * Hides scrollbar + adjusts scroll 'catchup'
-             * 
+             *
              * @param x x-coordinate of the start position offset
              * @param y y-coordinate of the start position offset
              * @param w width of menu
@@ -29,15 +29,15 @@ namespace Aether {
             /**
              * @brief Updates menu.
              * Keeps the selected item centred.
-             * 
+             *
              * @param dt change in time
              */
-            void update(uint32_t dt);
+            void update(unsigned int dt);
 
             /**
              * @brief Set the given option as the highlighted option.
              * Unsets previously highlighted
-             * 
+             *
              * @param o option to set as active
              */
             void setActiveOption(MenuOption * o);
