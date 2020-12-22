@@ -160,12 +160,10 @@ namespace Aether {
             // Ensure the glyph is present
             TTF_Font * font = this->fontCache[customFontIdx]->getData(fontSize);
             if (TTF_GlyphIsProvided(font, ch)) {
-                int advance;
-                int height;
-                TTF_GlyphMetrics(font, ch, nullptr, nullptr, nullptr, nullptr, &advance);
-                height = TTF_FontLineSkip(font);
-
-                return GlyphMetrics(ch, advance, height - TTF_FontDescent(font), height);
+                int width, height;
+                uint16_t str[2] = {ch, '\0'};
+                TTF_SizeUNICODE(font, str, &width, &height);
+                return GlyphMetrics(ch, width, height, TTF_FontLineSkip(font));
             }
         }
 
@@ -180,12 +178,10 @@ namespace Aether {
                 // Ensure the glyph is present before proceeding
                 TTF_Font * font = this->fontCache[i]->getData(fontSize);
                 if (TTF_GlyphIsProvided(font, ch)) {
-                    int advance;
-                    int height;
-                    TTF_GlyphMetrics(font, ch, nullptr, nullptr, nullptr, nullptr, &advance);
-                    height = TTF_FontLineSkip(font);
-
-                    return GlyphMetrics(ch, advance, height - TTF_FontDescent(font), height);
+                    int width, height;
+                    uint16_t str[2] = {ch, '\0'};
+                    TTF_SizeUNICODE(font, str, &width, &height);
+                    return GlyphMetrics(ch, width, height, TTF_FontLineSkip(font));
                 }
             }
         #endif

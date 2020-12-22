@@ -175,7 +175,7 @@ namespace Aether {
             /**
              * @brief Set the spacing between wrapped lines of text.
              *
-             * @param spacing Height of one line in terms of font size (1.15 by default).
+             * @param spacing Height of one line in terms of font size (1.1 by default).
              */
             void setFontSpacing(const double spacing);
 
