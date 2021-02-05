@@ -24,7 +24,7 @@ namespace Aether {
         this->textureCount_ = 0;
 
         this->fontCache = nullptr;
-        this->fontSpacing = 1.15;
+        this->fontSpacing = 1.1;
     }
 
     void Renderer::logMessage(const std::string & msg, const bool imp) {
@@ -223,6 +223,14 @@ namespace Aether {
             this->logMessage(std::string("Couldn't create renderer: ") + std::string(SDL_GetError()), true);
             return false;
         }
+
+        // Prepare controller support
+        #ifdef __SWITCH__
+        if (SDL_JoystickOpen(0) == nullptr) {
+            this->logMessage(std::string("Couldn't open joystick device: ") + std::string(SDL_GetError()), true);
+            return false;
+        }
+        #endif
 
         // Set up blending
         SDL_SetRenderDrawBlendMode(this->renderer, SDL_BLENDMODE_BLEND);
@@ -579,7 +587,7 @@ namespace Aether {
 
         // Increment monitoring variables
         this->surfaceCount_++;
-        this->memoryUsage_ += (newSurf->pitch + newSurf->h);
+        this->memoryUsage_ += (newSurf->pitch * newSurf->h);
 
         return new Drawable(this, newSurf, newSurf->w, newSurf->h);
     }

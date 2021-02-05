@@ -362,6 +362,7 @@ namespace Aether {
         if (this->timer == nullptr) {
             if (this->fade.in) {
                 this->fade.action = FadeAction::In;
+                this->fade.alpha = 255;
             }
 
             this->lastMillis = 0;
@@ -412,6 +413,7 @@ namespace Aether {
     void Window::exit() {
         if (this->fade.out) {
             this->fade.action = FadeAction::Out;
+            this->fade.alpha = 0;
         } else {
             this->shouldLoop = false;
         }
