@@ -3,7 +3,7 @@
 
 #include <ctime>
 #include "Aether/horizon/button/BorderButton.hpp"
-#include "Aether/horizon/controls/Controls.hpp"
+#include "Aether/horizon/controls/ControlBar.hpp"
 #include "Aether/horizon/input/Spinner.hpp"
 #include "Aether/primary/Rectangle.hpp"
 #include "Aether/Overlay.hpp"
@@ -47,12 +47,8 @@ namespace Aether {
         private:
             /** @brief Reference to time struct to set */
             struct tm & refTm;
-            /** @brief Back button label string */
-            std::string labelBack;
-            /** @brief OK button label string */
-            std::string labelOK;
             /** @brief Pointer to controls */
-            Controls * ctrl;
+            ControlBar * ctrl;
             /** @brief Pointer to main rectangle */
             Rectangle * rect;
             /** @brief Pointer to top rectangle */

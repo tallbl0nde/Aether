@@ -2,7 +2,7 @@
 #define AETHER_POPUPLIST_HPP
 
 #include "Aether/Overlay.hpp"
-#include "Aether/horizon/controls/Controls.hpp"
+#include "Aether/horizon/controls/ControlBar.hpp"
 #include "Aether/horizon/list/List.hpp"
 #include "Aether/horizon/list/ListButton.hpp"
 #include "Aether/primary/Rectangle.hpp"
@@ -16,12 +16,8 @@ namespace Aether {
      */
     class PopupList : public Overlay {
         private:
-            /** @brief Label for back button */
-            std::string labelBack;
-            /** @brief Label for OK button */
-            std::string labelOK;
             /** @brief Pointer to controls */
-            Controls * ctrl;
+            ControlBar * ctrl;
             /** @brief Pointer to list */
             List * list;
             /** @brief Pointer to main rectangle */
