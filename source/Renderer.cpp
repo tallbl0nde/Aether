@@ -1,8 +1,11 @@
 #include "Aether/Renderer.hpp"
 #include "Aether/types/Drawable.hpp"
+#include "Aether/types/ImageData.hpp"
 #include "Aether/utils/FontCache.hpp"
+#include "Aether/utils/Image.hpp"
 #include "Aether/utils/SDL2_gfx_ext.hpp"
 #include "Aether/utils/Utils.hpp"
+#include <cstring>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL2_gfxPrimitives.h>
 #include <SDL2/SDL2_rotozoom.h>
@@ -176,6 +179,38 @@ namespace Aether {
 
         // Reset back to window
         SDL_SetRenderTarget(this->renderer, nullptr);
+    }
+
+    SDL_Surface * Renderer::scaleSurface(SDL_Surface * surface, const size_t width, const size_t height) {
+        // Convert surface to 'ImageData'
+        uint8_t * pixelPtr = static_cast<uint8_t *>(surface->pixels);
+        std::vector<uint8_t> data;
+        data.assign(pixelPtr, pixelPtr + (surface->pitch * surface->h));
+        ImageData * image = new ImageData(data, surface->w, surface->h, surface->pitch/surface->w);
+        data.clear();
+
+        // Resize and replace surface
+        ImageData * scaled = Utils::Image::scaleOptimal(image, width, height);
+        if (scaled == nullptr) {
+            this->logMessage(std::string("Couldn't scale image to: ") + std::to_string(width) + std::string("x") + std::to_string(height), true);
+
+        } else {
+            SDL_Surface * surf = SDL_CreateRGBSurfaceWithFormat(0, scaled->width(), scaled->height(), 32, SDL_PIXELFORMAT_RGBA32);
+            if (surf == nullptr) {
+                this->logMessage(std::string("Couldn't create scaled surface: ") + std::string(SDL_GetError()), true);
+
+            } else {
+                this->destroySurface(surface, false);
+                surface = surf;
+                data = scaled->toByteVector();
+                std::memcpy(surface->pixels, &data[0], data.size());
+            }
+        }
+
+        delete image;
+        delete scaled;
+
+        return surface;
     }
 
     void Renderer::setLogHandler(const LogHandler & func) {
@@ -526,7 +561,7 @@ namespace Aether {
         return std::make_tuple(lines, maxLineWidth, lines.size() * (maxLineHeight * this->fontSpacing));
     }
 
-    Drawable * Renderer::renderImageSurface(const std::string & path) {
+    Drawable * Renderer::renderImageSurface(const std::string & path, const size_t scaleWidth, const size_t scaleHeight) {
         SDL_Surface * surf = nullptr;
         {
             // Sanity check
@@ -552,6 +587,11 @@ namespace Aether {
             return new Drawable();
         }
 
+        // Scale if we need
+        if (scaleWidth != 0 || scaleHeight != 0) {
+            newSurf = this->scaleSurface(newSurf, scaleWidth, scaleHeight);
+        }
+
         // Increment monitoring variables
         this->surfaceCount_++;
         this->memoryUsage_ += (newSurf->pitch * newSurf->h);
@@ -559,7 +599,7 @@ namespace Aether {
         return new Drawable(this, newSurf, newSurf->w, newSurf->h);
     }
 
-    Drawable * Renderer::renderImageSurface(const std::vector<unsigned char> & data) {
+    Drawable * Renderer::renderImageSurface(const std::vector<unsigned char> & data, const size_t scaleWidth, const size_t scaleHeight) {
         // Sanity check
         if (this->renderer == nullptr) {
             this->logMessage("Couldn't render image to surface from memory: Renderer isn't initialized", true);
@@ -583,6 +623,11 @@ namespace Aether {
         if (newSurf == nullptr) {
             this->logMessage(std::string("Couldn't convert image surface: ") + std::string(SDL_GetError()), true);
             return new Drawable();
+        }
+
+        // Scale if we need
+        if (scaleWidth != 0 || scaleHeight != 0) {
+            newSurf = this->scaleSurface(newSurf, scaleWidth, scaleHeight);
         }
 
         // Increment monitoring variables

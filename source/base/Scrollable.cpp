@@ -1,4 +1,5 @@
 #include "Aether/base/Scrollable.hpp"
+#include <algorithm>
 
 // Default catchup amount
 #define DEFAULT_CATCHUP 6

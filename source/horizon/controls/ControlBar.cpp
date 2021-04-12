@@ -1,5 +1,6 @@
 #include "Aether/horizon/controls/ControlBar.hpp"
 #include "Aether/horizon/controls/ControlItem.hpp"
+#include <algorithm>
 
 namespace Aether {
     ControlBar::ControlBar() : Container(45, 647, 1190, 73) {

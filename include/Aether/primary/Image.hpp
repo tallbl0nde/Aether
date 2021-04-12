@@ -31,6 +31,9 @@ namespace Aether {
             std::string path;                   /** @brief Path to image file */
             Type type;                          /** @brief Type of image */
 
+            size_t scaleWidth_;                 /** @brief Width to scale to in pixels */
+            size_t scaleHeight_;                /** @brief Height to scale to in pixels */
+
             /**
              * @brief Overrides Texture's method to render the image.
              */
@@ -75,6 +78,32 @@ namespace Aether {
              * @param type \ref Render Type of rendering to perform
              */
             Image(const int x, const int y, const std::vector<unsigned char> & data, const Render type = Render::Sync);
+
+            /**
+             * @brief Sets the dimensions to *scale* the image to when rendered. Scaling produces a better
+             * image quality when scaled up/down by a large amount, at a cost of CPU to initially process it.
+             * Pass zero as either parameter to disable scaling.
+             * @note This only takes effect when the image is rendered, and not immediately.
+             *
+             * @param width Width (in pixels) to scale the image to.
+             * @param height Height (in pixels) to scale the image to.
+             * @return Whether the dimensions are valid.
+             */
+            bool setScaleDimensions(const size_t width, const size_t height);
+
+            /**
+             * @brief Returns the currently set scale width.
+             *
+             * @return Scale width (in pixels).
+             */
+            size_t scaleWidth();
+
+            /**
+             * @brief Returns the currently set scale height.
+             *
+             * @return Scale height (in pixels).
+             */
+            size_t scaleHeight();
 
             /**
              * @brief Destroys the image element.

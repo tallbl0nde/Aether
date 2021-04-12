@@ -1,4 +1,5 @@
 #include "Aether/horizon/menu/Menu.hpp"
+#include <algorithm>
 
 namespace Aether {
     Menu::Menu(int x, int y, int w, int h) : Scrollable(x, y, w, h) {

@@ -134,6 +134,16 @@ namespace Aether {
              */
             void renderOnTexture(SDL_Texture * tex, const std::function<void(SDL_Renderer *)> & func);
 
+            /**
+             * @brief Scales the provided surface to the requested dimensions.
+             * This method will always return a valid surface, even if scaling fails.
+             *
+             * @param surface The surface to scale
+             * @param width The width to scale the surface to (in pixels)
+             * @param height The height to scale the surface to (in pixels)
+             */
+            SDL_Surface * scaleSurface(SDL_Surface * surface, const size_t width, const size_t height);
+
         public:
             /**
              * @brief Initializes the renderer object, but does not initialize the actual
@@ -278,18 +288,22 @@ namespace Aether {
              * @note Supports PNG, JPEG and BMP.
              *
              * @param path Path to image file
+             * @param scaleWidth Width (in pixels) to scale image to (0 to disable scaling)
+             * @param scaleHeight Height (in pixels) to scale image to (0 to disable scaling)
              * @return Drawable containing either the rendered image as a surface or nothing on an error (Type set as None).
              */
-            Drawable * renderImageSurface(const std::string & path);
+            Drawable * renderImageSurface(const std::string & path, const size_t scaleWidth, const size_t scaleHeight);
 
             /**
              * @brief Render the image passed in the vector as a surface
              * @note Supports PNG, JPEG and BMP.
              *
              * @param data Vector containing image data
+             * @param scaleWidth Width (in pixels) to scale image to (0 to disable scaling)
+             * @param scaleHeight Height (in pixels) to scale image to (0 to disable scaling)
              * @return Drawable containing either the rendered image as a surface or nothing on an error (Type set as None).
              */
-            Drawable * renderImageSurface(const std::vector<unsigned char> & data);
+            Drawable * renderImageSurface(const std::vector<unsigned char> & data, const size_t scaleWidth, const size_t scaleHeight);
 
             /**
              * @brief Render a UTF8 string as a surface
