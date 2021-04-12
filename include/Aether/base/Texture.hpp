@@ -23,6 +23,9 @@ namespace Aether {
      */
     class Texture : public Element {
         private:
+            // Forward declare nested class
+            class RenderJob;
+
             /**
              * @brief Possible statuses for the texture
              * to be in when rendering asynchronously.

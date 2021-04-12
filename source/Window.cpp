@@ -54,6 +54,9 @@ namespace Aether {
         Element::renderer = new Renderer();
         Element::renderer->setLogHandler(log);
         this->shouldLoop = Element::renderer->initialize(name, width, height);
+
+        // Create our thread pool
+        log("Created a thread pool with size " + std::to_string(ThreadPool::getInstance()->maxConcurrentJobs()), false);
     }
 
     void Window::performScreenOps() {
@@ -280,7 +283,7 @@ namespace Aether {
         }
 
         // Attempt to create texture before replacing
-        Drawable * tmp = Element::renderer->renderImageSurface(path);
+        Drawable * tmp = Element::renderer->renderImageSurface(path, Element::renderer->windowWidth(), Element::renderer->windowHeight());
         if (tmp->type() == Drawable::Type::None) {
             return false;
         }
@@ -406,7 +409,6 @@ namespace Aether {
 
         // Present the framebuffer and return
         Element::renderer->present();
-        ThreadPool::process();
         return this->shouldLoop;
     }
 
@@ -429,7 +431,7 @@ namespace Aether {
         Element::selTex = nullptr;
 
         // Stop running threads + clean up renderer
-        ThreadPool::finalize();
+        delete ThreadPool::getInstance();
         delete this->bgDrawable;
         Element::renderer->cleanup();
         delete Element::renderer;

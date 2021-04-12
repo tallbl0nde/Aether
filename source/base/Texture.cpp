@@ -1,4 +1,5 @@
 #include "Aether/base/Texture.hpp"
+#include "Aether/base/Texture.RenderJob.hpp"
 #include "Aether/ThreadPool.hpp"
 
 namespace Aether {
@@ -51,7 +52,7 @@ namespace Aether {
 
     void Texture::destroy() {
         if (this->status == AsyncStatus::Rendering) {
-            ThreadPool::removeTaskWithID(this->asyncID);
+            ThreadPool::getInstance()->removeOrWaitForJob(this->asyncID);
             this->asyncID = 0;
         }
 
@@ -81,10 +82,7 @@ namespace Aether {
         }
 
         this->status = AsyncStatus::Rendering;
-        this->asyncID = ThreadPool::addTask([this]() {
-            this->tmpDrawable = this->renderDrawable();
-            this->status = AsyncStatus::NeedsConvert;
-        });
+        this->asyncID = ThreadPool::getInstance()->queueJob(new RenderJob(this), ThreadPool::Importance::Normal);
     }
 
     void Texture::update(unsigned int dt) {
@@ -110,7 +108,7 @@ namespace Aether {
 
     Texture::~Texture() {
         if (this->status == AsyncStatus::Rendering) {
-            ThreadPool::removeTaskWithID(this->asyncID);
+            ThreadPool::getInstance()->removeOrWaitForJob(this->asyncID);
         }
         delete this->drawable;
         delete this->tmpDrawable;

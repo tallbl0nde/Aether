@@ -1,95 +1,144 @@
-#include <future>
-#include <mutex>
 #include "Aether/ThreadPool.hpp"
-#include <vector>
+#include "Aether/ThreadPool.Job.hpp"
 
-// Some nice typedefs
-typedef struct {
-    std::function<void()> func;
-    unsigned int id;
-} queuePair;
+// Start with no instance
+namespace Aether {
+    ThreadPool * ThreadPool::instance = nullptr;
 
-typedef struct {
-    std::future<void> future;
-    unsigned int id;
-} threadPair;
+    ThreadPool::ThreadPool() {
+        this->nextID = 1;
+        this->terminating = false;
 
-// Maximum number of threads running at once
-static unsigned int maxThreads = 2;
-// Next ID to assign to task
-static unsigned int nextID = 0;
-// Queue of functions to run
-static std::vector<queuePair> queue;
-// Vector of currently running threads
-static std::vector<threadPair> threads;
-// Mutexes for protecting queue + thread vector
-static std::mutex qMutex;
-static std::mutex tMutex;
+        // Find a suitable number of threads to use
+        unsigned int threadCount = std::thread::hardware_concurrency();
+        if (threadCount == 0) {
+            threadCount = 1;
+        }
 
-namespace Aether::ThreadPool {
-    void setMaxThreads(unsigned int t) {
-        std::scoped_lock<std::mutex> mtx(qMutex);
-        maxThreads = t;
+        // Start our worker threads
+        for (size_t idx = 0; idx < threadCount; idx++) {
+            this->workers.push_back(std::thread(&ThreadPool::doWork, this, idx));
+        }
+        this->workerMetadata = std::vector<WorkerMetadata>(threadCount);
     }
 
-    void removeTaskWithID(unsigned int id) {
-        // Check if executing
-        std::unique_lock<std::mutex> mtx(tMutex);
-        for (size_t i = 0; i < threads.size(); i++) {
-            // If the ID matches wait until it's done
-            if (threads[i].id == id) {
-                threads[i].future.get();
-                threads.erase(threads.begin() + i);
+    void ThreadPool::doWork(size_t idx) {
+        while (!this->terminating) {
+            Job * job = nullptr;
+
+            {
+                // Wait for a job on the queue, or the threadpool to terminate
+                std::unique_lock<std::mutex> mtx(this->jobsMutex);
+                this->workerConditionVariable.wait(mtx, [this]() {
+                    return (!this->jobs.empty() || this->terminating);
+                });
+
+                // If terminating don't try to do work
+                if (this->terminating) {
+                    continue;
+                }
+
+                {
+                    // Get the job's ID and associate with thread
+                    WorkerMetadata & meta = this->workerMetadata[idx];
+                    std::unique_lock<std::mutex> mtx2(meta.mutex);
+                    meta.jobID = jobs.front().second;
+                }
+                job = jobs.front().first;
+                jobs.pop_front();
+            }
+
+            // Run the job and delete the object
+            job->run();
+            delete job;
+
+            // Notify job was completed
+            {
+                WorkerMetadata & meta = this->workerMetadata[idx];
+                std::unique_lock<std::mutex> mtx(meta.mutex);
+                meta.jobID = 0;
+                meta.conditionVariable.notify_all();
+            }
+        }
+    }
+
+    ThreadPool::~ThreadPool() {
+        // Notify that threads should terminate
+        this->terminating = true;
+        this->workerConditionVariable.notify_all();
+
+        // Join all threads
+        for (std::thread & thread : this->workers) {
+            if (thread.joinable()) {
+                thread.join();
+            }
+        }
+        this->workers.clear();
+    }
+
+    ThreadPool * ThreadPool::getInstance() {
+        if (ThreadPool::instance == nullptr) {
+            ThreadPool::instance = new ThreadPool();
+        }
+
+        return ThreadPool::instance;
+    }
+
+    size_t ThreadPool::maxConcurrentJobs() {
+        return this->workers.size();
+    }
+
+    int ThreadPool::queueJob(Job * job, const Importance importance) {
+        // Lock access to the queue and add job
+        std::scoped_lock<std::mutex> mtx(this->jobsMutex);
+        int jobID = this->nextID++;
+        switch (importance) {
+            case Importance::Normal:
+                this->jobs.push_back(std::pair<Job *, int>(job, jobID));
+                break;
+
+            case Importance::High:
+                this->jobs.push_front(std::pair<Job *, int>(job, jobID));
+                break;
+        }
+
+        // Make sure the next allocated ID will not be zero, as zero is
+        // used for specific signals
+        if (this->nextID == 0) {
+            this->nextID++;
+        }
+
+        // Notify one worker that a job is available
+        this->workerConditionVariable.notify_one();
+        return jobID;
+    }
+
+    void ThreadPool::removeOrWaitForJob(int id) {
+        // Check if job is on queue
+        std::scoped_lock<std::mutex> mtx(this->jobsMutex);
+        for (size_t i = 0; i < this->jobs.size(); i++) {
+            if (this->jobs[i].second == id) {
+                delete this->jobs[i].first;
+                this->jobs.erase(this->jobs.begin() + i);
                 return;
             }
         }
-        mtx.unlock();
 
-        // Otherwise check if it's queued
-        std::scoped_lock<std::mutex> mtx2(qMutex);
-        std::vector<queuePair>::iterator it = std::find_if(queue.begin(), queue.end(), [id](const queuePair & val) {
-            return val.id == id;
-        });
-        if (it != queue.end()) {
-            queue.erase(it);
-        }
-    }
+        // Otherwise check if currently running
+        for (size_t i = 0; i < this->workerMetadata.size(); i++) {
+            WorkerMetadata & meta = this->workerMetadata[i];
+            std::unique_lock<std::mutex> mtx(meta.mutex);
 
-    unsigned int addTask(std::function<void()> f) {
-        std::scoped_lock<std::mutex> mtx(qMutex);
-        queue.push_back(queuePair{f, nextID});
-        return nextID++;
-    }
-
-    void process() {
-        // First check which threads are done + remove
-        std::scoped_lock<std::mutex> tMtx(tMutex);
-        int i = 0;
-        while (i < threads.size()) {
-            if (threads[i].future.wait_for(std::chrono::seconds(0)) == std::future_status::ready) {
-                threads.erase(threads.begin() + i);
-            } else {
-                i++;
-            }
-        }
-
-        // Start new tasks
-        std::scoped_lock<std::mutex> qMtx(qMutex);
-        while (threads.size() < maxThreads) {
-            if (queue.empty()) {
-                break;
+            // Skip if not the matching ID
+            if (meta.jobID != id) {
+                continue;
             }
 
-            threads.emplace_back(threadPair{std::async(std::launch::async, queue[0].func), queue[0].id});
-            queue.erase(queue.begin());
+            // Wait for thread to finish
+            meta.conditionVariable.wait(mtx, [&meta]() {
+                return meta.jobID == 0;
+            });
+            return;
         }
     }
-
-    void finalize() {
-        std::scoped_lock<std::mutex> tMtx(tMutex);
-        while (!threads.empty()) {
-            threads[0].future.get();
-            threads.erase(threads.begin());
-        }
-    }
-};
+}
