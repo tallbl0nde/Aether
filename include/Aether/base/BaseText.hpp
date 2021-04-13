@@ -2,44 +2,28 @@
 #define AETHER_BASETEXT_HPP
 
 #include "Aether/base/Texture.hpp"
+#include <string>
 
 namespace Aether {
-    /**
-     * @brief Enum class with all available text font styles
-     */
-    enum class FontStyle {
-        Regular,        /**< Regular Font */
-        Bold,           /**< Bold Font */
-        Italic,         /**< Italic Font */
-        Underline,      /**< Underlined Font */
-        Strikethrough   /**< Strikethrough Font */
-    };
-
     /**
      * @brief BaseText is an abstract class storing relevant information to render
      * a text element.
      */
     class BaseText : public Texture {
         protected:
-            /** @brief String matching rendered string */
-            std::string string_;
-            /** @brief Font size used for rendered text */
-            unsigned int fontSize_;
-            /** @brief Font style (stored for redrawing) */
-            std::atomic<FontStyle> fontStyle;
+            unsigned int fontSize_;     /** @brief Font size used for rendered text */
+            std::string string_;        /** @brief String matching rendered string */
 
         public:
             /**
-             * @brief Construct a new Base Text object
+             * @brief Constructs a new BaseText object
              *
-             * @param x x-coordinate of start position offset
-             * @param y y-coordinate of start position offset
-             * @param s string to render
-             * @param f font size (in pixels)
-             * @param l font style
-             * @param t \ref ::RenderType to use for rendering
+             * @param x Top-left x coordinate
+             * @param y Top-left y coordinate
+             * @param str String to render
+             * @param size Font size (in pixels)
              */
-            BaseText(int x, int y, std::string s, unsigned int f, FontStyle l, RenderType t);
+            BaseText(const int x, const int y, const std::string & str, const unsigned int size);
 
             /**
              * @brief Get the rendered string
@@ -49,25 +33,25 @@ namespace Aether {
             std::string string();
 
             /**
-             * @brief Set new string to render
+             * @brief Set a new string. Will cause an immediate redraw.
              *
-             * @param s new string to render
+             * @param str New string to render
              */
-            virtual void setString(std::string s);
+            virtual void setString(const std::string & str);
 
             /**
-             * @brief Get the render font size for text
+             * @brief Get the font size of the rendered text
              *
-             * @return render font size for text (in pixels)
+             * @return Font size (in pixels)
              */
             unsigned int fontSize();
 
             /**
              * @brief Set the render font size for text
              *
-             * @param s new render font size for text (in pixels)
+             * @param size Render font size (in pixels)
              */
-            virtual void setFontSize(unsigned int s);
+            virtual void setFontSize(const unsigned int size);
     };
 };
 

@@ -1,8 +1,8 @@
 #ifndef AETHER_TYPES_HPP
 #define AETHER_TYPES_HPP
 
+#include "Aether/types/Colour.hpp"
 #include <functional>
-#include "Aether/utils/SDLHelper.hpp"
 
 namespace Aether {
     /**
@@ -49,17 +49,6 @@ namespace Aether {
         FitScrollbar,       /**< No padding except to fit the scrollbar */
         None           /**< No padding whatsoever (item width = list width) */
     };
-
-    /**
-     * @brief Enum class for type of texture generation
-     */
-    enum class RenderType {
-        OnCreate,               /**< Render on construction of texture element (all regenerations due to value changes will be done immediately and on the main thread */
-        Deferred                /**< Do not render until explicitly started on another thread (value changes will not cause a regeneration - you must explicitly start it!) */
-    };
-
-    /** @brief SDL_Color but it's not */
-    typedef SDL_Color Colour;
 
     /**
      * @brief Struct for UI Theme

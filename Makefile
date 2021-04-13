@@ -8,6 +8,16 @@
 #----------------------------------------------------------------------------------------------------------------------
 
 #----------------------------------------------------------------------------------------------------------------------
+# Try to build for Switch by default, unless otherwise specified
+#----------------------------------------------------------------------------------------------------------------------
+ifneq "$(PLATFORM)" "__LINUX__"
+$(info Note: Building for default platform '__SWITCH__')
+PLATFORM	:= __SWITCH__
+endif
+#----------------------------------------------------------------------------------------------------------------------
+
+ifeq "$(PLATFORM)" "__SWITCH__"
+#----------------------------------------------------------------------------------------------------------------------
 # Check if DEVKITPRO exists in current environment
 #----------------------------------------------------------------------------------------------------------------------
 ifndef DEVKITPRO
@@ -20,6 +30,9 @@ endif
 #----------------------------------------------------------------------------------------------------------------------
 include $(DEVKITPRO)/libnx/switch_rules
 #----------------------------------------------------------------------------------------------------------------------
+
+ARCH		:=	-march=armv8-a -mtune=cortex-a57 -mtp=soft -fPIC -ftls-model=local-exec
+endif
 
 #----------------------------------------------------------------------------------------------------------------------
 # Definition of variables used throughout the make process
@@ -45,11 +58,12 @@ DOCS_CONFIG	:=	Doxyfile
 #----------------------------------------------------------------------------------------------------------------------
 OBJDIR		:=	$(BUILD)/objs
 DEPDIR		:=	$(BUILD)/deps
-ARCH		:=	-march=armv8-a -mtune=cortex-a57 -mtp=soft -fPIC -ftls-model=local-exec
-DEFINES		:=	-D__SWITCH__
+DEFINES		:=	-D$(PLATFORM)
+ifeq "$(PLATFORM)" "__SWITCH__"
 LIBDIRS		:=	$(PORTLIBS) $(LIBNX)
+endif
 INCLUDE		:=	$(foreach dir,$(LIBDIRS),-I$(dir)/include) -I$(INCLUDE)
-CFLAGS		:=	-w -O3 -ffunction-sections -fdata-sections $(shell sdl2-config --cflags)\
+CFLAGS		:=	-w -g -Wall -O3 -ffunction-sections -fdata-sections $(shell sdl2-config --cflags)\
 				$(ARCH) $(INCLUDE) $(DEFINES)
 CXXFLAGS	:=	$(CFLAGS) -fno-rtti -fno-exceptions -std=gnu++17
 #----------------------------------------------------------------------------------------------------------------------

@@ -6,8 +6,8 @@ namespace Aether {
         this->backTex = new Rectangle(this->x(), this->y(), this->w(), this->h(), (this->h()/2) - 1);
         this->addElement(this->backTex);
         this->progressTex = new Rectangle(this->x(), this->y(), this->w(), this->h(), (this->h()/2) - 1);
-        this->progressTex->setW(this->progressTex->texW() * (this->value()/100.0));
-        this->progressTex->setMask(0, 0, this->progressTex->texW() * (this->value()/100.0), this->progressTex->texH());
+        this->progressTex->setW(this->progressTex->textureWidth() * (this->value()/100.0));
+        this->progressTex->setMask(0, 0, this->progressTex->textureWidth() * (this->value()/100.0), this->progressTex->textureHeight());
         this->addElement(this->progressTex);
     }
 
@@ -21,8 +21,8 @@ namespace Aether {
         BaseProgress::setValue(f);
 
         if (old != this->value()) {
-            this->progressTex->setW(this->progressTex->texW() * (this->value()/100.0));
-            this->progressTex->setMask(0, 0, this->progressTex->texW() * (this->value()/100.0), this->progressTex->texH());
+            this->progressTex->setW(this->progressTex->textureWidth() * (this->value()/100.0));
+            this->progressTex->setMask(0, 0, this->progressTex->textureWidth() * (this->value()/100.0), this->progressTex->textureHeight());
         }
     }
 
@@ -37,7 +37,7 @@ namespace Aether {
     }
 
     Colour RoundProgressBar::getBackgroundColour() {
-        return this->backTex->getColour();
+        return this->backTex->colour();
     }
 
     void RoundProgressBar::setBackgroundColour(Colour c) {
@@ -45,7 +45,7 @@ namespace Aether {
     }
 
     Colour RoundProgressBar::getForegroundColour() {
-        return this->progressTex->getColour();
+        return this->progressTex->colour();
     }
 
     void RoundProgressBar::setForegroundColour(Colour c) {

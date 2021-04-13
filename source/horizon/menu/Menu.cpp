@@ -1,4 +1,5 @@
 #include "Aether/horizon/menu/Menu.hpp"
+#include <algorithm>
 
 namespace Aether {
     Menu::Menu(int x, int y, int w, int h) : Scrollable(x, y, w, h) {
@@ -7,7 +8,7 @@ namespace Aether {
         this->setCatchup(15);
     }
 
-    void Menu::update(uint32_t dt) {
+    void Menu::update(unsigned int dt) {
         Scrollable::update(dt);
 
         // Reposition based on highlighted element if not scrolling

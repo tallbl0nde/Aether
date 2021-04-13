@@ -2,7 +2,7 @@
 #define AETHER_POPUPLIST_HPP
 
 #include "Aether/Overlay.hpp"
-#include "Aether/horizon/controls/Controls.hpp"
+#include "Aether/horizon/controls/ControlBar.hpp"
 #include "Aether/horizon/list/List.hpp"
 #include "Aether/horizon/list/ListButton.hpp"
 #include "Aether/primary/Rectangle.hpp"
@@ -10,18 +10,13 @@
 namespace Aether {
     /**
      * @brief A "PopupList" is an overlay at the bottom of the screen containing
-     * a list of items to select from. A callback must be specified for each
-     * item, and the overlay is closed when any item is selected (not reauired
-     * to be specified within callbacks!)
+     * a list of items to select from. A handler must be specified for each
+     * item, and the overlay is closed when any item is selected.
      */
     class PopupList : public Overlay {
         private:
-            /** @brief Label for back button */
-            std::string labelBack;
-            /** @brief Label for OK button */
-            std::string labelOK;
             /** @brief Pointer to controls */
-            Controls * ctrl;
+            ControlBar * ctrl;
             /** @brief Pointer to list */
             List * list;
             /** @brief Pointer to main rectangle */
@@ -53,7 +48,7 @@ namespace Aether {
              * @brief Add new entry to popup list
              * @note Back/OK buttons have default text but can be changed using other functions
              * @param s entry item string
-             * @param f entry callback function
+             * @param f function to invoke if entry is selected
              * @param t indicator on whether to show entry as ticked
              */
             void addEntry(std::string s, std::function<void()> f, bool t = false);

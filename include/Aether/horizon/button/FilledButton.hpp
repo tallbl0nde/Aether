@@ -28,7 +28,7 @@ namespace Aether {
              * @param h height of button
              * @param t button text
              * @param s font size
-             * @param f callback function when button is pressed
+             * @param f function to invoke on button press
              */
             FilledButton(int x, int y, int w, int h, std::string t, unsigned int s, std::function<void()> f);
 
@@ -93,17 +93,17 @@ namespace Aether {
             /**
              * @brief Render highlight background
              */
-            SDL_Texture * renderHighlightBG();
+            Drawable * renderHighlightBG();
 
             /**
              * @brief Render highlight border
              */
-            SDL_Texture * renderHighlight();
+            Drawable * renderHighlight();
 
             /**
              * @brief Render selection layer
              */
-            SDL_Texture * renderSelection();
+            Drawable * renderSelection();
     };
 };
 

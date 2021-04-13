@@ -1,8 +1,14 @@
 #ifndef AETHER_ELEMENT_HPP
 #define AETHER_ELEMENT_HPP
 
+#include "Aether/types/Drawable.hpp"
 #include "Aether/InputEvent.hpp"
 #include <vector>
+
+// Forward declare the Window class
+namespace Aether {
+    class Window;
+};
 
 namespace Aether {
     /**
@@ -10,6 +16,9 @@ namespace Aether {
      * to form all other types of elements
      */
     class Element {
+        // Allow Window to access the private members (i.e. statics)
+        friend Window;
+
         private:
             /** @brief Horizontal position of element */
             int x_;
@@ -22,7 +31,7 @@ namespace Aether {
             /** @brief Indicator on whether the element should be rendered or not */
             bool hidden_;
             /** @brief Function to call when the element is activated */
-            std::function<void()> callback_;
+            std::function<void()> onPressFunc_;
             /** @brief Indicator on whether element contains highlighted children element */
             bool hasHighlighted_;
             /** @brief Indicator on whether element contains selectable children element */
@@ -53,11 +62,13 @@ namespace Aether {
             /** @brief Size of highlight border */
             static unsigned int hiSize;
             /** @brief Highlight background texture */
-            static SDL_Texture * hiBGTex;
+            static Drawable * hiBGTex;
             /** @brief Highlight border texture */
-            static SDL_Texture * hiBorderTex;
+            static Drawable * hiBorderTex;
             /** @brief Selection texture */
-            static SDL_Texture * selTex;
+            static Drawable * selTex;
+
+            static Renderer * renderer;
 
             /** @brief Renders cached highlight textures */
             void renderHighlightTextures();
@@ -402,18 +413,18 @@ namespace Aether {
             Element * focussed();
 
             /**
-             * @brief Returns callback function (nullptr if no callback assigned)
+             * @brief Returns function invoked when the element is pressed.
              *
-             * @return callback function
+             * @return Function invoked when the element is pressed, or nullptr if one isn't assigned.
              */
-            std::function<void()> callback();
+            std::function<void()> onPressFunc();
 
             /**
-             * @brief Set callback function (also marks element as selectable)
+             * @brief Sets the function to invoked when the element is pressed.
              *
-             * @param f new callback function to set
+             * @param f Function to invoke
              */
-            void setCallback(std::function<void()> f);
+            void onPress(std::function<void()> f);
 
             /**
              * @brief Attempt to handle a given event
@@ -429,7 +440,7 @@ namespace Aether {
              *
              * @param dt change in time
              */
-            virtual void update(uint32_t dt);
+            virtual void update(unsigned int dt);
 
             /**
              * @brief Render child elements + highlights
@@ -442,7 +453,7 @@ namespace Aether {
              *
              * @return Rendered texture to show when highlighted
              */
-            virtual SDL_Texture * renderHighlightBG();
+            virtual Drawable * renderHighlightBG();
 
             /**
              * @brief Renders the highlight border
@@ -450,7 +461,7 @@ namespace Aether {
              *
              * @return Rendered texture to show when highlighted
              */
-            virtual SDL_Texture * renderHighlight();
+            virtual Drawable * renderHighlight();
 
             /**
              * @brief Renders the selection overlay
@@ -458,7 +469,7 @@ namespace Aether {
              *
              * @return Rendered texture to show when selected
              */
-            virtual SDL_Texture * renderSelection();
+            virtual Drawable * renderSelection();
 
             /**
              * @brief Destroy the Element object

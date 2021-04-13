@@ -5,46 +5,56 @@
 
 namespace Aether {
     /**
-     * @brief TextBlock extends BaseText by wrapping text with the given width
-     *
-     * It's literally a block of text
+     * @brief Element for rendering a multi-line block of text.
      */
     class TextBlock : public BaseText {
         private:
             /** @brief Width in pixels to wrap at */
             std::atomic<unsigned int> wrapWidth_;
 
-            /** @brief Generate a text block surface */
-            void generateSurface();
+            /**
+             * @brief Overrides Texture's method to render a block of text.
+             */
+            Drawable * renderDrawable();
 
         public:
             /**
-             * @brief Construct a new Text Block object
+             * @brief Constructs a new TextBlock element.
              *
-             * @param x x-coordinate of start position offset
-             * @param y y-coordinate of start position offset
-             * @param s block string
-             * @param f font size
-             * @param w wrap width (in pixels)
-             * @param l font style to use for block
-             * @param t \ref ::RenderType to use for texture generation
+             * @param x Top-left x coordinate
+             * @param y Top-left y coordinate
+             * @param str Text to render
+             * @param size Font size to render in
+             * @param wrap Line wrap width (in pixels)
+             * @param type \ref Render type of rendering to perform
              */
-            TextBlock(int x, int y, std::string s, unsigned int f, unsigned int w, FontStyle l = FontStyle::Regular, RenderType t = RenderType::OnCreate);
+            TextBlock(const int x, const int y, const std::string & str, const unsigned int size, const unsigned int wrap, const Render type = Render::Sync);
 
             /**
-             * @brief Get block wrap width
+             * @brief Returns the dimensions of the given string if it were to be rendered, without
+             * performing any slow rendering.
              *
-             * @return wrap width
+             * @param str String to measure
+             * @param size Font size to measure text with
+             * @param width Maximum width of one line
+             * @return Pair of dimensions, with the first value being
+             * the width and second being the height.
              */
+            static std::pair<int, int> getDimensions(const std::string & str, const unsigned int size, const unsigned int width);
 
+            /**
+             * @brief Returns the maximum width allowed for a line
+             *
+             * @return Max line width in pixels
+             */
             unsigned int wrapWidth();
+
             /**
-             * @brief Set new wrap width
-             * @note Altering requires re-render of text
+             * @brief Set the new max line width
              *
-             * @param w new wrap width
+             * @param wrap New line width in pixels
              */
-            void setWrapWidth(unsigned int w);
+            void setWrapWidth(const unsigned int wrap);
     };
 };
 

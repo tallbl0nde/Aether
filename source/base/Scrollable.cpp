@@ -1,4 +1,5 @@
 #include "Aether/base/Scrollable.hpp"
+#include <algorithm>
 
 // Default catchup amount
 #define DEFAULT_CATCHUP 6
@@ -31,7 +32,7 @@ namespace Aether {
         this->scrollPos_ = 0;
         this->maxScrollPos_ = 0;
         this->scrollBar = nullptr;
-        this->scrollBarColour = Colour{255, 255, 255, 255};
+        this->scrollBarColour = Colour(255, 255, 255, 255);
         this->showScrollBar_ = true;
         this->touchY = std::numeric_limits<int>::min();
     }
@@ -76,7 +77,7 @@ namespace Aether {
         this->maxScrollPos_ -= this->h();
 
         // Delete scroll bar due to new height
-        SDLHelper::destroyTexture(this->scrollBar);
+        delete this->scrollBar;
         this->scrollBar = nullptr;
     }
 
@@ -505,7 +506,7 @@ namespace Aether {
         return false;
     }
 
-    void Scrollable::update(uint32_t dt) {
+    void Scrollable::update(unsigned int dt) {
         // Update all children first
         Container::update(dt);
 
@@ -533,30 +534,29 @@ namespace Aether {
             if (size < MIN_SCROLLBAR_SIZE) {
                 size = MIN_SCROLLBAR_SIZE;
             }
-            this->scrollBar = SDLHelper::renderFilledRoundRect(SCROLLBAR_WIDTH, size, SCROLLBAR_WIDTH/2);
+            this->scrollBar = this->renderer->renderFilledRoundRectTexture(SCROLLBAR_WIDTH, size, SCROLLBAR_WIDTH/2);
         }
     }
 
     void Scrollable::render() {
         // Set clip rectangle to match scrollable position + size
-        SDLHelper::setClip(this->x(), this->y(), this->x() + this->w(), this->y() + this->h());
+        this->renderer->setClipArea(this->x(), this->y(), this->x() + this->w(), this->y() + this->h());
 
         // Render children
         Container::render();
 
         // Remove clip rectangle
-        SDLHelper::resetClip();
+        this->renderer->resetClipArea();
 
         // Draw scroll bar
         if (this->maxScrollPos_ != 0 && this->showScrollBar_ && this->scrollBar != nullptr) {
-            int w, h;
-            SDLHelper::getDimensions(this->scrollBar, &w, &h);
-            int yPos = this->y() + PADDING/2 + (((float)this->scrollPos_ / this->maxScrollPos_) * (this->h() - h - PADDING));
-            SDLHelper::drawTexture(this->scrollBar, this->scrollBarColour, this->x() + this->w() - w, yPos);
+            int yPos = this->y() + PADDING/2 + (((float)this->scrollPos_ / this->maxScrollPos_) * (this->h() - this->scrollBar->height() - PADDING));
+            this->scrollBar->setColour(this->scrollBarColour);
+            this->scrollBar->render(this->x() + this->w() - this->scrollBar->width(), yPos);
         }
     }
 
     Scrollable::~Scrollable() {
-        SDLHelper::destroyTexture(this->scrollBar);
+        delete this->scrollBar;
     }
 };

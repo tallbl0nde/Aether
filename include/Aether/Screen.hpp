@@ -11,56 +11,55 @@ namespace Aether {
      */
     class Screen : public Container {
         private:
-            /** @brief Mappings for button presses to callback functions */
-            std::unordered_map<Button, std::function<void()> > pressFuncs;
+            /** @brief Mappings for button presses to handlers */
+            std::unordered_map<Button, std::function<void()> > onButtonPressFuncs;
 
-            /** @brief Mappings for button releases to callback functions */
-            std::unordered_map<Button, std::function<void()> > releaseFuncs;
+            /** @brief Mappings for button releases to handlers */
+            std::unordered_map<Button, std::function<void()> > onButtonReleaseFuncs;
 
         public:
             /**
-             * @brief Construct a new Screen object
+             * @brief Constructs a new (empty) Screen object.
              */
             Screen();
 
             /**
-             * @brief Callback function when the screen is loaded
+             * @brief Invoked once when the screen is requested to be 'shown'.
+             * This method should set up all child elements.
              */
             virtual void onLoad();
 
             /**
-             * @brief Callback function when the screen is unloaded
+             * @brief Invoked once when the screen has been replaced by another screen.
+             * This method should tidy up all child elements.
              */
             virtual void onUnload();
 
             /**
-             * @brief Assigns callback function for button press
-             * @note Setting a button callback will block the event from
-             *       going to any other elements
+             * @brief Assigns a function to invoke when a button is pressed.
+             * @note Setting a handler will block the button press event from travelling down to children.
              *
-             * @param btn button to assign callback to
-             * @param func function to assign as callback for button press
+             * @param btn Button to assign function to
+             * @param func Function to invoke when button pressed
              */
             void onButtonPress(Button btn, std::function<void()> func);
 
             /**
-             * @brief Assigns callback function for button release
-             * @note Setting a button callback will block the event from
-             *       going to any other elements
+             * @brief Assigns a function to invoke when a button is released.
+             * @note Setting a handler will block the button release event from travelling down to children.
              *
-             * @param btn button to assign callback to
-             * @param func function to assign as callback for button release
+             * @param btn Button to assign function to
+             * @param func Function to invoke when button released
              */
             void onButtonRelease(Button btn, std::function<void()> func);
 
             /**
-             * @brief Attempt event handling for an event that occured
+             * @brief Attempts to handle the event if it is a button press/release.
              *
              * @param event event to handle
-             * @return true if event was handled
-             * @return false if event was not handled
+             * @return Whether the event was handled by the screen.
              */
-            bool handleEvent(InputEvent *event);
+            bool handleEvent(InputEvent * event);
     };
 };
 

@@ -22,7 +22,7 @@ namespace Aether {
 
     void Overlay::render() {
         // Draw background
-        SDLHelper::drawFilledRect(BG_COLOUR, this->x(), this->y(), this->w(), this->h());
+        this->renderer->fillWindow(BG_COLOUR);
 
         // Draw elements
         Screen::render();

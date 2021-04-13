@@ -1,139 +1,99 @@
 #include "Aether/base/Texture.hpp"
+#include "Aether/base/Texture.RenderJob.hpp"
 #include "Aether/ThreadPool.hpp"
-#include <limits>
 
 namespace Aether {
-    Texture::Texture(int x, int y, RenderType t) : Element(x, y) {
-        // Initialize everything
-        this->colour = Colour{255, 255, 255, 255};
-        this->renderType = t;
-        this->status = ThreadedStatus::Empty;
-        this->taskID = 0;       // This may overlap but it shouldn't matter
-        this->surface = nullptr;
-        this->texture = nullptr;
-        this->texH_ = 0;
-        this->texW_ = 0;
-        this->setMask(0, 0, 0, 0);
+    Texture::Texture(const int x, const int y) : Element(x, y, 0, 0) {
+        this->asyncID = 0;
+        this->onRenderDoneFunc = nullptr;
+        this->status = AsyncStatus::Waiting;
+
+        this->colour_ = Colour(255, 255, 255, 255);
+        this->drawable = new Drawable();
+        this->tmpDrawable = nullptr;
     }
 
-    void Texture::createSurface() {
-        this->status = ThreadedStatus::Queued;
-        this->taskID = ThreadPool::addTask([this]() {
-            this->generateSurface();
-            this->status = ThreadedStatus::Surface;
-        });
-    }
+    void Texture::setupDrawable() {
+        this->drawable->convertToTexture();
+        this->drawable->setColour(this->colour_);
 
-    void Texture::convertSurface() {
-        if (this->surface != nullptr) {
-            this->texture = SDLHelper::convertSurfaceToTexture(this->surface);
-            this->surface = nullptr;
-        }
+        this->setW(this->drawable->width());
+        this->setH(this->drawable->height());
 
-        if (this->texture != nullptr) {
-            SDLHelper::getDimensions(this->texture, &this->texW_, &this->texH_);
-            this->setW(this->texW_);
-            this->setH(this->texH_);
-            this->setMask(0, 0, this->texW_, this->texH_);
-        }
-        this->status = ThreadedStatus::Texture;
-    }
-
-    void Texture::regenerate() {
-        // Regenerate immediately if needed
-        if (this->renderType == RenderType::OnCreate) {
-            this->destroyTexture();
-            this->generateSurface();
-            this->convertSurface();
-
-        // Otherwise queue generation
-        } else {
-            this->startRendering();
+        if (this->onRenderDoneFunc != nullptr) {
+            this->onRenderDoneFunc();
         }
     }
 
-    int Texture::texW() {
-        return this->texW_;
+    void Texture::onRenderDone(const std::function<void()> func) {
+        this->onRenderDoneFunc = func;
     }
 
-    int Texture::texH() {
-        return this->texH_;
+    Colour Texture::colour() {
+        return this->colour_;
     }
 
-    Colour Texture::getColour() {
-        return this->colour;
+    void Texture::setColour(const Colour & col) {
+        this->colour_ = col;
+        this->drawable->setColour(this->colour_);
     }
 
-    void Texture::setColour(Colour c) {
-        this->colour = c;
+    int Texture::textureWidth() {
+        return this->drawable->width();
     }
 
-    void Texture::setColour(uint8_t r, uint8_t g, uint8_t b, uint8_t a) {
-        this->setColour(Colour{r, g, b, a});
+    int Texture::textureHeight() {
+        return this->drawable->height();
     }
 
-    void Texture::getMask(int * dx, int * dy, int * dw, int * dh) {
-        *dx = this->maskX;
-        *dy = this->maskY;
-        *dw = this->maskW;
-        *dh = this->maskH;
+    void Texture::setMask(const int x, const int y, const unsigned int w, const unsigned int h) {
+        this->drawable->setMask(x, y, w, h);
     }
 
-    void Texture::setMask(int dx, int dy, int dw, int dh) {
-        this->maskX = dx;
-        this->maskY = dy;
-        this->maskW = dw;
-        this->maskH = dh;
-    }
-
-    void Texture::destroyTexture() {
-        ThreadedStatus st = this->status;
-
-        // Delete texture if present
-        if (st == ThreadedStatus::Texture) {
-            if (this->texture != nullptr) {
-                SDLHelper::destroyTexture(this->texture);
-            }
-            this->texture = nullptr;
-            this->texW_ = 0;
-            this->texH_ = 0;
-            this->status = ThreadedStatus::Empty;
-
-        // Otherwise delete surface if it hasn't been converted yet
-        } else if (st == ThreadedStatus::Surface) {
-            if (this->surface != nullptr) {
-                SDLHelper::freeSurface(this->surface);
-                this->surface = nullptr;
-                this->texW_ = 0;
-                this->texH_ = 0;
-            }
-            this->status = ThreadedStatus::Empty;
-        }
-    }
-
-    bool Texture::startRendering() {
-        ThreadedStatus st = this->status;
-        if (this->renderType == RenderType::Deferred && (st == ThreadedStatus::Empty || st == ThreadedStatus::Texture)) {
-            this->createSurface();
-            return true;
-        }
-        return false;
-    }
-
-    bool Texture::surfaceReady() {
-        return (this->status == ThreadedStatus::Surface);
-    }
-
-    bool Texture::textureReady() {
-        return (this->status == ThreadedStatus::Texture);
-    }
-
-    void Texture::update(uint32_t dt) {
-        // Convert surface to texture when it is ready
-        if (this->status == ThreadedStatus::Surface) {
-            this->convertSurface();
+    void Texture::destroy() {
+        if (this->status == AsyncStatus::Rendering) {
+            ThreadPool::getInstance()->removeOrWaitForJob(this->asyncID);
+            this->asyncID = 0;
         }
 
+        delete this->drawable;
+        this->drawable = new Drawable();
+        this->status = AsyncStatus::Waiting;
+    }
+
+    bool Texture::ready() {
+        return (this->drawable->type() == Drawable::Type::Texture);
+    }
+
+    void Texture::renderSync() {
+        if (this->status != AsyncStatus::Waiting) {
+            return;
+        }
+
+        delete this->drawable;
+        this->drawable = this->renderDrawable();
+        this->setupDrawable();
+        this->status = AsyncStatus::Done;
+    }
+
+    void Texture::renderAsync() {
+        if (this->status != AsyncStatus::Waiting) {
+            return;
+        }
+
+        this->status = AsyncStatus::Rendering;
+        this->asyncID = ThreadPool::getInstance()->queueJob(new RenderJob(this), ThreadPool::Importance::Normal);
+    }
+
+    void Texture::update(unsigned int dt) {
+        if (this->status == AsyncStatus::NeedsConvert) {
+            delete this->drawable;
+            this->drawable = this->tmpDrawable;
+            this->tmpDrawable = nullptr;
+
+            this->setupDrawable();
+            this->status = AsyncStatus::Done;
+        }
         Element::update(dt);
     }
 
@@ -142,14 +102,15 @@ namespace Aether {
             return;
         }
 
-        SDLHelper::drawTexture(this->texture, this->colour, this->x(), this->y(), this->w(), this->h(), this->maskX, this->maskY, this->maskW, this->maskH);
+        this->drawable->render(this->x(), this->y(), this->w(), this->h());
         Element::render();
     }
 
     Texture::~Texture() {
-        if (this->status == ThreadedStatus::Queued) {
-            ThreadPool::removeTaskWithID(this->taskID);
+        if (this->status == AsyncStatus::Rendering) {
+            ThreadPool::getInstance()->removeOrWaitForJob(this->asyncID);
         }
-        this->destroyTexture();
+        delete this->drawable;
+        delete this->tmpDrawable;
     }
 };

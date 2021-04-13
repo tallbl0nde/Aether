@@ -1,36 +1,36 @@
 #include "Aether/base/BaseText.hpp"
 
 namespace Aether {
-    BaseText::BaseText(int x, int y, std::string s, unsigned int f, FontStyle l, RenderType t) : Texture(x, y, t) {
-        this->fontSize_ = f;
-        this->fontStyle = l;
-        this->string_ = s;
+    BaseText::BaseText(const int x, const int y, const std::string & str, const unsigned int size) : Texture(x, y) {
+        this->fontSize_ = size;
+        this->string_ = str;
     }
 
     std::string BaseText::string() {
         return this->string_;
     }
 
-    void BaseText::setString(std::string s) {
-        if (s == this->string()) {
+    void BaseText::setString(const std::string & str) {
+        if (str == this->string()) {
             return;
         }
-        this->string_ = s;
 
-        if (this->renderType == RenderType::OnCreate) {
-            this->regenerate();
-        }
+        this->string_ = str;
+        this->destroy();
+        this->renderSync();
     }
 
     unsigned int BaseText::fontSize() {
         return this->fontSize_;
     }
 
-    void BaseText::setFontSize(unsigned int s) {
-        this->fontSize_ = s;
-
-        if (this->renderType == RenderType::OnCreate) {
-            this->regenerate();
+    void BaseText::setFontSize(const unsigned int size) {
+        if (size == this->fontSize_) {
+            return;
         }
+
+        this->fontSize_ = size;
+        this->destroy();
+        this->renderSync();
     }
 };

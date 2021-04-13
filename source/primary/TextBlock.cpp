@@ -1,54 +1,38 @@
 #include "Aether/primary/TextBlock.hpp"
 
 namespace Aether {
-    TextBlock::TextBlock(int x, int y, std::string s, unsigned int f, unsigned int w, FontStyle l, RenderType rt) : BaseText(x, y, s, f, l, rt) {
-        this->wrapWidth_ = w;
+    TextBlock::TextBlock(const int x, const int y, const std::string & str, const unsigned int size, const unsigned int wrap, const Render type) : BaseText(x, y, str, size) {
+        this->wrapWidth_ = wrap;
 
-        // Now check if we need to render immediately
-        if (this->renderType == RenderType::OnCreate) {
-            this->generateSurface();
-            this->convertSurface();
+        // Render based on requested type
+        if (type == Render::Sync) {
+            this->renderSync();
+
+        } else if (type == Render::Async) {
+            this->renderAsync();
         }
     }
 
-    void TextBlock::generateSurface() {
-        int style;
-        switch (this->fontStyle) {
-            case FontStyle::Regular:
-                style = TTF_STYLE_NORMAL;
-                break;
+    std::pair<int, int> TextBlock::getDimensions(const std::string & str, const unsigned int size, const unsigned int width) {
+        std::tuple<std::vector<std::string>, int, int> dims = TextBlock::renderer->calculateWrappedTextDimensions(str, size, width);
+        return std::pair<int, int>(std::get<1>(dims), std::get<2>(dims));
+    }
 
-            case FontStyle::Bold:
-                style = TTF_STYLE_BOLD;
-                break;
-
-            case FontStyle::Italic:
-                style = TTF_STYLE_ITALIC;
-                break;
-
-            case FontStyle::Underline:
-                style = TTF_STYLE_UNDERLINE;
-                break;
-
-            case FontStyle::Strikethrough:
-                style = TTF_STYLE_STRIKETHROUGH;
-                break;
-        }
-        this->surface = SDLHelper::renderTextWrappedS(this->string_, this->fontSize_, this->wrapWidth(), style);
+    Drawable * TextBlock::renderDrawable() {
+        return this->renderer->renderWrappedTextSurface(this->string_, this->fontSize_, this->wrapWidth_);
     }
 
     unsigned int TextBlock::wrapWidth() {
         return this->wrapWidth_;
     }
 
-    void TextBlock::setWrapWidth(unsigned int w) {
-        if (w == this->wrapWidth_) {
+    void TextBlock::setWrapWidth(const unsigned int wrap) {
+        if (wrap == this->wrapWidth_) {
             return;
         }
-        this->wrapWidth_ = w;
 
-        if (this->renderType == RenderType::OnCreate) {
-            this->regenerate();
-        }
+        this->wrapWidth_ = wrap;
+        this->destroy();
+        this->renderSync();
     }
 };

@@ -1,60 +1,49 @@
-#ifndef AETHER_CONTROLITEM_HPP
-#define AETHER_CONTROLITEM_HPP
+#ifndef AETHER_CONTROLS_CONTROLITEM_HPP
+#define AETHER_CONTROLS_CONTROLITEM_HPP
 
 #include "Aether/primary/Text.hpp"
 
 namespace Aether {
     /**
-     * @brief A ControlItem is stored and handled by the "Controls" element.
-     * It contains the two textures for a button icon and hint.
+     * @brief An item used by and updated by the \ref ControlBar element.
+     * It shows a button icon and label.
      */
     class ControlItem : public Element {
         private:
-            /** @brief Texture for icon */
-            Text * icon;
-            /** @brief Texture for hint */
-            Text * hint;
-            /** @brief Colour for text */
-            Colour colour;
+            Button button_; /** @brief Associated button. */
 
-            // These functions can't be called
-            using Element::addElement;
-            using Element::removeElement;
-            using Element::removeAllElements;
-            using Element::setSelectable;
+            Text * icon;    /** @brief Button icon. */
+            Text * label;   /** @brief Label text. */
 
         public:
             /**
-             * @brief Construct a new Control Item object
-             * 
-             * @param k button associated with Control Item
-             * @param s text hint
+             * @brief Construct a new ControlItem.
+             *
+             * @param btn Button to show/send event for.
+             * @param label Label to display.
              */
-            ControlItem(Button k, std::string s);
+            ControlItem(const Button btn, const std::string & label);
 
             /**
-             * @brief Get the text colour
-             * 
-             * @return text colour
+             * @brief Returns the control's associated button.
+             *
+             * @return Button that the control is associated with.
              */
-            Colour getColour();
+            Button button();
 
             /**
-             * @brief Set the text colour
-             * 
-             * @param c new text colour
+             * @brief Set the colour to tint the element with.
+             *
+             * @param colour Colour used for tinting.
              */
-            void setColour(Colour c);
+            void setColour(const Colour & colour);
 
             /**
-             * @brief Set the text colour
-             * 
-             * @param r red value of text colour
-             * @param g green value of text colour
-             * @param b blue value of text colour
-             * @param a alpha value of text colour
+             * @brief Set the control's label.
+             *
+             * @param label New label to display.
              */
-            void setColour(uint8_t r, uint8_t g, uint8_t b, uint8_t a);
+            void setLabel(const std::string & label);
     };
 };
 

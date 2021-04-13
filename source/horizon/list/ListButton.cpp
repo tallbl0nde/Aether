@@ -20,11 +20,11 @@ namespace Aether {
         this->text_->setY(this->text_->y() - this->text_->h()/2);
         this->addElement(this->text_);
 
-        this->setCallback(f);
+        this->onPress(f);
     }
 
     Colour ListButton::getLineColour() {
-        return this->topR->getColour();
+        return this->topR->colour();
     }
 
     void ListButton::setLineColour(Colour c) {
@@ -33,7 +33,7 @@ namespace Aether {
     }
 
     Colour ListButton::getTextColour() {
-        return this->text_->getColour();
+        return this->text_->colour();
     }
 
     void ListButton::setTextColour(Colour c) {

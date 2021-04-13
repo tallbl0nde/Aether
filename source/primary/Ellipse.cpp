@@ -1,44 +1,45 @@
 #include "Aether/primary/Ellipse.hpp"
 
 namespace Aether {
-    Ellipse::Ellipse(int x, int y, unsigned int xd, unsigned int yd) : Texture(x, y, RenderType::OnCreate) {
+    Ellipse::Ellipse(const int x, const int y, const unsigned int xd, const unsigned int yd) : Texture(x, y) {
         this->xDiameter_ = xd;
         this->yDiameter_ = ((yd == 0) ? xd : yd);
-        this->regenerate();
+        this->renderSync();
     }
 
-    void Ellipse::generateSurface() {
-        // This is safe - see Texture::regenerate()
-        this->texture = SDLHelper::renderFilledEllipse(this->xDiameter_/2, this->yDiameter_/2);
+    Drawable * Ellipse::renderDrawable() {
+        return this->renderer->renderFilledEllipseTexture(this->xDiameter_/2, this->yDiameter_/2);
     }
 
     unsigned int Ellipse::xDiameter() {
         return this->xDiameter_;
     }
 
-    void Ellipse::setXDiameter(unsigned int xd) {
+    void Ellipse::setXDiameter(const unsigned int xd) {
         this->xDiameter_ = xd;
-        this->regenerate();
+        this->destroy();
+        this->renderSync();
     }
 
     unsigned int Ellipse::yDiameter() {
         return this->yDiameter_;
     }
 
-    void Ellipse::setYDiameter(unsigned int yd) {
+    void Ellipse::setYDiameter(const unsigned int yd) {
         this->yDiameter_ = yd;
-        this->regenerate();
+        this->destroy();
+        this->renderSync();
     }
 
-    SDL_Texture * Ellipse::renderHighlightBG() {
-        return SDLHelper::renderFilledEllipse(this->w()/2, this->h()/2);
+    Drawable * Ellipse::renderHighlightBG() {
+        return this->renderer->renderFilledEllipseTexture(this->w()/2, this->h()/2);
     }
 
-    SDL_Texture * Ellipse::renderHighlight() {
-        return SDLHelper::renderEllipse(this->w()/2, this->h()/2, this->hiSize);
+    Drawable * Ellipse::renderHighlight() {
+        return this->renderer->renderEllipseTexture(this->w()/2, this->h()/2, this->hiSize);
     }
 
-    SDL_Texture * Ellipse::renderSelection() {
-        return SDLHelper::renderFilledEllipse(this->w()/2, this->h()/2);
+    Drawable * Ellipse::renderSelection() {
+        return this->renderer->renderFilledEllipseTexture(this->w()/2, this->h()/2);
     }
 };

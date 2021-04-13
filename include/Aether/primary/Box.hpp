@@ -5,67 +5,67 @@
 
 namespace Aether {
     /**
-     * @brief A Box is a rectangle outline with no fill.
-     * @note This element can not have the texture generation deferred yet!
+     * @brief Element for rendering a 'box' (rectangle with no fill).
+     * @note This element can not be drawn asynchronously!
      */
     class Box : public Texture {
         private:
-            /** @brief Size of border */
-            unsigned int border_;
+            unsigned int border_;               /** @brief Size of border */
+            unsigned int cornerRadius_;         /** @brief Radius of each corner (draws rounded rectangle when > 0) */
 
-            /** @brief Radius of each corner (draws rounded rectangle when > 0) */
-            unsigned int cornerRadius_;
-
-            /** @brief Generate a box surface */
-            void generateSurface();
+            /**
+             * @brief Override in order to render a box.
+             */
+            Drawable * renderDrawable();
 
         public:
             /**
-             * @brief Construct a new Box object
+             * @brief Constructs a new Box element.
              *
-             * @param x x-coordinate of start position offset
-             * @param y y-coordinate of start position offset
-             * @param w width of box
-             * @param h height of box
-             * @param b border thickness
-             * @param r corner radius
+             * @param x Top-left x coordinate
+             * @param y Top-left y coordinate
+             * @param w Width of box
+             * @param h Height of box
+             * @param thick Border thickness (optional)
+             * @param radius Border corner radius (optional)
              */
-            Box(int x, int y, int w, int h, unsigned int b = 1, unsigned int r = 0);
+            Box(const int x, const int y, const int w, const int h, const unsigned int thick = 1, const unsigned int radius = 0);
 
             /**
-             * @brief Get the border thickness of box
+             * @brief Returns the thickness of the border
              *
-             * @return border thickness
+             * @return Border thickness in pixels
              */
-            unsigned int border();
-            /**
-             * @brief Set the border thickness of box
-             *
-             * @param b new border thickness
-             */
-            void setBorder(unsigned int b);
+            unsigned int thickness();
 
             /**
-             * @brief Get the current corner radius for box
+             * @brief Set the border thickness of the box
              *
-             * @return corner radius
+             * @param thick New border thickness
+             */
+            void setThickness(const unsigned int thick);
+
+            /**
+             * @brief Returns the corner radius of the border
+             *
+             * @return Corner radius in pixels
              */
             unsigned int cornerRadius();
 
             /**
-             * @brief Set the corner radius for box
+             * @brief Set the corner radius of the border
              *
-             * @param r new corner radius
+             * @param radius New corner radius
              */
-            void setCornerRadius(unsigned int r);
+            void setCornerRadius(const unsigned int radius);
 
             /**
-             * @brief Adjust box size
+             * @brief Adjusts the dimensions of the box
              *
-             * @param w new width of box
-             * @param h new height of box
+             * @param w New width of box
+             * @param h New height of box
              */
-            void setBoxSize(int w, int h);
+            void setBoxSize(const int w, const int h);
     };
 };
 

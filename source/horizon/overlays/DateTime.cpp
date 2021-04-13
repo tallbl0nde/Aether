@@ -24,11 +24,9 @@ namespace Aether {
         this->title->setY(this->title->y() - this->title->h()/2);
         this->addElement(this->title);
 
-        this->ctrl = new Controls();
-        this->ctrl->addItem(new ControlItem(Button::A, "OK"));
-        this->ctrl->addItem(new ControlItem(Button::B, "Back"));
-        this->labelOK = "OK";
-        this->labelBack = "Back";
+        this->ctrl = new ControlBar();
+        this->ctrl->addControl(Button::A, "OK");
+        this->ctrl->addControl(Button::B, "Back");
         this->addElement(this->ctrl);
 
         bool hasDate = false;
@@ -264,22 +262,11 @@ namespace Aether {
     }
 
     void DateTime::setBackLabel(std::string s) {
-        this->labelBack = s;
-        this->removeElement(this->ctrl);
-        this->ctrl = new Controls();
-        this->ctrl->addItem(new ControlItem(Button::A, this->labelOK));
-        this->ctrl->addItem(new ControlItem(Button::B, this->labelBack));
-        this->addElement(this->ctrl);
+        this->ctrl->updateControl(Button::B, s);
     }
 
     void DateTime::setOKLabel(std::string s) {
-        this->labelOK = s;
-        this->button->setString(s);
-        this->removeElement(this->ctrl);
-        this->ctrl = new Controls();
-        this->ctrl->addItem(new ControlItem(Button::A, this->labelOK));
-        this->ctrl->addItem(new ControlItem(Button::B, this->labelBack));
-        this->addElement(this->ctrl);
+        this->ctrl->updateControl(Button::A, s);
     }
 
     void DateTime::setDayHint(std::string s) {
@@ -319,7 +306,7 @@ namespace Aether {
     }
 
     Colour DateTime::getBackgroundColour() {
-        return this->rect->getColour();
+        return this->rect->colour();
     }
 
     void DateTime::setBackgroundColour(Colour c) {
@@ -416,16 +403,16 @@ namespace Aether {
 
     Colour DateTime::getSeparatorColour() {
         if (this->div1 != nullptr) {
-            return this->div1->getColour();
+            return this->div1->colour();
         }
         if (this->div2 != nullptr) {
-            return this->div2->getColour();
+            return this->div2->colour();
         }
         if (this->col1 != nullptr) {
-            return this->col1->getColour();
+            return this->col1->colour();
         }
         if (this->col2 != nullptr) {
-            return this->col2->getColour();
+            return this->col2->colour();
         }
         return Colour{255, 255, 255, 255};
     }
@@ -473,7 +460,7 @@ namespace Aether {
         this->title->setColour(c);
         this->top->setColour(c);
         this->bottom->setColour(c);
-        this->ctrl->setColour(c);
+        this->ctrl->setEnabledColour(c);
     }
 
     void DateTime::setAllColours(Colour c1, Colour c2, Colour c3, Colour c4, Colour c5) {

@@ -20,7 +20,7 @@ namespace Aether {
              * @param x x-coordinate of start position offset
              * @param y y-coordinate of start position offset
              * @param d diamater of round button
-             * @param f callback function when button is pressed
+             * @param f function to invoke on button press
              */
             HelpButton(int x, int y, int d, std::function<void()> f);
 
@@ -29,7 +29,7 @@ namespace Aether {
              *
              * @return colour
              */
-            Colour getColour();
+            Colour colour();
 
             /**
              * @brief Set the colour of the question mark
@@ -41,17 +41,17 @@ namespace Aether {
             /**
              * @brief Render highlight background
              */
-            SDL_Texture * renderHighlightBG();
+            Drawable * renderHighlightBG();
 
             /**
              * @brief Render highlight border
              */
-            SDL_Texture * renderHighlight();
+            Drawable * renderHighlight();
 
             /**
              * @brief Render selection layer
              */
-            SDL_Texture * renderSelection();
+            Drawable * renderSelection();
     };
 };
 

@@ -7,7 +7,7 @@
 namespace Aether {
     /**
      * @brief A ListOption is similar to what appears in Horizon's
-     * lists. It has a string and value, as well as a callback function
+     * lists. It has a string and value, as well as a function
      * which is called when selected.
      */
     class ListOption : public Element {
@@ -29,58 +29,58 @@ namespace Aether {
         public:
             /**
              * @brief Construct a new List Option object
-             * 
+             *
              * @param t hint string
              * @param v value string
-             * @param f callback function when option is selected
+             * @param f function to invoke when option is selected
              */
             ListOption(std::string t, std::string v, std::function<void()> f);
 
             /**
              * @brief Get the line colour (top rectangle colour)
-             * 
+             *
              * @return line colour
              */
             Colour getLineColour();
 
             /**
              * @brief Set the line colour (top rectangle colour)
-             * 
+             *
              * @param c new line colour
              */
             void setLineColour(Colour c);
 
             /**
              * @brief Get the hint colour
-             * 
+             *
              * @return hint colour
              */
             Colour getHintColour();
 
             /**
              * @brief Set the hint colour
-             * 
+             *
              * @param c new hint colour
              */
             void setHintColour(Colour c);
 
             /**
              * @brief Get the value colour
-             * 
+             *
              * @return value colour
              */
             Colour getValueColour();
 
             /**
              * @brief Set the value colour
-             * 
+             *
              * @param c new value colour
              */
             void setValueColour(Colour c);
 
             /**
              * @brief Set all colours at once: line, hint, value
-             * 
+             *
              * @param l new line colour
              * @param h new help colour
              * @param v new value colour
@@ -89,28 +89,28 @@ namespace Aether {
 
             /**
              * @brief Get the hint string
-             * 
+             *
              * @return hint string
              */
             std::string hint();
 
             /**
              * @brief Set the hint string
-             * 
+             *
              * @param s new hint string
              */
             void setHint(std::string s);
 
             /**
              * @brief Get the value string
-             * 
+             *
              * @return value string
              */
             std::string value();
 
             /**
              * @brief Set the value string
-             * 
+             *
              * @param s new value string
              */
             void setValue(std::string s);
@@ -125,7 +125,7 @@ namespace Aether {
 
             /**
              * @brief Get the font size
-             * 
+             *
              * @return font size
              */
             unsigned int fontSize();
@@ -133,7 +133,7 @@ namespace Aether {
             /**
              * @brief Set the width of the list option
              * All elements are repositioned when this is called.
-             * 
+             *
              * @param w new width
              */
             void setW(int w);
@@ -141,7 +141,7 @@ namespace Aether {
             /**
              * @brief Set the height of the list option
              * All elements are repositioned when this is called.
-             * 
+             *
              * @param h new height
              */
             void setH(int h);

@@ -1,117 +1,97 @@
 #include "Aether/primary/Text.hpp"
+#include "Aether/types/Timer.hpp"
 
-// Time to pause after text scroll
-#define DEFAULT_SCROLL_PAUSE 700
-// Default scrolling speed (pps)
-#define DEFAULT_SCROLL_SPEED 120
+// Default time to pause once we reach the end
+static constexpr unsigned int defaultWaitInterval = 700;
+
+// Default scrolling speed
+static constexpr int defaultScrollSpeed = 120;
 
 namespace Aether {
-    Text::Text(int x, int y, std::string s, unsigned int f, FontStyle l, RenderType r) : BaseText(x, y, s, f, l, r) {
-        this->scroll_ = false;
-        this->scrollSpeed_ = DEFAULT_SCROLL_SPEED;
-        this->scrollWaitTime_ = DEFAULT_SCROLL_PAUSE;
+    Text::Text(const int x, const int y, const std::string & str, const unsigned int size, const Render type) : BaseText(x, y, str, size) {
+        // Initialize default scrolling parameters
+        this->scroll.allowed = false;
+        this->scroll.position = 0;
+        this->scroll.speed = defaultScrollSpeed;
+        this->scroll.timer = new Timer();
+        this->scroll.waitInterval = defaultWaitInterval;
 
-        // Now check if we need to render immediately
-        if (this->renderType == RenderType::OnCreate) {
-            this->generateSurface();
-            this->convertSurface();
+        // Render based on requested type
+        if (type == Render::Sync) {
+            this->renderSync();
+
+        } else if (type == Render::Async) {
+            this->renderAsync();
         }
-
-        this->setScroll(this->scroll_);
     }
 
-    void Text::generateSurface() {
-        int style;
-        switch (this->fontStyle) {
-            case FontStyle::Regular:
-                style = TTF_STYLE_NORMAL;
-                break;
+    std::pair<int, int> Text::getDimensions(const std::string & str, const unsigned int size) {
+        return Text::renderer->calculateTextDimensions(str, size);
+    }
 
-            case FontStyle::Bold:
-                style = TTF_STYLE_BOLD;
-                break;
-
-            case FontStyle::Italic:
-                style = TTF_STYLE_ITALIC;
-                break;
-
-            case FontStyle::Underline:
-                style = TTF_STYLE_UNDERLINE;
-                break;
-
-            case FontStyle::Strikethrough:
-                style = TTF_STYLE_STRIKETHROUGH;
-                break;
+    Drawable * Text::renderDrawable() {
+        if (this->string_.empty()) {
+            return new Drawable();
+        } else {
+            return this->renderer->renderTextSurface(this->string_, this->fontSize_);
         }
-        this->surface = SDLHelper::renderTextS(this->string_, this->fontSize_, style);
     }
 
-    bool Text::scroll() {
-        return this->scroll_;
+    bool Text::canScroll() {
+        return this->scroll.allowed;
     }
 
-    void Text::setScroll(bool s) {
-        this->scroll_ = s;
-        this->scrollPauseTime = -this->scrollWaitTime_;
-        this->scrollPosition = 0;
-        this->setMask(0, 0, this->w(), this->texH());
+    void Text::setCanScroll(const bool scroll) {
+        this->scroll.allowed = scroll;
+        this->scroll.position = 0;
+        this->scroll.timer->stop();
+        this->setMask(0, 0, this->w(), this->textureHeight());
     }
 
-    int Text::scrollWaitTime() {
-        return this->scrollWaitTime_;
+    void Text::setScrollPause(const unsigned int ms) {
+        this->scroll.waitInterval = ms;
     }
 
-    void Text::setScrollWaitTime(unsigned int t) {
-        this->scrollWaitTime_ = t;
+    void Text::setScrollSpeed(const int pps) {
+        this->scroll.speed = pps;
     }
 
-    int Text::scrollSpeed() {
-        return this->scrollSpeed_;
+    void Text::setString(const std::string & str) {
+        BaseText::setString(str);
+        this->setCanScroll(this->scroll.allowed);
     }
 
-    void Text::setScrollSpeed(int s) {
-        this->scrollSpeed_ = s;
+    void Text::setFontSize(const unsigned int size) {
+        BaseText::setFontSize(size);
+        this->setCanScroll(this->scroll.allowed);
     }
 
-    void Text::setFontSize(unsigned int s) {
-        BaseText::setFontSize(s);
-        this->setScroll(this->scroll_);
-    }
-
-    void Text::setString(std::string s) {
-        BaseText::setString(s);
-        this->setScroll(this->scroll_);
-    }
-
-    void Text::update(uint32_t dt) {
+    void Text::update(unsigned int dt) {
         BaseText::update(dt);
 
-        // Check if need to scroll and do so
-        if (this->scroll()) {
-            if (this->texW() > this->w()) {
-                if (this->scrollPosition >= (this->texW() - this->w())) {
-                    // If we're past the end and we've waited, go back to the start
-                    if (this->scrollPauseTime > this->scrollWaitTime_) {
-                        this->setMask(0, 0, this->w(), this->texH());
-                        this->scrollPauseTime = -this->scrollWaitTime_;
-                        this->scrollPosition = 0;
+        // Check if we need to scroll and do so
+        if (this->scroll.allowed && this->textureWidth() > this->w()) {
+            // If we're past the end
+            if (this->scroll.position >= (this->textureWidth() - this->w())) {
+                // Go back to the start once we've paused
+                if (this->scroll.timer->elapsedMillis() >= this->scroll.waitInterval) {
+                    this->scroll.position = 0;
+                    this->scroll.timer->stop();
+                    this->scroll.timer->start();
+                    this->setMask(0, 0, this->w(), this->textureHeight());
+                }
 
-                    // Otherwise keep waiting
-                    } else {
-                        this->scrollPauseTime += dt;
-                    }
+            // Otherwise if we're not at the end don't scroll until we've waited long enough
+            } else if (this->scroll.timer->elapsedMillis() >= this->scroll.waitInterval) {
+                float tmp = this->scroll.speed * (dt/1000.0);
+                this->scroll.position += (tmp < 1 ? tmp : static_cast<int>(tmp));
+                this->setMask(static_cast<int>(this->scroll.position), 0, this->w(), this->textureHeight());
 
-                } else {
-                    // Don't scroll until we've waited long enough
-                    if (this->scrollPauseTime < 0) {
-                        this->scrollPauseTime += dt;
-
-                    // Otherwise we can scroll :)
-                    } else {
-                        float tmp = this->scrollSpeed_*(dt/1000.0);
-                        this->scrollPosition += (tmp < 1 ? tmp : (int)tmp);     // Little workaround to allow text to scroll smoothly (not accurate sadly :/)
-                        this->setMask((int)this->scrollPosition, 0, this->w(), this->texH());
-                    }
+                // Reset timer once we reach the end
+                if (this->scroll.position >= (this->textureWidth() - this->w())) {
+                    this->scroll.position = (this->textureWidth() - this->w());
+                    this->scroll.timer->stop();
+                    this->scroll.timer->start();
                 }
             }
         }
@@ -119,6 +99,10 @@ namespace Aether {
 
     void Text::setW(int w) {
         BaseText::setW(w);
-        this->setScroll(this->scroll_);
+        this->setCanScroll(this->scroll.allowed);
+    }
+
+    Text::~Text() {
+        delete this->scroll.timer;
     }
 };

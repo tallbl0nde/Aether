@@ -110,7 +110,7 @@ namespace Aether {
         return res;
     }
 
-    void List::update(uint32_t dt) {
+    void List::update(unsigned int dt) {
         Scrollable::update(dt);
 
         // Allow "manual" scrolling at top and bottom

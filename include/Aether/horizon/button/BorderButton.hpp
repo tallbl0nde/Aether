@@ -7,15 +7,13 @@
 
 namespace Aether {
     /**
-     * @brief A BorderButton is exactly that. The text/box are
-     * resized/repositioned to be centered on any resizes.
+     * @brief The BorderButton element looks similar to the unfilled
+     * buttons seen within Horizon.
      */
     class BorderButton : public Element {
         private:
-            /** @brief The box associated with the button */
-            Box * box;
-            /** @brief The text in the button */
-            Text * text;
+            Box * box;          /** @brief The box associated with the button */
+            Text * text;        /** @brief The text in the button */
 
         public:
             /**
@@ -28,7 +26,7 @@ namespace Aether {
              * @param b border size
              * @param t text in button
              * @param s text size
-             * @param f callback on button press
+             * @param f function to invoke on button press
              */
             BorderButton(int x, int y, int w, int h, unsigned int b, std::string t, unsigned int s, std::function<void()> f);
 
@@ -93,17 +91,17 @@ namespace Aether {
             /**
              * @brief Render highlight background
              */
-            SDL_Texture * renderHighlightBG();
+            Drawable * renderHighlightBG();
 
             /**
              * @brief Render highlight border
              */
-            SDL_Texture * renderHighlight();
+            Drawable * renderHighlight();
 
             /**
              * @brief Render selection layer
              */
-            SDL_Texture * renderSelection();
+            Drawable * renderSelection();
     };
 };
 

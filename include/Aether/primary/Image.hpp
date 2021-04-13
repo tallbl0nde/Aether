@@ -5,77 +5,110 @@
 
 namespace Aether {
     /**
-     * @brief An image is literally a texture that is created from
-     * an image. Not much more to it than that!
-     * @note If the render type is set to Deferred make sure the path/pointer is still available when
-     * you want to render the image!
+     * @brief Element for rendering an image, either from memory or a file system.
+     * @note If rendering without copying, ensure the data is still accessible
+     * until rendering is complete.
      */
     class Image : public Texture {
-        /**
-         * @brief Enum class for type of image
-         */
-        enum class Type {
-            Path,       /*< Created from path string */
-            Pointer     /*< Created from pointer */
-        };
-
         private:
-            /** @brief Type of image */
-            Type type;
+            /**
+             * @brief Enumeration for types of image
+             */
+            enum class Type {
+                File,               /**< Read from file */
+                Pointer,            /**< Read from raw memory */
+                Vector,             /**< Read from copied vector */
+            };
 
             /**
-             * @brief Path to image file
-             * @note Undefined value if created with a pointer to image!
+             * @brief Struct for keeping pointer to data and it's size
              */
-            std::string path;
+            struct Ptr {
+                unsigned char * ptr;
+                size_t size;
+            } mem;
+            std::vector<unsigned char> copy;    /** @brief Copy of image data */
+            std::string path;                   /** @brief Path to image file */
+            Type type;                          /** @brief Type of image */
+
+            size_t scaleWidth_;                 /** @brief Width to scale to in pixels */
+            size_t scaleHeight_;                /** @brief Height to scale to in pixels */
 
             /**
-             * @brief Pointer to image data
-             * @note Undefined value if created with a file path!
+             * @brief Overrides Texture's method to render the image.
              */
-            u8 * ptr;
+            Drawable * renderDrawable();
 
             /**
-             * @brief Size of data pointed to by ptr
-             * @note Undefined value if created with a file path!
+             * @brief Small helper to render based on passed type.
+             *
+             * @param type Type of rendering to perform
              */
-            size_t size;
-
-            /** @brief x scaling factor */
-            int xF;
-
-            /** @brief y scaling factor */
-            int yF;
-
-            /** @brief Creates the image as a surface */
-            void generateSurface();
+            void performRender(const Render type);
 
         public:
             /**
-             * @brief Construct a new Image object.
-             * Image is rendered when object is first created.
+             * @brief Constructs a new Image element using a pointer to data.
+             * @note This data is not copied, pass a vector if copying is preferred.
              *
-             * @param x x-coordinate of start position offset
-             * @param y y-coordinate of start position offset
-             * @param p path to image file
-             * @param xF x scaling factor
-             * @param yF y scaling factor
-             * @param t \ref ::RenderType to use for texture generation
+             * @param x Top-left x coordinate
+             * @param y Top-left y coordinate
+             * @param data Pointer to image data
+             * @param size Size of data in bytes
+             * @param type \ref Render Type of rendering to perform
              */
-            Image(int x, int y, std::string p, int xF = 1, int yF = 1, RenderType t = RenderType::OnCreate);
+            Image(const int x, const int y, unsigned char * data, const size_t size, const Render type = Render::Sync);
 
             /**
-             * @brief Construct a new Image object
+             * @brief Constructs a new Image element using a file.
              *
-             * @param x x-coordinate of start position offset
-             * @param y y-coordinate of start position offset
-             * @param p pointer to image data start
-             * @param s image data size
-             * @param xF x scaling factor
-             * @param yF y scaling factor
-             * @param t \ref ::RenderType to use for texture generation
+             * @param x Top-left x coordinate
+             * @param y Top-left y coordinate
+             * @param path Path to image file
+             * @param type \ref Render Type of rendering to perform
              */
-            Image(int x, int y, u8 * p, size_t s, int xF = 1, int yF = 1, RenderType t = RenderType::OnCreate);
+            Image(const int x, const int y, const std::string & path, const Render type = Render::Sync);
+
+            /**
+             * @brief Constructs a new Image element using a vector of image data, which is copied.
+             *
+             * @param x Top-left x coordinate
+             * @param y Top-left y coordinate
+             * @param data Vector of image data
+             * @param type \ref Render Type of rendering to perform
+             */
+            Image(const int x, const int y, const std::vector<unsigned char> & data, const Render type = Render::Sync);
+
+            /**
+             * @brief Sets the dimensions to *scale* the image to when rendered. Scaling produces a better
+             * image quality when scaled up/down by a large amount, at a cost of CPU to initially process it.
+             * Pass zero as either parameter to disable scaling.
+             * @note This only takes effect when the image is rendered, and not immediately.
+             *
+             * @param width Width (in pixels) to scale the image to.
+             * @param height Height (in pixels) to scale the image to.
+             * @return Whether the dimensions are valid.
+             */
+            bool setScaleDimensions(const size_t width, const size_t height);
+
+            /**
+             * @brief Returns the currently set scale width.
+             *
+             * @return Scale width (in pixels).
+             */
+            size_t scaleWidth();
+
+            /**
+             * @brief Returns the currently set scale height.
+             *
+             * @return Scale height (in pixels).
+             */
+            size_t scaleHeight();
+
+            /**
+             * @brief Destroys the image element.
+             */
+            ~Image();
     };
 };
 

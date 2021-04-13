@@ -8,13 +8,14 @@
 #define HIGHLIGHT_RAD 4
 
 namespace Aether {
-    Colour Element::hiBGColour = Colour{255, 255, 255, 255};
-    Colour Element::hiBorderColour = Colour{255, 255, 255, 255};
-    Colour Element::selColour = Colour{255, 255, 255, 255};
+    Colour Element::hiBGColour = Colour(255, 255, 255, 255);
+    Colour Element::hiBorderColour = Colour(255, 255, 255, 255);
+    Colour Element::selColour = Colour(255, 255, 255, 255);
     unsigned int Element::hiSize = HIGHLIGHT_SIZE;
-    SDL_Texture * Element::hiBGTex = nullptr;
-    SDL_Texture * Element::hiBorderTex = nullptr;
-    SDL_Texture * Element::selTex = nullptr;
+    Drawable * Element::hiBGTex = nullptr;
+    Drawable * Element::hiBorderTex = nullptr;
+    Drawable * Element::selTex = nullptr;
+    Renderer * Element::renderer = nullptr;
     Element * Element::hiOwner = nullptr;
     Element * Element::selOwner = nullptr;
     bool Element::isTouch = false;
@@ -24,7 +25,7 @@ namespace Aether {
 
         this->parent_ = nullptr;
         this->hidden_ = false;
-        this->callback_ = nullptr;
+        this->onPressFunc_ = nullptr;
         this->hasSelectable_ = false;
         this->selectable_ = false;
         this->hasHighlighted_ = false;
@@ -42,9 +43,9 @@ namespace Aether {
             return;
         }
 
-        SDLHelper::destroyTexture(this->hiBorderTex);
+        delete this->hiBorderTex;
         this->hiBorderTex = this->renderHighlight();
-        SDLHelper::destroyTexture(this->hiBGTex);
+        delete this->hiBGTex;
         this->hiBGTex = this->renderHighlightBG();
 
         this->hiOwner = this;
@@ -56,7 +57,7 @@ namespace Aether {
             return;
         }
 
-        SDLHelper::destroyTexture(this->selTex);
+        delete this->selTex;
         this->selTex = this->renderSelection();
 
         this->selOwner = this;
@@ -238,12 +239,12 @@ namespace Aether {
         }
     }
 
-    std::function<void()> Element::callback() {
-        return this->callback_;
+    std::function<void()> Element::onPressFunc() {
+        return this->onPressFunc_;
     }
 
-    void Element::setCallback(std::function<void()> f) {
-        this->callback_ = f;
+    void Element::onPress(std::function<void()> f) {
+        this->onPressFunc_ = f;
         this->setSelectable(true);
         this->setTouchable(true);
     }
@@ -261,8 +262,8 @@ namespace Aether {
             case EventType::ButtonReleased:
                 if (e->button() == Button::A && this->selected_) {
                     this->setSelected(false);
-                    if (this->callback_ != nullptr) {
-                        this->callback_();
+                    if (this->onPressFunc_ != nullptr) {
+                        this->onPressFunc_();
                         return true;
                     }
                 }
@@ -290,8 +291,8 @@ namespace Aether {
                     if (this->selectable_) {
                         moveHighlight(this);
                     }
-                    if (this->callback_ != nullptr) {
-                        this->callback_();
+                    if (this->onPressFunc_ != nullptr) {
+                        this->onPressFunc_();
                     }
                     return true;
                 }
@@ -301,7 +302,7 @@ namespace Aether {
         return false;
     }
 
-    void Element::update(uint32_t dt) {
+    void Element::update(unsigned int dt) {
         // Do nothing if hidden or off-screen
         if (!this->isVisible()) {
             return;
@@ -356,8 +357,8 @@ namespace Aether {
         int w, h;
         if (this->highlighted() && !this->isTouch) {
             this->renderHighlightTextures();
-            SDLHelper::getDimensions(this->hiBGTex, &w, &h);
-            SDLHelper::drawTexture(this->hiBGTex, this->hiBGColour, this->x_ + (this->w_ - w)/2, this->y_ + (this->h_ - h)/2);
+            this->hiBGTex->setColour(this->hiBGColour);
+            this->hiBGTex->render(this->x_ + (this->w_ - this->hiBGTex->width())/2, this->y_ + (this->h_ - this->hiBGTex->height())/2);
         }
 
         // Render children next
@@ -368,27 +369,27 @@ namespace Aether {
         // Render selected/held layer
         if (this->selected()) {
             this->renderSelectionTexture();
-            SDLHelper::getDimensions(this->selTex, &w, &h);
-            SDLHelper::drawTexture(this->selTex, this->selColour, this->x_ + (this->w_ - w)/2, this->y_ + (this->h_ - h)/2);
+            this->selTex->setColour(this->selColour);
+            this->selTex->render(this->x_ + (this->w_ - this->selTex->width())/2, this->y_ + (this->h_ - this->selTex->height())/2);
         }
 
         // Finally render highlight border if needed
         if (this->highlighted() && !this->isTouch) {
-            SDLHelper::getDimensions(this->hiBorderTex, &w, &h);
-            SDLHelper::drawTexture(this->hiBorderTex, this->hiBorderColour, this->x_ + (this->w_ - w)/2, this->y_ + (this->h_ - h)/2);
+            this->hiBorderTex->setColour(this->hiBorderColour);
+            this->hiBorderTex->render(this->x_ + (this->w_ - this->hiBorderTex->width())/2, this->y_ + (this->h_ - this->hiBorderTex->height())/2);
         }
     }
 
-    SDL_Texture * Element::renderHighlightBG() {
-        return SDLHelper::renderFilledRect(this->w(), this->h());
+    Drawable * Element::renderHighlightBG() {
+        return this->renderer->renderFilledRectTexture(this->w(), this->h());
     }
 
-    SDL_Texture * Element::renderHighlight() {
-        return SDLHelper::renderRoundRect(this->w() + 2*this->hiSize, this->h() + 2*this->hiSize, HIGHLIGHT_RAD, this->hiSize);
+    Drawable * Element::renderHighlight() {
+        return this->renderer->renderRoundRectTexture(this->w() + 2*this->hiSize, this->h() + 2*this->hiSize, HIGHLIGHT_RAD, this->hiSize);
     }
 
-    SDL_Texture * Element::renderSelection() {
-        return SDLHelper::renderFilledRect(this->w(), this->h());
+    Drawable * Element::renderSelection() {
+        return this->renderer->renderFilledRectTexture(this->w(), this->h());
     }
 
     void Element::setActive() {

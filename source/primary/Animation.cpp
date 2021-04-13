@@ -8,7 +8,7 @@ namespace Aether {
         this->paused = false;
     }
 
-    void Animation::update(uint32_t dt) {
+    void Animation::update(unsigned int dt) {
         // Update children
         Element::update(dt);
 
@@ -32,11 +32,10 @@ namespace Aether {
         }
 
         // Render highlight background if highlighted
-        int w, h;
         if (this->highlighted() && !this->isTouch) {
             this->renderHighlightTextures();
-            SDLHelper::getDimensions(this->hiBGTex, &w, &h);
-            SDLHelper::drawTexture(this->hiBGTex, this->hiBGColour, this->x() + (this->w() - w)/2, this->y() + (this->h() - h)/2);
+            this->hiBGTex->setColour(this->hiBGColour);
+            this->hiBGTex->render(this->x() + (this->w() - this->hiBGTex->width())/2, this->y() + (this->h() - this->hiBGTex->height())/2);
         }
 
         // Render active child
@@ -47,14 +46,14 @@ namespace Aether {
         // Render selected/held layer
         if (this->selected()) {
             this->renderSelectionTexture();
-            SDLHelper::getDimensions(this->selTex, &w, &h);
-            SDLHelper::drawTexture(this->selTex, this->selColour, this->x() + (this->w() - w)/2, this->y() + (this->h() - h)/2);
+            this->selTex->setColour(this->selColour);
+            this->selTex->render(this->x() + (this->w() - this->selTex->width())/2, this->y() + (this->h() - this->selTex->height())/2);
         }
 
         // Finally render highlight border if needed
         if (this->highlighted() && !this->isTouch) {
-            SDLHelper::getDimensions(this->hiBorderTex, &w, &h);
-            SDLHelper::drawTexture(this->hiBorderTex, this->hiBorderColour, this->x() + (this->w() - w)/2, this->y() + (this->h() - h)/2);
+            this->hiBorderTex->setColour(this->hiBorderColour);
+            this->hiBorderTex->render(this->x() + (this->w() - this->hiBorderTex->width())/2, this->y() + (this->h() - this->hiBorderTex->height())/2);
         }
     }
 

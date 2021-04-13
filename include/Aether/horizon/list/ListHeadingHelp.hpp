@@ -25,65 +25,65 @@ namespace Aether {
             /**
              * @brief Construct a new List Heading Help object.
              * Auto positions elements when instantiated.
-             * 
+             *
              * @param s list heading string
-             * @param f callback function when help button is activated
+             * @param f function to invoke on help button press
              */
             ListHeadingHelp(std::string s, std::function<void()> f);
 
             /**
              * @brief Get the help colour
-             * 
+             *
              * @return help colour
              */
             Colour getHelpColour();
 
             /**
              * @brief Set the help colour
-             * 
+             *
              * @param c new help colour
              */
             void setHelpColour(Colour c);
 
             /**
              * @brief Get the rectangle colour
-             * 
-             * @return rectangle colour 
+             *
+             * @return rectangle colour
              */
             Colour getRectColour();
 
             /**
              * @brief Set the rectangle colour
-             * 
+             *
              * @param c new rectangle coloue
              */
             void setRectColour(Colour c);
 
             /**
              * @brief Get the text colour
-             * 
+             *
              * @return text colour
              */
             Colour getTextColour();
 
             /**
              * @brief Set the text colour
-             * 
+             *
              * @param c new text colour
              */
             void setTextColour(Colour c);
 
             /**
-             * @brief Set the callback function for help button activation
-             * 
-             * @param f new callback function
+             * @brief Sets the function to invoke when the help button is pressed.
+             *
+             * @param f Function to invoke
              */
-            void setHelpCallback(std::function<void()> f);
+            void onHelpPressed(std::function<void()> f);
 
             /**
              * @brief Adjusts the list heading width.
              * Repositions elements as necessary.
-             * 
+             *
              * @param w new width
              */
             void setW(int w);
@@ -91,7 +91,7 @@ namespace Aether {
             /**
              * @brief Adjusts the list heading height.
              * Repositions elements as necessary.
-             * 
+             *
              * @param h new height
              */
             void setH(int h);

@@ -10,7 +10,7 @@ namespace Aether {
         // Create and add child elements
         this->rect = new Rectangle(8, 9, 4, 52);
         this->text = new Text(24, 0, s, DEFAULT_FONT_SIZE);
-        this->text->setScroll(true);
+        this->text->setCanScroll(true);
         this->addElement(this->rect);
         this->addElement(this->text);
 
@@ -18,10 +18,10 @@ namespace Aether {
         this->setH(DEFAULT_HEIGHT);
 
         // Position text
-        this->text->setY(this->y() + this->h()/2 - this->text->texH()/2);
+        this->text->setY(this->y() + this->h()/2 - this->text->textureHeight()/2);
 
         this->setActive(false);
-        this->setCallback(f);
+        this->onPress(f);
 
         this->setActiveColour(a);
         this->setInactiveColour(ia);

@@ -71,7 +71,7 @@ namespace Aether {
              *
              * @param dt change in time
              */
-            void update(uint32_t dt);
+            void update(unsigned int dt);
     };
 };
 

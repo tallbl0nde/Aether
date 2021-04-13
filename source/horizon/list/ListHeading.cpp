@@ -14,13 +14,13 @@ namespace Aether {
         this->rect = new Aether::Rectangle(this->x(), this->y(), RECT_W, RECT_H);
         this->addElement(rect);
         this->text = new Aether::Text(this->x() + RECT_W + GAP, this->y() + this->h()/2, s, FONT_SIZE);
-        this->text->setY(this->text->y() - this->text->texH()/2);
+        this->text->setY(this->text->y() - this->text->textureHeight()/2);
         this->addElement(text);
         this->setW(this->rect->w() + GAP + this->text->w());
     }
 
     Colour ListHeading::getRectColour() {
-        return this->rect->getColour();
+        return this->rect->colour();
     }
 
     void ListHeading::setRectColour(Colour c) {
@@ -28,7 +28,7 @@ namespace Aether {
     }
 
     Colour ListHeading::getTextColour() {
-        return this->text->getColour();
+        return this->text->colour();
     }
 
     void ListHeading::setTextColour(Colour c) {
