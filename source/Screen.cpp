@@ -5,10 +5,10 @@
 
 namespace Aether {
     Screen::Screen() : Container(0, 0, 1280, 720) {
-        // Init all callbacks to nullptr to indicate none set
+        // Init all handlers to nullptr to indicate none set
         for (int i = Button::A; i < Button::SR_RIGHT; i++) {
-            this->pressFuncs[static_cast<Button>(i)] = nullptr;
-            this->releaseFuncs[static_cast<Button>(i)] = nullptr;
+            this->onButtonPressFuncs[static_cast<Button>(i)] = nullptr;
+            this->onButtonReleaseFuncs[static_cast<Button>(i)] = nullptr;
         }
     }
 
@@ -21,28 +21,28 @@ namespace Aether {
     }
 
     void Screen::onButtonPress(Button k, std::function<void()> f) {
-        this->pressFuncs[k] = f;
+        this->onButtonPressFuncs[k] = f;
     }
 
     void Screen::onButtonRelease(Button k, std::function<void()> f) {
-        this->releaseFuncs[k] = f;
+        this->onButtonReleaseFuncs[k] = f;
     }
 
     bool Screen::handleEvent(InputEvent * e) {
-        // Check for callback and execute if there is one
+        // Check for handlers and execute if there is one
         if (e->type() == EventType::ButtonPressed) {
-            if (this->pressFuncs[e->button()] != nullptr) {
-                this->pressFuncs[e->button()]();
+            if (this->onButtonPressFuncs[e->button()] != nullptr) {
+                this->onButtonPressFuncs[e->button()]();
                 return true;
             }
         } else if (e->type() == EventType::ButtonReleased) {
-            if (this->releaseFuncs[e->button()] != nullptr) {
-                this->releaseFuncs[e->button()]();
+            if (this->onButtonReleaseFuncs[e->button()] != nullptr) {
+                this->onButtonReleaseFuncs[e->button()]();
                 return true;
             }
         }
 
-        // If no callback continue down the chain
+        // If no handlers continue down the chain
         return Container::handleEvent(e);
     }
 };

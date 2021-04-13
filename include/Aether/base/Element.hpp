@@ -31,7 +31,7 @@ namespace Aether {
             /** @brief Indicator on whether the element should be rendered or not */
             bool hidden_;
             /** @brief Function to call when the element is activated */
-            std::function<void()> callback_;
+            std::function<void()> onPressFunc_;
             /** @brief Indicator on whether element contains highlighted children element */
             bool hasHighlighted_;
             /** @brief Indicator on whether element contains selectable children element */
@@ -413,18 +413,18 @@ namespace Aether {
             Element * focussed();
 
             /**
-             * @brief Returns callback function (nullptr if no callback assigned)
+             * @brief Returns function invoked when the element is pressed.
              *
-             * @return callback function
+             * @return Function invoked when the element is pressed, or nullptr if one isn't assigned.
              */
-            std::function<void()> callback();
+            std::function<void()> onPressFunc();
 
             /**
-             * @brief Set callback function (also marks element as selectable)
+             * @brief Sets the function to invoked when the element is pressed.
              *
-             * @param f new callback function to set
+             * @param f Function to invoke
              */
-            void setCallback(std::function<void()> f);
+            void onPress(std::function<void()> f);
 
             /**
              * @brief Attempt to handle a given event

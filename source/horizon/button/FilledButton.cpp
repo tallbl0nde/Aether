@@ -15,7 +15,7 @@ namespace Aether {
         this->text->setScrollSpeed(40);
         this->addElement(this->rect);
         this->addElement(this->text);
-        this->setCallback(f);
+        this->onPress(f);
     }
 
     Colour FilledButton::getFillColour() {

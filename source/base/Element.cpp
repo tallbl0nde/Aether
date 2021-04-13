@@ -25,7 +25,7 @@ namespace Aether {
 
         this->parent_ = nullptr;
         this->hidden_ = false;
-        this->callback_ = nullptr;
+        this->onPressFunc_ = nullptr;
         this->hasSelectable_ = false;
         this->selectable_ = false;
         this->hasHighlighted_ = false;
@@ -239,12 +239,12 @@ namespace Aether {
         }
     }
 
-    std::function<void()> Element::callback() {
-        return this->callback_;
+    std::function<void()> Element::onPressFunc() {
+        return this->onPressFunc_;
     }
 
-    void Element::setCallback(std::function<void()> f) {
-        this->callback_ = f;
+    void Element::onPress(std::function<void()> f) {
+        this->onPressFunc_ = f;
         this->setSelectable(true);
         this->setTouchable(true);
     }
@@ -262,8 +262,8 @@ namespace Aether {
             case EventType::ButtonReleased:
                 if (e->button() == Button::A && this->selected_) {
                     this->setSelected(false);
-                    if (this->callback_ != nullptr) {
-                        this->callback_();
+                    if (this->onPressFunc_ != nullptr) {
+                        this->onPressFunc_();
                         return true;
                     }
                 }
@@ -291,8 +291,8 @@ namespace Aether {
                     if (this->selectable_) {
                         moveHighlight(this);
                     }
-                    if (this->callback_ != nullptr) {
-                        this->callback_();
+                    if (this->onPressFunc_ != nullptr) {
+                        this->onPressFunc_();
                     }
                     return true;
                 }

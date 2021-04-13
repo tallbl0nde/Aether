@@ -19,7 +19,7 @@ namespace Aether {
         this->addElement(this->hint_);
         this->addElement(this->value_);
 
-        this->setCallback(f);
+        this->onPress(f);
         this->positionElements();
     }
 

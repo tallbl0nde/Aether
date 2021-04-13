@@ -38,7 +38,7 @@ namespace Aether {
             };
 
             int asyncID;                            /** @brief ID of async task */
-            std::function<void()> callback;         /** @brief Callback to invoke when rendering is complete */
+            std::function<void()> onRenderDoneFunc; /** @brief Function to invoke when rendering is complete */
             std::atomic<AsyncStatus> status;        /** @brief Current status of texture */
 
             Colour colour_;                         /** @brief Colour to tint texture with */
@@ -66,13 +66,12 @@ namespace Aether {
             Texture(const int x = 0, const int y = 0);
 
             /**
-             * @brief Set a callback to be invoked when rendering is complete. An example
-             * use for this is to resize/position based on the texture's size. Pass nullptr
-             * to remove.
+             * @brief Assigns a function to invoke when the texture is finished rendering.
+             * An example use for this is to resize/position based on the texture's size.
              *
-             * @param func Callback function
+             * @param func Function to invoke, or nullptr to remove
              */
-            void setRenderCallback(const std::function<void()> func);
+            void onRenderDone(const std::function<void()> func);
 
             /**
              * @brief Returns the texture's tint colour.

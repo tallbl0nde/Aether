@@ -41,7 +41,7 @@ namespace Aether {
     void PopupList::addEntry(std::string s, std::function<void()> f, bool t) {
         // Create and add element to list
         ListButton * b = new ListButton(s, [f, this](){
-            // Call callback
+            // Call handler
             if (f != nullptr) {
                 f();
             }

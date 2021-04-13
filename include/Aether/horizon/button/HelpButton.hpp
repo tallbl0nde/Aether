@@ -20,7 +20,7 @@ namespace Aether {
              * @param x x-coordinate of start position offset
              * @param y y-coordinate of start position offset
              * @param d diamater of round button
-             * @param f callback function when button is pressed
+             * @param f function to invoke on button press
              */
             HelpButton(int x, int y, int d, std::function<void()> f);
 

@@ -31,8 +31,8 @@ namespace Aether {
         this->icon->setY(this->y() + (this->h() - this->icon->h())/2);
         this->label->setY(this->y() + (this->h() - this->label->h())/2);
 
-        // Adding a callback automatically makes this item selectable and touchable
-        this->setCallback([btn](){
+        // Adding a handler automatically makes this item selectable and touchable
+        this->onPress([btn](){
             // Send pushed event
             SDL_Event event;
             event.type = SDL_JOYBUTTONDOWN;

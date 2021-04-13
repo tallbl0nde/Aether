@@ -5,7 +5,7 @@
 namespace Aether {
     Texture::Texture(const int x, const int y) : Element(x, y, 0, 0) {
         this->asyncID = 0;
-        this->callback = nullptr;
+        this->onRenderDoneFunc = nullptr;
         this->status = AsyncStatus::Waiting;
 
         this->colour_ = Colour(255, 255, 255, 255);
@@ -20,13 +20,13 @@ namespace Aether {
         this->setW(this->drawable->width());
         this->setH(this->drawable->height());
 
-        if (this->callback != nullptr) {
-            this->callback();
+        if (this->onRenderDoneFunc != nullptr) {
+            this->onRenderDoneFunc();
         }
     }
 
-    void Texture::setRenderCallback(const std::function<void()> func) {
-        this->callback = func;
+    void Texture::onRenderDone(const std::function<void()> func) {
+        this->onRenderDoneFunc = func;
     }
 
     Colour Texture::colour() {

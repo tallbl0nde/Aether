@@ -57,14 +57,14 @@ namespace Aether {
 
             /**
              * @brief Set the rectangle colour
-             * 
+             *
              * @param c new rectangle colour
              */
             void setRectangleColour(Colour c);
 
             /**
              * @brief Set the text colour object
-             * 
+             *
              * @param c new text colour
              */
             void setTextColour(Colour c);
@@ -73,7 +73,7 @@ namespace Aether {
              * @brief Add button to bottom left rectangle.
              * @note Don't call these multiple times as the previous ones aren't deleted!
              * @param s button label string
-             * @param f button callback
+             * @param f function to invoke when button pressed
              */
             void addLeftButton(std::string s, std::function<void()> f);
 
@@ -81,7 +81,7 @@ namespace Aether {
              * @brief Add button to bottom right rectangle.
              * @note Don't call these multiple times as the previous ones aren't deleted!
              * @param s button label string
-             * @param f button callback
+             * @param f function to invoke when button pressed
              */
             void addRightButton(std::string s, std::function<void()> f);
 
@@ -89,13 +89,13 @@ namespace Aether {
              * @brief Add button to top rectangle.
              * @note Don't call these multiple times as the previous ones aren't deleted!
              * @param s button label string
-             * @param f button callback
+             * @param f function to invoke when button pressed
              */
             void addTopButton(std::string s, std::function<void()> f);
 
             /**
              * @brief Get the body size
-             * 
+             *
              * @param w pointer to write body width to
              * @param h pointer to write body height to
              */
@@ -103,7 +103,7 @@ namespace Aether {
 
             /**
              * @brief Set the body size
-             * 
+             *
              * @param w new body width
              * @param h new body height
              */

@@ -15,7 +15,7 @@ namespace Aether {
         this->text->setScrollSpeed(40);
         this->addElement(this->box);
         this->addElement(this->text);
-        this->setCallback(f);
+        this->onPress(f);
     }
 
     Colour BorderButton::getBorderColour() {

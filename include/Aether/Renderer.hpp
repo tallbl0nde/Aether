@@ -33,7 +33,7 @@ namespace Aether {
         friend FontCache;
 
         public:
-            /** @brief Callback function to handle log messages */
+            /** @brief Function to handle log messages */
             typedef std::function<void(const std::string, const bool)> LogHandler;
 
         private:

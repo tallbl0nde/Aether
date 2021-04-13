@@ -42,8 +42,8 @@ namespace Aether {
         this->heading->setTextColour(c);
     }
 
-    void ListHeadingHelp::setHelpCallback(std::function<void()> f) {
-        this->help->setCallback(f);
+    void ListHeadingHelp::onHelpPressed(std::function<void()> f) {
+        this->help->onPress(f);
     }
 
     void ListHeadingHelp::setW(int w) {

@@ -21,7 +21,7 @@ namespace Aether {
         this->text->setY(this->y() + this->h()/2 - this->text->textureHeight()/2);
 
         this->setActive(false);
-        this->setCallback(f);
+        this->onPress(f);
 
         this->setActiveColour(a);
         this->setInactiveColour(ia);

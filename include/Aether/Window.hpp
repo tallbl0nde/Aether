@@ -121,7 +121,7 @@ namespace Aether {
              * @param name Name to give window (optional)
              * @param width Width of window (optional)
              * @param height Height of window (optional)
-             * @param log Callback function to handle log messages (optional)
+             * @param log Handler to log messages (optional)
              */
             Window(const std::string & name, const unsigned int width, const unsigned int height, const LogHandler & log);
 

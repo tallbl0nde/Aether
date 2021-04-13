@@ -26,11 +26,11 @@ namespace Aether {
         public:
             /**
              * @brief Construct a new Menu Option object
-             * 
+             *
              * @param s menu text
              * @param a active colour
              * @param ia inactive Colour
-             * @param f callback function when option is selected
+             * @param f function to invoke when button pressed
              */
             MenuOption(std::string s, Colour a, Colour ia, std::function<void()> f);
 
@@ -43,21 +43,21 @@ namespace Aether {
 
             /**
              * @brief Set the active status of option
-             * 
+             *
              * @param b true if option is selected, false otherwise
              */
             void setActive(bool b);
 
             /**
              * @brief Set the active colour for option
-             * 
+             *
              * @param c new active colour
              */
             void setActiveColour(Colour c);
 
             /**
              * @brief Set the inactive colour for option
-             * 
+             *
              * @param c new inactive colour
              */
             void setInactiveColour(Colour c);
