@@ -60,9 +60,7 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="summary">
-<a href="#namespaces">Namespaces</a> &#124;
 <a href="#nested-classes">Classes</a> &#124;
-<a href="#typedef-members">Typedefs</a> &#124;
 <a href="#enum-members">Enumerations</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
@@ -73,12 +71,6 @@ $(function() {
 <p>Base namespace for all <a class="el" href="namespaceAether.html" title="Base namespace for all Aether related classes and functions. ">Aether</a> related classes and functions.  
 <a href="#details">More...</a></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="namespaces"></a>
-Namespaces</h2></td></tr>
-<tr class="memitem:namespaceAether_1_1ThreadPool"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAether_1_1ThreadPool.html">ThreadPool</a></td></tr>
-<tr class="memdesc:namespaceAether_1_1ThreadPool"><td class="mdescLeft">&#160;</td><td class="mdescRight">A Thread Pool implementation which processes queued tasks on other threads. It is designed for multi-threaded texture generation - please do not use it for your own tasks! <br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAether_1_1Animation.html">Animation</a></td></tr>
@@ -91,43 +83,52 @@ Classes</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classAether_1_1BaseText.html" title="BaseText is an abstract class storing relevant information to render a text element. ">BaseText</a> is an abstract class storing relevant information to render a text element.  <a href="classAether_1_1BaseText.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAether_1_1BorderButton.html">BorderButton</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A <a class="el" href="classAether_1_1BorderButton.html" title="A BorderButton is exactly that. The text/box are resized/repositioned to be centered on any resizes...">BorderButton</a> is exactly that. The text/box are resized/repositioned to be centered on any resizes.  <a href="classAether_1_1BorderButton.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The <a class="el" href="classAether_1_1BorderButton.html" title="The BorderButton element looks similar to the unfilled buttons seen within Horizon. ">BorderButton</a> element looks similar to the unfilled buttons seen within Horizon.  <a href="classAether_1_1BorderButton.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAether_1_1Box.html">Box</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A <a class="el" href="classAether_1_1Box.html" title="A Box is a rectangle outline with no fill. ">Box</a> is a rectangle outline with no fill.  <a href="classAether_1_1Box.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classAether_1_1Element.html" title="Element is the base class to be inherited to form all other types of elements. ">Element</a> for rendering a 'box' (rectangle with no fill).  <a href="classAether_1_1Box.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAether_1_1Colour.html">Colour</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stores RGBA values representing a colour. Each component can be within the range 0 to 255 (inclusive).  <a href="classAether_1_1Colour.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAether_1_1Container.html">Container</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A container is an element that contains other elements. It implements the required behaviour to navigate between children.  <a href="classAether_1_1Container.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAether_1_1ControlItem.html">ControlItem</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A <a class="el" href="classAether_1_1ControlItem.html" title="A ControlItem is stored and handled by the &quot;Controls&quot; element. It contains the two textures for a but...">ControlItem</a> is stored and handled by the "Controls" element. It contains the two textures for a button icon and hint.  <a href="classAether_1_1ControlItem.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAether_1_1ControlBar.html">ControlBar</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A container holding control elements (and nothing else) which automatically arranges them at the bottom of the screen.  <a href="classAether_1_1ControlBar.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAether_1_1Controls.html">Controls</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">"Controls" contains the control scheme found at the bottom of a screen. It can be positioned anywhere though.  <a href="classAether_1_1Controls.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAether_1_1ControlItem.html">ControlItem</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">An item used by and updated by the <a class="el" href="classAether_1_1ControlBar.html">ControlBar</a> element. It shows a button icon and label.  <a href="classAether_1_1ControlItem.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAether_1_1DateTime.html">DateTime</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The <a class="el" href="classAether_1_1DateTime.html" title="The DateTime overlay is used to get the user to select a date/time. It must be passed a tm struct on ...">DateTime</a> overlay is used to get the user to select a date/time. It must be passed a tm struct on creation which has it's value changed in place when closed (not updated when closed by pressing B!)  <a href="classAether_1_1DateTime.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAether_1_1Display.html">Display</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A display represents a root element.  <a href="classAether_1_1Display.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAether_1_1Drawable.html">Drawable</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stores either a surface or texture which can be drawn on screen by providing a renderer to <a class="el" href="classAether_1_1Drawable.html#af8452b6114d00f73d1bb6dbadc1b0bda">render()</a>.  <a href="classAether_1_1Drawable.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAether_1_1Element.html">Element</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classAether_1_1Element.html" title="Element is the base class to be inherited to form all other types of elements. ">Element</a> is the base class to be inherited to form all other types of elements.  <a href="classAether_1_1Element.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAether_1_1Ellipse.html">Ellipse</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">An ellipse is a texture containing an ellipse. It can be used as both a circle and ellipse/oval.  <a href="classAether_1_1Ellipse.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classAether_1_1Element.html" title="Element is the base class to be inherited to form all other types of elements. ">Element</a> for rendering an ellipse.  <a href="classAether_1_1Ellipse.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAether_1_1FilledButton.html">FilledButton</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A <a class="el" href="classAether_1_1FilledButton.html" title="A FilledButton is exactly that. The text/rectangle are resized/repositioned to be centered on any res...">FilledButton</a> is exactly that. The text/rectangle are resized/repositioned to be centered on any resizes.  <a href="classAether_1_1FilledButton.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAether_1_1FontCache.html">FontCache</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Caches SDL_ttf font objects and allows for easy searching of glyphs.  <a href="classAether_1_1FontCache.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Caches SDL_ttf font objects + surfaces to reduce rendering. This class is not thread-safe, all operations should be protected from the outside by a mutex.  <a href="classAether_1_1FontCache.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAether_1_1GlyphMetrics.html">GlyphMetrics</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Class storing metrics for a font's character. Designed to be read-only as it is only able to return values passed at construction.  <a href="classAether_1_1GlyphMetrics.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAether_1_1HelpButton.html">HelpButton</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classAether_1_1HelpButton.html" title="HelpButton is a round button displaying a question mark as seen in Horizon. ">HelpButton</a> is a round button displaying a question mark as seen in Horizon.  <a href="classAether_1_1HelpButton.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAether_1_1Image.html">Image</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">An image is literally a texture that is created from an image. Not much more to it than that!  <a href="classAether_1_1Image.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classAether_1_1Element.html" title="Element is the base class to be inherited to form all other types of elements. ">Element</a> for rendering an image, either from memory or a file system.  <a href="classAether_1_1Image.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAether_1_1ImageData.html">ImageData</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Represents an object containing the raw pixel data for an image/texture as an array, along with required metadata such as width and height.  <a href="classAether_1_1ImageData.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAether_1_1InputEvent.html">InputEvent</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A class that represents an <a class="el" href="namespaceAether.html" title="Base namespace for all Aether related classes and functions. ">Aether</a> input event.  <a href="classAether_1_1InputEvent.html#details">More...</a><br /></td></tr>
@@ -148,10 +149,13 @@ Classes</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A <a class="el" href="classAether_1_1ListHeading.html" title="A ListHeading is a small rectangle with text alongside, usually used in a list. ">ListHeading</a> but with a help icon that's right aligned.  <a href="classAether_1_1ListHeadingHelp.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAether_1_1ListOption.html">ListOption</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A <a class="el" href="classAether_1_1ListOption.html" title="A ListOption is similar to what appears in Horizon&#39;s lists. It has a string and value, as well as a callback function which is called when selected. ">ListOption</a> is similar to what appears in Horizon's lists. It has a string and value, as well as a callback function which is called when selected.  <a href="classAether_1_1ListOption.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A <a class="el" href="classAether_1_1ListOption.html" title="A ListOption is similar to what appears in Horizon&#39;s lists. It has a string and value, as well as a function which is called when selected. ">ListOption</a> is similar to what appears in Horizon's lists. It has a string and value, as well as a function which is called when selected.  <a href="classAether_1_1ListOption.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAether_1_1ListSeparator.html">ListSeparator</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classAether_1_1ListSeparator.html" title="ListSeparator is simply a blank element. It has a default height which matches Horizon&#39;s but can be c...">ListSeparator</a> is simply a blank element. It has a default height which matches Horizon's but can be changed if necessary using <a class="el" href="classAether_1_1Element.html#a1e58df667b0438a8518252379a7455e5" title="Set height of element. ">setH()</a>  <a href="classAether_1_1ListSeparator.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAether_1_1LRUCache.html">LRUCache</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A basic LRU (least recently used) cache implementation. Also supports a custom callback for when an item is removed.  <a href="classAether_1_1LRUCache.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAether_1_1Menu.html">Menu</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A menu is simply a scrollable object that sets some values on creation in order to appear like Horizon's menu.  <a href="classAether_1_1Menu.html#details">More...</a><br /></td></tr>
@@ -169,13 +173,16 @@ Classes</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">An object representing an overlay.  <a href="classAether_1_1Overlay.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAether_1_1PopupList.html">PopupList</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A "PopupList" is an overlay at the bottom of the screen containing a list of items to select from. A callback must be specified for each item, and the overlay is closed when any item is selected (not reauired to be specified within callbacks!)  <a href="classAether_1_1PopupList.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A "PopupList" is an overlay at the bottom of the screen containing a list of items to select from. A handler must be specified for each item, and the overlay is closed when any item is selected.  <a href="classAether_1_1PopupList.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAether_1_1ProgressBar.html">ProgressBar</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classAether_1_1ProgressBar.html" title="ProgressBar looks similar to Horizon&#39;s progress bar shown in data management. ">ProgressBar</a> looks similar to Horizon's progress bar shown in data management.  <a href="classAether_1_1ProgressBar.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAether_1_1Rectangle.html">Rectangle</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A rectangle is a texture containing either a normal or rounded rectangle. The object stores all relevant information so that it can be regenerated whenever the dimensions/radius changes.  <a href="classAether_1_1Rectangle.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A rectangle is a texture containing either a normal or rounded rectangle.  <a href="classAether_1_1Rectangle.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAether_1_1Renderer.html">Renderer</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="namespaceAether.html" title="Base namespace for all Aether related classes and functions. ">Aether</a>'s main renderer instance. It provides all methods relating to drawing directly to the screen, rendering graphics to memory as well as measuring resource usage (with respect to textures).  <a href="classAether_1_1Renderer.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAether_1_1RoundProgressBar.html">RoundProgressBar</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A <a class="el" href="classAether_1_1RoundProgressBar.html" title="A RoundProgressBar is a completely filled progress bar rounded at either end. ">RoundProgressBar</a> is a completely filled progress bar rounded at either end.  <a href="classAether_1_1RoundProgressBar.html#details">More...</a><br /></td></tr>
@@ -190,41 +197,38 @@ Classes</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A <a class="el" href="classAether_1_1Spinner.html" title="A Spinner contains a number which can be increased/decreased by pressing the associated up/down butto...">Spinner</a> contains a number which can be increased/decreased by pressing the associated up/down buttons or the dpad.  <a href="classAether_1_1Spinner.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAether_1_1Text.html">Text</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classAether_1_1Text.html" title="Text extends BaseText by implementing scrolling when the text overflows. ">Text</a> extends <a class="el" href="classAether_1_1BaseText.html" title="BaseText is an abstract class storing relevant information to render a text element. ">BaseText</a> by implementing scrolling when the text overflows.  <a href="classAether_1_1Text.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classAether_1_1Element.html" title="Element is the base class to be inherited to form all other types of elements. ">Element</a> for rendering a single line of text. It can optionally scroll when overflowing.  <a href="classAether_1_1Text.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAether_1_1TextBlock.html">TextBlock</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classAether_1_1TextBlock.html" title="TextBlock extends BaseText by wrapping text with the given width. ">TextBlock</a> extends <a class="el" href="classAether_1_1BaseText.html" title="BaseText is an abstract class storing relevant information to render a text element. ">BaseText</a> by wrapping text with the given width.  <a href="classAether_1_1TextBlock.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classAether_1_1Element.html" title="Element is the base class to be inherited to form all other types of elements. ">Element</a> for rendering a multi-line block of text.  <a href="classAether_1_1TextBlock.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAether_1_1Texture.html">Texture</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A <a class="el" href="classAether_1_1Texture.html" title="A Texture is an element consisting of an SDL_Texture. It stores the width and height of the texture a...">Texture</a> is an element consisting of an SDL_Texture. It stores the width and height of the texture and the colour it's tinted with.  <a href="classAether_1_1Texture.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A <a class="el" href="classAether_1_1Texture.html" title="A Texture is an element that stores a texture to render in the window. It can&#39;t be instantiated alone...">Texture</a> is an element that stores a texture to render in the window. It can't be instantiated alone as it's essentially a 'container' element, but is inherited by classes such as <a class="el" href="classAether_1_1Text.html">Text</a> and <a class="el" href="classAether_1_1Image.html">Image</a> which generate the texture. This class provides common getter methods and handles rendering texture asynchronously.  <a href="classAether_1_1Texture.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structAether_1_1Theme__T.html">Theme_T</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Struct for UI Theme.  <a href="structAether_1_1Theme__T.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAether_1_1ThreadPool.html">ThreadPool</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Basic Thread Pool implemented as a singleton.  <a href="classAether_1_1ThreadPool.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAether_1_1Tick.html">Tick</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A <a class="el" href="classAether_1_1Tick.html" title="A Tick is an element that looks the same as the tick shown in Horizon - a coloured circle with a tick...">Tick</a> is an element that looks the same as the tick shown in Horizon - a coloured circle with a tick on top.  <a href="classAether_1_1Tick.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
-Typedefs</h2></td></tr>
-<tr class="memitem:ab08bd40426fce8a58489de4e261b34de"><td class="memItemLeft" align="right" valign="top"><a id="ab08bd40426fce8a58489de4e261b34de"></a>
-typedef SDL_Color&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAether.html#ab08bd40426fce8a58489de4e261b34de">Colour</a></td></tr>
-<tr class="memdesc:ab08bd40426fce8a58489de4e261b34de"><td class="mdescLeft">&#160;</td><td class="mdescRight">SDL_Color but it's not. <br /></td></tr>
-<tr class="separator:ab08bd40426fce8a58489de4e261b34de"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAether_1_1Timer.html">Timer</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Small utility class to measure time.  <a href="classAether_1_1Timer.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAether_1_1Window.html">Window</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The <a class="el" href="classAether_1_1Window.html" title="The Window is the root element, which initializes Aether and contains all of the screens/elements to ...">Window</a> is the root element, which initializes <a class="el" href="namespaceAether.html" title="Base namespace for all Aether related classes and functions. ">Aether</a> and contains all of the screens/elements to render. It also handles received events and passes them down the tree.  <a href="classAether_1_1Window.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
 Enumerations</h2></td></tr>
-<tr class="memitem:a121ed811c1bf358c3775b806667bdc67"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAether.html#a121ed811c1bf358c3775b806667bdc67">FontStyle</a> { <br />
-&#160;&#160;<a class="el" href="namespaceAether.html#a121ed811c1bf358c3775b806667bdc67ad2203cb1237cb6460cbad94564e39345">FontStyle::Regular</a>, 
-<a class="el" href="namespaceAether.html#a121ed811c1bf358c3775b806667bdc67a114c3050111d8b8ddd830b99ccebd246">FontStyle::Bold</a>, 
-<a class="el" href="namespaceAether.html#a121ed811c1bf358c3775b806667bdc67a1d874710ccdcd46b95397049d2e7500c">FontStyle::Italic</a>, 
-<a class="el" href="namespaceAether.html#a121ed811c1bf358c3775b806667bdc67a852721aa5fc738dfedff2945d71da439">FontStyle::Underline</a>, 
-<br />
-&#160;&#160;<a class="el" href="namespaceAether.html#a121ed811c1bf358c3775b806667bdc67a926a51baad949d12035107e5d06e2fdb">FontStyle::Strikethrough</a>
-<br />
- }<tr class="memdesc:a121ed811c1bf358c3775b806667bdc67"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enum class with all available text font styles.  <a href="namespaceAether.html#a121ed811c1bf358c3775b806667bdc67">More...</a><br /></td></tr>
+<tr class="memitem:a4c825e27b5721d5d05adcb5646965566"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAether.html#a4c825e27b5721d5d05adcb5646965566">Render</a> { <a class="el" href="namespaceAether.html#a4c825e27b5721d5d05adcb5646965566ad8e87c0927539672f54462c837be0b7f">Render::Sync</a>, 
+<a class="el" href="namespaceAether.html#a4c825e27b5721d5d05adcb5646965566a24aa4117da86c41684ad25742832dfa6">Render::Async</a>, 
+<a class="el" href="namespaceAether.html#a4c825e27b5721d5d05adcb5646965566a0f68101772bd5397ef8eb1b632798652">Render::Wait</a>
+ }<tr class="memdesc:a4c825e27b5721d5d05adcb5646965566"><td class="mdescLeft">&#160;</td><td class="mdescRight">Supported "on create" texture rendering options.  <a href="namespaceAether.html#a4c825e27b5721d5d05adcb5646965566">More...</a><br /></td></tr>
 </td></tr>
-<tr class="separator:a121ed811c1bf358c3775b806667bdc67"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="separator:a4c825e27b5721d5d05adcb5646965566"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3a862896c43c3cd021470d0029eeaaf0"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAether.html#a3a862896c43c3cd021470d0029eeaaf0">DTFlag</a> { <br />
 &#160;&#160;<a class="el" href="namespaceAether.html#a3a862896c43c3cd021470d0029eeaaf0a8cf10d2341ed01492506085688270c1e">DTFlag::DateTime</a> = 0b00111111, 
 <a class="el" href="namespaceAether.html#a3a862896c43c3cd021470d0029eeaaf0a44749712dbec183e983dcd78a7736c41">DTFlag::Date</a> = 0b00111000, 
@@ -299,11 +303,6 @@ Enumerations</h2></td></tr>
  }<tr class="memdesc:af633e4665643e4caa2a76fe137e50e2f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enum class for amount of padding in a scrollable.  <a href="namespaceAether.html#af633e4665643e4caa2a76fe137e50e2f">More...</a><br /></td></tr>
 </td></tr>
 <tr class="separator:af633e4665643e4caa2a76fe137e50e2f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a38fd03617d8ed79b0d692ffcd5507c62"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAether.html#a38fd03617d8ed79b0d692ffcd5507c62">RenderType</a> { <a class="el" href="namespaceAether.html#a38fd03617d8ed79b0d692ffcd5507c62a076b9c5b655fdc3350a7c269fb84294a">RenderType::OnCreate</a>, 
-<a class="el" href="namespaceAether.html#a38fd03617d8ed79b0d692ffcd5507c62a4ed71db54748b36eeb398876b0c747ac">RenderType::Deferred</a>
- }<tr class="memdesc:a38fd03617d8ed79b0d692ffcd5507c62"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enum class for type of texture generation.  <a href="namespaceAether.html#a38fd03617d8ed79b0d692ffcd5507c62">More...</a><br /></td></tr>
-</td></tr>
-<tr class="separator:a38fd03617d8ed79b0d692ffcd5507c62"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
@@ -462,42 +461,6 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a121ed811c1bf358c3775b806667bdc67"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a121ed811c1bf358c3775b806667bdc67">&#9670;&nbsp;</a></span>FontStyle</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">enum <a class="el" href="namespaceAether.html#a121ed811c1bf358c3775b806667bdc67">Aether::FontStyle</a></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">strong</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Enum class with all available text font styles. </p>
-<table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a121ed811c1bf358c3775b806667bdc67ad2203cb1237cb6460cbad94564e39345"></a>Regular&#160;</td><td class="fielddoc"><p>Regular Font </p>
-</td></tr>
-<tr><td class="fieldname"><a id="a121ed811c1bf358c3775b806667bdc67a114c3050111d8b8ddd830b99ccebd246"></a>Bold&#160;</td><td class="fielddoc"><p>Bold Font </p>
-</td></tr>
-<tr><td class="fieldname"><a id="a121ed811c1bf358c3775b806667bdc67a1d874710ccdcd46b95397049d2e7500c"></a>Italic&#160;</td><td class="fielddoc"><p>Italic Font </p>
-</td></tr>
-<tr><td class="fieldname"><a id="a121ed811c1bf358c3775b806667bdc67a852721aa5fc738dfedff2945d71da439"></a>Underline&#160;</td><td class="fielddoc"><p>Underlined Font </p>
-</td></tr>
-<tr><td class="fieldname"><a id="a121ed811c1bf358c3775b806667bdc67a926a51baad949d12035107e5d06e2fdb"></a>Strikethrough&#160;</td><td class="fielddoc"><p>Strikethrough Font </p>
-</td></tr>
-</table>
-
-</div>
-</div>
 <a id="af633e4665643e4caa2a76fe137e50e2f"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#af633e4665643e4caa2a76fe137e50e2f">&#9670;&nbsp;</a></span>Padding</h2>
 
@@ -530,8 +493,8 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a38fd03617d8ed79b0d692ffcd5507c62"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a38fd03617d8ed79b0d692ffcd5507c62">&#9670;&nbsp;</a></span>RenderType</h2>
+<a id="a4c825e27b5721d5d05adcb5646965566"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4c825e27b5721d5d05adcb5646965566">&#9670;&nbsp;</a></span>Render</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -540,7 +503,7 @@ Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">enum <a class="el" href="namespaceAether.html#a38fd03617d8ed79b0d692ffcd5507c62">Aether::RenderType</a></td>
+          <td class="memname">enum <a class="el" href="namespaceAether.html#a4c825e27b5721d5d05adcb5646965566">Aether::Render</a></td>
         </tr>
       </table>
   </td>
@@ -550,11 +513,13 @@ Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Enum class for type of texture generation. </p>
+<p>Supported "on create" texture rendering options. </p>
 <table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a38fd03617d8ed79b0d692ffcd5507c62a076b9c5b655fdc3350a7c269fb84294a"></a>OnCreate&#160;</td><td class="fielddoc"><p>Render on construction of texture element (all regenerations due to value changes will be done immediately and on the main thread </p>
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a4c825e27b5721d5d05adcb5646965566ad8e87c0927539672f54462c837be0b7f"></a>Sync&#160;</td><td class="fielddoc"><p>Render texture synchronously (i.e. as soon as created) </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a38fd03617d8ed79b0d692ffcd5507c62a4ed71db54748b36eeb398876b0c747ac"></a>Deferred&#160;</td><td class="fielddoc"><p>Do not render until explicitly started on another thread (value changes will not cause a regeneration - you must explicitly start it!) </p>
+<tr><td class="fieldname"><a id="a4c825e27b5721d5d05adcb5646965566a24aa4117da86c41684ad25742832dfa6"></a>Async&#160;</td><td class="fielddoc"><p>Render texture asynchronously on another thread </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a4c825e27b5721d5d05adcb5646965566a0f68101772bd5397ef8eb1b632798652"></a>Wait&#160;</td><td class="fielddoc"><p>Don't automatically render the texture </p>
 </td></tr>
 </table>
 

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['colour',['Colour',['../namespaceAether.html#ab08bd40426fce8a58489de4e261b34de',1,'Aether']]]
+  ['loghandler',['LogHandler',['../classAether_1_1Renderer.html#a2d348e8f5fd6ea887ba4f203a3e257a6',1,'Aether::Renderer']]]
 ];

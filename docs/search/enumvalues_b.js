@@ -1,10 +1,8 @@
 var searchData=
 [
-  ['r',['R',['../namespaceAether.html#a404ceb3e1c2adbc8c7edcd5d27aa7be7a25403f32e27a6c90ff4937d143ab0015',1,'Aether']]],
-  ['regular',['Regular',['../namespaceAether.html#a121ed811c1bf358c3775b806667bdc67ad2203cb1237cb6460cbad94564e39345',1,'Aether']]],
-  ['rstick',['RSTICK',['../namespaceAether.html#a404ceb3e1c2adbc8c7edcd5d27aa7be7afb2de3752ff6b9dbc383e87be3d01b2a',1,'Aether']]],
-  ['rstick_5fdown',['RSTICK_DOWN',['../namespaceAether.html#a404ceb3e1c2adbc8c7edcd5d27aa7be7a1abea93b1658f6b140499ae64f1d1dbb',1,'Aether']]],
-  ['rstick_5fleft',['RSTICK_LEFT',['../namespaceAether.html#a404ceb3e1c2adbc8c7edcd5d27aa7be7a2334111b11299b4bd54de51c44272f5c',1,'Aether']]],
-  ['rstick_5fright',['RSTICK_RIGHT',['../namespaceAether.html#a404ceb3e1c2adbc8c7edcd5d27aa7be7a367b52e6140653ef24cf21f71c5b25a1',1,'Aether']]],
-  ['rstick_5fup',['RSTICK_UP',['../namespaceAether.html#a404ceb3e1c2adbc8c7edcd5d27aa7be7ac290b1e5f6c7e2c8a0fc8d25e15b43c2',1,'Aether']]]
+  ['texture',['Texture',['../classAether_1_1Drawable.html#a0d6440a80b9963485e8241da352bf403aa3e8ae43188ae76d38f414b2bdb0077b',1,'Aether::Drawable']]],
+  ['time',['Time',['../namespaceAether.html#a3a862896c43c3cd021470d0029eeaaf0aa76d4ef5f3f6a672bbfab2865563e530',1,'Aether']]],
+  ['touchmoved',['TouchMoved',['../namespaceAether.html#aac9911e1cc77cb27daa2945564d9b668a5a83075f71452bba7578311d40b165b2',1,'Aether']]],
+  ['touchpressed',['TouchPressed',['../namespaceAether.html#aac9911e1cc77cb27daa2945564d9b668a86a635c137cd1fc21c08ee8725f09243',1,'Aether']]],
+  ['touchreleased',['TouchReleased',['../namespaceAether.html#aac9911e1cc77cb27daa2945564d9b668aa08dbbf8c8f5ce5fcb07aaaecc82ba09',1,'Aether']]]
 ];

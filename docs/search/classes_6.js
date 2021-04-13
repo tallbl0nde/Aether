@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['helpbutton',['HelpButton',['../classAether_1_1HelpButton.html',1,'Aether']]]
+  ['glyphmetrics',['GlyphMetrics',['../classAether_1_1GlyphMetrics.html',1,'Aether']]]
 ];

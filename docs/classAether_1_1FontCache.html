@@ -71,37 +71,40 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
-<p>Caches SDL_ttf font objects and allows for easy searching of glyphs.  
+<p>Caches SDL_ttf font objects + surfaces to reduce rendering. This class is not thread-safe, all operations should be protected from the outside by a mutex.  
  <a href="classAether_1_1FontCache.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="FontCache_8hpp_source.html">FontCache.hpp</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:aff1341d4316145c0a883bf18c6dcd74f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAether_1_1FontCache.html#aff1341d4316145c0a883bf18c6dcd74f">FontCache</a> ()</td></tr>
-<tr class="memdesc:aff1341d4316145c0a883bf18c6dcd74f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Mutex protecting TTF_Font cache.  <a href="#aff1341d4316145c0a883bf18c6dcd74f">More...</a><br /></td></tr>
-<tr class="separator:aff1341d4316145c0a883bf18c6dcd74f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad2783ee4a18726fdc91fc67132fb855b"><td class="memItemLeft" align="right" valign="top"><a id="ad2783ee4a18726fdc91fc67132fb855b"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAether_1_1FontCache.html#ad2783ee4a18726fdc91fc67132fb855b">emptyCache</a> ()</td></tr>
-<tr class="memdesc:ad2783ee4a18726fdc91fc67132fb855b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Remove all cached data. <br /></td></tr>
-<tr class="separator:ad2783ee4a18726fdc91fc67132fb855b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3e0add34c2114217d516f126e6e96ca1"><td class="memItemLeft" align="right" valign="top"><a id="a3e0add34c2114217d516f126e6e96ca1"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAether_1_1FontCache.html#a3e0add34c2114217d516f126e6e96ca1">setCustomFont</a> (const std::string &amp;)</td></tr>
-<tr class="memdesc:a3e0add34c2114217d516f126e6e96ca1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set a custom font to use before checking built-in fonts. Pass an empty string to remove. <br /></td></tr>
-<tr class="separator:a3e0add34c2114217d516f126e6e96ca1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad2d02dafd5608936223ead16337334b9"><td class="memItemLeft" align="right" valign="top">TTF_Font *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAether_1_1FontCache.html#ad2d02dafd5608936223ead16337334b9">getFontWithGlyph</a> (const uint16_t ch, const int fontSize)</td></tr>
-<tr class="memdesc:ad2d02dafd5608936223ead16337334b9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a font containing the provided character. Searches a custom font first before in-built fonts.  <a href="#ad2d02dafd5608936223ead16337334b9">More...</a><br /></td></tr>
-<tr class="separator:ad2d02dafd5608936223ead16337334b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac5e011468d4f4f1d49e0728c1c1f9c09"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAether_1_1FontCache.html#ac5e011468d4f4f1d49e0728c1c1f9c09">FontCache</a> (<a class="el" href="classAether_1_1Renderer.html">Renderer</a> *renderer)</td></tr>
+<tr class="memdesc:ac5e011468d4f4f1d49e0728c1c1f9c09"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pointer to main renderer in order to manipulate surfaces.  <a href="#ac5e011468d4f4f1d49e0728c1c1f9c09">More...</a><br /></td></tr>
+<tr class="separator:ac5e011468d4f4f1d49e0728c1c1f9c09"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5d53872cffe2c3564ddc3e6d460696dd"><td class="memItemLeft" align="right" valign="top"><a id="a5d53872cffe2c3564ddc3e6d460696dd"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAether_1_1FontCache.html#a5d53872cffe2c3564ddc3e6d460696dd">empty</a> ()</td></tr>
+<tr class="memdesc:a5d53872cffe2c3564ddc3e6d460696dd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Remove all cached data. <br /></td></tr>
+<tr class="separator:a5d53872cffe2c3564ddc3e6d460696dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a80a5ca9a32fb3c40e79e0b7d4c5b9113"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAether_1_1FontCache.html#a80a5ca9a32fb3c40e79e0b7d4c5b9113">setCustomFont</a> (const std::string &amp;path)</td></tr>
+<tr class="memdesc:a80a5ca9a32fb3c40e79e0b7d4c5b9113"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set a custom font to use before checking built-in fonts. Pass an empty string to remove.  <a href="#a80a5ca9a32fb3c40e79e0b7d4c5b9113">More...</a><br /></td></tr>
+<tr class="separator:a80a5ca9a32fb3c40e79e0b7d4c5b9113"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a80aacdce39cd3f26abb4e30cc7f2cbe3"><td class="memItemLeft" align="right" valign="top">SDL_Surface *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAether_1_1FontCache.html#a80aacdce39cd3f26abb4e30cc7f2cbe3">getGlyph</a> (const uint16_t ch, const unsigned int fontSize)</td></tr>
+<tr class="memdesc:a80aacdce39cd3f26abb4e30cc7f2cbe3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Render the requested character. Searches a custom font first before in-built fonts.  <a href="#a80aacdce39cd3f26abb4e30cc7f2cbe3">More...</a><br /></td></tr>
+<tr class="separator:a80aacdce39cd3f26abb4e30cc7f2cbe3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a141980ce53342681363e57f7a0a14575"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classAether_1_1GlyphMetrics.html">GlyphMetrics</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAether_1_1FontCache.html#a141980ce53342681363e57f7a0a14575">getMetrics</a> (const uint16_t ch, const unsigned int fontSize)</td></tr>
+<tr class="memdesc:a141980ce53342681363e57f7a0a14575"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the <a class="el" href="classAether_1_1GlyphMetrics.html">GlyphMetrics</a> for the character at the passed font size.  <a href="#a141980ce53342681363e57f7a0a14575">More...</a><br /></td></tr>
+<tr class="separator:a141980ce53342681363e57f7a0a14575"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0e5ac352df85784d13dc579f90b70cde"><td class="memItemLeft" align="right" valign="top"><a id="a0e5ac352df85784d13dc579f90b70cde"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAether_1_1FontCache.html#a0e5ac352df85784d13dc579f90b70cde">~FontCache</a> ()</td></tr>
 <tr class="memdesc:a0e5ac352df85784d13dc579f90b70cde"><td class="mdescLeft">&#160;</td><td class="mdescRight">Cleans up all allocated resources. <br /></td></tr>
 <tr class="separator:a0e5ac352df85784d13dc579f90b70cde"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Caches SDL_ttf font objects and allows for easy searching of glyphs. </p>
+<div class="textblock"><p>Caches SDL_ttf font objects + surfaces to reduce rendering. This class is not thread-safe, all operations should be protected from the outside by a mutex. </p>
+<dl class="section note"><dt>Note</dt><dd>Only one of these should be instantiated at one time. </dd></dl>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="aff1341d4316145c0a883bf18c6dcd74f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aff1341d4316145c0a883bf18c6dcd74f">&#9670;&nbsp;</a></span>FontCache()</h2>
+<a id="ac5e011468d4f4f1d49e0728c1c1f9c09"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac5e011468d4f4f1d49e0728c1c1f9c09">&#9670;&nbsp;</a></span>FontCache()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -109,27 +112,33 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
         <tr>
           <td class="memname">Aether::FontCache::FontCache </td>
           <td>(</td>
-          <td class="paramname"></td><td>)</td>
+          <td class="paramtype"><a class="el" href="classAether_1_1Renderer.html">Renderer</a> *&#160;</td>
+          <td class="paramname"><em>renderer</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Mutex protecting TTF_Font cache. </p>
-<p>Initialize the font cache object</p>
-<dl class="section note"><dt>Note</dt><dd>Must be constructed after initializing Switch services. </dd></dl>
+<p>Pointer to main renderer in order to manipulate surfaces. </p>
+<p>Initialize the font cache object + rendering backend.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">renderer</td><td>Pointer to main renderer </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="ad2d02dafd5608936223ead16337334b9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad2d02dafd5608936223ead16337334b9">&#9670;&nbsp;</a></span>getFontWithGlyph()</h2>
+<a id="a80aacdce39cd3f26abb4e30cc7f2cbe3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a80aacdce39cd3f26abb4e30cc7f2cbe3">&#9670;&nbsp;</a></span>getGlyph()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">TTF_Font* Aether::FontCache::getFontWithGlyph </td>
+          <td class="memname">SDL_Surface* Aether::FontCache::getGlyph </td>
           <td>(</td>
           <td class="paramtype">const uint16_t&#160;</td>
           <td class="paramname"><em>ch</em>, </td>
@@ -137,7 +146,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const int&#160;</td>
+          <td class="paramtype">const unsigned int&#160;</td>
           <td class="paramname"><em>fontSize</em>&#160;</td>
         </tr>
         <tr>
@@ -148,7 +157,8 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
       </table>
 </div><div class="memdoc">
 
-<p>Get a font containing the provided character. Searches a custom font first before in-built fonts. </p>
+<p>Render the requested character. Searches a custom font first before in-built fonts. </p>
+<dl class="section note"><dt>Note</dt><dd>The returned surface could be removed at anytime subsequent calls, so a copy should be made unless it's immediately used.</dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">ch</td><td>UTF-8 character code </td></tr>
@@ -156,7 +166,72 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>TTF_Font * containing the given character to render. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>Surface containing the rendered character. </dd></dl>
+
+</div>
+</div>
+<a id="a141980ce53342681363e57f7a0a14575"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a141980ce53342681363e57f7a0a14575">&#9670;&nbsp;</a></span>getMetrics()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classAether_1_1GlyphMetrics.html">GlyphMetrics</a> Aether::FontCache::getMetrics </td>
+          <td>(</td>
+          <td class="paramtype">const uint16_t&#160;</td>
+          <td class="paramname"><em>ch</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const unsigned int&#160;</td>
+          <td class="paramname"><em>fontSize</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get the <a class="el" href="classAether_1_1GlyphMetrics.html">GlyphMetrics</a> for the character at the passed font size. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ch</td><td>UTf-8 character code </td></tr>
+    <tr><td class="paramname">fontSize</td><td>Font size to get metrics for </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><a class="el" href="classAether_1_1GlyphMetrics.html">GlyphMetrics</a> containing metrics of glyph </dd></dl>
+
+</div>
+</div>
+<a id="a80a5ca9a32fb3c40e79e0b7d4c5b9113"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a80a5ca9a32fb3c40e79e0b7d4c5b9113">&#9670;&nbsp;</a></span>setCustomFont()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Aether::FontCache::setCustomFont </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>path</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Set a custom font to use before checking built-in fonts. Pass an empty string to remove. </p>
+<dl class="section note"><dt>Note</dt><dd>An invalid path will not make any changes.</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">path</td><td>Path to TTF file. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>

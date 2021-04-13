@@ -2,16 +2,8 @@ var searchData=
 [
   ['dampening',['dampening',['../classAether_1_1Scrollable.html#a4146b2aa1ba88ff4d50385e1202aa9b6',1,'Aether::Scrollable']]],
   ['datetime',['DateTime',['../classAether_1_1DateTime.html#acaf2afc84fe485bf16e1e6ef196ebe34',1,'Aether::DateTime']]],
-  ['destroytexture',['destroyTexture',['../classAether_1_1Texture.html#ab82ef058be98ce10d88cc13e4e881146',1,'Aether::Texture::destroyTexture()'],['../namespaceSDLHelper.html#a2a3218876732ea2818047cdea9030524',1,'SDLHelper::destroyTexture()']]],
+  ['destroy',['destroy',['../classAether_1_1Texture.html#a80890f287f152a27cf2ebad16ecf1155',1,'Aether::Texture']]],
   ['digits',['digits',['../classAether_1_1Spinner.html#ac15141bcb07595ab6ec4088803e4108e',1,'Aether::Spinner']]],
-  ['display',['Display',['../classAether_1_1Display.html#ae6ff73b2927f6839b4f2446a92e4dbdd',1,'Aether::Display']]],
-  ['draw',['draw',['../namespaceSDLHelper.html#a37231a0d7e92e32cc2e1429ae27c3c3c',1,'SDLHelper']]],
-  ['drawellipse',['drawEllipse',['../namespaceSDLHelper.html#a8f82d26273e3084f08f5a4ffd2f3d509',1,'SDLHelper']]],
-  ['drawfilledellipse',['drawFilledEllipse',['../namespaceSDLHelper.html#aa3b5aac8566608dd836b264770168e19',1,'SDLHelper']]],
-  ['drawfilledrect',['drawFilledRect',['../namespaceSDLHelper.html#ad900c985e718f2596d22170b9b4bce34',1,'SDLHelper']]],
-  ['drawfilledroundrect',['drawFilledRoundRect',['../namespaceSDLHelper.html#a189609c96a2ca48f501d189fc1806e12',1,'SDLHelper']]],
-  ['drawrect',['drawRect',['../namespaceSDLHelper.html#aec59377c7ff756ed4b6c765f4e36f69c',1,'SDLHelper']]],
-  ['drawroundrect',['drawRoundRect',['../namespaceSDLHelper.html#a3d81f4e80e8deb64b7be1db8fc854b91',1,'SDLHelper']]],
-  ['drawtexture',['drawTexture',['../namespaceSDLHelper.html#ac931506d76c0baaeef4b112694421c1d',1,'SDLHelper']]],
-  ['dropscreen',['dropScreen',['../classAether_1_1Display.html#ab21fa1913c102072d46f807ab7c8f7d2',1,'Aether::Display']]]
+  ['disablecontrol',['disableControl',['../classAether_1_1ControlBar.html#a2e48d75b9f942afa8084554fddc84116',1,'Aether::ControlBar']]],
+  ['drawable',['Drawable',['../classAether_1_1Drawable.html#abe0e6120d3337dc621b2d27aa42feb9e',1,'Aether::Drawable::Drawable()'],['../classAether_1_1Drawable.html#ad0a653f72c81682b42c2eb5759a86177',1,'Aether::Drawable::Drawable(Renderer *renderer, SDL_Surface *surf, const unsigned int width, const unsigned int height)'],['../classAether_1_1Drawable.html#acb056112d285c1feb35bcf28b99a6c28',1,'Aether::Drawable::Drawable(Renderer *renderer, SDL_Texture *tex, const unsigned int width, const unsigned int height)']]]
 ];
