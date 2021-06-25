@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['text',['Text',['../classAether_1_1Text.html#a552791bccc50d0604a56b733fe012437',1,'Aether::Text::Text()'],['../classAether_1_1ListButton.html#ad0e2e19a0334378fb79bf478581057ad',1,'Aether::ListButton::text()']]],
+  ['text',['text',['../classAether_1_1ListButton.html#ad0e2e19a0334378fb79bf478581057ad',1,'Aether::ListButton::text()'],['../classAether_1_1Text.html#a552791bccc50d0604a56b733fe012437',1,'Aether::Text::Text()']]],
   ['textblock',['TextBlock',['../classAether_1_1TextBlock.html#af1d5cae9b745eee78cdd92a8f78ca0a5',1,'Aether::TextBlock']]],
   ['texture',['Texture',['../classAether_1_1Texture.html#a425968be3cbb2807a9a67716cf6da1dc',1,'Aether::Texture']]],
   ['texturecount',['textureCount',['../classAether_1_1Renderer.html#adb5a246ac1224fc0afa3f6f301bbb651',1,'Aether::Renderer']]],

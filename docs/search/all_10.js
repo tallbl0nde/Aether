@@ -12,6 +12,7 @@ var searchData=
   ['removeentries',['removeEntries',['../classAether_1_1PopupList.html#afc98b9f53d4eb5cfff3d1182734250ca',1,'Aether::PopupList']]],
   ['removeorwaitforjob',['removeOrWaitForJob',['../classAether_1_1ThreadPool.html#a1c069306af2859a436fe6c715c89eef4',1,'Aether::ThreadPool']]],
   ['removescreen',['removeScreen',['../classAether_1_1Window.html#afff7a237117e2c5989850627edb384d4',1,'Aether::Window']]],
+  ['removetexture',['removeTexture',['../classAether_1_1AsyncItem.html#ad91d79c5c7c2c2b0e5ed8d9a7d3bd323',1,'Aether::AsyncItem']]],
   ['render',['render',['../classAether_1_1Element.html#a7ffedea5f8bf1f20ee14e3a93a4a74ed',1,'Aether::Element::render()'],['../classAether_1_1Scrollable.html#a1c71acb5b10b89a6173881ca59b3dac8',1,'Aether::Scrollable::render()'],['../classAether_1_1Texture.html#a9745969a6f31742cda2ce7bf9c36c3f4',1,'Aether::Texture::render()'],['../classAether_1_1Overlay.html#ab2447ba3b0d251251d3d48417a2fcbae',1,'Aether::Overlay::render()'],['../classAether_1_1Animation.html#a7c3f59e0a6ef202bbef0124aefbf761f',1,'Aether::Animation::render()'],['../classAether_1_1Drawable.html#af8452b6114d00f73d1bb6dbadc1b0bda',1,'Aether::Drawable::render()'],['../namespaceAether.html#a4c825e27b5721d5d05adcb5646965566',1,'Aether::Render()']]],
   ['renderasync',['renderAsync',['../classAether_1_1Texture.html#aaf48094d35ad3f9c134bce8e8b1232af',1,'Aether::Texture']]],
   ['renderdrawable',['renderDrawable',['../classAether_1_1Texture.html#a6d204c8011be2bb7bd18ae08d4dd5d28',1,'Aether::Texture']]],
