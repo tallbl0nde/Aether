@@ -2,6 +2,7 @@
 #define AETHER_IMAGEDATA_HPP
 
 #include "Aether/types/Colour.hpp"
+#include <cstddef>
 #include <cstdint>
 #include <vector>
 
