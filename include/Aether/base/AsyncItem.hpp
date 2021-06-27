@@ -23,9 +23,9 @@ namespace Aether {
             };
 
             /**
-             * @brief Current alpha level of textures.
+             * @brief Current fade progress.
              */
-            int alpha;
+            float fadeAmount;
 
             /**
              * @brief Current rendering status.
@@ -38,9 +38,9 @@ namespace Aether {
             std::vector<Texture *> textures;
 
             /**
-             * @brief Amount to change alpha of textures per second when
-             * fading in. Defaults to 500.
-             * @return Amount to change alpha per second.
+             * @brief Number of milliseconds the item will take to completely
+             * fade in once rendered. Defaults to 150ms.
+             * @return Number of milliseconds to fade in.
              */
             virtual int fadeSpeed();
 
@@ -53,7 +53,7 @@ namespace Aether {
             virtual void positionElements() = 0;
 
             /**
-             * @brief Returns the number of pixels away from the screen
+             * @brief Returns the number of pixels away from the item's parent
              * which is considered the 'threshold'. When an item is beyond
              * the threshold it's textures will be destroyed; when an item
              * is within the threshold it's textures will be rendered.
@@ -61,6 +61,13 @@ namespace Aether {
              * @return Size of threshold, in pixels.
              */
             virtual int renderThreshold();
+
+            /**
+             * @brief Returns whether the item is within the renderThreshold with
+             * regards to it's parent's location.
+             * @return true if within threshold, false otherwise
+             */
+            bool withinThreshold();
 
         protected:
             /**

@@ -1,17 +1,29 @@
 #include "Aether/base/AsyncItem.hpp"
 #include <algorithm>
+#include <iostream>
 
 namespace Aether {
     AsyncItem::AsyncItem() : Element() {
+        this->fadeAmount = 0;
         this->renderStatus = Status::NotRendered;
     }
 
     int AsyncItem::fadeSpeed() {
-        return 500;
+        return 150;
     }
 
     int AsyncItem::renderThreshold() {
         return 1000;
+    }
+
+    bool AsyncItem::withinThreshold() {
+        if (this->parent() == nullptr) {
+            return false;
+        }
+
+        int threshold = this->renderThreshold();
+        return (this->x() + this->w() > this->parent()->x() - threshold && this->x() < this->parent()->x() + this->parent()->w() + threshold &&
+                this->y() + this->h() > this->parent()->y() - threshold && this->y() < this->parent()->y() + this->parent()->h() + threshold);
     }
 
     void AsyncItem::addTexture(Texture * texture) {
@@ -22,14 +34,18 @@ namespace Aether {
         if (this->renderStatus == Status::NotRendered) {
             texture->destroy();
         } else {
-            texture->renderAsync();
+            texture->renderSync();
+
+            if (this->renderStatus == Status::Rendered) {
+                texture->setHidden(false);
+                this->positionElements();
+            }
         }
     }
 
     bool AsyncItem::removeTexture(Texture * texture) {
         std::vector<Texture *>::iterator it = std::find(this->textures.begin(), this->textures.end(), texture);
         if (it != this->textures.end()) {
-            delete (*it);
             this->textures.erase(it);
             return true;
         }
@@ -37,15 +53,19 @@ namespace Aether {
     }
 
     void AsyncItem::update(uint32_t dt) {
-        // Update children first
-        Element::update(dt);
+        // Instead of calling Element::update() we explcitly update
+        // the child elements here as Element's version will do nothing
+        // if not visible (which is very likely)
+        for (Element * e : this->children) {
+            e->update(dt);
+        }
 
         // Update textures based on status
         int threshold = this->renderThreshold();
         switch (this->renderStatus) {
             // Wait until we're within the threshold to begin rendering
             case Status::NotRendered:
-                if (this->y() + this->h() > -threshold && this->y() < AsyncItem::renderer->windowHeight() + threshold) {
+                if (this->withinThreshold()) {
                     for (Texture * texture : this->textures) {
                         texture->renderAsync();
                     }
@@ -73,8 +93,9 @@ namespace Aether {
                         texture->setHidden(false);
                     }
 
-                    this->alpha = 0;
+                    this->fadeAmount = 0;
                     this->positionElements();
+                    this->renderStatus = Status::Rendered;
                 }
                 break;
             }
@@ -82,23 +103,24 @@ namespace Aether {
             // Destroy textures to save memory when outside of threshold, but also fade in
             // if required
             case Status::Rendered: {
-                bool destroyed = false;
-                if (this->y() + this->h() < -threshold && this->y() > AsyncItem::renderer->windowHeight() + threshold) {
-                    destroyed = true;
+                if (!this->withinThreshold()) {
                     for (Texture * texture : this->textures) {
                         texture->destroy();
                         texture->setHidden(true);
                     }
+                    this->renderStatus = Status::NotRendered;
                 }
 
-                if (!destroyed && this->alpha < 255) {
+                int fadeDuration = this->fadeSpeed();
+                if (this->renderStatus == Status::Rendered && this->fadeAmount < fadeDuration) {
                     // Update 'global' alpha value
-                    this->alpha += this->fadeSpeed() * (dt/1000.0);
-                    if (this->alpha > 255) {
-                        this->alpha = 255;
+                    this->fadeAmount += dt;
+                    if (this->fadeAmount > fadeDuration) {
+                        this->fadeAmount = fadeDuration;
                     }
 
                     // Update each texture's alpha
+                    float alpha = (this->fadeAmount/fadeDuration) * 255;
                     Aether::Colour col;
                     for (Texture * texture : this->textures) {
                         col = texture->colour();
@@ -123,5 +145,9 @@ namespace Aether {
         if (this->renderStatus == Status::Rendered) {
             this->positionElements();
         }
+    }
+
+    AsyncItem::~AsyncItem() {
+
     }
 }

@@ -8,6 +8,7 @@
 
 // Include all relevant hpp's
 #include "Aether/types/Colour.hpp"
+#include "Aether/base/AsyncItem.hpp"
 #include "Aether/horizon/button/FilledButton.hpp"
 #include "Aether/horizon/list/ListComment.hpp"
 #include "Aether/horizon/list/ListHeading.hpp"
