@@ -22,5 +22,5 @@ var searchData=
   ['touchreleased',['TouchReleased',['../namespaceAether.html#aac9911e1cc77cb27daa2945564d9b668aa08dbbf8c8f5ce5fcb07aaaecc82ba09',1,'Aether']]],
   ['touchx',['touchX',['../classAether_1_1InputEvent.html#a443bfbd88f1446c8dbdb4ee6bb0ec98a',1,'Aether::InputEvent']]],
   ['touchy',['touchY',['../classAether_1_1Scrollable.html#a12fa30ae91088b14b8089d61df3daaf7',1,'Aether::Scrollable::touchY()'],['../classAether_1_1InputEvent.html#aa0cde96dc17571f95930f6718dc6db01',1,'Aether::InputEvent::touchY()']]],
-  ['type',['Type',['../classAether_1_1Drawable.html#a0d6440a80b9963485e8241da352bf403',1,'Aether::Drawable::Type()'],['../classAether_1_1InputEvent.html#a7eebb51cf601ab15ef922c2ac420dee9',1,'Aether::InputEvent::type()'],['../classAether_1_1Drawable.html#aac66e5952a9de56d7a7607b498ffe598',1,'Aether::Drawable::type()']]]
+  ['type',['type',['../classAether_1_1InputEvent.html#a7eebb51cf601ab15ef922c2ac420dee9',1,'Aether::InputEvent::type()'],['../classAether_1_1Drawable.html#aac66e5952a9de56d7a7607b498ffe598',1,'Aether::Drawable::type()'],['../classAether_1_1Drawable.html#a0d6440a80b9963485e8241da352bf403',1,'Aether::Drawable::Type()']]]
 ];
