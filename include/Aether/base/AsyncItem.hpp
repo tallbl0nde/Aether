@@ -38,6 +38,15 @@ namespace Aether {
             std::vector<Texture *> textures;
 
             /**
+             * @brief Optional method which can be overidden in order to return
+             * whether the item is allowed to render it's textures (once it is
+             * within the threshold). Defaults to always returning true. An example
+             * usage is that this method returns false until a string has been set,
+             * after which it returns true.
+             */
+            virtual bool canRender();
+
+            /**
              * @brief Number of milliseconds the item will take to completely
              * fade in once rendered. Defaults to 150ms.
              * @return Number of milliseconds to fade in.

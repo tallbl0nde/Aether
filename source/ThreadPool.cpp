@@ -12,7 +12,12 @@ namespace Aether {
         // Find a suitable number of threads to use
         unsigned int threadCount = std::thread::hardware_concurrency();
         if (threadCount == 0) {
-            threadCount = 1;
+            // Use 4 threads if we're on a Switch, otherwise default to 1
+            #ifdef __SWITCH__
+                threadCount = 4;
+            #else
+                threadCount = 1;
+            #endif
         }
 
         // Start our worker threads

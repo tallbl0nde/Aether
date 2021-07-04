@@ -8,6 +8,10 @@ namespace Aether {
         this->renderStatus = Status::NotRendered;
     }
 
+    bool AsyncItem::canRender() {
+        return true;
+    }
+
     int AsyncItem::fadeSpeed() {
         return 150;
     }
@@ -65,7 +69,7 @@ namespace Aether {
         switch (this->renderStatus) {
             // Wait until we're within the threshold to begin rendering
             case Status::NotRendered:
-                if (this->withinThreshold()) {
+                if (this->withinThreshold() && this->canRender()) {
                     for (Texture * texture : this->textures) {
                         texture->renderAsync();
                     }
