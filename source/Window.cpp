@@ -413,7 +413,7 @@ namespace Aether {
     }
 
     void Window::exit() {
-        if (this->fade.out) {
+        if (this->fade.out && this->fade.action != FadeAction::Out) {
             this->fade.action = FadeAction::Out;
             this->fade.alpha = 0;
         } else {
