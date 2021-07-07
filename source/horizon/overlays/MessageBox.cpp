@@ -89,11 +89,13 @@ namespace Aether {
         if (this->top != nullptr) {
             this->top->setTextColour(c);
         }
+        this->buttonColour = c;
     }
 
     void MessageBox::addLeftButton(std::string s, std::function<void()> f) {
         this->left = new BorderButton(0, 0, this->rect->w()/2, BUTTON_HEIGHT, 2, s, 26, f);
         this->left->setBorderColour(Colour{255, 255, 255, 0});
+        this->left->setTextColour(this->buttonColour);
         this->addElement(this->left);
         this->vertH->setHidden(false);
         this->repositionButtons();
@@ -102,6 +104,7 @@ namespace Aether {
     void MessageBox::addRightButton(std::string s, std::function<void()> f) {
         this->right = new BorderButton(0, 0, this->rect->w()/2 - 1, BUTTON_HEIGHT, 2, s, 26, f);
         this->right->setBorderColour(Colour{255, 255, 255, 0});
+        this->right->setTextColour(this->buttonColour);
         this->addElement(this->right);
         this->vertH->setHidden(false);
         this->repositionButtons();
@@ -110,6 +113,7 @@ namespace Aether {
     void MessageBox::addTopButton(std::string s, std::function<void()> f) {
         this->top = new BorderButton(0, 0, this->rect->w(), BUTTON_HEIGHT, 2, s, 26, f);
         this->top->setBorderColour(Colour{255, 255, 255, 0});
+        this->top->setTextColour(this->buttonColour);
         this->addElement(this->top);
         this->topH->setHidden(false);
         this->repositionButtons();

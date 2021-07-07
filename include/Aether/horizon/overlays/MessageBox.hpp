@@ -31,6 +31,8 @@ namespace Aether {
             Element * body;
             /** @brief Rectangle "background" */
             Rectangle * rect;
+            /** @brief Button text colour */
+            Colour buttonColour;
 
             /**
              * @brief Repositions the buttons
