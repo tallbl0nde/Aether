@@ -141,6 +141,12 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <tr class="memitem:aa2e332ea29d111606daaff5c51152ff2"><td class="memItemLeft" align="right" valign="top">std::tuple&lt; std::vector&lt; std::string &gt;, int, int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAether_1_1Renderer.html#aa2e332ea29d111606daaff5c51152ff2">calculateWrappedTextDimensions</a> (const std::string &amp;str, const unsigned int size, const unsigned int width)</td></tr>
 <tr class="memdesc:aa2e332ea29d111606daaff5c51152ff2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the dimensions of the given string if rendered using the current font and given font size, as a text block.  <a href="#aa2e332ea29d111606daaff5c51152ff2">More...</a><br /></td></tr>
 <tr class="separator:aa2e332ea29d111606daaff5c51152ff2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abcc419ed1c9a5ebd4537537596f04dfc"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="classAether_1_1Colour.html">Colour</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAether_1_1Renderer.html#abcc419ed1c9a5ebd4537537596f04dfc">readSurfacePixels</a> (SDL_Surface *surface)</td></tr>
+<tr class="memdesc:abcc419ed1c9a5ebd4537537596f04dfc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the RGBA pixel data stored in the passed surface.  <a href="#abcc419ed1c9a5ebd4537537596f04dfc">More...</a><br /></td></tr>
+<tr class="separator:abcc419ed1c9a5ebd4537537596f04dfc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a277c00a8f0c6e045a282a383c662d07a"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="classAether_1_1Colour.html">Colour</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAether_1_1Renderer.html#a277c00a8f0c6e045a282a383c662d07a">readTexturePixels</a> (SDL_Texture *texture)</td></tr>
+<tr class="memdesc:a277c00a8f0c6e045a282a383c662d07a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the RGBA pixel data stored in the passed surface.  <a href="#a277c00a8f0c6e045a282a383c662d07a">More...</a><br /></td></tr>
+<tr class="separator:a277c00a8f0c6e045a282a383c662d07a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a07934828892a274c58ea416d6afef66b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classAether_1_1Drawable.html">Drawable</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAether_1_1Renderer.html#a07934828892a274c58ea416d6afef66b">renderImageSurface</a> (const std::string &amp;path, const size_t scaleWidth, const size_t scaleHeight)</td></tr>
 <tr class="memdesc:a07934828892a274c58ea416d6afef66b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Render the image at the specified path as a surface.  <a href="#a07934828892a274c58ea416d6afef66b">More...</a><br /></td></tr>
 <tr class="separator:a07934828892a274c58ea416d6afef66b"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -353,6 +359,60 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <p>Returns an approximated value for memory used by all rendered textures. </p>
 <dl class="section note"><dt>Note</dt><dd>This isn't very accurate, it is useful for estimation purposes only.</dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>Number of <em>bytes</em> allocated to all current textures/surfaces. </dd></dl>
+
+</div>
+</div>
+<a id="abcc419ed1c9a5ebd4537537596f04dfc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abcc419ed1c9a5ebd4537537596f04dfc">&#9670;&nbsp;</a></span>readSurfacePixels()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt;<a class="el" href="classAether_1_1Colour.html">Colour</a>&gt; Aether::Renderer::readSurfacePixels </td>
+          <td>(</td>
+          <td class="paramtype">SDL_Surface *&#160;</td>
+          <td class="paramname"><em>surface</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the RGBA pixel data stored in the passed surface. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">surface</td><td>Surface to read </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Pixels stored in surface. </dd></dl>
+
+</div>
+</div>
+<a id="a277c00a8f0c6e045a282a383c662d07a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a277c00a8f0c6e045a282a383c662d07a">&#9670;&nbsp;</a></span>readTexturePixels()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt;<a class="el" href="classAether_1_1Colour.html">Colour</a>&gt; Aether::Renderer::readTexturePixels </td>
+          <td>(</td>
+          <td class="paramtype">SDL_Texture *&#160;</td>
+          <td class="paramname"><em>texture</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the RGBA pixel data stored in the passed surface. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">texture</td><td><a class="el" href="classAether_1_1Texture.html" title="A Texture is an element that stores a texture to render in the window. It can&#39;t be instantiated alone...">Texture</a> to read </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Pixels stored in surface. </dd></dl>
 
 </div>
 </div>

@@ -98,6 +98,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:acb056112d285c1feb35bcf28b99a6c28"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAether_1_1Drawable.html#acb056112d285c1feb35bcf28b99a6c28">Drawable</a> (<a class="el" href="classAether_1_1Renderer.html">Renderer</a> *renderer, SDL_Texture *tex, const unsigned int <a class="el" href="classAether_1_1Drawable.html#af9552f0e4fc9c66117fad899b95cc9a1">width</a>, const unsigned int <a class="el" href="classAether_1_1Drawable.html#a27bd8604c2550c14bef7e5d2136515f7">height</a>)</td></tr>
 <tr class="memdesc:acb056112d285c1feb35bcf28b99a6c28"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a <a class="el" href="classAether_1_1Drawable.html" title="Stores either a surface or texture which can be drawn on screen by providing a renderer to render()...">Drawable</a> from a texture.  <a href="#acb056112d285c1feb35bcf28b99a6c28">More...</a><br /></td></tr>
 <tr class="separator:acb056112d285c1feb35bcf28b99a6c28"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a747f25dd2415cc3ab73436502070902f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classAether_1_1ImageData.html">ImageData</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAether_1_1Drawable.html#a747f25dd2415cc3ab73436502070902f">getImageData</a> ()</td></tr>
+<tr class="memdesc:a747f25dd2415cc3ab73436502070902f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the <a class="el" href="classAether_1_1ImageData.html">ImageData</a> for the currently stored image.  <a href="#a747f25dd2415cc3ab73436502070902f">More...</a><br /></td></tr>
+<tr class="separator:a747f25dd2415cc3ab73436502070902f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a92ccefa050ea032632b1f6fe5737870f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAether_1_1Drawable.html#a92ccefa050ea032632b1f6fe5737870f">setColour</a> (const <a class="el" href="classAether_1_1Colour.html">Colour</a> &amp;colour)</td></tr>
 <tr class="memdesc:a92ccefa050ea032632b1f6fe5737870f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set colour to tint <a class="el" href="classAether_1_1Drawable.html" title="Stores either a surface or texture which can be drawn on screen by providing a renderer to render()...">Drawable</a> with when rendered.  <a href="#a92ccefa050ea032632b1f6fe5737870f">More...</a><br /></td></tr>
 <tr class="separator:a92ccefa050ea032632b1f6fe5737870f"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -304,6 +307,26 @@ All instances of this should be deleted before deleting the main renderer. </dd>
 <p>Convert the contained surface to a texture. Has no effect if the <a class="el" href="classAether_1_1Drawable.html" title="Stores either a surface or texture which can be drawn on screen by providing a renderer to render()...">Drawable</a> does not contain a surface. </p>
 <dl class="section note"><dt>Note</dt><dd>This should be called by the same thread that instantiated the renderer!</dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>true if successful/not a surface, false if conversion failed </dd></dl>
+
+</div>
+</div>
+<a id="a747f25dd2415cc3ab73436502070902f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a747f25dd2415cc3ab73436502070902f">&#9670;&nbsp;</a></span>getImageData()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classAether_1_1ImageData.html">ImageData</a> Aether::Drawable::getImageData </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the <a class="el" href="classAether_1_1ImageData.html">ImageData</a> for the currently stored image. </p>
+<dl class="section return"><dt>Returns</dt><dd><a class="el" href="classAether_1_1ImageData.html" title="Represents an object containing the raw pixel data for an image/texture as an array, along with required metadata such as width and height. ">ImageData</a> for the currently stored image. </dd></dl>
 
 </div>
 </div>

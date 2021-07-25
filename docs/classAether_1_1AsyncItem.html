@@ -101,10 +101,6 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a165aeffc15a18203b158159cdfed43e0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAether_1_1AsyncItem.html#a165aeffc15a18203b158159cdfed43e0">setH</a> (int <a class="el" href="classAether_1_1Element.html#a64ce2c1468aec05812f69fd73af30f6b">h</a>)</td></tr>
 <tr class="memdesc:a165aeffc15a18203b158159cdfed43e0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the height of the item, in pixels. Also calls updateElements() if textures are already rendered.  <a href="#a165aeffc15a18203b158159cdfed43e0">More...</a><br /></td></tr>
 <tr class="separator:a165aeffc15a18203b158159cdfed43e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1f0b6485e49146853a0455c4204491f4"><td class="memItemLeft" align="right" valign="top"><a id="a1f0b6485e49146853a0455c4204491f4"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAether_1_1AsyncItem.html#a1f0b6485e49146853a0455c4204491f4">~AsyncItem</a> ()</td></tr>
-<tr class="memdesc:a1f0b6485e49146853a0455c4204491f4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destroys the <a class="el" href="classAether_1_1AsyncItem.html" title="Abstract class which handles rendering child elements asynchronously based on the position of the ele...">AsyncItem</a>. <br /></td></tr>
-<tr class="separator:a1f0b6485e49146853a0455c4204491f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classAether_1_1Element"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classAether_1_1Element')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classAether_1_1Element.html">Aether::Element</a></td></tr>
 <tr class="memitem:a2e928e040d26a1a87d74a93ca6e496ed inherit pub_methods_classAether_1_1Element"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAether_1_1Element.html#a2e928e040d26a1a87d74a93ca6e496ed">Element</a> (int <a class="el" href="classAether_1_1Element.html#a347f859ca2d49854c6509b759d57f477">x</a>=0, int <a class="el" href="classAether_1_1Element.html#a36fabe12af3fc3d762d4779dbec6961c">y</a>=0, int <a class="el" href="classAether_1_1Element.html#a324fda305a92166da025d9cca85b1502">w</a>=100, int <a class="el" href="classAether_1_1Element.html#a64ce2c1468aec05812f69fd73af30f6b">h</a>=100)</td></tr>
 <tr class="memdesc:a2e928e040d26a1a87d74a93ca6e496ed inherit pub_methods_classAether_1_1Element"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct a new <a class="el" href="classAether_1_1Element.html" title="Element is the base class to be inherited to form all other types of elements. ">Element</a> object.  <a href="classAether_1_1Element.html#a2e928e040d26a1a87d74a93ca6e496ed">More...</a><br /></td></tr>
@@ -268,6 +264,9 @@ Protected Member Functions</h2></td></tr>
 <tr class="memitem:ad91d79c5c7c2c2b0e5ed8d9a7d3bd323"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAether_1_1AsyncItem.html#ad91d79c5c7c2c2b0e5ed8d9a7d3bd323">removeTexture</a> (<a class="el" href="classAether_1_1Texture.html">Aether::Texture</a> *texture)</td></tr>
 <tr class="memdesc:ad91d79c5c7c2c2b0e5ed8d9a7d3bd323"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes the given texture from the item's monitoring list, causing it to no longer be handled by the element.  <a href="#ad91d79c5c7c2c2b0e5ed8d9a7d3bd323">More...</a><br /></td></tr>
 <tr class="separator:ad91d79c5c7c2c2b0e5ed8d9a7d3bd323"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa0bf4eb1ee617c0764184d929e460234"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAether_1_1AsyncItem.html#aa0bf4eb1ee617c0764184d929e460234">ready</a> ()</td></tr>
+<tr class="memdesc:aa0bf4eb1ee617c0764184d929e460234"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns whether the element has all it's textures rendered.  <a href="#aa0bf4eb1ee617c0764184d929e460234">More...</a><br /></td></tr>
+<tr class="separator:aa0bf4eb1ee617c0764184d929e460234"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pro_methods_classAether_1_1Element"><td colspan="2" onclick="javascript:toggleInherit('pro_methods_classAether_1_1Element')"><img src="closed.png" alt="-"/>&#160;Protected Member Functions inherited from <a class="el" href="classAether_1_1Element.html">Aether::Element</a></td></tr>
 <tr class="memitem:a6ed249d2758058b1ffbc7344c267968b inherit pro_methods_classAether_1_1Element"><td class="memItemLeft" align="right" valign="top"><a id="a6ed249d2758058b1ffbc7344c267968b"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAether_1_1Element.html#a6ed249d2758058b1ffbc7344c267968b">renderHighlightTextures</a> ()</td></tr>
@@ -368,6 +367,34 @@ static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hre
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<a id="aa0bf4eb1ee617c0764184d929e460234"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa0bf4eb1ee617c0764184d929e460234">&#9670;&nbsp;</a></span>ready()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Aether::AsyncItem::ready </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns whether the element has all it's textures rendered. </p>
+<dl class="section return"><dt>Returns</dt><dd>Whether all textures have been rendered. </dd></dl>
 
 </div>
 </div>
