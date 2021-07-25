@@ -98,6 +98,12 @@ namespace Aether {
              */
             bool removeTexture(Aether::Texture * texture);
 
+            /**
+             * @brief Returns whether the element has all it's textures rendered.
+             * @return Whether all textures have been rendered.
+             */
+            bool ready();
+
         public:
             /**
              * @brief Creates a new AsyncItem.
@@ -125,11 +131,6 @@ namespace Aether {
              * @param h Height in pixels
              */
             void setH(int h);
-
-            /**
-             * @brief Destroys the AsyncItem.
-             */
-            ~AsyncItem();
     };
 };
 

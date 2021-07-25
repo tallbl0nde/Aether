@@ -56,6 +56,10 @@ namespace Aether {
         return false;
     }
 
+    bool AsyncItem::ready() {
+        return (this->renderStatus == Status::Rendered);
+    }
+
     void AsyncItem::update(uint32_t dt) {
         // Instead of calling Element::update() we explcitly update
         // the child elements here as Element's version will do nothing
@@ -149,9 +153,5 @@ namespace Aether {
         if (this->renderStatus == Status::Rendered) {
             this->positionElements();
         }
-    }
-
-    AsyncItem::~AsyncItem() {
-
     }
 }
