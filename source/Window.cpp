@@ -335,7 +335,7 @@ namespace Aether {
         this->overlays.push_back(ovl);
         this->screen->setInactive();
         if (this->overlays.size() > 1) {
-            this->overlays[this->overlays.size() - 1]->setInactive();
+            this->overlays[this->overlays.size() - 2]->setInactive();
         }
     }
 
