@@ -7,13 +7,23 @@
 
 namespace Aether {
     FilledButton::FilledButton(int x, int y, int w, int h, std::string t, unsigned int s, std::function<void()> f) : Element(x, y, w, h) {
+        // Make sure text fits within button
+        unsigned int fontSize = s += 1;
+        std::pair<int, int> size;
+        do {
+            fontSize--;
+            size = this->renderer->calculateTextDimensions(t, fontSize);
+        }
+        while ((size.first > this->w() - (PADDING*2) || size.second > this->h() - 4) && fontSize > 0);
+
         this->rect = new Rectangle(this->x(), this->y(), this->w(), this->h(), CORNER_RAD);
-        this->text = new Text(this->x() + this->w()/2, this->y() + this->h()/2, "", s);
+        this->addElement(this->rect);
+
+        this->text = new Text(0, 0, "", fontSize);
         this->setString(t);
         this->text->setCanScroll(true);
         this->text->setScrollPause(1500);
         this->text->setScrollSpeed(40);
-        this->addElement(this->rect);
         this->addElement(this->text);
         this->onPress(f);
     }

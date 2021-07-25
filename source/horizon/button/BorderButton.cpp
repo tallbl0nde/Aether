@@ -7,13 +7,23 @@
 
 namespace Aether {
     BorderButton::BorderButton(int x, int y, int w, int h, unsigned int b, std::string t, unsigned int s, std::function<void()> f) : Element(x, y, w, h) {
+        // Make sure text fits within button
+        unsigned int fontSize = s += 1;
+        std::pair<int, int> size;
+        do {
+            fontSize--;
+            size = this->renderer->calculateTextDimensions(t, fontSize);
+        }
+        while ((size.first > this->w() - (PADDING*2) || size.second > this->h() - 4) && fontSize > 0);
+
         this->box = new Box(this->x(), this->y(), this->w(), this->h(), b, CORNER_RAD);
-        this->text = new Text(this->x() + this->w()/2, this->y() + this->h()/2, t, s);
-        this->text->setXY(this->text->x() - this->text->w()/2, this->text->y() - this->text->h()/2);
+        this->addElement(this->box);
+
+        this->text = new Text(0, 0, "", fontSize);
+        this->setString(t);
         this->text->setCanScroll(true);
         this->text->setScrollPause(1500);
         this->text->setScrollSpeed(40);
-        this->addElement(this->box);
         this->addElement(this->text);
         this->onPress(f);
     }
