@@ -63,5 +63,7 @@ namespace Aether {
 
     void ControlItem::setLabel(const std::string & label) {
         this->label->setString(label);
+        this->label->setY(this->y() + (this->h() - this->label->h())/2);
+        this->setW(padding*2 + this->icon->w() + textureGap + this->label->w());
     }
 };
