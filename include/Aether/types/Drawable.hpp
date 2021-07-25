@@ -2,6 +2,7 @@
 #define AETHER_DRAWABLE_HPP
 
 #include "Aether/types/Colour.hpp"
+#include "Aether/types/ImageData.hpp"
 #include "Aether/Renderer.hpp"
 
 // Forward declare types as we only need a pointer here
@@ -76,6 +77,12 @@ namespace Aether {
              * @param height Height of given texture (in pixels)
              */
             Drawable(Renderer * renderer, SDL_Texture * tex, const unsigned int width, const unsigned int height);
+
+            /**
+             * @brief Returns the \ref ImageData for the currently stored image.
+             * @return ImageData for the currently stored image.
+             */
+            ImageData getImageData();
 
             /**
              * @brief Set colour to tint Drawable with when rendered

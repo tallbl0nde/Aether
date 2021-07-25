@@ -371,7 +371,6 @@ namespace Aether {
             this->clipStack.pop();
             SDL_Rect * r = this->clipStack.top();
             SDL_RenderSetClipRect(this->renderer, r);
-            delete r;
         }
     }
 
@@ -557,8 +556,66 @@ namespace Aether {
             line = "";
         }
 
+        // Calculate actual height including line spacing
+        unsigned int height = 0;
+        if (lines.size() > 1) {
+            height += (maxLineHeight * this->fontSpacing) * (lines.size() - 1);
+        }
+        height += maxLineHeight;
+
         // Form tuple and return
-        return std::make_tuple(lines, maxLineWidth, lines.size() * (maxLineHeight * this->fontSpacing));
+        return std::make_tuple(lines, maxLineWidth, height);
+    }
+
+    std::vector<Colour> Renderer::readSurfacePixels(SDL_Surface * surface) {
+        // Return empty vector if invalid surface
+        std::vector<Colour> pixels;
+        if (surface == nullptr) {
+            this->logMessage("Couldn't read pixels from surface: Null surface passed", true);
+            return pixels;
+        }
+
+        SDL_LockSurface(surface);
+        size_t count = surface->w * surface->h;
+        for (size_t i = 0; i < count; i++) {
+            // Get RGB values
+            uint8_t r, g, b, a;
+            SDL_GetRGBA(*((uint32_t *)surface->pixels + i), surface->format, &r, &g, &b, &a);
+
+            // Create object and push onto vector
+            pixels.push_back(Colour(r, g, b, a));
+        }
+        SDL_UnlockSurface(surface);
+
+        return pixels;
+    }
+
+    std::vector<Colour> Renderer::readTexturePixels(SDL_Texture * texture) {
+        // Sanity check
+        std::vector<Colour> pixels;
+        if (this->renderer == nullptr || texture == nullptr) {
+            this->logMessage(std::string("Couldn't read pixels from texture: ") + (this->renderer == nullptr ? "Renderer isn't initialized" : "Null texture passed"), true);
+            return pixels;
+        }
+
+        // Get number of pixels in texture
+        int w, h;
+        SDL_QueryTexture(texture, nullptr, nullptr, &w, &h);
+
+        // Read pixels into byte array
+        uint8_t * tmp = new uint8_t[w * h * 4];
+        if (SDL_RenderReadPixels(this->renderer, nullptr, SDL_PIXELFORMAT_RGBA32, &pixels[0], w * 4) < 0) {
+            this->logMessage("Couldn't read pixels from texture: Unable to read data", true);
+            return pixels;
+        }
+
+        // Convert to Colour
+        for (size_t i = 0; i < w * h; i++) {
+            pixels.push_back(Colour(tmp[i], tmp[i+1], tmp[i+2], tmp[i+3]));
+        }
+        delete tmp;
+
+        return pixels;
     }
 
     Drawable * Renderer::renderImageSurface(const std::string & path, const size_t scaleWidth, const size_t scaleHeight) {

@@ -32,6 +32,25 @@ namespace Aether {
         this->setMask(0, 0, width, height);
     }
 
+    ImageData Drawable::getImageData() {
+        // Read pixels from stored data
+        std::vector<Colour> pixels;
+        if (this->type_ == Type::Surface) {
+            pixels = this->renderer->readSurfacePixels(this->data.surface);
+
+        } else if (this->type_ == Type::Texture) {
+            pixels = this->renderer->readTexturePixels(this->data.texture);
+        }
+
+        // Convert to ImageData if successful (always RGBA)
+        if (pixels.size() > 0) {
+            return ImageData(pixels, this->width_, this->height_, 4);
+        }
+
+        // Return invalid data if nothing stored
+        return ImageData();
+    }
+
     void Drawable::setColour(const Colour & colour) {
         this->colour_ = colour;
     }

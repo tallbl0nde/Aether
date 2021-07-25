@@ -284,6 +284,20 @@ namespace Aether {
             std::tuple<std::vector<std::string>, int, int> calculateWrappedTextDimensions(const std::string & str, const unsigned int size, const unsigned int width);
 
             /**
+             * @brief Returns the RGBA pixel data stored in the passed surface.
+             * @param surface Surface to read
+             * @return Pixels stored in surface.
+             */
+            std::vector<Colour> readSurfacePixels(SDL_Surface * surface);
+
+            /**
+             * @brief Returns the RGBA pixel data stored in the passed surface.
+             * @param texture Texture to read
+             * @return Pixels stored in surface.
+             */
+            std::vector<Colour> readTexturePixels(SDL_Texture * texture);
+
+            /**
              * @brief Render the image at the specified path as a surface
              * @note Supports PNG, JPEG and BMP.
              *
