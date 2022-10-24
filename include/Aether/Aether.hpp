@@ -29,5 +29,6 @@
 #include "Aether/ThreadPool.hpp"
 #include "Aether/utils/Theme.hpp"
 #include "Aether/Window.hpp"
+#include "Aether/horizon/Tick.hpp"
 
 #endif
