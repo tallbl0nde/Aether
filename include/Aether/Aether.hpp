@@ -23,6 +23,7 @@
 #include "Aether/horizon/overlays/PopupList.hpp"
 #include "Aether/horizon/progress/ProgressBar.hpp"
 #include "Aether/horizon/progress/RoundProgressBar.hpp"
+#include "Aether/horizon/Tick.hpp"
 #include "Aether/primary/Animation.hpp"
 #include "Aether/primary/Ellipse.hpp"
 #include "Aether/primary/Image.hpp"
